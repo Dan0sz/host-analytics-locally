@@ -1,6 +1,6 @@
 <?php
 /**
-* Plugin Name: Host Analytics.js Local
+* Plugin Name: Host Analytics.js Locally
 * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
 * Description: A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
 * Version: 1.0
@@ -16,8 +16,8 @@ if (!defined('ABSPATH')) exit;
 add_action('admin_menu', 'save_ga_locally_create_menu');
 
 function save_ga_locally_create_menu() {
-	add_options_page	(	'Save Google Analytics Locally Settings', 
-							'Save GA Locally',	
+	add_options_page	(	'Host Google Analytics Locally Settings', 
+							'Host GA Locally',	
 							'manage_options',
 							'save-ga-locally',
 							'save_ga_locally_settings_page'
@@ -43,7 +43,7 @@ function save_ga_locally_settings_page() {
 	?>
 	
     <div class="wrap">
-        <h2>Save Google Analytics Locally</h2>
+        <h2>Host Google Analytics Locally</h2>
         <?php _e('Created by: ', 'save-ga-locally'); ?><a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/buy-me-a-beer/">Daan van den Bergh</a>.
         
         <form method="post" action="options.php">
