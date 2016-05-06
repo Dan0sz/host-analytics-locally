@@ -4,7 +4,7 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally
 Requires at least: 4.5
 Tested up to: 4.5.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,7 +28,7 @@ Just install the plugin, enter your Tracking-ID and the plugin adds the necessar
 
 = What do you have in store for us next? =
 
-In the coming releases I'm going to give you the power to decide the update interval of the script. 
+In the coming releases I'm going to give you the power to decide the update interval of the script. Also I'm going to give you the choice whether you want to use wp_cron or setup your own cronjob.
 
 = What is the current update interval? =
 
@@ -47,6 +47,9 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.1 =
+Updated readme.txt and some minimal code changes to increase UX.
 
 = 1.0 =
 First release! No changes so far!
