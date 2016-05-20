@@ -34,6 +34,10 @@ In the coming releases I'm going to give you the power to decide the update inte
 
 I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know.
 
+= The ga-local.js-file remains empty! What should I do? =
+
+Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update_local_ga.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator").
+
 = Can I buy you a beer? =
 
 Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate/ "Let's do shots!")!
