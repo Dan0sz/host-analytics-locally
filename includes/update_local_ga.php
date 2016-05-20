@@ -4,13 +4,11 @@ if (!defined('ABSPATH')) exit;
 
 // Script to update local-ga.js-file
 // Credits go to: Matthew Horne | http://diywpblog.com/leverage-browser-cache-optimize-google-analytics/
+// I adjusted this script to work with wp-cron. It will still run in crontab, though.
 
 // Remote file to download
 $remoteFile = 'https://www.google-analytics.com/analytics.js';
 $localfile = dirname(dirname(__FILE__)) . '/cache/local-ga.js';
-
-echo $localfile;
-// $localfile = '/home/deb102375/domains/dev.daanvandenbergh.com/public_html/wp-content/plugins/save-ga-local/cache/local-ga.js';
 
 // Connection time out
 $connTimeout = 10;
