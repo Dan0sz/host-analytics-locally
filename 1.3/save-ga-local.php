@@ -126,16 +126,16 @@ function add_ga_header_script() {
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
+				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');
+				ga('create', '" . $sgal_tracking_id . "', 'auto');
+				ga('send', 'pageview');";
+						
+		if ($sgal_adjusted_bounce_rate) { 
+			$sgal_abr_integer = $sgal_adjusted_bounce_rate * 1000;
+			echo	'setTimeout("ga("' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_abr_integer . ");";
+		};
 				
-			if ($sgal_adjusted_bounce_rate) { 
-				$sgal_abr_integer = $sgal_adjusted_bounce_rate * 1000;
-				echo	"setTimeout('ga('send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')'," . $sgal_abr_integer . ");";
-			};
-		
-		echo	"ga('create', '" . $sgal_tracking_id . "', 'auto');
-				ga('send', 'pageview');
-			</script>";
+		echo	"</script>";
 }
 
 $sgal_script_position = esc_attr(get_option('sgal_script_position'));
