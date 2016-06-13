@@ -4,7 +4,7 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally
 Requires at least: 4.5
 Tested up to: 4.5.1
-Stable tag: 1.3
+Stable tag: 1.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,8 +17,6 @@ A cool plugin created by [Daan van den Bergh](http://dev.daanvandenbergh.com "Cl
 Whenever you run an analysis of your website on *Google Pagespeed Insights* or *Pingdom*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server. 
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the head of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated using a scheduled script in wp_cron(). 
-
-**NOTICE: ** At the moment the Bounce Rate option isn't working correctly. Using this option actually breaks the tracking. I'm very busy at the moment, so I haven't had time to fix it. However, I promise to have it fixed in a next release.
 
 == Installation ==
 
@@ -53,6 +51,9 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.31 - Bugfixes =
+Fixed the Adjusted Bounce Rate issue: when enabled it breaks the tracking. I have made some code-changes that should fix this issue, according to the script provided by @BrianLeeJackson (Thnx for your help!)
 
 = 1.3 - MAJOR UPDATE =
 Added option for adjusted bounce rate

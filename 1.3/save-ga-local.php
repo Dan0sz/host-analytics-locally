@@ -3,7 +3,7 @@
 * Plugin Name: Host Analytics.js Locally
 * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
 * Description: A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
-* Version: 1.3
+* Version: 1.31
 * Author: Daan van den Bergh
 * Author URI: http://dev.daanvandenbergh.com
 * License: GPL2v2 or later
