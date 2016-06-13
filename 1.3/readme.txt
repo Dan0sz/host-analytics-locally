@@ -18,6 +18,8 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights* or *
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the head of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated using a scheduled script in wp_cron(). 
 
+**NOTICE: ** At the moment the Bounce Rate option isn't working correctly. Using this option actually breaks the tracking. I'm very busy at the moment, so I haven't had time to fix it. However, I promise to have it fixed in a next release.
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins screen directly.
