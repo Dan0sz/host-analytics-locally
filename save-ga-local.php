@@ -3,7 +3,7 @@
 * Plugin Name: Host Analytics.js Locally
 * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
 * Description: A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
-* Version: 1.3
+* Version: 1.32
 * Author: Daan van den Bergh
 * Author URI: http://dev.daanvandenbergh.com
 * License: GPL2v2 or later
@@ -39,6 +39,9 @@ function register_save_ga_locally_settings() {
 	register_setting	(	'save-ga-locally-basic-settings',
 							'sgal_script_position'
 						);
+	register_setting	(	'save-ga-locally-basic-settings',
+							'sgal_enqueue_order'
+						);
 }
 
 // Create Settings Page
@@ -62,6 +65,7 @@ function save_ga_locally_settings_page() {
 		$sgal_tracking_id = esc_attr(get_option('sgal_tracking_id'));
 		$sgal_adjusted_bounce_rate = esc_attr(get_option('sgal_adjusted_bounce_rate'));
 		$sgal_script_position = esc_attr(get_option('sgal_script_position'));
+		$sgal_enqueue_order = esc_attr(get_option('sgal_enqueue_order'));
 				
         ?>
         
@@ -90,6 +94,10 @@ function save_ga_locally_settings_page() {
                 <tr valign="top">
                 	<th scope="row">Use adjusted bounce rate?</th>
                     <td><input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60" value="<?php echo $sgal_adjusted_bounce_rate; ?>" /></td>
+                </tr>
+                <tr valign="top">
+                	<th scope="row">Change enqueue order? (Default = 0)</th>
+                    <td><input type="number" name="sgal_enqueue_order" min="0" value="<?php echo $sgal_enqueue_order; ?>" /></td>
                 </tr>
             </table>
             
@@ -126,29 +134,30 @@ function add_ga_header_script() {
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
+				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');
+				ga('create', '" . $sgal_tracking_id . "', 'auto');
+				ga('send', 'pageview');";
+						
+		if ($sgal_adjusted_bounce_rate) { 
+			$sgal_abr_integer = $sgal_adjusted_bounce_rate * 1000;
+			echo	'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_abr_integer . ");";
+		};
 				
-			if ($sgal_adjusted_bounce_rate) { 
-				$sgal_abr_integer = $sgal_adjusted_bounce_rate * 1000;
-				echo	"setTimeout('ga('send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')'," . $sgal_abr_integer . ");";
-			};
-		
-		echo	"ga('create', '" . $sgal_tracking_id . "', 'auto');
-				ga('send', 'pageview');
-			</script>";
+		echo "</script>";
 }
 
 $sgal_script_position = esc_attr(get_option('sgal_script_position'));
+$sgal_enqueue_order = (esc_attr(get_option('sgal_enqueue_order'))) ? esc_attr(get_option('sgal_enqueue_order')) : 0;
 
 switch ($sgal_script_position) {
 	case "header":
-		add_action('wp_head', 'add_ga_header_script');
+		add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
 		break;
 	case "footer":
-		add_action('wp_footer', 'add_ga_header_script');
+		add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
 		break;
 	default:
-		add_action('wp_head', 'add_ga_header_script');
+		add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
 		break;
 }
 

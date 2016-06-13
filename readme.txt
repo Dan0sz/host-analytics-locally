@@ -4,11 +4,11 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally
 Requires at least: 4.5
 Tested up to: 4.5.1
-Stable tag: 1.3
+Stable tag: 1.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
+A plugin that inserts the Analytics tracking code into the header or footer, saves the analytics.js file locally and keeps it updated using wp_cron().
 
 == Description ==
 
@@ -51,6 +51,12 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.32 - New Features =
+Added option to change the enqueue order of the tracking code. That way the user can decide the priority of the tracking code.
+
+= 1.31 - Bugfixes =
+Fixed the Adjusted Bounce Rate issue: when enabled it breaks the tracking. I have made some code-changes that should fix this issue, according to the script provided by @BrianLeeJackson (Thnx for your help!)
 
 = 1.3 - MAJOR UPDATE =
 Added option for adjusted bounce rate
