@@ -53,7 +53,7 @@ N/A
 == Changelog ==
 
 = 1.35 - New Features =
-This update features the much requested Anonymize IP, which is now added to the options panel. Besides that I optimized the code a bit, removing about 5 lines of code. 
+This update features the much requested Anonymize IP (@arcticblue, thanks for your help!), which is now added to the options panel. Besides that I optimized the code a bit, removing about 5 lines of code. 
 
 = 1.32 - New Features =
 Added option to change the enqueue order of the tracking code. That way the user can decide the priority of the tracking code.
