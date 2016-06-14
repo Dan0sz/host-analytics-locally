@@ -3,7 +3,7 @@
 * Plugin Name: Host Analytics.js Locally
 * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
 * Description: A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
-* Version: 1.35
+* Version: 1.36
 * Author: Daan van den Bergh
 * Author URI: http://dev.daanvandenbergh.com
 * License: GPL2v2 or later
@@ -144,11 +144,12 @@ function add_ga_header_script() {
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
 
-		echo $sgal_anonymize_ip_code = ($sgal_anonymize_ip == "on") ? "ga('set', 'anonymizeIp', true);" : "";
-
-		echo "ga('create', '" . $sgal_tracking_id . "', 'auto');
-				ga('send', 'pageview');";
+		echo "ga('create', '" . $sgal_tracking_id . "', 'auto');";
 		
+		echo $sgal_anonymize_ip_code = ($sgal_anonymize_ip == "on") ? "ga('set', 'anonymizeIp', true);" : "";
+				
+		echo "ga('send', 'pageview');";
+
 		echo $sgal_abr_code = ($sgal_adjusted_bounce_rate) ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_adjusted_bounce_rate * 1000 . ");" : "";
 		
 		echo "</script>";

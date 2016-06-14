@@ -4,7 +4,7 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally
 Requires at least: 4.5
 Tested up to: 4.5.2
-Stable tag: 1.35
+Stable tag: 1.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.36 - Bugfixes =
+With new features comes great responsibility. My German neighbor Denis Abendroth was so kind to point out that the anonymize IP option was added in the wrong order in the tracking code. So I fixed it immediately!
 
 = 1.35 - New Features =
 This update features the much requested Anonymize IP (@arcticblue, thanks for your help!), which is now added to the options panel. Besides that I optimized the code a bit, removing about 5 lines of code. 
