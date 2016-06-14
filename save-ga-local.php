@@ -3,7 +3,7 @@
 * Plugin Name: Host Analytics.js Locally
 * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
 * Description: A plugin that inserts the Analytics tracking code into the header, saves the analytics.js file locally and keeps it updated using wp_cron().
-* Version: 1.32
+* Version: 1.35
 * Author: Daan van den Bergh
 * Author URI: http://dev.daanvandenbergh.com
 * License: GPL2v2 or later
@@ -42,6 +42,9 @@ function register_save_ga_locally_settings() {
 	register_setting	(	'save-ga-locally-basic-settings',
 							'sgal_enqueue_order'
 						);
+	register_setting	(	'save-ga-locally-basic-settings',
+							'sgal_anonymize_ip'
+						);
 }
 
 // Create Settings Page
@@ -66,6 +69,7 @@ function save_ga_locally_settings_page() {
 		$sgal_adjusted_bounce_rate = esc_attr(get_option('sgal_adjusted_bounce_rate'));
 		$sgal_script_position = esc_attr(get_option('sgal_script_position'));
 		$sgal_enqueue_order = esc_attr(get_option('sgal_enqueue_order'));
+		$sgal_anonymize_ip = esc_attr(get_option('sgal_anonymize_ip'));
 				
         ?>
         
@@ -99,6 +103,9 @@ function save_ga_locally_settings_page() {
                 	<th scope="row">Change enqueue order? (Default = 0)</th>
                     <td><input type="number" name="sgal_enqueue_order" min="0" value="<?php echo $sgal_enqueue_order; ?>" /></td>
                 </tr>
+                <tr valign="top">
+                	<th scope="row">Use Anomymize IP? (Required by law for some countries)</th>
+                    <td><input type="checkbox" name="sgal_anonymize_ip" <?php echo $sgal_anon_checked = ($sgal_anonymize_ip == "on") ? 'checked = "checked"' : ""; ?> /></td>
             </table>
             
             <?php submit_button() ;?>
@@ -129,20 +136,21 @@ function add_ga_header_script() {
 	
 		$sgal_tracking_id = esc_attr(get_option('sgal_tracking_id'));
 		$sgal_adjusted_bounce_rate = esc_attr(get_option('sgal_adjusted_bounce_rate'));
+		$sgal_anonymize_ip = esc_attr(get_option('sgal_anonymize_ip'));
 
 		echo "<script>
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');
-				ga('create', '" . $sgal_tracking_id . "', 'auto');
+				})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
+
+		echo $sgal_anonymize_ip_code = ($sgal_anonymize_ip == "on") ? "ga('set', 'anonymizeIp', true);" : "";
+
+		echo "ga('create', '" . $sgal_tracking_id . "', 'auto');
 				ga('send', 'pageview');";
-						
-		if ($sgal_adjusted_bounce_rate) { 
-			$sgal_abr_integer = $sgal_adjusted_bounce_rate * 1000;
-			echo	'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_abr_integer . ");";
-		};
-				
+		
+		echo $sgal_abr_code = ($sgal_adjusted_bounce_rate) ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_adjusted_bounce_rate * 1000 . ");" : "";
+		
 		echo "</script>";
 }
 
