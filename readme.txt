@@ -1,10 +1,10 @@
-=== Host Analytics.js Locally ===
+=== Complete Analytics Optimization Suite (CAOS) ===
 Contributors: DaanvandenBergh
 Donate link: http://dev.daanvandenbergh.com/donate/
-Tags: google, analytics, wp_cron, update, host, save, local, locally
+Tags: google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator
 Requires at least: 4.5
 Tested up to: 4.5.2
-Stable tag: 1.36
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,17 +12,17 @@ A plugin that inserts the Analytics tracking code into the header or footer, sav
 
 == Description ==
 
-A cool plugin created by [Daan van den Bergh](http://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). To further optimize your sites' usage of Google Analytics, it allows you to optionally set Adjusted Bounce Rate and decided whether to load the Analytics Tracking-code in the header or footer. 
+A cool plugin created by [Daan van den Bergh](http://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to complete optimize the usage of Google Analytics on your Wordpress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). Easily Anonymize the IP-address of your visitors. Set an Adjusted Bounce Rate. Decide whether to load the Analytics Tracking-code in the header or footer. And more! 
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights* or *Pingdom*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server. 
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the head of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated using a scheduled script in wp_cron(). 
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the head of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). 
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings -> Host GA Locally screen to configure the plugin
+1. Use the Settings -> Optimize Analytics screen to configure the plugin
 
 == Frequently Asked Questions ==
 
@@ -51,6 +51,9 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.4 - New Features =
+Added the option for tracking administrators. It completely disables the code for Wordpress administrators i.e. your other logged in users will still be tracked. Made the plugin fully translatable. Did some code optimizations. 
 
 = 1.36 - Bugfixes =
 With new features comes great responsibility. My German neighbor Denis Abendroth was so kind to point out that the anonymize IP option was added in the wrong order in the tracking code. So I fixed it immediately!
