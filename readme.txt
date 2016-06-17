@@ -4,7 +4,7 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator
 Requires at least: 4.5
 Tested up to: 4.5.2
-Stable tag: 1.4
+Stable tag: 1.40
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,8 +52,10 @@ N/A
 
 == Changelog ==
 
-= 1.4 - New Features =
+= 1.40 - New Features =
 Added the option for tracking administrators. It completely disables the code for Wordpress administrators i.e. your other logged in users will still be tracked. Made the plugin fully translatable. Did some code optimizations. 
+
+PS. Just figured out I should've never used 1.36, as SVN now thinks 1.4 is an older version. So here we go, version 1.40 (Bluegh! I'll do it right once we hit 2.0)
 
 = 1.36 - Bugfixes =
 With new features comes great responsibility. My German neighbor Denis Abendroth was so kind to point out that the anonymize IP option was added in the wrong order in the tracking code. So I fixed it immediately!
