@@ -4,7 +4,7 @@ Donate link: http://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator
 Requires at least: 4.5
 Tested up to: 4.5.2
-Stable tag: 1.41
+Stable tag: 1.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.42 =
+Added feature to disable [DisplayFeatures](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features) plug-in, because sometimes disabling it from the Google Analytics options-panel isn't enough.
 
 = 1.41 =
 Version change, to push it through the auto-updater in Wordpress.
