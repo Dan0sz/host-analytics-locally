@@ -119,7 +119,7 @@ function save_ga_locally_settings_page() {
                     <td><input type="checkbox" name="caos_disable_display_features" <?php if ($caos_disable_display_features == "on") echo 'checked = "checked"'; ?> /></td>
                 </tr>    
                 <tr valign="top">
-                	<th scope="row"><?php _e('Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anomymize IP</a>? (Required by law for some countries)', 'save-ga-locally'); ?></th>
+                	<th scope="row"><?php _e('Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">IP Anonymization</a>? (Required by law for some countries)', 'save-ga-locally'); ?></th>
                     <td><input type="checkbox" name="sgal_anonymize_ip" <?php if ($sgal_anonymize_ip == "on") echo 'checked = "checked"'; ?> /></td>
                 </tr>
                 <tr valign="top">
