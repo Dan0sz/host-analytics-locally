@@ -1,10 +1,12 @@
 <?php
-// Exit if accessed directly
-if (!defined('ABSPATH')) exit;
 
 // Script to update local-ga.js-file
 // Credits go to: Matthew Horne | http://diywpblog.com/leverage-browser-cache-optimize-google-analytics/
 // I adjusted this script to work with wp-cron. It will still run in crontab, though.
+// To run the script in crontab, remove the code on lines 8 and 9.
+
+// Exit if accessed directly
+if (!defined('ABSPATH')) exit;
 
 // Remote file to download
 $remoteFile = 'https://www.google-analytics.com/analytics.js';
