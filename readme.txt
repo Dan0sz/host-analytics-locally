@@ -1,10 +1,10 @@
 === Complete Analytics Optimization Suite (CAOS) ===
 Contributors: DaanvandenBergh
-Donate link: http://dev.daanvandenbergh.com/donate/
+Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator
 Requires at least: 4.5
-Tested up to: 4.5.2
-Stable tag: 1.42
+Tested up to: 4.7.3
+Stable tag: 1.43
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,7 +28,7 @@ Just install the plugin, enter your Tracking-ID and the plugin adds the necessar
 
 = What do you have in store for us next? =
 
-In the coming releases I'm going to give you the power to decide the update interval of the script. Also I'm going to give you the choice whether you want to use wp_cron or setup your own cronjob.
+In the coming releases I'm going to give you the power to decide the update interval of the script. Check out the forum for conversations on upcoming features.
 
 = What is the current update interval? =
 
@@ -36,7 +36,7 @@ I have set it to daily, because Google updates the script very often. Also, the 
 
 = The ga-local.js-file remains empty! What should I do? =
 
-Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update_local_ga.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator").
+Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update_local_ga.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator"). As this problem has been resolved many times already, check the forum!
 
 = I disabled Demographic Reports in Google Analytics, but the script is still redirecting to doubleclick.net. How do I turn this off? =
 
@@ -55,6 +55,10 @@ Yes! While you're buying. Get a beer for Matthew Horne as well. This plugin uses
 N/A
 
 == Changelog ==
+
+= 1.43 =
+Added feature to specify URL to CDN.
+Updated readme.txt.
 
 = 1.42 =
 Added feature to disable [DisplayFeatures](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features) plug-in, because sometimes disabling it from the Google Analytics options-panel isn't enough.
