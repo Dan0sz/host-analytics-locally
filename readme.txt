@@ -30,7 +30,7 @@ Just install the plugin, enter your Tracking-ID and the plugin adds the necessar
 
 In the coming releases I'm going to give you the power to decide the update interval of the script. Check out the forum for conversations on upcoming features.
 
-= What is the current update interval? =
+= What is the current update interval of the Analytics-script? =
 
 I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know.
 
@@ -41,6 +41,10 @@ Make sure you are running the latest version, as I added some compatibility fixe
 = I disabled Demographic Reports in Google Analytics, but the script is still redirecting to doubleclick.net. How do I turn this off? =
 
 Try enabling the option called "Disable all display features functionality?" With this you can enforce the disabling of the DisplayFeatures plugin.
+
+= I use a CDN. Can I use CAOS in combination with my CDN? =
+
+Yes, while I tried to add a CDN-function to CAOS, this seemed to create more problems than it'd solve. But @sixer came up with a great alternative, created by my friends @keycdn: CDN Enabler. Add the path to this plugin's directory to CDN Enabler and the local-ga.js script is pulled directly from your CDN.
 
 = Can I buy you a beer? =
 

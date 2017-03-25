@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Complete Analytics Optimization Suite (CAOS)
- * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
+ * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.43
+ * Version: 1.44
  * Author: Daan van den Bergh
- * Author URI: https://dev.daanvandenbergh.com
+ * Author URI: http://dev.daanvandenbergh.com
  * License: GPL2v2 or later
  */
 
@@ -54,9 +54,6 @@ function register_save_ga_locally_settings() {
     register_setting	(	'save-ga-locally-basic-settings',
         'caos_disable_display_features'
     );
-    register_setting	(	'save-ga-locally-basic-settings',
-        'caos_set_cdn'
-    );
 }
 
 // Create Settings Page
@@ -85,7 +82,6 @@ function save_ga_locally_settings_page() {
             $sgal_track_admin = esc_attr(get_option('sgal_track_admin'));
             $caos_remove_wp_cron = esc_attr(get_option('caos_remove_wp_cron'));
             $caos_disable_display_features = esc_attr(get_option('caos_disable_display_features'));
-            $caos_set_cdn = esc_attr(get_option('caos_set_cdn'));
             ?>
 
             <table class="form-table">
@@ -129,10 +125,6 @@ function save_ga_locally_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php _e('Track logged in Administrators?', 'save-ga-locally'); ?></th>
                     <td><input type="checkbox" name="sgal_track_admin" <?php if($sgal_track_admin == "on") echo 'checked = "checked"'; ?> /></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('URL of CDN (optional)', 'save-ga-locally'); ?></th>
-                    <td><input type="text" name="caos_set_cdn" value="<?php echo $caos_set_cdn; ?>" /></td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php _e('Remove script from wp-cron?', 'save-ga-locally'); ?></th>
@@ -200,7 +192,6 @@ function add_ga_header_script() {
     $sgal_adjusted_bounce_rate = esc_attr(get_option('sgal_adjusted_bounce_rate'));
     $sgal_anonymize_ip = esc_attr(get_option('sgal_anonymize_ip'));
     $caos_disable_display_features = esc_attr(get_option('caos_disable_display_features'));
-    $caos_set_cdn = esc_attr(get_option('caos_set_cdn'));
 
     echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->";
 
@@ -208,8 +199,7 @@ function add_ga_header_script() {
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','" . $cdn_path = ($caos_set_cdn) ? $caos_set_cdn . '/' . str_replace(get_home_path(), '', plugin_dir_path(__FILE__)) : plugin_dir_url(__FILE__);
-    echo "cache/local-ga.js','ga');";
+			})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
 
     echo "ga('create', '" . $sgal_tracking_id . "', 'auto');";
 
