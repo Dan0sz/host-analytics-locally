@@ -65,7 +65,9 @@ function save_ga_locally_settings_page() {
 
     <div class="wrap">
         <h2><?php _e('CAOS: Complete Analytics Optimization Suite', 'save-ga-locally'); ?></h2>
-        <?php _e('Developed by: ', 'save-ga-locally'); ?><a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/donate/">Daan van den Bergh</a>.
+        <?php _e('Developed by: ', 'save-ga-locally'); ?><p><a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/donate/">Daan van den Bergh</a>.</p>
+
+        <p><?php _e('Consider using'); ?> <a href="https://wordpress.org/plugins/cdn-enabler/">CDN Enabler</a> <?php _e('to host your Analytics-script (local-ga.js) from your CDN'); ?>.</p>
 
         <form method="post" action="options.php">
             <?php
