@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Complete Analytics Optimization Suite (CAOS)
- * Plugin URI: http://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
+ * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/host-analytics-js-local
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.44
+ * Version: 1.45
  * Author: Daan van den Bergh
- * Author URI: http://dev.daanvandenbergh.com
+ * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
  */
 
