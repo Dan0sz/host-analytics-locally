@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: gdpr, google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.50
+Stable tag: 1.51
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.51 - Quickfix =
+Added an option which explicitly enables/disables all GDPR functions.
 
 = 1.50 - New Features =
 Added options to make CAOS GDPR compliant. Thanks, Peter from [Applejack](https://www.applejack.co.uk/)!

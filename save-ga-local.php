@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.50
+ * Version: 1.51
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -34,6 +34,9 @@ function register_save_ga_locally_settings()
 {
     register_setting('save-ga-locally-basic-settings',
         'sgal_tracking_id'
+    );
+    register_setting('save-ga-locally-basic-settings',
+        'caos_enable_gdpr'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_cookie_notice_name'
@@ -93,6 +96,7 @@ function save_ga_locally_settings_page()
             );
 
             $sgal_tracking_id              = esc_attr(get_option('sgal_tracking_id'));
+            $caos_enable_gdpr              = esc_attr(get_option('caos_enable_gdpr'));
             $sgal_cookie_notice_name       = esc_attr(get_option('sgal_cookie_notice_name'));
             $sgal_ga_cookie_expiry_days    = esc_attr(get_option('sgal_ga_cookie_expiry_days'));
             $sgal_adjusted_bounce_rate     = esc_attr(get_option('sgal_adjusted_bounce_rate'));
@@ -107,6 +111,10 @@ function save_ga_locally_settings_page()
                 <tr valign="top">
                     <th scope="row"><?php _e('Google Analytics Tracking ID', 'save-ga-locally'); ?></th>
                     <td><input type="text" name="sgal_tracking_id" value="<?php echo $sgal_tracking_id; ?>"/></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e('Enable GDPR Compliance?', 'save-ga-locally'); ?></th>
+                    <td><input type="checkbox" name="caos_enable_gdpr" <?php echo ($caos_enable_gdpr) ? 'checked' : ''; ?> /></td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php _e('Cookie name', 'save-ga-locally'); ?></th>
@@ -247,22 +255,22 @@ function add_ga_header_script()
     if (current_user_can('manage_options') && (!$sgal_track_admin)) return;
 
     $sgal_tracking_id              = esc_attr(get_option('sgal_tracking_id'));
+    $caos_enable_gdpr              = esc_attr(get_option('caos_enable_gdpr'));
     $sgal_cookie_notice_name       = esc_attr(get_option('sgal_cookie_notice_name'));
     $sgal_ga_cookie_expiry_days    = esc_attr(get_option('sgal_ga_cookie_expiry_days'));
     $sgal_adjusted_bounce_rate     = esc_attr(get_option('sgal_adjusted_bounce_rate'));
     $sgal_anonymize_ip             = esc_attr(get_option('sgal_anonymize_ip'));
     $caos_disable_display_features = esc_attr(get_option('caos_disable_display_features'));
 
-    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->";
+    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->\n";
     echo "<script>\n";
-    echo "window.getCookie = function(name) {
-  				var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-				if (match) return match[2];
-			}\n";
 
-    if ($sgal_cookie_notice_name)
+    if ($caos_enable_gdpr && $sgal_cookie_notice_name)
     {
-        echo " var cookie_exists = getCookie('" . $sgal_cookie_notice_name . "');\n";
+        echo "window.getCookie = function(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2]; }\n";
+        echo "var cookie_exists = getCookie('" . $sgal_cookie_notice_name . "');\n\n";
     }
 
     echo "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -270,25 +278,27 @@ function add_ga_header_script()
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');\n";
 
-    echo "if(cookie_exists) {
-				window['ga-disable-" . $sgal_tracking_id . "'] = false;
-		  } else {
-				window['ga-disable-" . $sgal_tracking_id . "'] = true;
-		  }\n";
+    if ($caos_enable_gdpr && $sgal_cookie_notice_name)
+    {
+        echo "if (cookie_exists) { 
+        window['ga-disable-" . $sgal_tracking_id . "'] = false; 
+        } else { 
+        window['ga-disable-" . $sgal_tracking_id . "'] = true;
+        }\n";
+        $cookie_days = $sgal_ga_cookie_expiry_days ? $sgal_ga_cookie_expiry_days * 86400 : 0;
 
-    $cookie_days = $sgal_ga_cookie_expiry_days ? $sgal_ga_cookie_expiry_days * 86400 : 0;
-
-    echo "ga('create', '" . $sgal_tracking_id . "', {
+        echo "ga('create', '" . $sgal_tracking_id . "', {
   			'cookieName': 'caosLocalGa',
   			'cookieDomain': '" . $_SERVER['SERVER_NAME'] . "',
   			'cookieExpires': " . $cookie_days . ",
 			});\n";
+    }
 
-    echo $caos_disable_display_features == "on" ? "ga('set', 'displayFeaturesTask', null);" : "";
-    echo $sgal_anonymize_ip == "on" ? "ga('set', 'anonymizeIp', true);" : "";
+    echo $caos_disable_display_features == "on" ? "ga('set', 'displayFeaturesTask', null);\n" : "";
+    echo $sgal_anonymize_ip == "on" ? "ga('set', 'anonymizeIp', true);\n" : "";
     echo "ga('send', 'pageview');\n";
-    echo $sgal_adjusted_bounce_rate ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_adjusted_bounce_rate * 1000 . ");" : "";
-    echo "\n</script>\n";
+    echo $sgal_adjusted_bounce_rate ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $sgal_adjusted_bounce_rate . " seconds')" . '"' . "," . $sgal_adjusted_bounce_rate * 1000 . ");\n" : "";
+    echo "</script>\n";
 }
 
 $sgal_script_position = esc_attr(get_option('sgal_script_position'));
