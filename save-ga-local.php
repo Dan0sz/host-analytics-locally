@@ -270,7 +270,7 @@ function add_ga_header_script()
         echo "window.getCookie = function(name) {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
         if (match) return match[2]; }\n";
-        echo "var cookie_exists = getCookie('" . $sgal_cookie_notice_name . "');\n\n";
+        echo "var cookie_exists = getCookie('{$sgal_cookie_notice_name}');\n\n";
     }
 
     echo "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -281,20 +281,19 @@ function add_ga_header_script()
     if ($caos_enable_gdpr && $sgal_cookie_notice_name)
     {
         echo "if (cookie_exists) { 
-        window['ga-disable-" . $sgal_tracking_id . "'] = false; 
+        window['ga-disable-{$sgal_tracking_id}'] = false; 
         } else { 
-        window['ga-disable-" . $sgal_tracking_id . "'] = true;
+        window['ga-disable-{$sgal_tracking_id}'] = true;
         }\n";
-        $cookie_days = $sgal_ga_cookie_expiry_days ? $sgal_ga_cookie_expiry_days * 86400 : 0;
-
-        echo "ga('create', '" . $sgal_tracking_id . "', {
-  			'cookieName': 'caosLocalGa',
-  			'cookieDomain': '" . $_SERVER['SERVER_NAME'] . "',
-  			'cookieExpires': " . $cookie_days . ",
-			});\n";
-    } else {
-        echo "ga('create', '" . $sgal_tracking_id . "', 'auto');\n";
     }
+
+    $cookie_days = $sgal_ga_cookie_expiry_days ? $sgal_ga_cookie_expiry_days * 86400 : 2592000;
+
+    echo "ga('create', '{$sgal_tracking_id}', {
+  			'cookieName': 'caosLocalGa',
+  			'cookieDomain': '{$_SERVER['SERVER_NAME']}',
+  			'cookieExpires': {$cookie_days},
+			});\n";
 
     echo $caos_disable_display_features == "on" ? "ga('set', 'displayFeaturesTask', null);\n" : "";
     echo $sgal_anonymize_ip == "on" ? "ga('set', 'anonymizeIp', true);\n" : "";
