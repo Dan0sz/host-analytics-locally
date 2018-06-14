@@ -292,6 +292,8 @@ function add_ga_header_script()
   			'cookieDomain': '" . $_SERVER['SERVER_NAME'] . "',
   			'cookieExpires': " . $cookie_days . ",
 			});\n";
+    } else {
+        echo "ga('create', '" . $sgal_tracking_id . "', 'auto');\n";
     }
 
     echo $caos_disable_display_features == "on" ? "ga('set', 'displayFeaturesTask', null);\n" : "";
