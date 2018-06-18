@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.55
+ * Version: 1.56
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -21,6 +21,7 @@ define('CAOS_ENABLE_GDPR'         , esc_attr(get_option('caos_enable_gdpr')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
 define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
+define('CAOS_ADVANCED_SETTINGS'   , esc_attr(get_option('caos_advanced_settings')));
 define('CAOS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
 define('CAOS_ENQUEUE_ORDER'       , esc_attr(get_option('sgal_enqueue_order')));
 define('CAOS_ANONYMIZE_IP'        , esc_attr(get_option('sgal_anonymize_ip')));
@@ -57,6 +58,9 @@ function register_save_ga_locally_settings()
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_ga_cookie_expiry_days'
+    );
+    register_setting('save-ga-locally-basic-settings',
+                    'caos_advanced_settings'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_adjusted_bounce_rate'
@@ -113,85 +117,94 @@ function save_ga_locally_settings_page()
             ?>
 
             <table class="form-table">
-                <tr valign="top">
-                    <th scope="row"><?php _e('Google Analytics Tracking ID', 'save-ga-locally'); ?></th>
-                    <td><input type="text" name="sgal_tracking_id" value="<?php echo CAOS_TRACKING_ID; ?>"/></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Enable GDPR Compliance?', 'save-ga-locally'); ?></th>
-                    <td><input type="checkbox" name="caos_enable_gdpr"
-                            onclick="toggleVisibility('.caos_gdpr_setting')" <?php echo CAOS_ENABLE_GDPR ? 'checked' : ''; ?> /></td>
-                </tr>
-                <tr class="caos_gdpr_setting" valign="top" <?php echo CAOS_ENABLE_GDPR ? '' : 'style="display: none;"'; ?>>
-                    <th scope="row"><?php _e('Cookie name', 'save-ga-locally'); ?></th>
-                    <td><input type="text" name="sgal_cookie_notice_name"
-                               value="<?php echo CAOS_COOKIE_NAME; ?>"/></td>
-                </tr>
-                <tr class="caos_gdpr_setting" valign="top" <?php echo CAOS_ENABLE_GDPR ? '' : 'style="display: none;"'; ?>>
-                    <th scope="row"><?php _e('Cookie expiry period (days)', 'save-ga-locally'); ?></th>
-                    <td><input type="number" name="sgal_ga_cookie_expiry_days" min="0" max="365"
-                               value="<?php echo CAOS_COOKIE_EXPIRY; ?>"/></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Position of tracking code', 'save-ga-locally'); ?></th>
-                    <td>
-                        <?php
-                        $sgal_script_position = array('header', 'footer');
+                <tbody class="caos-basic-settings">
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Google Analytics Tracking ID', 'save-ga-locally'); ?></th>
+                        <td><input type="text" name="sgal_tracking_id" value="<?php echo CAOS_TRACKING_ID; ?>"/></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Enable GDPR Compliance?', 'save-ga-locally'); ?></th>
+                        <td><input type="checkbox" name="caos_enable_gdpr"
+                                   onclick="toggleVisibility('.caos_gdpr_setting')" <?php echo CAOS_ENABLE_GDPR ? 'checked' : ''; ?> /></td>
+                    </tr>
+                    <tr class="caos_gdpr_setting" valign="top" <?php echo CAOS_ENABLE_GDPR ? '' : 'style="display: none;"'; ?>>
+                        <th scope="row"><?php _e('Cookie name', 'save-ga-locally'); ?></th>
+                        <td><input type="text" name="sgal_cookie_notice_name"
+                                   value="<?php echo CAOS_COOKIE_NAME; ?>"/></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Position of tracking code', 'save-ga-locally'); ?></th>
+                        <td>
+                            <?php
+                            $sgal_script_position = array('header', 'footer');
 
-                        foreach ($sgal_script_position as $option)
-                        {
-                            echo "<input type='radio' name='sgal_script_position' value='" . $option . "' ";
-                            echo $option == get_option('sgal_script_position') ? ' checked="checked"' : '';
-                            echo " />";
-                            echo ucfirst($option);
-                            echo $option == 'header' ? _e(' (default)', 'save-ga-locally') : '';
-                            echo "<br>";
-                        }
-                        ?>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Use adjusted bounce rate?', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60"
-                               value="<?php echo CAOS_ADJUSTED_BOUNCE_RATE; ?>"/>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Change enqueue order? (Default = 0)', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="number" name="sgal_enqueue_order" min="0"
-                               value="<?php echo CAOS_ENQUEUE_ORDER; ?>"/>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="checkbox"
-                               name="caos_disable_display_features" <?php if (CAOS_DISABLE_DISPLAY_FEAT == "on") echo 'checked = "checked"'; ?> />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anonymize IP</a>? (Required by law for some countries)', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="checkbox"
-                               name="sgal_anonymize_ip" <?php if (CAOS_ANONYMIZE_IP == "on") echo 'checked = "checked"'; ?> />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Track logged in Administrators?', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="checkbox"
-                               name="sgal_track_admin" <?php if (CAOS_TRACK_ADMIN == "on") echo 'checked = "checked"'; ?> />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php _e('Remove script from wp-cron?', 'save-ga-locally'); ?></th>
-                    <td>
-                        <input type="checkbox"
-                               name="caos_remove_wp_cron" <?php if (CAOS_REMOVE_WP_CRON == "on") echo 'checked = "checked"'; ?> />
-                    </td>
-                </tr>
+                            foreach ($sgal_script_position as $option)
+                            {
+                                echo "<input type='radio' name='sgal_script_position' value='" . $option . "' ";
+                                echo $option == get_option('sgal_script_position') ? ' checked="checked"' : '';
+                                echo " />";
+                                echo ucfirst($option);
+                                echo $option == 'header' ? _e(' (default)', 'save-ga-locally') : '';
+                                echo "<br>";
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Advanced Settings', 'save-ga-locally'); ?></th>
+                        <td><input type="checkbox" name="caos_advanced_settings"
+                                   onclick="toggleVisibility('.caos_advanced_settings')" <?php echo CAOS_ADVANCED_SETTINGS ? 'checked' : ''; ?> /></td>
+                    </tr>
+                </tbody>
+                <tbody class="caos_advanced_settings" <?php echo CAOS_ADVANCED_SETTINGS ? '' : 'style="display: none;"'; ?>>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Cookie expiry period (days)', 'save-ga-locally'); ?></th>
+                        <td><input type="number" name="sgal_ga_cookie_expiry_days" min="0" max="365"
+                                   value="<?php echo CAOS_COOKIE_EXPIRY; ?>"/></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Use adjusted bounce rate?', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60"
+                                   value="<?php echo CAOS_ADJUSTED_BOUNCE_RATE; ?>"/>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Change enqueue order? (Default = 0)', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="number" name="sgal_enqueue_order" min="0"
+                                   value="<?php echo CAOS_ENQUEUE_ORDER; ?>"/>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="checkbox"
+                                   name="caos_disable_display_features" <?php if (CAOS_DISABLE_DISPLAY_FEAT == "on") echo 'checked = "checked"'; ?> />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anonymize IP</a>? (Required by law for some countries)', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="checkbox"
+                                   name="sgal_anonymize_ip" <?php if (CAOS_ANONYMIZE_IP == "on") echo 'checked = "checked"'; ?> />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Track logged in Administrators?', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="checkbox"
+                                   name="sgal_track_admin" <?php if (CAOS_TRACK_ADMIN == "on") echo 'checked = "checked"'; ?> />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row"><?php _e('Remove script from wp-cron?', 'save-ga-locally'); ?></th>
+                        <td>
+                            <input type="checkbox"
+                                   name="caos_remove_wp_cron" <?php if (CAOS_REMOVE_WP_CRON == "on") echo 'checked = "checked"'; ?> />
+                        </td>
+                    </tr>
+                </tbody>
             </table>
 
             <?php do_action('caos_after_form_settings'); ?>
