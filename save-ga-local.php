@@ -97,7 +97,7 @@ function save_ga_locally_settings_page()
     ?>
 
     <div class="wrap">
-        <h1><?php _e('CAOS: Complete Analytics Optimization Suite', 'save-ga-locally'); ?></h1>
+        <h1><?php _e('CAOS for Analytics', 'save-ga-locally'); ?></h1>
 
         <p>
             <?php _e('Developed by: ', 'save-ga-locally'); ?>
@@ -183,45 +183,57 @@ switch (CAOS_REMOVE_WP_CRON)
 function add_ga_header_script()
 {
     // If user is admin we don't want to render the tracking code, when option is disabled.
-    if (current_user_can('manage_options') && (!CAOS_TRACK_ADMIN)) return;
+    if (current_user_can('manage_options') && (!CAOS_TRACK_ADMIN)) return; ?>
 
-    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->\n";
-    echo "<script>\n";
+    <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
+    <script>
+    <?php
+    if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
+    function getCookieValue(name) {
+            cookies = document.cookie;
+            cookiesArray = cookies.split('; ');
+            cookieValue = null;
 
-    if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME)
-    {
-        echo "window.getCookie = function(name) {
-        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        if (match) return match[2]; }\n";
-        echo "var cookie_exists = getCookie('" . CAOS_COOKIE_NAME . "');\n\n";
-    }
+            cookiesArray.forEach(function(cookie) {
+                cookieArray = cookie.split('=');
+                if (cookieArray[0] !== name) {
+                    return;
+                }
+                cookieValue = cookieArray[1];
+            });
+            return cookieValue;
+        }
+        cookieValue = getCookieValue('<?php echo CAOS_COOKIE_NAME; ?>');
+    <?php endif; ?>
 
-    echo "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');\n";
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','<?php echo plugin_dir_url(__FILE__) . 'cache/local-ga.js'; ?>','ga');
 
-    if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME)
-    {
-        echo "if (cookie_exists) { 
-        window['ga-disable-" . CAOS_TRACKING_ID . "'] = false; 
-        } else { 
-        window['ga-disable-" . CAOS_TRACKING_ID . "'] = true;
-        }\n";
-    }
-
-    echo "ga('create', '" . CAOS_TRACKING_ID . "', 
-    {
-        'cookieName':   'caosLocalGa',
-  	    'cookieDomain': '{$_SERVER['SERVER_NAME']}',
-  	    'cookieExpires':'" . CAOS_COOKIE_EXPIRY_DAYS . "',
-	});\n";
-
-    echo CAOS_DISABLE_DISPLAY_FEAT == "on" ? "ga('set', 'displayFeaturesTask', null);\n" : "";
-    echo CAOS_ANONYMIZE_IP == "on" ? "ga('set', 'anonymizeIp', true);\n" : "";
-    echo "ga('send', 'pageview');\n";
-    echo CAOS_ADJUSTED_BOUNCE_RATE ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" .  CAOS_ADJUSTED_BOUNCE_RATE . " seconds')" . '"' . "," .  CAOS_ADJUSTED_BOUNCE_RATE * 1000 . ");\n" : "";
-    echo "</script>\n";
+    <?php if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
+    if (cookieValue !== 'yes') {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+        }
+    <?php endif; ?>
+    ga('create', '<?php echo CAOS_TRACKING_ID; ?>',
+        {
+            'cookieName':   'caosLocalGa',
+            'cookieDomain': '<?php echo $_SERVER['SERVER_NAME']; ?>',
+            'cookieExpires':'<?php echo CAOS_COOKIE_EXPIRY_DAYS; ?>',
+        });
+    <?php if (CAOS_DISABLE_DISPLAY_FEAT == 'on'): ?>
+    ga('set', 'displayFeaturesTask', null);
+    <?php endif; ?>
+    <?php if (CAOS_ANONYMIZE_IP == 'on'): ?>
+    ga('set', 'anonymizeIp', true);
+    <?php endif; ?>
+    ga('send', 'pageview');
+    <?php if (CAOS_ADJUSTED_BOUNCE_RATE): ?>
+    setTimeout("ga('send', 'event', 'adjusted bounce rate', '<?php echo CAOS_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?php echo CAOS_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    <?php endif; ?>
+</script>
+<?php
 }
 
 $sgal_enqueue_order   = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
