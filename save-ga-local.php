@@ -140,7 +140,7 @@ function activate_update_local_ga()
 {
     if (!wp_next_scheduled('update_local_ga'))
     {
-        wp_schedule_event(time(), 'daily', 'update_local_ga');
+        wp_schedule_event(time(), 'hourly', 'update_local_ga');
     }
 }
 
@@ -174,7 +174,7 @@ switch (CAOS_REMOVE_WP_CRON)
     default:
         if (!wp_next_scheduled('update_local_ga'))
         {
-            wp_schedule_event(time(), 'daily', 'update_local_ga');
+            wp_schedule_event(time(), 'hourly', 'update_local_ga');
         }
         break;
 }
