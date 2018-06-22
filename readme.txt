@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: gdpr, google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator, leverage, browser, cache, minimize, external, requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.59
+Stable tag: 1.60
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,10 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.60 - BUGFIXES =
+Fixed important bug where cookie value wasn't read correctly, if user rejected cookies.
+Code optimizations
 
 = 1.56 - IMPROVEMENTS =
 Minor usability improvements.
