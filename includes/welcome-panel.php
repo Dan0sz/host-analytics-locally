@@ -38,7 +38,7 @@
 				<p>First make sure you read the manual thoroughly.</p>
                 <p>Still running into issues? Visit the <a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">FAQ</a> and
                     <a href="https://wordpress.org/support/plugin/host-analyticsjs-local">Support Forum</a> to see if your question has already been answered.</p>
-                <p>If not, ask a question on the Support Forum or <a href="https://dev.daanvandenbergh.com" target="_blank">contact me</a>.</p>
+                <p>If not, ask a question on the Support Forum or <a href="https://dev.daanvandenbergh.com/contact/" target="_blank">contact me</a>.</p>
 			</div>
 			<div class="welcome-panel-column welcome-panel-last">
 				<h3>Did I make you happy?</h3>
