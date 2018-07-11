@@ -226,12 +226,14 @@ function add_ga_header_script()
         } else {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
         }
-    <?php else: ?>
-        if (cookieValue === '<?php echo CAOS_COOKIE_VALUE ? (string) CAOS_COOKIE_VALUE : 'yes'; ?>') {
+    <?php elseif (CAOS_ALLOW_TRACKING == 'cookie_has_value'): ?>
+        if (cookieValue === '<?php echo CAOS_COOKIE_VALUE ? CAOS_COOKIE_VALUE : 'yes'; ?>') {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
         } else {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
         }
+    <?php else: ?>
+        window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
     <?php endif; ?>
     <?php endif; ?>
     ga('create', '<?php echo CAOS_TRACKING_ID; ?>',
