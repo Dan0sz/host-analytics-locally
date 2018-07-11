@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: gdpr, google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator, leverage, browser, cache, minimize, external, requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.61
+Stable tag: 1.64
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ A GDPR compliant plugin that inserts the Analytics tracking code into the header
 
 == Description ==
 
-A cool, GDPR compliant plugin created by [Daan van den Bergh](http://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to complete optimize the usage of Google Analytics on your Wordpress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). Easily Anonymize the IP-address of your visitors. Set an Adjusted Bounce Rate. Decide whether to load the Analytics Tracking-code in the header or footer. And more!
+A cool, GDPR compliant plugin created by [Daan van den Bergh](https://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to complete optimize the usage of Google Analytics on your Wordpress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). Easily Anonymize the IP-address of your visitors. Set an Adjusted Bounce Rate. Decide whether to load the Analytics Tracking-code in the header or footer. And more!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights* or *Pingdom*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
@@ -32,7 +32,7 @@ Please visit my blog for instructions on [how to set-up a properly functioning C
 
 = Is this plugin GDPR compliant? =
 
-Yes, it is! Please visit my blog for instructions on [how to set-up a properly functioning Cookie Notice using CAOS](https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-caos).
+Yes, it is! It is compatible with all Wordpress Cookie Notice plugins which either set a cookie to allow tracking or set a certain value to a cookie to allow tracking. It's completely customizable!
 
 = What is the current update interval of the Analytics-script? =
 
@@ -67,6 +67,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.64 =
+To maximize compatibility with other GDPR plugins I've added the option to choose whether to allow tracking when a certain cookie is set or when it has a certain value. Otherwise tracking will not be allowed.
 
 = 1.61 =
 Moved to Github.

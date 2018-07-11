@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.61
+ * Version: 1.64
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -18,7 +18,9 @@ add_action('admin_menu', 'save_ga_locally_create_menu');
 // Define Variables
 define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ENABLE_GDPR'         , esc_attr(get_option('caos_enable_gdpr')));
+define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
+define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
 define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
 define('CAOS_ADVANCED_SETTINGS'   , esc_attr(get_option('caos_advanced_settings')));
@@ -54,7 +56,13 @@ function register_save_ga_locally_settings()
         'caos_enable_gdpr'
     );
     register_setting('save-ga-locally-basic-settings',
+        'caos_allow_tracking'
+    );
+    register_setting('save-ga-locally-basic-settings',
         'sgal_cookie_notice_name'
+    );
+    register_setting('save-ga-locally-basic-settings',
+        'caos_cookie_value'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_ga_cookie_expiry_days'
@@ -212,9 +220,19 @@ function add_ga_header_script()
                 })(window,document,'script','<?php echo plugin_dir_url(__FILE__) . 'cache/local-ga.js'; ?>','ga');
 
     <?php if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
-    if (cookieValue !== 'yes') {
+    <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set'): ?>
+        if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
+        } else {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
         }
+    <?php else: ?>
+        if (cookieValue === '<?php echo CAOS_COOKIE_VALUE ? (string) CAOS_COOKIE_VALUE : 'yes'; ?>') {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
+        } else {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+        }
+    <?php endif; ?>
     <?php endif; ?>
     ga('create', '<?php echo CAOS_TRACKING_ID; ?>',
         {
