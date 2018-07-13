@@ -29,10 +29,9 @@
             ];
 
             foreach ($caos_allow_tracking_choice as $option => $label): ?>
-                <input type="radio" name="caos_allow_tracking" value="<?php echo $option; ?>"
-                       <?php echo $option == CAOS_ALLOW_TRACKING ? 'checked="checked"' : ''; ?>
-                       onclick="toggleVisibility('.caos_allow_tracking_setting')" />
-                <label><?php echo $label; ?></label><br/>
+                <input type="radio" class="caos_allow_tracking_<?php echo $option; ?>" name="caos_allow_tracking" value="<?php echo $option; ?>"
+                       <?php echo $option == CAOS_ALLOW_TRACKING ? 'checked="checked"' : ''; ?>/>
+                <label><?php echo _e($label); ?></label><br/>
             <?php endforeach; ?>
         </td>
     </tr>
@@ -54,24 +53,28 @@
                    value="<?php echo CAOS_COOKIE_VALUE; ?>" />
         </td>
     </tr>
+    <script>
+        jQuery('.caos_allow_tracking_cookie_is_set').click(function() {
+            jQuery('.caos_allow_tracking_setting').hide();
+        });
+        jQuery('.caos_allow_tracking_cookie_has_value').click(function() {
+            jQuery('.caos_allow_tracking_setting').show();
+        });
+    </script>
     <tr valign="top">
         <th scope="row"><?php _e( 'Position of tracking code', 'save-ga-locally' ); ?></th>
         <td>
 			<?php
-			$sgal_script_position = array(
-				'header',
-				'footer'
-			);
+			$sgal_script_position = [
+				'header' => 'Header (default)',
+				'footer' => 'Footer'
+            ];
 
-			foreach ( $sgal_script_position as $option ) {
-				echo "<input type='radio' name='sgal_script_position' value='" . $option . "' ";
-				echo $option == CAOS_SCRIPT_POSITION ? ' checked="checked"' : '';
-				echo " />";
-				echo ucfirst( $option );
-				echo $option == 'header' ? _e( ' (default)', 'save-ga-locally' ) : '';
-				echo "<br>";
-			}
-			?>
+			foreach ($sgal_script_position as $option => $label): ?>
+                <input type="radio" name="sgal_script_position" value="<?php echo $option; ?>"
+                       <?php echo $option == CAOS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
+                <label><?php echo _e($label); ?></label><br />
+			<?php endforeach; ?>
         </td>
     </tr>
     <tr valign="top">
