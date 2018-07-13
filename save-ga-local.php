@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.64
+ * Version: 1.65
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -220,21 +220,22 @@ function add_ga_header_script()
                 })(window,document,'script','<?php echo plugin_dir_url(__FILE__) . 'cache/local-ga.js'; ?>','ga');
 
     <?php if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
-    <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set'): ?>
-        if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
+        <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set'): ?>
+            if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
+                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
+            } else {
+                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+            }
+        <?php elseif (CAOS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_COOKIE_VALUE): ?>
+            if (cookieValue === '<?php echo CAOS_COOKIE_VALUE; ?>') {
+                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
+            } else {
+                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+            }
+        <?php else: ?>
+            /** Please complete CAOS' GDPR Compliance Settings. */
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-        } else {
-            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
-        }
-    <?php elseif (CAOS_ALLOW_TRACKING == 'cookie_has_value'): ?>
-        if (cookieValue === '<?php echo CAOS_COOKIE_VALUE ? CAOS_COOKIE_VALUE : 'yes'; ?>') {
-            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-        } else {
-            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
-        }
-    <?php else: ?>
-        window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-    <?php endif; ?>
+        <?php endif; ?>
     <?php endif; ?>
     ga('create', '<?php echo CAOS_TRACKING_ID; ?>',
         {
