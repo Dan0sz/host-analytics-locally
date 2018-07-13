@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.66
+ * Version: 1.67
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -17,7 +17,6 @@ add_action('admin_menu', 'save_ga_locally_create_menu');
 
 // Define Variables
 define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
-define('CAOS_ENABLE_GDPR'         , esc_attr(get_option('caos_enable_gdpr')));
 define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
 define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
@@ -51,9 +50,6 @@ function register_save_ga_locally_settings()
 {
     register_setting('save-ga-locally-basic-settings',
         'sgal_tracking_id'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_enable_gdpr'
     );
     register_setting('save-ga-locally-basic-settings',
         'caos_allow_tracking'
@@ -198,7 +194,7 @@ function add_ga_header_script()
     <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
     <script>
     <?php
-    if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
+    if (CAOS_COOKIE_NAME && CAOS_COOKIE_VALUE): ?>
     function getCookieValue(name) {
             cookies = document.cookie;
             cookiesArray = cookies.split('; ');
