@@ -12,20 +12,13 @@
         </td>
     </tr>
     <tr valign="top">
-        <th scope="row"><?php _e( 'Enable GDPR Compliance?', 'save-ga-locally' ); ?></th>
-        <td>
-            <input type="checkbox"
-                   name="caos_enable_gdpr"
-                   onclick="toggleVisibility('.caos_gdpr_setting')" <?php echo CAOS_ENABLE_GDPR ? 'checked' : ''; ?> />
-        </td>
-    </tr>
-    <tr class="caos_gdpr_setting" valign="top" <?php echo CAOS_ENABLE_GDPR ? '' : 'style="display: none;"'; ?>>
-        <th scope="row"><?php _e('Allow tracking when...', 'save-ga-locally'); ?></th>
+        <th scope="row"><?php _e('Allow tracking...', 'save-ga-locally'); ?></th>
         <td>
             <?php
             $caos_allow_tracking_choice = [
-                    'cookie_is_set' => 'Cookie is set',
-                    'cookie_has_value' => 'Cookie has value'
+                    ''                 => 'Always (default)',
+                    'cookie_is_set'    => 'When cookie is set',
+                    'cookie_has_value' => 'When cookie has a value'
             ];
 
             foreach ($caos_allow_tracking_choice as $option => $label): ?>
@@ -35,8 +28,8 @@
             <?php endforeach; ?>
         </td>
     </tr>
-    <tr class="caos_gdpr_setting"
-        valign="top" <?php echo CAOS_ENABLE_GDPR ? '' : 'style="display: none;"'; ?>>
+    <tr class="caos_gdpr_setting caos_allow_tracking_name"
+        valign="top" <?php echo CAOS_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
         <th scope="row"><?php _e( 'Cookie name', 'save-ga-locally' ); ?></th>
         <td>
             <input type="text"
@@ -44,8 +37,8 @@
                    value="<?php echo CAOS_COOKIE_NAME; ?>"/>
         </td>
     </tr>
-    <tr class="caos_gdpr_setting caos_allow_tracking_setting"
-        valign="top" <?php echo CAOS_ENABLE_GDPR && CAOS_ALLOW_TRACKING == 'cookie_has_value' ? '': 'style="display: none;"'; ?>>
+    <tr class="caos_gdpr_setting caos_allow_tracking_name caos_allow_tracking_value"
+        valign="top" <?php echo CAOS_ALLOW_TRACKING == 'cookie_has_value' ? '': 'style="display: none;"'; ?>>
         <th scope="row"><?php _e('Cookie value', 'save-ga-locally' ); ?></th>
         <td>
             <input type="text"
@@ -54,11 +47,16 @@
         </td>
     </tr>
     <script>
+        jQuery('.caos_allow_tracking_').click(function() {
+            jQuery('.caos_gdpr_setting').hide();
+        });
         jQuery('.caos_allow_tracking_cookie_is_set').click(function() {
-            jQuery('.caos_allow_tracking_setting').hide();
+            jQuery('.caos_allow_tracking_name').show();
+            jQuery('.caos_allow_tracking_value').hide();
         });
         jQuery('.caos_allow_tracking_cookie_has_value').click(function() {
-            jQuery('.caos_allow_tracking_setting').show();
+
+            jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
         });
     </script>
     <tr valign="top">
