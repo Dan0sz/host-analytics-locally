@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.65
+ * Version: 1.66
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -191,7 +191,9 @@ switch (CAOS_REMOVE_WP_CRON)
 function add_ga_header_script()
 {
     // If user is admin we don't want to render the tracking code, when option is disabled.
-    if (current_user_can('manage_options') && (!CAOS_TRACK_ADMIN)) return; ?>
+    if (current_user_can('manage_options') && (!CAOS_TRACK_ADMIN)) return;
+
+    if (!CAOS_TRACKING_ID) return; ?>
 
     <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
     <script>
@@ -218,24 +220,20 @@ function add_ga_header_script()
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','<?php echo plugin_dir_url(__FILE__) . 'cache/local-ga.js'; ?>','ga');
-
-    <?php if (CAOS_ENABLE_GDPR && CAOS_COOKIE_NAME): ?>
-        <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set'): ?>
-            if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
-                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-            } else {
-                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
-            }
-        <?php elseif (CAOS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_COOKIE_VALUE): ?>
-            if (cookieValue === '<?php echo CAOS_COOKIE_VALUE; ?>') {
-                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-            } else {
-                window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
-            }
-        <?php else: ?>
-            /** Please complete CAOS' GDPR Compliance Settings. */
+    <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_COOKIE_NAME): ?>
+        if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
-        <?php endif; ?>
+        } else {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+        }
+    <?php elseif (CAOS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_COOKIE_NAME && CAOS_COOKIE_VALUE): ?>
+        if (cookieValue === '<?php echo CAOS_COOKIE_VALUE; ?>') {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
+        } else {
+            window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = true;
+        }
+    <?php else: ?>
+        window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
     <?php endif; ?>
     ga('create', '<?php echo CAOS_TRACKING_ID; ?>',
         {
