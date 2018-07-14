@@ -147,7 +147,7 @@
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Use Anonymize IP? (Required by law for some countries)', 'save-ga-locally' ); ?></th>
+            <th scope="row"><?php _e( 'Use Anonymize IP?', 'save-ga-locally' ); ?></th>
             <td>
                 <input type="checkbox" name="sgal_anonymize_ip"
                     <?php echo CAOS_ANONYMIZE_IP == "on" ? 'checked = "checked"' : ''; ?> />
