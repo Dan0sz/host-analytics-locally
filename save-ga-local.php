@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.67
+ * Version: 1.70
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -22,7 +22,6 @@ define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name
 define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
 define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
-define('CAOS_ADVANCED_SETTINGS'   , esc_attr(get_option('caos_advanced_settings')));
 define('CAOS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
 define('CAOS_ENQUEUE_ORDER'       , esc_attr(get_option('sgal_enqueue_order')));
 define('CAOS_ANONYMIZE_IP'        , esc_attr(get_option('sgal_anonymize_ip')));
@@ -62,9 +61,6 @@ function register_save_ga_locally_settings()
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_ga_cookie_expiry_days'
-    );
-    register_setting('save-ga-locally-basic-settings',
-                    'caos_advanced_settings'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_adjusted_bounce_rate'
