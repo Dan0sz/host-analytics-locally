@@ -62,37 +62,38 @@
                 </p>
             </td>
         </tr>
-        <script>
-            jQuery('.caos_allow_tracking_').click(function () {
-                jQuery('.caos_gdpr_setting').hide();
-            });
-            jQuery('.caos_allow_tracking_cookie_is_set').click(function () {
-                jQuery('.caos_allow_tracking_name').show();
-                jQuery('.caos_allow_tracking_value').hide();
-            });
-            jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
-                jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
-            });
-        </script>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Position of tracking code', 'save-ga-locally' ); ?></th>
+            <th scope="row"><?php _e( 'Position of tracking-code', 'save-ga-locally' ); ?></th>
             <td>
 				<?php
 				$sgal_script_position = [
 					'header' => 'Header (default)',
-					'footer' => 'Footer'
+					'footer' => 'Footer',
+                    'manual' => 'Add manually'
 				];
 
 				foreach ( $sgal_script_position as $option => $label ): ?>
                     <label>
-                        <input type="radio" name="sgal_script_position" value="<?php echo $option; ?>"
-                            <?php echo $option == CAOS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
+                        <input class="caos_script_position_<?php echo $option; ?>" type="radio" name="sgal_script_position"
+                               value="<?php echo $option; ?>" <?php echo $option == CAOS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
                         <?php echo _e( $label, 'save-ga-locally'); ?>
                     </label>
                     <br/>
 				<?php endforeach; ?>
                 <p class="description">
-                    <?php _e('Load the Analytics tracking-snippet in the header or footer?', 'save-ga-locally'); ?>
+                    <?php _e('Load the Analytics tracking-snippet in the header, footer or manually?', 'save-ga-locally'); ?>
+                    <?php _e('If e.g. your theme doesn\'t load the wp_head conventionally, choose \'Add manually\'.'); ?>
+                </p>
+            </td>
+        </tr>
+        <tr class="caos_add_manually" valign="top" <?php echo CAOS_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
+            <th scope="row"><?php _e('Tracking-code', 'save-ga-locally'); ?></th>
+            <td>
+                <label>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php echo add_ga_header_script(); ?></textarea>
+                </label>
+                <p class="description">
+                    <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'save-ga-locally'); ?>
                 </p>
             </td>
         </tr>
@@ -180,3 +181,21 @@
         </tbody>
     </table>
 </div>
+<script>
+    jQuery('.caos_allow_tracking_').click(function () {
+        jQuery('.caos_gdpr_setting').hide();
+    });
+    jQuery('.caos_allow_tracking_cookie_is_set').click(function () {
+        jQuery('.caos_allow_tracking_name').show();
+        jQuery('.caos_allow_tracking_value').hide();
+    });
+    jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
+        jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
+    });
+    jQuery('.caos_script_position_manual').click(function () {
+        jQuery('.caos_add_manually').show();
+    });
+    jQuery('.caos_script_position_header, .caos_script_position_footer').click(function() {
+        jQuery('.caos_add_manually').hide();
+    })
+</script>
