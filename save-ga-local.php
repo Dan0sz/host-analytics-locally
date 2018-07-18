@@ -3,7 +3,7 @@
  * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.70
+ * Version: 1.72
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -22,6 +22,7 @@ define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name
 define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
 define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
+define('CAOS_ADD_MANUALLY'        , esc_attr(get_option('caos_add_manually')));
 define('CAOS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
 define('CAOS_ENQUEUE_ORDER'       , esc_attr(get_option('sgal_enqueue_order')));
 define('CAOS_ANONYMIZE_IP'        , esc_attr(get_option('sgal_anonymize_ip')));
@@ -61,6 +62,9 @@ function register_save_ga_locally_settings()
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_ga_cookie_expiry_days'
+    );
+    register_setting('save-ga-locally-basic-settings',
+        'caos_add_manually'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_adjusted_bounce_rate'
@@ -116,12 +120,15 @@ function save_ga_locally_settings_page()
             );
             do_settings_sections('save-ga-locally-basic-settings'
             );
+            ?>
 
-            require_once('includes/caos-form.php');
+            <?php require_once('includes/caos-form.php'); ?>
 
-            do_action('caos_after_form_settings');
+            <?php do_action('caos_after_form_settings'); ?>
 
-            submit_button(); ?>
+            <div style="clear: both; display: block;">
+	            <?php submit_button(); ?>
+            </div>
         </form>
     </div>
     <script>
@@ -254,7 +261,9 @@ switch (CAOS_SCRIPT_POSITION)
     case "footer":
         add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
         break;
-    default:
-        add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
+    case "manual":
         break;
+	default:
+		add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
+	    break;
 }
