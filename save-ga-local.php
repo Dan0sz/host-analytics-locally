@@ -55,6 +55,9 @@ function register_save_ga_locally_settings()
         'caos_allow_tracking'
     );
     register_setting('save-ga-locally-basic-settings',
+        'caos_allow_tracking'
+    );
+    register_setting('save-ga-locally-basic-settings',
         'sgal_cookie_notice_name'
     );
     register_setting('save-ga-locally-basic-settings',
