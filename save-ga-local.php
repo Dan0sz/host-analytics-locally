@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Complete Analytics Optimization Suite (CAOS) - GDPR Compliant!
+ * Plugin Name: CAOS for Analytics | compatible with MonsterInsights & WooCommerce!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.72
+ * Version: 1.80
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -20,9 +20,9 @@ define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
 define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
+define('CAOS_MI_COMPATIBILITY'    , esc_attr(get_option('caos_mi_compatibility')));
 define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
-define('CAOS_ADD_MANUALLY'        , esc_attr(get_option('caos_add_manually')));
 define('CAOS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
 define('CAOS_ENQUEUE_ORDER'       , esc_attr(get_option('sgal_enqueue_order')));
 define('CAOS_ANONYMIZE_IP'        , esc_attr(get_option('sgal_anonymize_ip')));
@@ -64,10 +64,10 @@ function register_save_ga_locally_settings()
         'caos_cookie_value'
     );
     register_setting('save-ga-locally-basic-settings',
-        'sgal_ga_cookie_expiry_days'
+        'caos_mi_compatibility'
     );
     register_setting('save-ga-locally-basic-settings',
-        'caos_add_manually'
+        'sgal_ga_cookie_expiry_days'
     );
     register_setting('save-ga-locally-basic-settings',
         'sgal_adjusted_bounce_rate'
@@ -257,16 +257,26 @@ function add_ga_header_script()
 <?php
 }
 
+function caos_host_mi_locally($url) {
+    $url = plugin_dir_url(__FILE__) . 'cache/local-ga.js';
+
+    return $url;
+}
+
 $sgal_enqueue_order   = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
 
-switch (CAOS_SCRIPT_POSITION)
-{
-    case "footer":
-        add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
-        break;
-    case "manual":
-        break;
-	default:
-		add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
-	    break;
+if(CAOS_MI_COMPATIBILITY == 'on') {
+    add_filter('monsterinsights_frontend_output_analytics_src', 'caos_host_mi_locally', 1000);
+} else {
+	switch (CAOS_SCRIPT_POSITION)
+	{
+		case "footer":
+			add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
+			break;
+		case "manual":
+			break;
+		default:
+			add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
+			break;
+	}
 }

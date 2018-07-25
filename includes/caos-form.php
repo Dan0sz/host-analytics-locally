@@ -4,13 +4,13 @@
 <div class="caos_left_column" style="float:left; width: 50%;">
     <h3><?php _e('Basic Settings'); ?></h3>
     <table class="form-table">
-        <tbody class="caos-basic-settings">
         <tr valign="top">
             <th scope="row"><?php _e( 'Google Analytics Tracking ID', 'save-ga-locally' ); ?></th>
             <td>
                 <input type="text" name="sgal_tracking_id" value="<?php echo CAOS_TRACKING_ID; ?>"/>
             </td>
         </tr>
+        <tbody class="caos_basic_settings" <?php echo CAOS_MI_COMPATIBILITY == 'on' ? 'style="display: none;"' : ''; ?>>
         <tr valign="top">
             <th scope="row"><?php _e( 'Allow tracking...', 'save-ga-locally' ); ?></th>
             <td>
@@ -104,7 +104,19 @@
      style="float:left; width: 50%;">
     <h3><?php _e('Advanced Settings', 'save-ga-locally'); ?></h3>
     <table class="form-table">
-        <tbody class="caos_advanced_settings">
+        <tbody class="caos_mi_compatibility">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable compatibility with Monster Insights?'); ?></th>
+                <td>
+                    <input class="caos_mi_compatibility_checkbox" type="checkbox" name="caos_mi_compatibility" <?php echo CAOS_MI_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
+                    <p class="description">
+                        <?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.'); ?>
+                        <strong><?php _e('Warning! Google Analytics by Monster Insights must be enabled!'); ?></strong>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+        <tbody class="caos_advanced_settings" <?php echo CAOS_MI_COMPATIBILITY == 'on' ? 'style="display: none;"' : ''; ?>>
         <tr valign="top">
             <th scope="row"><?php _e( 'Cookie expiry period (days)', 'save-ga-locally' ); ?></th>
             <td>
@@ -168,6 +180,8 @@
                 </p>
             </td>
         </tr>
+        </tbody>
+        <tbody class="caos_cron_settings">
         <tr valign="top">
             <th scope="row"><?php _e( 'Remove script from wp-cron?', 'save-ga-locally' ); ?></th>
             <td>
@@ -197,5 +211,8 @@
     });
     jQuery('.caos_script_position_header, .caos_script_position_footer').click(function() {
         jQuery('.caos_add_manually').hide();
-    })
+    });
+    jQuery('.caos_mi_compatibility_checkbox').click(function() {
+        jQuery('.caos_advanced_settings, .caos_basic_settings').toggle();
+    });
 </script>
