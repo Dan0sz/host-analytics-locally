@@ -1,10 +1,10 @@
-=== Complete Analytics Optimization Suite (CAOS) - GDPR Compliant! ===
+=== CAOS for Analytics | GDPR compliant | compatible with MonsterInsights & WooCommerce! ===
 Contributors: DaanvandenBergh
 Donate link: https://dev.daanvandenbergh.com/donate/
-Tags: gdpr, google, analytics, wp_cron, update, host, save, local, locally, anonymize, place in footer, optimize, do not track administrator, leverage, browser, cache, minimize, external, requests
+Tags: google, analytics, ecommerce, woocommerce, host, locally, local, monsterinsights, wp_cron, update, save, anonymize, place in footer, optimize, do not track administrator, leverage, browser, cache, minimize, external, requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.72
+Stable tag: 1.80
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,11 @@ A GDPR compliant plugin that inserts the Analytics tracking code into the header
 == Description ==
 
 A cool, GDPR compliant plugin created by [Daan van den Bergh](https://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to complete optimize the usage of Google Analytics on your Wordpress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). Easily Anonymize the IP-address of your visitors. Set an Adjusted Bounce Rate. Decide whether to load the Analytics Tracking-code in the header or footer. And more!
+
+= It offers a wide variety of configuration options: =
+- Since version 1.80 CAOS is *fully compatible with WooCommerce and Google Analytics for Wordpress* (by Monster Insights)!
+- Since version 1.72 CAOS can be configured to *load the snippet manually*, this can be useful e.g. if your theme doesn't load wp-head() the conventional way and the tracking-code can't be added automatically.
+- Since version 1.64 CAOS is *compatible with most Cookie Notice plugins*!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights* or *Pingdom*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
@@ -34,9 +39,21 @@ Please visit my blog for instructions on [how to set-up a properly functioning C
 
 Yes, it is! It is compatible with all Wordpress Cookie Notice plugins which either set a cookie to allow tracking or set a certain value to a cookie to allow tracking. It's completely customizable!
 
+= I use Google Analytics by Monster Insights. Is CAOS compatible with that plugin? =
+
+Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analytics for Wordpress by Monster Insights. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
+
+= Is CAOS compatible with WooCommerce? =
+
+Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, I suggest integrating Google Analytics for Wordpress by Monster Insights with WooCommerce to take advantage of the advanced e-Commerce tracking capabilities of Google Analytics. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
+
+= Is CAOS compatible with WooCommerce Google Analytics Integration? =
+
+No, sadly it isn't, because that plugin doesn't offer CAOS a efficient way to change the source of the analytics.js-file. However if you want to use CAOS with WooCommerce, I suggest using [Google Analytics by Monster Insights](https://nl.wordpress.org/plugins/google-analytics-for-wordpress/).
+
 = What is the current update interval of the Analytics-script? =
 
-I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know.
+I have set it to hourly, because Google updates the script very often. Also, the hourly interval is the shortest interval that wp_cron() allows, as far as I know.
 
 = The ga-local.js-file remains empty! What should I do? =
 
@@ -67,6 +84,10 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.80 = MAJOR UPDATE & Name change
+Changed the name from Complete Analytics Optimization Suite to CAOS for Analytics. Because it's cooler IMO.
+CAOS is now compatible with Google Analytics by Monster Insights. This allows users of e-Commerce platforms such as WooCommerce to also locally host their analytics.js-file!
 
 = 1.72 =
 To improve compatibility with other plugins and themes, I added an option to add the snippet manually. So e.g. it can be added to a theme's 'custom head' field or blocked until a Cookie Notice is approved.
