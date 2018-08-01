@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics | compatible with MonsterInsights & WooCommerce!
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.80
+ * Version: 1.81
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) exit;
 add_action('admin_menu', 'save_ga_locally_create_menu');
 
 // Define Variables
+define('CAOS_PLUGIN_PATH'         , plugin_dir_path(__FILE__));
 define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
@@ -115,7 +116,7 @@ function save_ga_locally_settings_page()
             <?php _e('Consider using'); ?> <a href="https://wordpress.org/plugins/cdn-enabler/">CDN Enabler</a> <?php _e('to host your Analytics-script (local-ga.js) from your CDN'); ?>.
         </p>
 
-        <?php require_once('includes/welcome-panel.php'); ?>
+        <?php require_once(CAOS_PLUGIN_PATH . 'includes/welcome-panel.php'); ?>
 
         <form method="post" action="options.php">
             <?php
@@ -125,7 +126,7 @@ function save_ga_locally_settings_page()
             );
             ?>
 
-            <?php require_once('includes/caos-form.php'); ?>
+            <?php require_once(CAOS_PLUGIN_PATH . 'includes/caos-form.php'); ?>
 
             <?php do_action('caos_after_form_settings'); ?>
 
