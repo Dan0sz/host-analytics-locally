@@ -110,8 +110,9 @@
                 <td>
                     <input class="caos_mi_compatibility_checkbox" type="checkbox" name="caos_mi_compatibility" <?php echo CAOS_MI_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
                     <p class="description">
-                        <?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.'); ?>
-                        <strong><?php _e('Warning! Google Analytics by Monster Insights must be enabled!'); ?></strong>
+	                    <?php _e('The best choice, if you want to use enhanced Analytics features, such as event tracking in e.g. WooCommerce.', 'save-ga-locally'); ?>
+	                    <?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.', 'save-ga-locally'); ?>
+                        <a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Read more', 'save-ga-locally'); ?></a>.
                     </p>
                 </td>
             </tr>
@@ -133,9 +134,7 @@
                 <input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60"
                        value="<?php echo CAOS_ADJUSTED_BOUNCE_RATE; ?>" />
                 <p class="description">
-                    <a href="https://moz.com/blog/adjusted-bounce-rate" target="_blank">
-                        <?php _e('More information about adjusted bounce rate', 'save-ga-locally'); ?>
-                    </a>.
+                    <a href="https://moz.com/blog/adjusted-bounce-rate" target="_blank"><?php _e('More information about adjusted bounce rate', 'save-ga-locally'); ?></a>.
                 </p>
             </td>
         </tr>

@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: CAOS for Analytics | compatible with MonsterInsights & WooCommerce!
+ * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.81
+ * Version: 1.82
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -12,11 +12,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-// Create Menu Item
-add_action('admin_menu', 'save_ga_locally_create_menu');
-
 // Define Variables
-define('CAOS_PLUGIN_PATH'         , plugin_dir_path(__FILE__));
 define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
@@ -32,6 +28,54 @@ define('CAOS_REMOVE_WP_CRON'      , esc_attr(get_option('caos_remove_wp_cron')))
 define('CAOS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_SCRIPT_POSITION'     , esc_attr(get_option('sgal_script_position')));
 
+// Register Settings
+function register_save_ga_locally_settings()
+{
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_tracking_id'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_allow_tracking'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_allow_tracking'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_cookie_notice_name'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_cookie_value'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_mi_compatibility'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_ga_cookie_expiry_days'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_adjusted_bounce_rate'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_script_position'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_enqueue_order'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_anonymize_ip'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'sgal_track_admin'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_remove_wp_cron'
+	);
+	register_setting('save-ga-locally-basic-settings',
+		'caos_disable_display_features'
+	);
+}
+
+// Create Menu Item
 function save_ga_locally_create_menu()
 {
     add_options_page('Complete Analytics Optimization Suite',
@@ -45,55 +89,7 @@ function save_ga_locally_create_menu()
         'register_save_ga_locally_settings'
     );
 }
-
-// Register Settings
-function register_save_ga_locally_settings()
-{
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_tracking_id'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_allow_tracking'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_allow_tracking'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_cookie_notice_name'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_cookie_value'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_mi_compatibility'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_ga_cookie_expiry_days'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_adjusted_bounce_rate'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_script_position'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_enqueue_order'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_anonymize_ip'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'sgal_track_admin'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_remove_wp_cron'
-    );
-    register_setting('save-ga-locally-basic-settings',
-        'caos_disable_display_features'
-    );
-}
-
-
+add_action('admin_menu', 'save_ga_locally_create_menu');
 
 // Create Settings Page
 function save_ga_locally_settings_page()
@@ -116,7 +112,7 @@ function save_ga_locally_settings_page()
             <?php _e('Consider using'); ?> <a href="https://wordpress.org/plugins/cdn-enabler/">CDN Enabler</a> <?php _e('to host your Analytics-script (local-ga.js) from your CDN'); ?>.
         </p>
 
-        <?php require_once(CAOS_PLUGIN_PATH . 'includes/welcome-panel.php'); ?>
+        <?php require_once(__DIR__ . '/includes/welcome-panel.php'); ?>
 
         <form method="post" action="options.php">
             <?php
@@ -126,7 +122,7 @@ function save_ga_locally_settings_page()
             );
             ?>
 
-            <?php require_once(CAOS_PLUGIN_PATH . 'includes/caos-form.php'); ?>
+            <?php require_once(__DIR__ . '/includes/caos-form.php'); ?>
 
             <?php do_action('caos_after_form_settings'); ?>
 
@@ -135,18 +131,10 @@ function save_ga_locally_settings_page()
             </div>
         </form>
     </div>
-    <script>
-        function toggleVisibility(id)
-        {
-            jQuery(id).toggle(this.checked);
-        }
-    </script>
     <?php
-} // End: save_ga_locally_settings_page()
+}
 
 // Register hook to schedule script in wp_cron()
-register_activation_hook(__FILE__, 'activate_update_local_ga');
-
 function activate_update_local_ga()
 {
     if (!wp_next_scheduled('update_local_ga'))
@@ -154,18 +142,17 @@ function activate_update_local_ga()
         wp_schedule_event(time(), 'hourly', 'update_local_ga');
     }
 }
-
-// Load update script to schedule in wp_cron()
-add_action('update_local_ga', 'update_local_ga_script');
+register_activation_hook(__FILE__, 'activate_update_local_ga');
 
 function update_local_ga_script()
 {
     include('includes/update_local_ga.php');
 }
+// Load update script to schedule in wp_cron()
+add_action('update_local_ga', 'update_local_ga_script');
+
 
 // Remove script from wp_cron upon plugin deactivation
-register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
-
 function deactivate_update_local_ga()
 {
     if (wp_next_scheduled('update_local_ga'))
@@ -173,6 +160,7 @@ function deactivate_update_local_ga()
         wp_clear_scheduled_hook('update_local_ga');
     }
 }
+register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
 
 switch (CAOS_REMOVE_WP_CRON)
 {
