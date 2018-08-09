@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.82
+ * Version: 1.83
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -162,28 +162,29 @@ function deactivate_update_local_ga()
 }
 register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
 
-switch (CAOS_REMOVE_WP_CRON)
+function caos_deactivate_wp_cron()
 {
-    case "on":
-        if (wp_next_scheduled('update_local_ga'))
-        {
-            wp_clear_scheduled_hook('update_local_ga');
-        }
-        break;
-    default:
-        if (!wp_next_scheduled('update_local_ga'))
-        {
-            wp_schedule_event(time(), 'hourly', 'update_local_ga');
-        }
-        break;
+	switch (CAOS_REMOVE_WP_CRON)
+	{
+		case "on":
+			if (wp_next_scheduled('update_local_ga'))
+			{
+				wp_clear_scheduled_hook('update_local_ga');
+			}
+			break;
+		default:
+			if (!wp_next_scheduled('update_local_ga'))
+			{
+				wp_schedule_event(time(), 'hourly', 'update_local_ga');
+			}
+			break;
+	}
 }
+add_action('init', 'caos_deactivate_wp_cron');
 
 // Generate tracking code and add to header/footer (default is header)
 function add_ga_header_script()
 {
-    // If user is admin we don't want to render the tracking code, when option is disabled.
-    if (current_user_can('manage_options') && (!CAOS_TRACK_ADMIN)) return;
-
     if (!CAOS_TRACKING_ID) return; ?>
 
     <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
@@ -246,26 +247,48 @@ function add_ga_header_script()
 <?php
 }
 
-function caos_host_mi_locally($url) {
+function caos_show_admin_message()
+{
+    echo "<!-- This site is using CAOS, but you\'re an Administrator. So we\'re not loading the tracking code. -->\n";
+}
+
+function caos_host_mi_locally($url)
+{
     $url = plugin_dir_url(__FILE__) . 'cache/local-ga.js';
 
     return $url;
 }
 
-$sgal_enqueue_order   = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
+function caos_render_tracking_code()
+{
+	$sgal_enqueue_order   = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
 
-if(CAOS_MI_COMPATIBILITY == 'on') {
-    add_filter('monsterinsights_frontend_output_analytics_src', 'caos_host_mi_locally', 1000);
-} else {
-	switch (CAOS_SCRIPT_POSITION)
-	{
-		case "footer":
-			add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
-			break;
-		case "manual":
-			break;
-		default:
-			add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
-			break;
+	if(CAOS_MI_COMPATIBILITY == 'on') {
+		add_filter( 'monsterinsights_frontend_output_analytics_src', 'caos_host_mi_locally', 1000 );
+	} elseif (current_user_can('manage_options') && !CAOS_TRACK_ADMIN) {
+		switch (CAOS_SCRIPT_POSITION)
+		{
+			case "footer":
+				add_action('wp_footer', 'caos_show_admin_message', $sgal_enqueue_order);
+				break;
+			case "manual":
+				break;
+			default:
+				add_action('wp_head', 'caos_show_admin_message', $sgal_enqueue_order);
+				break;
+		}
+	} else {
+		switch (CAOS_SCRIPT_POSITION)
+		{
+			case "footer":
+				add_action('wp_footer', 'add_ga_header_script', $sgal_enqueue_order);
+				break;
+			case "manual":
+				break;
+			default:
+				add_action('wp_head', 'add_ga_header_script', $sgal_enqueue_order);
+				break;
+		}
 	}
 }
+add_action('init', 'caos_render_tracking_code');
