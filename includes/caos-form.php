@@ -35,7 +35,7 @@
                     <a href="https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/" target="_blank">
                         <?php _e('this tutorial', 'save-ga-locally'); ?></a> <?php _e('to comply with GDPR Laws.', 'save-ga-locally'); ?><br />
                     <?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'save-ga-locally'); ?>
-                    <a href="https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-caos/" target="_blank">
+                    <a href="https://dev.daanvandenbergh.com/wordpress/caos-local-analytics-cookie-notice-gdpr/" target="_blank">
                         <?php _e('Read more', 'save-ga-locally'); ?></a>.
                 </p>
             </td>
