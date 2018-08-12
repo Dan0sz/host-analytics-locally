@@ -25,7 +25,9 @@
                 <h3>Suggested Reading</h3>
                 <ul>
                     <li class="welcome-icon dashicons-before dashicons-analytics"><a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank">Configure CAOS with Monster Insights and WooCommerce</a></li>
-                    <li class="welcome-icon dashicons-before dashicons-welcome-learn-more"><a href="https://dev.daanvandenbergh.com/wordpress/caos-local-analytics-cookie-notice-gdpr/" target="_blank">How to configure CAOS with or without a Cookie Notice</a></li>
+                    <li class="welcome-icon dashicons-before dashicons-welcome-learn-more"><a href="https://dev
+                    .daanvandenbergh.com/wordpress/caos-local-analytics-cookie-notice-gdpr/"
+                                                                                              target="_blank">Complete Guide to GDPR Compliance with CAOS</a></li>
                     <li class="welcome-icon dashicons-before dashicons-dashboard"><a href="https://dev.daanvandenbergh.com/how-to/pagespeed-pingdom-w3tc-autoptimize/" target="_blank">How to get a Perfect Score on Pagespeed & Pingdom</a></li>
                 </ul>
 			</div>

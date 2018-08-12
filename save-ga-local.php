@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.83
+ * Version: 1.84
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -27,6 +27,7 @@ define('CAOS_TRACK_ADMIN'         , esc_attr(get_option('sgal_track_admin')));
 define('CAOS_REMOVE_WP_CRON'      , esc_attr(get_option('caos_remove_wp_cron')));
 define('CAOS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_SCRIPT_POSITION'     , esc_attr(get_option('sgal_script_position')));
+define('CAOS_ANALYTICS_JS'        , plugin_dir_url(__FILE__) . 'cache/local-ga.js');
 
 // Register Settings
 function register_save_ga_locally_settings()
@@ -103,6 +104,8 @@ function save_ga_locally_settings_page()
     <div class="wrap">
         <h1><?php _e('CAOS for Analytics', 'save-ga-locally'); ?></h1>
 
+        <div id="caos-notices"></div>
+
         <p>
             <?php _e('Developed by: ', 'save-ga-locally'); ?>
             <a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/donate/">Daan van den Bergh</a>.
@@ -126,13 +129,46 @@ function save_ga_locally_settings_page()
 
             <?php do_action('caos_after_form_settings'); ?>
 
-            <div style="clear: both; display: block;">
+            <div style="clear: left; display: inline-block;">
 	            <?php submit_button(); ?>
+            </div>
+
+            <div style="display: inline-block;">
+                <p class="submit">
+                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update analytics.js" type="button" onclick="caosDownloadManually();" />
+                </p>
             </div>
         </form>
     </div>
+    <script>
+        function caosDownloadManually() {
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    action: 'caosAjaxDownloadManually'
+                },
+                success: function (response) {
+                    var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>Analytic.js successfully downloaded and saved.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+
+                    jQuery('html, body').animate({scrollTop: 0}, 800);
+
+                    jQuery(successMessage).insertAfter('.wrap h1');
+
+                    return false;
+                }
+            });
+        }
+    </script>
     <?php
 }
+
+// Manually Update Local Analytics.js Script
+function caosAjaxDownloadManually()
+{
+    require_once('includes/update_local_ga.php');
+}
+add_action('wp_ajax_caosAjaxDownloadManually', 'caosAjaxDownloadManually');
 
 // Register hook to schedule script in wp_cron()
 function activate_update_local_ga()
@@ -150,7 +186,6 @@ function update_local_ga_script()
 }
 // Load update script to schedule in wp_cron()
 add_action('update_local_ga', 'update_local_ga_script');
-
 
 // Remove script from wp_cron upon plugin deactivation
 function deactivate_update_local_ga()
@@ -211,7 +246,7 @@ function add_ga_header_script()
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','<?php echo plugin_dir_url(__FILE__) . 'cache/local-ga.js'; ?>','ga');
+                })(window,document,'script','<?php echo CAOS_ANALYTICS_JS; ?>','ga');
     <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_COOKIE_NAME): ?>
         if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
@@ -254,9 +289,7 @@ function caos_show_admin_message()
 
 function caos_host_mi_locally($url)
 {
-    $url = plugin_dir_url(__FILE__) . 'cache/local-ga.js';
-
-    return $url;
+    return CAOS_ANALYTICS_JS;
 }
 
 function caos_render_tracking_code()
