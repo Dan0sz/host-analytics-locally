@@ -8,30 +8,39 @@ Stable tag: 1.85
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A GDPR compliant plugin that inserts the Analytics tracking code into the header or footer, saves the analytics.js file locally and keeps it updated using wp_cron().
+CAOS automagically downloads analytics.js and keeps it updated using WordPress' built-in Cron-schedule. Add the tracking code to your site's header or footer and tons of other options!
 
 == Description ==
 
-A cool, GDPR compliant plugin created by [Daan van den Bergh](https://dev.daanvandenbergh.com "Click here to visit my Wordpress Development Blog") that enables you to complete optimize the usage of Google Analytics on your Wordpress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using wp_cron(). Easily Anonymize the IP-address of your visitors. Set an Adjusted Bounce Rate. Decide whether to load the Analytics Tracking-code in the header or footer. And more!
+CAOS for Google Analytics allows you to **host analytics.js** locally and keep it updated using WordPress' built-in Cron-schedule.
 
-= It offers a wide variety of configuration options: =
-- Since version 1.80 CAOS is *fully compatible with WooCommerce and Google Analytics for Wordpress* (by Monster Insights)!
-- Since version 1.72 CAOS can be configured to *load the snippet manually*, this can be useful e.g. if your theme doesn't load wp-head() the conventional way and the tracking-code can't be added automatically.
-- Since version 1.64 CAOS is *compatible with most Cookie Notice plugins*!
+Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Whenever you run an analysis of your website on *Google Pagespeed Insights* or *Pingdom*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron().
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the head of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron().
+== Features ==
+- Host analytics.js/ga.js locally,
+- [GDPR COMPLIANCE] Allow tracking always or only when a certain cookie exists or has a value,
+- Add tracking code to header, footer or manually,
+- Enable compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*,
+- Set Cookie Expiry Period,
+- Set Adjusted Bounce Rate,
+- Change enqueue order (prioritized order of loaded orders),
+- Force disabling display features functionalities,
+- Anonymize IP addresses,
+- Track logged in Administrators,
+- Remove script from wp-cron, so you can add it manually to your Crontab,
+- Manually update analytics.js by the click of a button!
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins repository directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 1. Use the Settings -> Optimize Analytics screen to configure the plugin
 
 = Configuring Cookie Notice and GDPR Compliance in CAOS =
 
-Please visit my blog for instructions on [how to set-up a properly functioning Cookie Notice using CAOS](https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-caos).
+Please visit my blog for instructions on [how to set-up a properly functioning Cookie Notice using CAOS](https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/).
 
 == Frequently Asked Questions ==
 
