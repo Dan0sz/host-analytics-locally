@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.91
+Stable tag: 1.93
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 - Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
-- Change enqueue order (prioritized order of loaded orders),
+- Change enqueue order (prioritize order of loaded scripts),
 - Force disabling display features functionalities,
 - Anonymize IP addresses,
 - Track logged in Administrators,
@@ -54,9 +54,9 @@ Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analyti
 
 Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, I suggest integrating Google Analytics for Wordpress by Monster Insights with WooCommerce to take advantage of the advanced e-Commerce tracking capabilities of Google Analytics. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
 
-= WordFence is detecting file changes in local-ga.js. What's going on? =
+= WordFence (or another security plugin) is detecting file changes in local-ga.js. What's going on? =
 
-This is perfectly normal, since this is the file that is updated by the built-in cronjob. Since version 1.90 I've renamed local-ga.js to analytics.js and moved it to a new folder (caos_cache) within WordPress' uploads-directory to prevent notices by WordPress security plugins. I recommend updating to the latest version.
+This is perfectly normal, since this is the file that is updated by the built-in cronjob. Since version 1.93 I've renamed local-ga.js to analytics.js and moved it to the commonly used 'cache'-directory within WordPress' content-directory to prevent notices by WordPress security plugins. I recommend updating to the latest version.
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
@@ -64,7 +64,7 @@ No, sadly it isn't, because that plugin doesn't offer CAOS a efficient way to ch
 
 = What is the current update interval of the Analytics-script? =
 
-I have set it to hourly, because Google updates the script very often. Also, the hourly interval is the shortest interval that wp_cron() allows, as far as I know.
+I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know. If you suspect you might've gotten behind (which I doubt) I've implement a manual update button within the CAOS for Analytics' settings.
 
 = The ga-local.js-file remains empty! What should I do? =
 
@@ -95,6 +95,15 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.93 =
+Moved analytics.js to wp-content/cache to maximally optimize compatibility with WordPress security plugins.
+
+= 1.91 / 1.92 =
+Updated readme.txt. Refactored code and minor improvements.
+
+= 1.90 =
+Renamed local-ga.js to WordPress' upload-directory and renamed it to analytics.js to make the file more recognizable for less experienced users.
 
 = 1.85 =
 Code optimizations and added function to trigger the update script manually.
