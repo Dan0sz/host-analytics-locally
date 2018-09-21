@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.90
+Stable tag: 1.91
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,9 +54,9 @@ Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analyti
 
 Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, I suggest integrating Google Analytics for Wordpress by Monster Insights with WooCommerce to take advantage of the advanced e-Commerce tracking capabilities of Google Analytics. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
 
-= WordFence is detecting file changes in local-ga.js =
+= WordFence is detecting file changes in local-ga.js. What's going on? =
 
-This is perfectly normal, since this is the file that is updated by the built-in cronjob. Since version 1.90 I've renamed local-ga.js to analytics.js and moved it to a new folder (caos_cache) within WordPress' uploads-directory.
+This is perfectly normal, since this is the file that is updated by the built-in cronjob. Since version 1.90 I've renamed local-ga.js to analytics.js and moved it to a new folder (caos_cache) within WordPress' uploads-directory to prevent notices by WordPress security plugins. I recommend updating to the latest version.
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
