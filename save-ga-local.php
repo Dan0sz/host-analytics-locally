@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.87
+ * Version: 1.90
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -27,7 +27,10 @@ define('CAOS_TRACK_ADMIN'         , esc_attr(get_option('sgal_track_admin')));
 define('CAOS_REMOVE_WP_CRON'      , esc_attr(get_option('caos_remove_wp_cron')));
 define('CAOS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_SCRIPT_POSITION'     , esc_attr(get_option('sgal_script_position')));
-define('CAOS_ANALYTICS_JS'        , plugin_dir_url(__FILE__) . 'cache/local-ga.js');
+define('CAOS_ANALYTICS_JS_FILE'   , 'analytics.js');
+define('CAOS_UPLOAD_PATH'         , wp_upload_dir()['basedir'] . '/caos_cache');
+define('CAOS_ANALYTICS_JS'        , CAOS_UPLOAD_PATH . '/' . CAOS_ANALYTICS_JS_FILE);
+define('CAOS_ANALYTICS_JS_URL'    , wp_upload_dir()['baseurl'] . '/caos_cache/' . CAOS_ANALYTICS_JS_FILE);
 
 // Register Settings
 function register_save_ga_locally_settings()
@@ -170,6 +173,43 @@ function caosAjaxDownloadManually()
 }
 add_action('wp_ajax_caosAjaxDownloadManually', 'caosAjaxDownloadManually');
 
+// Create Cache Dir upon plugin (re-)activation.
+function caosCreateCacheDir()
+{
+    $uploadDir = CAOS_UPLOAD_PATH;
+    if (!is_dir($uploadDir)) {
+        wp_mkdir_p($uploadDir);
+    }
+}
+register_activation_hook(__FILE__, 'caosCreateCacheDir');
+
+// Display admin notice.
+function caos_show_notice_cache_moved()
+{
+    if (!get_option('caos-notice-cache-moved-dismissed', false)) {
+        $class = 'notice notice-warning is-dismissible caos-dismissible';
+        $message = __('<strong>Warning!</strong> The cache location of CAOS for Analytics has moved to WordPress\' uploads-directory. Please de-activate and re-activate the plugin. After a few minutes Google Analytics should function as expected. If it doesn\'t, trigger a manual update from within <i>Settings > Optimize Analytics > Update analytics.js</i> and check again. Otherwise visit the Support Forum.', 'save-ga-locally');
+
+        printf('<div data-notice="caos-notice-cache-moved" class="%1$s"><p>%2$s</p></div>', esc_attr($class), $message);
+    }
+}
+add_action( 'admin_notices', 'caos_show_notice_cache_moved' );
+
+// Enqueue JS scripts for Administrator Area.
+function caos_enqueue_js_scripts()
+{
+    wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__));
+}
+add_action('admin_enqueue_scripts', 'caos_enqueue_js_scripts');
+
+// Add handler for dismissible notice.
+function caos_notice_handler()
+{
+    $type = $_REQUEST['type'];
+    update_option($type . '-dismissed', true);
+}
+add_action('wp_ajax_caos_notice_handler', 'caos_notice_handler');
+
 // Register hook to schedule script in wp_cron()
 function activate_update_local_ga()
 {
@@ -180,11 +220,11 @@ function activate_update_local_ga()
 }
 register_activation_hook(__FILE__, 'activate_update_local_ga');
 
+// Load update script to schedule in wp_cron()
 function update_local_ga_script()
 {
     include('includes/update_local_ga.php');
 }
-// Load update script to schedule in wp_cron()
 add_action('update_local_ga', 'update_local_ga_script');
 
 // Remove script from wp_cron upon plugin deactivation
@@ -197,6 +237,7 @@ function deactivate_update_local_ga()
 }
 register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
 
+// Deactivate cron is option is checked
 function caos_deactivate_wp_cron()
 {
 	switch (CAOS_REMOVE_WP_CRON)
@@ -246,7 +287,7 @@ function add_ga_header_script()
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','<?php echo CAOS_ANALYTICS_JS; ?>','ga');
+                })(window,document,'script','<?php echo CAOS_ANALYTICS_JS_URL; ?>','ga');
     <?php if (CAOS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_COOKIE_NAME): ?>
         if (document.cookie.indexOf('<?php echo CAOS_COOKIE_NAME; ?>=')) {
             window[ 'ga-disable-<?php echo CAOS_TRACKING_ID; ?>' ] = false;
@@ -282,22 +323,25 @@ function add_ga_header_script()
 <?php
 }
 
+// Render a HTML comment for logged in Administrators in the source code.
 function caos_show_admin_message()
 {
     echo "<!-- This site is using CAOS, but you\'re an Administrator. So we\'re not loading the tracking code. -->\n";
 }
 
+// Render the URL of the cached local-ga.js file
 function caos_host_mi_locally($url)
 {
-    return CAOS_ANALYTICS_JS;
+    return CAOS_ANALYTICS_JS_URL;
 }
 
+// Render the tracking code in it's selected locations
 function caos_render_tracking_code()
 {
-	$sgal_enqueue_order   = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
+	$sgal_enqueue_order = CAOS_ENQUEUE_ORDER ? CAOS_ENQUEUE_ORDER : 0;
 
 	if(CAOS_MI_COMPATIBILITY == 'on') {
-		add_filter( 'monsterinsights_frontend_output_analytics_src', 'caos_host_mi_locally', 1000 );
+		add_filter('monsterinsights_frontend_output_analytics_src', 'caos_host_mi_locally', 1000);
 	} elseif (current_user_can('manage_options') && !CAOS_TRACK_ADMIN) {
 		switch (CAOS_SCRIPT_POSITION)
 		{

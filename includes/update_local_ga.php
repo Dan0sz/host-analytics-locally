@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) exit;
 
 // Remote file to download
 $remoteFile = 'https://www.google-analytics.com/analytics.js';
-$localfile = dirname(dirname(__FILE__)) . '/cache/local-ga.js';
+$localFile  = CAOS_ANALYTICS_JS;
 
 // Connection time out
 $connTimeout = 10;
@@ -25,10 +25,10 @@ if (isset($url['query'])) {
 $port = isset($url['port']) ? $url['port'] : '80';
 $fp = @fsockopen($host, '80', $errno, $errstr, $connTimeout );
 
-if(!$fp){	
+if(!$fp){
 	// On connection failure return the cached file (if it exist)
-	if(file_exists($localfile)){
-			readfile($localfile);
+	if(file_exists($localFile)){
+			readfile($localFile);
 	}
 } else {
 	// Send the header information
@@ -43,7 +43,7 @@ if(!$fp){
 	$header .= "Referer: http://$host\r\n\r\n";
 	fputs($fp, $header);
 	$response = '';
-	
+
 	// Get the response from the remote server
 	while($line = fread($fp, 4096)){
 		$response .= $line;
@@ -60,14 +60,14 @@ $response = substr($response, $pos + 4);
 echo $response;
 
 // Save the response to the local file
-if(!file_exists($localfile)){
+if(!file_exists($localFile)){
 
 	// Try to create the file, if doesn't exist
-	fopen($localfile, 'w');
+	fopen($localFile, 'w');
 }
 
-	if(is_writable($localfile)) {
-		if($fp = fopen($localfile, 'w')){
+	if(is_writable($localFile)) {
+		if($fp = fopen($localFile, 'w')){
 			fwrite($fp, $response);
 			fclose($fp);
 		}
