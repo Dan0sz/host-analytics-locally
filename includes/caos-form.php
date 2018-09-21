@@ -90,7 +90,7 @@
             <th scope="row"><?php _e('Tracking-code', 'save-ga-locally'); ?></th>
             <td>
                 <label>
-                    <textarea style="display: block; width: 100%; height: 250px;"><?php echo add_ga_header_script(); ?></textarea>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php echo caos_analytics_render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
                     <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'save-ga-locally'); ?>
