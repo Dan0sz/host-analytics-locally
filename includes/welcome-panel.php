@@ -43,7 +43,7 @@
 			<div class="welcome-panel-column welcome-panel-last">
 				<h3>Support CAOS!</h3>
 				<p>I create simple, but useful solutions that easily optimize your website for Pagespeed Insights and Pingdom.</p>
-				<p>I believe these solutions should be free, but if you appreciate my work, buy me a beer!</p>
+				<p>I believe these solutions should be free, but if you appreciate my work, please consider donating!</p>
 				<a target="_blank" class="button button-primary button-hero" href="https://dev.daanvandenbergh.com/donate/"><span class="dashicons-before dashicons-heart"> Donate</span></a>
                 <a target="_blank" class="button button-primary button-hero" style="background-color: #00aced; box-shadow: 0 2px 0 #0084b4; border-color: #0084b4 #0084b4 #0084b4;" href="https://twitter.com/Dan0sz"><span class="dashicons-before dashicons-twitter"> Follow me!</span></a>
 			</div>
