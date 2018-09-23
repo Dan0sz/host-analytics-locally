@@ -4,20 +4,21 @@
  * @package: CAOS for Analytics
  */
 
-jQuery(function ($) {
-    $(document).on('click', '.caos-dismissible .notice-dismiss', function () {
-        var type = $(this).closest('.caos-dismissible').data('notice');
-        // Make an AJAX call
-        // Since WP 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-        $.ajax(
-            ajaxurl,
-            {
-                type: 'POST',
-                data: {
-                    action: 'caos_notice_handler',
-                    type: type
-                }
-            }
-        );
-    })
-});
+function caosDownloadManually() {
+    jQuery.ajax({
+        type: 'POST',
+        url: ajaxurl,
+        data: {
+            action: 'caos_analytics_ajax_manual_download'
+        },
+        success: function (response) {
+            var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>Analytic.js successfully downloaded and saved.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+            
+            jQuery('html, body').animate({scrollTop: 0}, 800);
+            
+            jQuery(successMessage).insertAfter('.wrap h1');
+            
+            return false;
+        }
+    });
+}

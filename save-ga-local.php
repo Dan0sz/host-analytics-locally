@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 1.93
+ * Version: 1.94
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -13,25 +13,25 @@
 if (!defined('ABSPATH')) exit;
 
 // Define Constants
-define('CAOS_TRACKING_ID'         , esc_attr(get_option('sgal_tracking_id')));
-define('CAOS_ALLOW_TRACKING'      , esc_attr(get_option('caos_allow_tracking')));
-define('CAOS_COOKIE_NAME'         , esc_attr(get_option('sgal_cookie_notice_name')));
-define('CAOS_COOKIE_VALUE'        , esc_attr(get_option('caos_cookie_value')));
-define('CAOS_MI_COMPATIBILITY'    , esc_attr(get_option('caos_mi_compatibility')));
-define('CAOS_COOKIE_EXPIRY'       , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
-define('CAOS_COOKIE_EXPIRY_DAYS'  , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
-define('CAOS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
-define('CAOS_ENQUEUE_ORDER'       , esc_attr(get_option('sgal_enqueue_order')));
-define('CAOS_ANONYMIZE_IP'        , esc_attr(get_option('sgal_anonymize_ip')));
-define('CAOS_TRACK_ADMIN'         , esc_attr(get_option('sgal_track_admin')));
-define('CAOS_REMOVE_WP_CRON'      , esc_attr(get_option('caos_remove_wp_cron')));
-define('CAOS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
-define('CAOS_SCRIPT_POSITION'     , esc_attr(get_option('sgal_script_position')));
-define('CAOS_ANALYTICS_JS_FILE'   , 'analytics.js');
-define('CAOS_ANALYTICS_CACHE_DIR' , '/cache/caos-analytics/');
-define('CAOS_UPLOAD_PATH'         , WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
-define('CAOS_ANALYTICS_JS'        , CAOS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
-define('CAOS_ANALYTICS_JS_URL'    , content_url() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE);
+define('CAOS_TRACKING_ID'          , esc_attr(get_option('sgal_tracking_id')));
+define('CAOS_ALLOW_TRACKING'       , esc_attr(get_option('caos_allow_tracking')));
+define('CAOS_COOKIE_NAME'          , esc_attr(get_option('sgal_cookie_notice_name')));
+define('CAOS_COOKIE_VALUE'         , esc_attr(get_option('caos_cookie_value')));
+define('CAOS_MI_COMPATIBILITY'     , esc_attr(get_option('caos_mi_compatibility')));
+define('CAOS_COOKIE_EXPIRY'        , esc_attr(get_option('sgal_ga_cookie_expiry_days')));
+define('CAOS_COOKIE_EXPIRY_DAYS'   , CAOS_COOKIE_EXPIRY ? CAOS_COOKIE_EXPIRY * 86400 : 0);
+define('CAOS_ADJUSTED_BOUNCE_RATE' , esc_attr(get_option('sgal_adjusted_bounce_rate')));
+define('CAOS_ENQUEUE_ORDER'        , esc_attr(get_option('sgal_enqueue_order')));
+define('CAOS_ANONYMIZE_IP'         , esc_attr(get_option('sgal_anonymize_ip')));
+define('CAOS_TRACK_ADMIN'          , esc_attr(get_option('sgal_track_admin')));
+define('CAOS_REMOVE_WP_CRON'       , esc_attr(get_option('caos_remove_wp_cron')));
+define('CAOS_DISABLE_DISPLAY_FEAT' , esc_attr(get_option('caos_disable_display_features')));
+define('CAOS_SCRIPT_POSITION'      , esc_attr(get_option('sgal_script_position')));
+define('CAOS_ANALYTICS_JS_FILE'    , 'analytics.js');
+define('CAOS_ANALYTICS_CACHE_DIR'  , '/cache/caos-analytics/');
+define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
+define('CAOS_ANALYTICS_JS_DIR'     , CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
+define('CAOS_ANALYTICS_JS_URL'     , content_url() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE);
 
 // Register Settings
 function caos_analytics_register_settings()
@@ -141,26 +141,6 @@ function caos_analytics_settings_page()
             </div>
         </form>
     </div>
-    <script>
-        function caosDownloadManually() {
-            jQuery.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                data: {
-                    action: 'caos_analytics_ajax_manual_download'
-                },
-                success: function (response) {
-                    var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>Analytic.js successfully downloaded and saved.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
-
-                    jQuery('html, body').animate({scrollTop: 0}, 800);
-
-                    jQuery(successMessage).insertAfter('.wrap h1');
-
-                    return false;
-                }
-            });
-        }
-    </script>
     <?php
 }
 
@@ -174,39 +154,19 @@ add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_analytics_ajax_m
 // Create Cache Dir upon plugin (re-)activation.
 function caos_analytics_create_cache_dir()
 {
-    $uploadDir = CAOS_UPLOAD_PATH;
+    $uploadDir = CAOS_ANALYTICS_UPLOAD_PATH;
     if (!is_dir($uploadDir)) {
         wp_mkdir_p($uploadDir);
     }
 }
 register_activation_hook(__FILE__, 'caos_analytics_create_cache_dir' );
 
-// Display admin notice.
-function caos_analytics_show_notice_cache_moved()
-{
-    if (!get_option('caos-notice-cache-moved-dismissed', false)) {
-        $class = 'notice notice-warning is-dismissible caos-dismissible';
-        $message = __('<strong>Warning!</strong> The cache location of CAOS for Analytics has moved to WordPress\' uploads-directory. Please de-activate and re-activate the plugin. After a few minutes Google Analytics should function as expected. If it doesn\'t, trigger a manual update from within <i>Settings > Optimize Analytics > Update analytics.js</i> and check again. Otherwise visit the Support Forum. Please close this notice after following the steps.', 'save-ga-locally');
-
-        printf('<div data-notice="caos-notice-cache-moved" class="%1$s"><p>%2$s</p></div>', esc_attr($class), $message);
-    }
-}
-add_action( 'admin_notices', 'caos_analytics_show_notice_cache_moved' );
-
 // Enqueue JS scripts for Administrator Area.
 function caos_analytics_enqueue_js_scripts()
 {
-    wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__));
+    wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), array('jquery'), null, true);
 }
 add_action('admin_enqueue_scripts', 'caos_analytics_enqueue_js_scripts' );
-
-// Add handler for dismissible notice.
-function caos_analytics_notice_handler()
-{
-    $type = $_REQUEST['type'];
-    update_option($type . '-dismissed', true);
-}
-add_action('wp_ajax_caos_notice_handler', 'caos_analytics_notice_handler' );
 
 // Register hook to schedule script in wp_cron()
 function caos_analytics_activate_cron()
