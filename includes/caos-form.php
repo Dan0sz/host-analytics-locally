@@ -106,13 +106,22 @@
     <table class="form-table">
         <tbody class="caos_mi_compatibility">
             <tr valign="top">
-                <th scope="row"><?php _e('Enable compatibility with Monster Insights?'); ?></th>
+                <th scope="row"><?php _e('Enable compatibility with Monster Insights?', 'save-ga-locally'); ?></th>
                 <td>
                     <input class="caos_mi_compatibility_checkbox" type="checkbox" name="caos_mi_compatibility" <?php echo CAOS_MI_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
                     <p class="description">
 	                    <?php _e('The best choice, if you want to use enhanced Analytics features, such as event tracking in e.g. WooCommerce.', 'save-ga-locally'); ?>
 	                    <?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.', 'save-ga-locally'); ?>
                         <a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Read more', 'save-ga-locally'); ?></a>.
+                    </p>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('Save analytics.js to...', 'save-ga-locally'); ?></th>
+                <td>
+                    <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?php echo CAOS_ANALYTICS_CACHE_DIR; ?>" />
+                    <p class="description">
+                        <?php _e("Change the path where analytics.js is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos-analytics/</code>.", 'save-ga-locally'); ?>
                     </p>
                 </td>
             </tr>

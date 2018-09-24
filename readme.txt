@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.94
+Stable tag: 1.95
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,7 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
 - Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
+- Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
 - Change enqueue order (prioritize order of loaded scripts),
@@ -54,9 +55,13 @@ Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analyti
 
 Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, I suggest integrating Google Analytics for Wordpress by Monster Insights with WooCommerce to take advantage of the advanced e-Commerce tracking capabilities of Google Analytics. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
 
+= I use WP Super Cache / W3 Total Cache / Autoptimize or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
+
+This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /cache/ folder (e.g. /caos-cache/analytics/). This should resolve any issues you're having.
+
 = WordFence (or another security plugin) is detecting file changes in local-ga.js. What's going on? =
 
-This is perfectly normal, since this is the file that is updated by the built-in cronjob. Since version 1.93 I've renamed local-ga.js to analytics.js and moved it to the commonly used 'cache'-directory within WordPress' content-directory to prevent notices by WordPress security plugins. I recommend updating to the latest version.
+This is perfectly normal, since this is the file that is updated by the built-in cronjob. Change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
@@ -95,6 +100,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.95 =
+Added option to change the directory where analytics.js is saved -- relative to WordPress' content directory (usually wp-content).
 
 = 1.94 =
 Fixed directory creation error. Removed notice from admin-screen, because it caused bugs on some systems.
