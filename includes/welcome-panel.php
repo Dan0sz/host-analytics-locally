@@ -26,13 +26,13 @@
                 <ul>
                     <li class="welcome-icon dashicons-before dashicons-analytics"><a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank">Configure CAOS with Monster Insights and WooCommerce</a></li>
                     <li class="welcome-icon dashicons-before dashicons-welcome-learn-more"><a href="https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/" target="_blank">Complete Guide to GDPR Compliance with CAOS</a></li>
-                    <li class="welcome-icon dashicons-before dashicons-dashboard"><a href="https://dev.daanvandenbergh.com/how-to/pagespeed-pingdom-w3tc-autoptimize/" target="_blank">How to get a Perfect Score on Pagespeed & Pingdom</a></li>
+                    <li class="welcome-icon dashicons-before dashicons-dashboard"><a href="https://dev.daanvandenbergh.com/wordpress/quick-guide-pagespeed-insights-pingdom/" target="_blank">How to get a Perfect Score on Pagespeed & Pingdom</a></li>
                 </ul>
 			</div>
 			<div class="welcome-panel-column">
 				<h3>Get a Perfect Score on Pagespeed & Pingdom!</h3>
                 <p><strong>Leverage your browser cache</strong> and <strong>lower pageload times</strong> by hosting your Google Fonts locally with
-                    <a href="https://dev.daanvandenbergh.com/wordpress-plugins/host-google-fonts-locally/" target="_blank">CAOS for Webfonts</a>.</p>
+                    <a href="https://dev.daanvandenbergh.com/wordpress/host-google-fonts-locally/" target="_blank">CAOS for Webfonts</a>.</p>
                 <p><a target="_blank" href="https://wordpress.org/plugins/host-webfonts-local/">Download now</a></p>
 				<h3>Need help?</h3>
 				<p>First make sure you read the manual thoroughly.</p>
