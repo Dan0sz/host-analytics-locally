@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.96
+Stable tag: 1.97
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 1.97 =
+Compatibility fix for PHP versions lower than 5.4.
 
 = 1.95 =
 Added option to change the directory where analytics.js is saved -- relative to WordPress' content directory (usually wp-content).

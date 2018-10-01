@@ -15,11 +15,11 @@
             <th scope="row"><?php _e( 'Allow tracking...', 'save-ga-locally' ); ?></th>
             <td>
 				<?php
-				$caos_allow_tracking_choice = [
+				$caos_allow_tracking_choice = array(
 					''                 => 'Always (default)',
 					'cookie_is_set'    => 'When cookie is set',
 					'cookie_has_value' => 'When cookie has a value'
-				];
+                );
 
 				foreach ( $caos_allow_tracking_choice as $option => $label ): ?>
                     <label>
@@ -66,11 +66,11 @@
             <th scope="row"><?php _e( 'Position of tracking-code', 'save-ga-locally' ); ?></th>
             <td>
 				<?php
-				$sgal_script_position = [
+				$sgal_script_position = array(
 					'header' => 'Header (default)',
 					'footer' => 'Footer',
                     'manual' => 'Add manually'
-				];
+                );
 
 				foreach ( $sgal_script_position as $option => $label ): ?>
                     <label>
