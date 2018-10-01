@@ -26,7 +26,7 @@
                 <ul>
                     <li class="welcome-icon dashicons-before dashicons-analytics"><a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank">Configure CAOS with Monster Insights and WooCommerce</a></li>
                     <li class="welcome-icon dashicons-before dashicons-welcome-learn-more"><a href="https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/" target="_blank">Complete Guide to GDPR Compliance with CAOS</a></li>
-                    <li class="welcome-icon dashicons-before dashicons-dashboard"><a href="https://dev.daanvandenbergh.com/wordpress/quick-guide-pagespeed-insights-pingdom/" target="_blank">How to get a Perfect Score on Pagespeed & Pingdom</a></li>
+                    <li class="welcome-icon dashicons-before dashicons-dashboard"><a href="https://dev.daanvandenbergh.com/wordpress/quick-guide-pagespeed-insights-pingdom/" target="_blank">Speed-up your site: get 100/100 on Pagespeed Insights in 30 minutes!</a></li>
                 </ul>
 			</div>
 			<div class="welcome-panel-column">
