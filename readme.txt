@@ -47,6 +47,10 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 
 Yes, it is! It is compatible with all Wordpress Cookie Notice plugins which either set a cookie to allow tracking or set a certain value to a cookie to allow tracking. It's completely customizable!
 
+= Google Tag Assistant says analytics.js is missing. Is this normal? =
+
+Yes, this is normal. This browser extensions looks for this exact string 'www.google-analytics.com/analytics.js'. Because with CAOS for Analytics you're hosting it locally, Tag Assistant doesn't find this string and returns an error. However, you can still use Tag Assistant to verify tracking works.
+
 = I use Google Analytics by Monster Insights. Is CAOS compatible with that plugin? =
 
 Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analytics for Wordpress by Monster Insights. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
