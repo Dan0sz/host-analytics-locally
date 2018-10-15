@@ -65,7 +65,7 @@ This happens because analytics.js is saved within the 'cache'-folder and for som
 
 = WordFence (or another security plugin) is detecting file changes in local-ga.js. What's going on? =
 
-This is perfectly normal, since this is the file that is updated by the built-in cronjob. Change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
+This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS for Analytics. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
@@ -93,7 +93,7 @@ CAOS adds a local file called ga-local.js, which enables you to use Analytics, w
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
-Yes, while I tried to add a CDN-function to CAOS, this seemed to create more problems than it'd solve. But @sixer came up with a great alternative, created by my friends @keycdn: CDN Enabler. Add the path to this plugin's directory to CDN Enabler and the local-ga.js script is pulled directly from your CDN.
+Yes, while I tried to add a CDN-function to CAOS, this seemed to create more problems than it'd solve. But @sixer came up with a great alternative, created by my friends @keycdn: CDN Enabler. Add the path to this plugin's directory to CDN Enabler and the analytics.js script is pulled directly from your CDN.
 
 = Can I buy you a beer? =
 
