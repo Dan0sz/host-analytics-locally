@@ -1,10 +1,10 @@
-=== CAOS | Host Google Analytics Locally | compatible with MonsterInsights & WooCommerce! ===
+=== CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
 Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,7 +77,7 @@ I have set it to daily, because Google updates the script very often. Also, the 
 
 = The ga-local.js-file remains empty! What should I do? =
 
-Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update_local_ga.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator"). As this problem has been resolved many times already, check the forum!
+Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update-analytics.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator"). As this problem has been resolved many times already, check the forum!
 
 = I just updated to the latest version and the tracking stopped working! =
 
@@ -104,6 +104,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 2.0.1 =
+Refactored code for includes to increase compatibility. Code optimizations. Renamed tasks to reflect code and name changes.
 
 = 2.0.0 =
 Finally rid of the ugly versioning. Added settings link to plugins overview.
