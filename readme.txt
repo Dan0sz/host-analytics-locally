@@ -106,7 +106,7 @@ N/A
 == Changelog ==
 
 = 2.0.1 =
-Refactored code for includes to increase compatibility. Code optimizations. Renamed tasks to reflect code and name changes.
+Refactored code for includes to increase compatibility. Code optimizations. Renamed tasks to reflect code and name changes. Changed menu slug to reflect name changes.
 
 = 2.0.0 =
 Finally rid of the ugly versioning. Added settings link to plugins overview.
