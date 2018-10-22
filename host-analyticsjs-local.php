@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -86,7 +86,7 @@ function caos_analytics_create_menu()
     add_options_page('Complete Analytics Optimization Suite',
         'Optimize Analytics',
         'manage_options',
-        'save-ga-locally',
+        'host-analyticsjs-local',
         'caos_analytics_settings_page'
     );
 
@@ -96,17 +96,16 @@ function caos_analytics_create_menu()
 }
 add_action('admin_menu', 'caos_analytics_create_menu');
 
+// Add settings link to plugin overview
 function caos_analytics_settings_link($links)
 {
-    $adminUrl     = admin_url() . 'options-general.php?page=save-ga-locally';
+    $adminUrl     = admin_url() . 'options-general.php?page=host-analyticsjs-local';
 	$settingsLink = "<a href='$adminUrl'>" . __('Settings') . "</a>";
 	array_push($links, $settingsLink);
 
 	return $links;
 }
-
 $caosLink = plugin_basename( __FILE__ );
-
 add_filter("plugin_action_links_$caosLink", 'caos_analytics_settings_link');
 
 // Create Settings Page
@@ -119,12 +118,12 @@ function caos_analytics_settings_page()
     ?>
 
     <div class="wrap">
-        <h1><?php _e('CAOS for Analytics', 'save-ga-locally'); ?></h1>
+        <h1><?php _e('CAOS for Analytics', 'host-analyticsjs-local'); ?></h1>
 
         <div id="caos-notices"></div>
 
         <p>
-            <?php _e('Developed by: ', 'save-ga-locally'); ?>
+            <?php _e('Developed by: ', 'host-analyticsjs-local'); ?>
             <a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/donate/">Daan van den Bergh</a>.
         </p>
 
@@ -132,17 +131,17 @@ function caos_analytics_settings_page()
             <?php _e('Consider using'); ?> <a href="https://wordpress.org/plugins/cdn-enabler/">CDN Enabler</a> <?php _e('to host your Analytics-script (analytics.js) from your CDN'); ?>.
         </p>
 
-        <?php require_once(__DIR__ . '/includes/welcome-panel.php'); ?>
+        <?php include(plugin_dir_path(__FILE__) . 'includes/welcome-panel.php'); ?>
 
         <form method="post" action="options.php">
             <?php
-            settings_fields('save-ga-locally-basic-settings'
+            settings_fields('save-ga-locally-local-basic-settings'
             );
             do_settings_sections('save-ga-locally-basic-settings'
             );
             ?>
 
-            <?php require_once(__DIR__ . '/includes/caos-form.php'); ?>
+            <?php include(plugin_dir_path(__FILE__) . 'includes/caos-form.php'); ?>
 
             <?php do_action('caos_after_form_settings'); ?>
 
@@ -159,13 +158,6 @@ function caos_analytics_settings_page()
     </div>
     <?php
 }
-
-// Manually Update Local Analytics.js Script
-function caos_analytics_ajax_manual_download()
-{
-    require_once('includes/update_local_ga.php');
-}
-add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_analytics_ajax_manual_download' );
 
 // Create Cache Dir upon plugin (re-)activation.
 function caos_analytics_create_cache_dir()
@@ -187,9 +179,9 @@ add_action('admin_enqueue_scripts', 'caos_analytics_enqueue_js_scripts' );
 // Register hook to schedule script in wp_cron()
 function caos_analytics_activate_cron()
 {
-    if (!wp_next_scheduled('update_local_ga'))
+    if (!wp_next_scheduled('caos_update_analytics_js'))
     {
-        wp_schedule_event(time(), 'daily', 'update_local_ga');
+        wp_schedule_event(time(), 'daily', 'caos_update_analytics_js');
     }
 }
 register_activation_hook(__FILE__, 'caos_analytics_activate_cron' );
@@ -197,9 +189,12 @@ register_activation_hook(__FILE__, 'caos_analytics_activate_cron' );
 // Load update script to schedule in wp_cron()
 function caos_analytics_load_cron_script()
 {
-    include('includes/update_local_ga.php');
+	include(plugin_dir_path(__FILE__) . 'includes/update-analytics.php');
 }
-add_action('update_local_ga', 'caos_analytics_load_cron_script' );
+add_action('caos_update_analytics_js', 'caos_analytics_load_cron_script' );
+
+// Manually Update Local Analytics.js Script
+add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_analytics_load_cron_script' );
 
 // Remove script from wp_cron upon plugin deactivation
 function caos_analytics_deactivate_cron()
