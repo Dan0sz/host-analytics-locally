@@ -135,7 +135,7 @@ function caos_analytics_settings_page()
 
         <form method="post" action="options.php">
             <?php
-            settings_fields('save-ga-locally-basic-settings'
+            settings_fields('save-ga-locally-local-basic-settings'
             );
             do_settings_sections('save-ga-locally-basic-settings'
             );
