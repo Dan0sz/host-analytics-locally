@@ -3,8 +3,8 @@ Contributors: DaanvandenBergh
 Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
-Tested up to: 4.9
-Stable tag: 2.0.2
+Tested up to: 5.0
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 2.0.3 =
+Tested with WP 5+
 
 = 2.0.2 =
 Fixed bug where settings couldn't be saved.
