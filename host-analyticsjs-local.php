@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.0.4
+ * Version: 2.0.5
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -32,7 +32,7 @@ define('CAOS_ANALYTICS_JS_FILE'    , 'analytics.js');
 define('CAOS_ANALYTICS_CACHE_DIR'  , esc_attr(get_option('caos_analytics_cache_dir')) ?: '/cache/caos-analytics/');
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
 define('CAOS_ANALYTICS_JS_DIR'     , CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
-define('CAOS_ANALYTICS_JS_URL'     , get_site_url(CAOS_CURRENT_BLOG_ID, getContentDirName() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE));
+define('CAOS_ANALYTICS_JS_URL'     , get_site_url(CAOS_CURRENT_BLOG_ID, caos_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE));
 
 // Register Settings
 function caos_analytics_register_settings()
@@ -102,7 +102,7 @@ add_action('admin_menu', 'caos_analytics_create_menu');
  *
  * @return mixed
  */
-function getContentDirName()
+function caos_get_content_dir_name()
 {
 	preg_match('/[^\/]+$/u', WP_CONTENT_DIR, $match);
 
