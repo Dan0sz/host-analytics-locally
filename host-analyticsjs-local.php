@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.0.3
+ * Version: 2.0.4
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -27,11 +27,12 @@ define('CAOS_TRACK_ADMIN'          , esc_attr(get_option('sgal_track_admin')));
 define('CAOS_REMOVE_WP_CRON'       , esc_attr(get_option('caos_remove_wp_cron')));
 define('CAOS_DISABLE_DISPLAY_FEAT' , esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_SCRIPT_POSITION'      , esc_attr(get_option('sgal_script_position')));
+define('CAOS_CURRENT_BLOG_ID'      , get_current_blog_id());
 define('CAOS_ANALYTICS_JS_FILE'    , 'analytics.js');
-define('CAOS_ANALYTICS_CACHE_DIR'  , esc_attr(get_option('caos_analytics_cache_dir')) ? esc_attr(get_option('caos_analytics_cache_dir')) : '/cache/caos-analytics/');
+define('CAOS_ANALYTICS_CACHE_DIR'  , esc_attr(get_option('caos_analytics_cache_dir')) ?: '/cache/caos-analytics/');
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
 define('CAOS_ANALYTICS_JS_DIR'     , CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
-define('CAOS_ANALYTICS_JS_URL'     , content_url() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE);
+define('CAOS_ANALYTICS_JS_URL'     , get_site_url(CAOS_CURRENT_BLOG_ID, getContentDirName() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE));
 
 // Register Settings
 function caos_analytics_register_settings()
@@ -95,6 +96,18 @@ function caos_analytics_create_menu()
     );
 }
 add_action('admin_menu', 'caos_analytics_create_menu');
+
+/**
+ * Returns the configured name of WordPress' content directory.
+ *
+ * @return mixed
+ */
+function getContentDirName()
+{
+	preg_match('/[^\/]+$/u', WP_CONTENT_DIR, $match);
+
+	return $match[0];
+}
 
 // Add settings link to plugin overview
 function caos_analytics_settings_link($links)
