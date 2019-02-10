@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.0.5
+ * Version: 2.0.6
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -13,6 +13,7 @@
 if (!defined('ABSPATH')) exit;
 
 // Define Constants
+define('CAOS_ANALYTICS_DB_VERSION' , '2.0.6');
 define('CAOS_TRACKING_ID'          , esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ALLOW_TRACKING'       , esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_COOKIE_NAME'          , esc_attr(get_option('sgal_cookie_notice_name')));
@@ -183,9 +184,11 @@ function caos_analytics_create_cache_dir()
 register_activation_hook(__FILE__, 'caos_analytics_create_cache_dir' );
 
 // Enqueue JS scripts for Administrator Area.
-function caos_analytics_enqueue_js_scripts()
+function caos_analytics_enqueue_js_scripts($hook)
 {
-    wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), array('jquery'), null, true);
+    if ($hook == 'settings_page_host-analyticsjs-local') {
+	    wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), array('jquery'), CAOS_ANALYTICS_DB_VERSION, true);
+    }
 }
 add_action('admin_enqueue_scripts', 'caos_analytics_enqueue_js_scripts' );
 
