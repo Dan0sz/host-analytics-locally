@@ -1,9 +1,9 @@
 <?php
 /**
- * @package: CAOS for Analytics
  * @author: Daan van den Bergh
- * @copyright: (c) 2018 Daan van den Bergh
- * @url: https://dev.daanvandenbergh.com
+ * @url: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license: GPL2v2 or later
  */
 ?>
 <div id="welcome-panel" class="welcome-panel">

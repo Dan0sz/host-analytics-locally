@@ -1,7 +1,10 @@
 <?php
-
-// Script to update local-ga.js-file
-// Credits go to: Matthew Horne | http://diywpblog.com/leverage-browser-cache-optimize-google-analytics/
+/**
+ * @author: Daan van den Bergh
+ * @url: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license: GPL2v2 or later
+ */
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
