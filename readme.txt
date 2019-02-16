@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,10 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 1. Use the Settings -> Optimize Analytics screen to configure the plugin
 
 == Frequently Asked Questions ==
+
+= I have another file I want to host locally. Could you make a plugin? =
+
+Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [CAOS for Webfonts](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://dev.daanvandenbergh.com/how-to/host-js-locally-crontab/).
 
 = Is this plugin GDPR compliant? =
 
