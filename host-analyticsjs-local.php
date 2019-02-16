@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -16,8 +16,7 @@ global $wpdb;
 /**
  * Define Constants
  */
-define('CAOS_ANALYTICS_DB_VERSION', '2.1.0');
-define('CAOS_ANALYTICS_STATIC_VERSION', '2.1.0');
+define('CAOS_ANALYTICS_STATIC_VERSION', '2.1.2');
 define('CAOS_ANALYTICS_DB_TABLENAME', $wpdb->prefix . 'caos_analytics');
 define('CAOS_ANALYTICS_DB_CHARSET', $wpdb->get_charset_collate());
 define('CAOS_ANALYTICS_CRON', 'caos_update_analytics_js');
@@ -162,7 +161,8 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale)
  */
 function caos_analytics_file_last_updated()
 {
-    return caos_analytics_format_time_by_locale(filemtime(CAOS_ANALYTICS_JS_DIR), get_locale());
+    $fileMtime = filemtime(CAOS_ANALYTICS_JS_DIR);
+    return caos_analytics_format_time_by_locale($fileMtime, get_locale()) ?: date('Y-m-d H:i:s', $fileMtime);
 }
 
 /**
@@ -172,7 +172,8 @@ function caos_analytics_file_last_updated()
  */
 function caos_analytics_cron_next_scheduled()
 {
-    return caos_analytics_format_time_by_locale(wp_next_scheduled(CAOS_ANALYTICS_CRON), get_locale());
+    $nextScheduled = wp_next_scheduled(CAOS_ANALYTICS_CRON);
+    return caos_analytics_format_time_by_locale($nextScheduled, get_locale()) ?: date('Y-m-d H:i:s', $nextScheduled);
 }
 
 /**
@@ -286,7 +287,7 @@ function caos_analytics_enqueue_js_scripts($hook)
 {
     if ($hook == 'settings_page_host-analyticsjs-local')
     {
-        wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), ['jquery'], CAOS_ANALYTICS_DB_VERSION, true);
+        wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), ['jquery'], CAOS_ANALYTICS_STATIC_VERSION, true);
     }
 }
 

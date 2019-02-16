@@ -1,7 +1,8 @@
 /**
- * CAOS for Analytics
  * @author: Daan van den Bergh
- * @package: CAOS for Analytics
+ * @url: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license: GPL2v2 or later
  */
 
 function caosDownloadManually() {
