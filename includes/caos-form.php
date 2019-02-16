@@ -11,8 +11,8 @@ $fileStatus = caos_analytics_cron_status();
 if ($fileStatus): ?>
 <div id="setting-error-settings_updated" class="updated settings-success notice">
     <p><strong><?php _e('Your cron is running healthy.', 'host-analyticsjs-local'); ?></strong></p>
-    <p><em>analytics.js</em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?php echo date('Y-m-d H:i:s', caos_analytics_file_last_updated()); ?></p>
-    <p><?php _e('Next update scheduled at', 'host-analytics-local'); ?>: <?php echo date('Y-m-d H:i:s', caos_analytics_cron_next_scheduled()); ?></p>
+    <p><em>analytics.js</em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?php echo caos_analytics_file_last_updated(); ?></p>
+    <p><?php _e('Next update scheduled at', 'host-analytics-local'); ?>: <?php echo caos_analytics_cron_next_scheduled(); ?></p>
 </div>
 <?php else: ?>
 <div id="setting-error-settings_updated" class="notice notice-error">

@@ -4,7 +4,7 @@ Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +108,9 @@ Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate
 N/A
 
 == Changelog ==
+
+= 2.1.1 =
+Status bar now displays a date/time formatted according to locale chosen in WordPress.
 
 = 2.1.0 =
 Added status bar display cron and file health.

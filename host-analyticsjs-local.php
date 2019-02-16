@@ -3,18 +3,19 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
  */
 
-// Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
 global $wpdb;
 
-// Define Constants
+/**
+ * Define Constants
+ */
 define('CAOS_ANALYTICS_DB_VERSION', '2.1.0');
 define('CAOS_ANALYTICS_STATIC_VERSION', '2.1.0');
 define('CAOS_ANALYTICS_DB_TABLENAME', $wpdb->prefix . 'caos_analytics');
@@ -41,7 +42,9 @@ define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
 define('CAOS_ANALYTICS_JS_DIR', CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
 define('CAOS_ANALYTICS_JS_URL', get_site_url(CAOS_ANALYTICS_BLOG_ID, caos_analytics_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE));
 
-// Register Settings
+/**
+ * Register Settings
+ */
 function caos_analytics_register_settings()
 {
     register_setting(
@@ -102,7 +105,9 @@ function caos_analytics_register_settings()
     );
 }
 
-// Create Menu Item
+/**
+ * Create WP menu-item
+ */
 function caos_analytics_create_menu()
 {
     add_options_page(
@@ -133,31 +138,68 @@ function caos_analytics_get_content_dir_name()
     return $match[0];
 }
 
-// Get analytics.js file status
+/**
+ * Format any UNIX timestamp to a date/time in WP's chosen locale.
+ *
+ * @param null $dateTime
+ * @param      $locale
+ *
+ * @return string
+ */
+function caos_analytics_format_time_by_locale($dateTime = null, $locale)
+{
+    $dateObj = new DateTime();
+    $dateObj->setTimestamp($dateTime);
+    $format = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+
+    return $format->format($dateTime);
+}
+
+/**
+ * Format timestamp of analytics.js last updated.
+ *
+ * @return string
+ */
 function caos_analytics_file_last_updated()
 {
-    return filemtime(CAOS_ANALYTICS_JS_DIR);
+    return caos_analytics_format_time_by_locale(filemtime(CAOS_ANALYTICS_JS_DIR), get_locale());
 }
 
-// Get time of next schedule cronjob
+/**
+ * Get formatted timestamp of next scheduled cronjob.
+ *
+ * @return string
+ */
 function caos_analytics_cron_next_scheduled()
 {
-    return wp_next_scheduled(CAOS_ANALYTICS_CRON);
+    return caos_analytics_format_time_by_locale(wp_next_scheduled(CAOS_ANALYTICS_CRON), get_locale());
 }
 
-// Is Cron succesfully running?
+/**
+ * Check if cron is running
+ *
+ * @return bool
+ */
 function caos_analytics_cron_status()
 {
-    $fileModTime = caos_analytics_file_last_updated();
+    $fileModTime = filemtime(CAOS_ANALYTICS_JS_DIR);
 
-    if (time() - $fileModTime >= 48 * 3600) {
+    if (time() - $fileModTime >= 48 * 3600)
+    {
         return false;
-    } else {
+    } else
+    {
         return true;
     }
 }
 
-// Add settings link to plugin overview
+/**
+ * Add settings link to plugin overview
+ *
+ * @param $links
+ *
+ * @return mixed
+ */
 function caos_analytics_settings_link($links)
 {
     $adminUrl = admin_url() . 'options-general.php?page=host-analyticsjs-local';
@@ -170,7 +212,9 @@ function caos_analytics_settings_link($links)
 $caosLink = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$caosLink", 'caos_analytics_settings_link');
 
-// Create Settings Page
+/**
+ * Create settings page
+ */
 function caos_analytics_settings_page()
 {
     if (!current_user_can('manage_options'))
