@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.2
+ * Version: 2.1.3
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -147,11 +147,14 @@ function caos_analytics_get_content_dir_name()
  */
 function caos_analytics_format_time_by_locale($dateTime = null, $locale)
 {
-    $dateObj = new DateTime();
-    $dateObj->setTimestamp($dateTime);
-    $format = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
-
-    return $format->format($dateTime);
+    try {
+        $dateObj = new DateTime();
+        $dateObj->setTimestamp($dateTime);
+        $format = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        return $format->format($dateTime);
+    } catch (\Exception $e) {
+        return __('Time cannot be shown:', 'host-analyticsjs-local') . ' ' . $e;
+    }
 }
 
 /**
@@ -162,7 +165,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale)
 function caos_analytics_file_last_updated()
 {
     $fileMtime = filemtime(CAOS_ANALYTICS_JS_DIR);
-    return caos_analytics_format_time_by_locale($fileMtime, get_locale()) ?: date('Y-m-d H:i:s', $fileMtime);
+    return caos_analytics_format_time_by_locale($fileMtime, get_locale());
 }
 
 /**
@@ -173,7 +176,7 @@ function caos_analytics_file_last_updated()
 function caos_analytics_cron_next_scheduled()
 {
     $nextScheduled = wp_next_scheduled(CAOS_ANALYTICS_CRON);
-    return caos_analytics_format_time_by_locale($nextScheduled, get_locale()) ?: date('Y-m-d H:i:s', $nextScheduled);
+    return caos_analytics_format_time_by_locale($nextScheduled, get_locale());
 }
 
 /**
