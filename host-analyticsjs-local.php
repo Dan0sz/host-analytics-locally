@@ -3,7 +3,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website: host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.3
+ * Version: 2.1.4
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
@@ -148,13 +148,19 @@ function caos_analytics_get_content_dir_name()
 function caos_analytics_format_time_by_locale($dateTime = null, $locale)
 {
     try {
-        $dateObj = new DateTime();
+        $dateObj = new DateTime;
         $dateObj->setTimestamp($dateTime);
-        $format = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
-        return $format->format($dateTime);
     } catch (\Exception $e) {
-        return __('Time cannot be shown:', 'host-analyticsjs-local') . ' ' . $e;
+        return __('Time cannot be shown', 'host-analyticsjs-local') . ': ' . $e->getMessage();
     }
+
+    try {
+        $format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
+    } catch (\Exception $e) {
+        return __('Date/Time cannot be formatted to locale', 'host-analyticsjs-local') . ': ' . $e->getMessage();
+    }
+
+    return $format->format($dateTime);
 }
 
 /**
