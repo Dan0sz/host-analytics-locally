@@ -134,7 +134,7 @@ function caos_analytics_get_content_dir_name()
 }
 
 // Get analytics.js file status
-function caos_analytics_last_updated()
+function caos_analytics_file_last_updated()
 {
     return filemtime(CAOS_ANALYTICS_JS_DIR);
 }
@@ -148,9 +148,9 @@ function caos_analytics_cron_next_scheduled()
 // Is Cron succesfully running?
 function caos_analytics_cron_status()
 {
-    $fileModTime = caos_analytics_last_updated();
+    $fileModTime = caos_analytics_file_last_updated();
 
-    if (time() - $fileModTime >= 24 * 3600) {
+    if (time() - $fileModTime >= 48 * 3600) {
         return false;
     } else {
         return true;
