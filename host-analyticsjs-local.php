@@ -10,7 +10,7 @@
  * License: GPL2v2 or later
  */
 
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
@@ -124,7 +124,6 @@ function caos_analytics_create_menu() {
 		'caos_analytics_register_settings'
 	);
 }
-
 add_action('admin_menu', 'caos_analytics_create_menu');
 
 /**
@@ -156,7 +155,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
 
 	$intlLoaded = extension_loaded('intl');
 
-	if ( ! $intlLoaded) {
+	if (!$intlLoaded) {
 		return $dateObj->format('Y-m-d H:i:s');
 	}
 
@@ -220,7 +219,6 @@ function caos_analytics_settings_link($links) {
 
 	return $links;
 }
-
 $caosLink = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$caosLink", 'caos_analytics_settings_link');
 
@@ -228,7 +226,7 @@ add_filter("plugin_action_links_$caosLink", 'caos_analytics_settings_link');
  * Create settings page
  */
 function caos_analytics_settings_page() {
-	if ( ! current_user_can('manage_options')) {
+	if (!current_user_can('manage_options')) {
 		wp_die(__("You're not cool enough to access this page."));
 	}
 	?>
@@ -279,54 +277,66 @@ function caos_analytics_settings_page() {
 	<?php
 }
 
-// Create Cache Dir upon plugin (re-)activation.
+/**
+ * Create Cache-dir upon reactivation.
+ */
 function caos_analytics_create_cache_dir() {
 	$uploadDir = CAOS_ANALYTICS_UPLOAD_PATH;
-	if ( ! is_dir($uploadDir)) {
+	if (!is_dir($uploadDir)) {
 		wp_mkdir_p($uploadDir);
 	}
 }
-
 register_activation_hook(__FILE__, 'caos_analytics_create_cache_dir');
 
-// Enqueue JS scripts for Administrator Area.
+/**
+ * Enqueue JS scripts for Administrator Area.
+ * s
+ *
+ * @param $hook
+ */
 function caos_analytics_enqueue_js_scripts($hook) {
 	if ($hook == 'settings_page_host_analyticsjs_local') {
 		wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), ['jquery'], CAOS_ANALYTICS_STATIC_VERSION, true);
 	}
 }
-
 add_action('admin_enqueue_scripts', 'caos_analytics_enqueue_js_scripts');
 
-// Register hook to schedule script in wp_cron()
+/**
+ * Register hook to schedule script in wp_cron()
+ */
 function caos_analytics_activate_cron() {
-	if ( ! wp_next_scheduled(CAOS_ANALYTICS_CRON)) {
+	if (!wp_next_scheduled(CAOS_ANALYTICS_CRON)) {
 		wp_schedule_event(time(), 'daily', CAOS_ANALYTICS_CRON);
 	}
 }
-
 register_activation_hook(__FILE__, 'caos_analytics_activate_cron');
 
-// Load update script to schedule in wp_cron()
+/**
+ * Load update script to schedule in wp_cron()
+ */
 function caos_analytics_load_cron_script() {
 	include(plugin_dir_path(__FILE__) . 'includes/update-analytics.php');
 }
-
 add_action(CAOS_ANALYTICS_CRON, 'caos_analytics_load_cron_script');
 
-// Manually Update Local Analytics.js Script
+/**
+ * Manually Update Local Analytics.js Script
+ */
 add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_analytics_load_cron_script');
 
-// Remove script from wp_cron upon plugin deactivation
+/**
+ * Remove script from wp_cron upon plugin deactivation
+ */
 function caos_analytics_deactivate_cron() {
 	if (wp_next_scheduled(CAOS_ANALYTICS_CRON)) {
 		wp_clear_scheduled_hook(CAOS_ANALYTICS_CRON);
 	}
 }
-
 register_deactivation_hook(__FILE__, 'caos_analytics_deactivate_cron');
 
-// Deactivate cron is option is checked
+/**
+ * Deactivate cron is option is checked
+ */
 function caos_analytics_deactivate_wp_cron() {
 	switch (CAOS_ANALYTICS_REMOVE_CRON) {
 		case "on":
@@ -335,17 +345,18 @@ function caos_analytics_deactivate_wp_cron() {
 			}
 			break;
 		default:
-			if ( ! wp_next_scheduled(CAOS_ANALYTICS_CRON)) {
+			if (!wp_next_scheduled(CAOS_ANALYTICS_CRON)) {
 				wp_schedule_event(time(), 'hourly', CAOS_ANALYTICS_CRON);
 			}
 	}
 }
-
 add_action('init', 'caos_analytics_deactivate_wp_cron');
 
-// Generate tracking code and add to header/footer (default is header)
+/**
+ * Generate tracking code and add to header/footer (default is header)
+ */
 function caos_analytics_render_tracking_code() {
-	if ( ! CAOS_ANALYTICS_TRACKING_ID) {
+	if (!CAOS_ANALYTICS_TRACKING_ID) {
 		return;
 	} ?>
 
@@ -419,23 +430,34 @@ function caos_analytics_render_tracking_code() {
 	<?php
 }
 
-// Render a HTML comment for logged in Administrators in the source code.
+/**
+ * Render a HTML comment for logged in Administrators in the source code.
+ */
 function caos_analytics_show_admin_message() {
 	echo "<!-- This site is using CAOS, but you\'re an Administrator. So we\'re not loading the tracking code. -->\n";
 }
 
-// Render the URL of the cached local-ga.js file
+/**
+ * Render the URL of the cached local-ga.js file
+ * Render the URL of the cached local-ga.js fileRender the URL of the cached local-ga.js fileRender the URL of the cached local-ga.js file
+ *
+ * @param $url
+ *
+ * @return string
+ */
 function caos_analytics_host_mi_locally($url) {
 	return CAOS_ANALYTICS_JS_URL;
 }
 
-// Render the tracking code in it's selected locations
+/**
+ * Render the tracking code in it's selected locations
+ */
 function caos_analytics_insert_tracking_code() {
 	$sgal_enqueue_order = CAOS_ANALYTICS_ENQUEUE_ORDER ? CAOS_ANALYTICS_ENQUEUE_ORDER : 0;
 
 	if (CAOS_ANALYTICS_MI_COMPATIBILITY == 'on') {
 		add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_host_mi_locally', 1000);
-	} elseif (current_user_can('manage_options') && ! CAOS_ANALYTICS_TRACK_ADMIN) {
+	} elseif (current_user_can('manage_options') && !CAOS_ANALYTICS_TRACK_ADMIN) {
 		switch (CAOS_ANALYTICS_SCRIPT_POSITION) {
 			case "footer":
 				add_action('wp_footer', 'caos_analytics_show_admin_message', $sgal_enqueue_order);
@@ -459,5 +481,4 @@ function caos_analytics_insert_tracking_code() {
 		}
 	}
 }
-
 add_action('init', 'caos_analytics_insert_tracking_code');

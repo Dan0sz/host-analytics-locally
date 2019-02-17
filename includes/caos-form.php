@@ -52,7 +52,8 @@ if ($fileStatus): ?>
                 <p class="description">
 					<?php _e('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                     <a href="https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/" target="_blank">
-						<?php _e('this tutorial', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a> <?php _e('to comply with GDPR Laws.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?><br/>
+						<?php _e('this tutorial', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a> <?php _e('to comply with GDPR Laws.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                    <br/>
 					<?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                     <a href="https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/" target="_blank">
 						<?php _e('Read more', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
