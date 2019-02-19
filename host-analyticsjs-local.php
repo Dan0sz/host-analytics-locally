@@ -439,13 +439,12 @@ function caos_analytics_show_admin_message() {
 
 /**
  * Render the URL of the cached local-ga.js file
- * Render the URL of the cached local-ga.js fileRender the URL of the cached local-ga.js fileRender the URL of the cached local-ga.js file
  *
  * @param $url
  *
  * @return string
  */
-function caos_analytics_host_mi_locally($url) {
+function caos_analytics_return_analytics_js_url($url) {
 	return CAOS_ANALYTICS_JS_URL;
 }
 
@@ -456,7 +455,7 @@ function caos_analytics_insert_tracking_code() {
 	$sgal_enqueue_order = CAOS_ANALYTICS_ENQUEUE_ORDER ? CAOS_ANALYTICS_ENQUEUE_ORDER : 0;
 
 	if (CAOS_ANALYTICS_MI_COMPATIBILITY == 'on') {
-		add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_host_mi_locally', 1000);
+		add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', 1000);
 	} elseif (current_user_can('manage_options') && !CAOS_ANALYTICS_TRACK_ADMIN) {
 		switch (CAOS_ANALYTICS_SCRIPT_POSITION) {
 			case "footer":
