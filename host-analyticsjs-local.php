@@ -1,14 +1,14 @@
 <?php
 /**
+ * @formatter:off
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
- * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress
- * Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable
- * tracking of admins, place tracking code in footer, and more!
+ * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
  * Version: 2.1.6
  * Author: Daan van den Bergh
  * Author URI: https://dev.daanvandenbergh.com
  * License: GPL2v2 or later
+ * @formatter:on
  */
 
 if (!defined('ABSPATH')) {
@@ -124,7 +124,7 @@ function caos_analytics_create_menu() {
 		'host_analyticsjs_local',
 		'caos_analytics_settings_page'
 	);
-
+	
 	add_action(
 		'admin_init',
 		'caos_analytics_register_settings'
@@ -139,7 +139,7 @@ add_action('admin_menu', 'caos_analytics_create_menu');
  */
 function caos_analytics_get_content_dir_name() {
 	preg_match('/[^\/]+$/u', WP_CONTENT_DIR, $match);
-
+	
 	return $match[0];
 }
 
@@ -158,19 +158,19 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
 	} catch (\Exception $e) {
 		return __('Date/Time cannot be set', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
 	}
-
+	
 	$intlLoaded = extension_loaded('intl');
-
+	
 	if (!$intlLoaded) {
 		return $dateObj->format('Y-m-d H:i:s');
 	}
-
+	
 	try {
 		$format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
 	} catch (\Exception $e) {
 		return __('Date/Time cannot be formatted to locale', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
 	}
-
+	
 	return $format->format($dateTime);
 }
 
@@ -181,7 +181,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
  */
 function caos_analytics_file_last_updated() {
 	$fileMtime = filemtime(CAOS_ANALYTICS_JS_DIR);
-
+	
 	return caos_analytics_format_time_by_locale($fileMtime, get_locale());
 }
 
@@ -192,7 +192,7 @@ function caos_analytics_file_last_updated() {
  */
 function caos_analytics_cron_next_scheduled() {
 	$nextScheduled = wp_next_scheduled(CAOS_ANALYTICS_CRON);
-
+	
 	return caos_analytics_format_time_by_locale($nextScheduled, get_locale());
 }
 
@@ -203,7 +203,7 @@ function caos_analytics_cron_next_scheduled() {
  */
 function caos_analytics_cron_status() {
 	$fileModTime = filemtime(CAOS_ANALYTICS_JS_DIR);
-
+	
 	if (time() - $fileModTime >= 48 * 3600) {
 		return false;
 	} else {
@@ -222,7 +222,7 @@ function caos_analytics_settings_link($links) {
 	$adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
 	$settingsLink = "<a href='$adminUrl'>" . __('Settings') . "</a>";
 	array_push($links, $settingsLink);
-
+	
 	return $links;
 }
 $caosLink = plugin_basename(__FILE__);
@@ -251,7 +251,7 @@ function caos_analytics_settings_page() {
 			<?php _e('Consider using'); ?> <a href="https://wordpress.org/plugins/cdn-enabler/">CDN
                 Enabler</a> <?php _e('to host your Analytics-script (analytics.js) from your CDN'); ?>.
         </p>
-
+		
 		<?php include(plugin_dir_path(__FILE__) . 'includes/welcome-panel.php'); ?>
 
         <form method="post" action="options.php">
@@ -263,9 +263,9 @@ function caos_analytics_settings_page() {
 				'save-ga-locally-basic-settings'
 			);
 			?>
-
+			
 			<?php include(plugin_dir_path(__FILE__) . 'includes/caos-form.php'); ?>
-
+			
 			<?php do_action('caos_after_form_settings'); ?>
 
             <div style="clear: left; display: inline-block;">
@@ -384,10 +384,10 @@ function caos_analytics_render_tracking_code() {
             })
             return cookieValue
         }
-
+        
         cookieValue = getCookieValue('<?php echo CAOS_ANALYTICS_COOKIE_NAME; ?>');
 		<?php endif; ?>
-
+        
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r
             i[r] = i[r] || function() {
@@ -459,11 +459,11 @@ function caos_analytics_return_analytics_js_url($url) {
  */
 function caos_analytics_insert_tracking_code() {
 	$sgal_enqueue_order = CAOS_ANALYTICS_ENQUEUE_ORDER ? CAOS_ANALYTICS_ENQUEUE_ORDER : 0;
-
+	
 	if (CAOS_ANALYTICS_MI_COMPATIBILITY == 'on') {
 		add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', 1000);
 	} elseif (CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY == 'on') {
-	    add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', 1000);
+		add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', 1000);
 	} elseif (current_user_can('manage_options') && !CAOS_ANALYTICS_TRACK_ADMIN) {
 		switch (CAOS_ANALYTICS_SCRIPT_POSITION) {
 			case "footer":
