@@ -10,13 +10,19 @@ $fileStatus = caos_analytics_cron_status();
 
 if ($fileStatus): ?>
     <div id="setting-error-settings_updated" class="updated settings-success notice">
-        <p><strong><?php _e('Your cron is running healthy.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong></p>
-        <p><em>analytics.js</em> <?php _e('last updated at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?php echo caos_analytics_file_last_updated(); ?></p>
+        <p>
+            <strong><?php _e('Your cron is running healthy.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
+        </p>
+        <p>
+            <em>analytics.js</em> <?php _e('last updated at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?php echo caos_analytics_file_last_updated(); ?>
+        </p>
         <p><?php _e('Next update scheduled at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?php echo caos_analytics_cron_next_scheduled(); ?></p>
     </div>
 <?php else: ?>
     <div id="setting-error-settings_updated" class="notice notice-error">
-        <p><strong><?php _e('analytics.js hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong></p>
+        <p>
+            <strong><?php _e('analytics.js hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
+        </p>
     </div>
 <?php endif; ?>
 
@@ -137,6 +143,18 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
+            <th scope="row"><?php _e('Enable compatibility with Analytify for Wordpress?',
+					CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
+            <td>
+                <input class="caos_analytics_analytify_compatibility_checkbox" type="checkbox"
+                       name="caos_analytics_analytify_compatibility" <?php echo
+				CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
+                <p class="description">
+					<?php _e('Allow Analytify for Wordpress to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Analytify for Wordpress.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
             <th scope="row"><?php _e('Save analytics.js to...', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
             <td>
                 <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?php echo CAOS_ANALYTICS_CACHE_DIR; ?>"/>
@@ -223,23 +241,26 @@ if ($fileStatus): ?>
     </table>
 </div>
 <script>
-  jQuery('.caos_allow_tracking_').click(function () {
-    jQuery('.caos_gdpr_setting').hide()
-  })
-  jQuery('.caos_allow_tracking_cookie_is_set').click(function () {
-    jQuery('.caos_allow_tracking_name').show()
-    jQuery('.caos_allow_tracking_value').hide()
-  })
-  jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
-    jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show()
-  })
-  jQuery('.caos_script_position_manual').click(function () {
-    jQuery('.caos_add_manually').show()
-  })
-  jQuery('.caos_script_position_header, .caos_script_position_footer').click(function () {
-    jQuery('.caos_add_manually').hide()
-  })
-  jQuery('.caos_mi_compatibility_checkbox').click(function () {
-    jQuery('.caos_advanced_settings, .caos_basic_settings').toggle()
-  })
+    jQuery('.caos_allow_tracking_').click(function() {
+        jQuery('.caos_gdpr_setting').hide()
+    })
+    jQuery('.caos_allow_tracking_cookie_is_set').click(function() {
+        jQuery('.caos_allow_tracking_name').show()
+        jQuery('.caos_allow_tracking_value').hide()
+    })
+    jQuery('.caos_allow_tracking_cookie_has_value').click(function() {
+        jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show()
+    })
+    jQuery('.caos_script_position_manual').click(function() {
+        jQuery('.caos_add_manually').show()
+    })
+    jQuery('.caos_script_position_header, .caos_script_position_footer').click(function() {
+        jQuery('.caos_add_manually').hide()
+    })
+    jQuery('.caos_mi_compatibility_checkbox').click(function() {
+        jQuery('.caos_advanced_settings, .caos_basic_settings').toggle()
+    })
+    jQuery('.caos_analytics_analytify_compatibility_checkbox').click(function() {
+        jQuery('.caos_advanced_settings, .caos_basic_settings').toggle()
+    })
 </script>
