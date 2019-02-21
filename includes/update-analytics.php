@@ -1,13 +1,15 @@
 <?php
 /**
- * @author: Daan van den Bergh
- * @url: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * @author   : Daan van den Bergh
+ * @url      : https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
- * @license: GPL2v2 or later
+ * @license  : GPL2v2 or later
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) {
+	exit;
+}
 
 // Remote file to download
 $remoteFile = 'https://www.google-analytics.com/analytics.js';
@@ -21,21 +23,21 @@ if (!file_exists($uploadDir)) {
 
 // Connection time out
 $connTimeout = 10;
-$url = parse_url($remoteFile);
-$host = $url['host'];
-$path = isset($url['path']) ? $url['path'] : '/';
+$url         = parse_url($remoteFile);
+$host        = $url['host'];
+$path        = isset($url['path']) ? $url['path'] : '/';
 
 if (isset($url['query'])) {
 	$path .= '?' . $url['query'];
 }
 
 $port = isset($url['port']) ? $url['port'] : '80';
-$fp = @fsockopen($host, '80', $errno, $errstr, $connTimeout );
+$fp   = @fsockopen($host, '80', $errno, $errstr, $connTimeout);
 
-if(!$fp){
+if (!$fp) {
 	// On connection failure return the cached file (if it exist)
-	if(file_exists($localFile)){
-			readfile($localFile);
+	if (file_exists($localFile)) {
+		readfile($localFile);
 	}
 } else {
 	// Send the header information
@@ -52,29 +54,29 @@ if(!$fp){
 	$response = '';
 
 	// Get the response from the remote server
-	while($line = fread($fp, 4096)){
+	while ($line = fread($fp, 4096)) {
 		$response .= $line;
 	}
 
 // Close the connection
-fclose( $fp );
+	fclose($fp);
 
 // Remove the headers
-$pos = strpos($response, "\r\n\r\n");
-$response = substr($response, $pos + 4);
+	$pos      = strpos($response, "\r\n\r\n");
+	$response = substr($response, $pos + 4);
 
 // Return the processed response
-echo $response;
+	echo $response;
 
 // Save the response to the local file
-if(!file_exists($localFile)){
+	if (!file_exists($localFile)) {
 
-	// Try to create the file, if doesn't exist
-	fopen($localFile, 'w');
-}
+		// Try to create the file, if doesn't exist
+		fopen($localFile, 'w');
+	}
 
-	if(is_writable($localFile)) {
-		if($fp = fopen($localFile, 'w')){
+	if (is_writable($localFile)) {
+		if ($fp = fopen($localFile, 'w')) {
 			fwrite($fp, $response);
 			fclose($fp);
 		}
