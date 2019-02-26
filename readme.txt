@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Donate link: https://dev.daanvandenbergh.com/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
-Tested up to: 5.0
+Tested up to: 5.1
 Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -25,6 +25,7 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
 - Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
+- Enable compatibility with Analytify for Wordpress,
 - Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
