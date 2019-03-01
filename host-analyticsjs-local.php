@@ -2,11 +2,11 @@
 /**
  * @formatter:off
  * Plugin Name: CAOS for Analytics
- * Plugin URI: https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.6
+ * Version: 2.1.7
  * Author: Daan van den Bergh
- * Author URI: https://dev.daanvandenbergh.com
+ * Author URI: https://daan.dev
  * License: GPL2v2 or later
  * @formatter:on
  */
@@ -20,8 +20,9 @@ global $wpdb;
 /**
  * Define Constants
  */
-define('CAOS_ANALYTICS_STATIC_VERSION', '2.1.6');
+define('CAOS_ANALYTICS_STATIC_VERSION', '2.1.7');
 define('CAOS_ANALYTICS_DB_TABLENAME', $wpdb->prefix . 'caos_analytics');
+define('CAOS_ANALYTICS_SITE_URL', 'https://daan.dev');
 define('CAOS_ANALYTICS_DB_CHARSET', $wpdb->get_charset_collate());
 define('CAOS_ANALYTICS_CRON', 'caos_update_analytics_js');
 define('CAOS_ANALYTICS_TRANSLATE_DOMAIN', 'host-analyticsjs-local');
@@ -244,7 +245,7 @@ function caos_analytics_settings_page() {
 
         <p>
 			<?php _e('Developed by: ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-            <a title="Buy me a beer!" href="http://dev.daanvandenbergh.com/donate/">Daan van den Bergh</a>.
+            <a title="Buy me a beer!" href="<?php echo CAOS_ANALYTICS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
         </p>
 
         <p>

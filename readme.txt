@@ -1,10 +1,10 @@
 === CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
-Donate link: https://dev.daanvandenbergh.com/donate/
+Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
-Tested up to: 5.0
-Stable tag: 2.1.6
+Tested up to: 5.1
+Stable tag: 2.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,13 +18,14 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
 
-For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/).
+For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 == Features ==
 - Host analytics.js/ga.js locally,
-- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/),
+- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
-- Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
+- Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
+- Enable compatibility with Analytify for Wordpress,
 - Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
@@ -45,7 +46,7 @@ For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbe
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [CAOS for Webfonts](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://dev.daanvandenbergh.com/how-to/host-js-locally-crontab/).
+Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [CAOS for Webfonts](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/).
 
 = Is this plugin GDPR compliant? =
 
@@ -101,13 +102,16 @@ Yes, while I tried to add a CDN-function to CAOS, this seemed to create more pro
 
 = Can I buy you a beer? =
 
-Yes, please! [Click here to buy me a beer](http://dev.daanvandenbergh.com/donate/ "Let's do shots!")!
+Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do shots!")!
 
 == Screenshots ==
 
 N/A
 
 == Changelog ==
+
+= 2.1.7 =
+Changed URLs to new home: daan.dev
 
 = 2.1.6 =
 Added compatibility with Analytify for WordPress.
