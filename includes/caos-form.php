@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   : Daan van den Bergh
- * @url      : https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
  */
@@ -57,11 +57,11 @@ if ($fileStatus): ?>
 				<?php endforeach; ?>
                 <p class="description">
 					<?php _e('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-                    <a href="https://dev.daanvandenbergh.com/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/" target="_blank">
+                    <a href="<?php echo CAOS_ANALYTICS_SITE_URL; ?>/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/" target="_blank">
 						<?php _e('this tutorial', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a> <?php _e('to comply with GDPR Laws.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                     <br/>
 					<?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-                    <a href="https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/" target="_blank">
+                    <a href="<?php echo CAOS_ANALYTICS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/" target="_blank">
 						<?php _e('Read more', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
                 </p>
             </td>
@@ -138,7 +138,7 @@ if ($fileStatus): ?>
                 <p class="description">
 					<?php _e('The best choice, if you want to use enhanced Analytics features, such as event tracking in e.g. WooCommerce.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
 					<?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-                    <a href="https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Read more', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
+                    <a href="<?php echo CAOS_ANALYTICS_SITE_URL; ?>/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Read more', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
                 </p>
             </td>
         </tr>
@@ -257,10 +257,12 @@ if ($fileStatus): ?>
     jQuery('.caos_script_position_header, .caos_script_position_footer').click(function() {
         jQuery('.caos_add_manually').hide()
     })
-    jQuery('.caos_mi_compatibility_checkbox').click(function() {
-        jQuery('.caos_advanced_settings, .caos_basic_settings').toggle()
-    })
-    jQuery('.caos_analytics_analytify_compatibility_checkbox').click(function() {
-        jQuery('.caos_advanced_settings, .caos_basic_settings').toggle()
+    jQuery('.caos_mi_compatibility_checkbox, .caos_analytics_analytify_compatibility_checkbox').click(function() {
+        settings = jQuery('.caos_advanced_settings, .caos_basic_settings');
+        if (this.checked) {
+            jQuery(settings).hide();
+        } else {
+            jQuery(settings).show();
+        }
     })
 </script>

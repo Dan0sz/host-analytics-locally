@@ -10,13 +10,13 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
 
-For more information: [How to setup CAOS for Analytics](https://dev.daanvandenbergh.com/wordpress-plugins/optimize-analytics-wordpress/).
+For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 ## Features
 - Host analytics.js/ga.js locally,
-- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://dev.daanvandenbergh.com/wordpress/gdpr-compliance-google-analytics/),
+- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
-- Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://dev.daanvandenbergh.com/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
+- Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
 - Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
