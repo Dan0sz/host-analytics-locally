@@ -4,7 +4,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.1.7
+ * Version: 2.2.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -44,9 +44,10 @@ define('CAOS_ANALYTICS_SCRIPT_POSITION', esc_attr(get_option('sgal_script_positi
 define('CAOS_ANALYTICS_BLOG_ID', get_current_blog_id());
 define('CAOS_ANALYTICS_JS_FILE', 'analytics.js');
 define('CAOS_ANALYTICS_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir')) ?: '/cache/caos-analytics/');
+define('CAOS_ANALYTICS_CDN_URL', esc_attr(get_option('caos_analytics_cdn_url')));
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
 define('CAOS_ANALYTICS_JS_DIR', CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
-define('CAOS_ANALYTICS_JS_URL', get_site_url(CAOS_ANALYTICS_BLOG_ID, caos_analytics_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE));
+define('CAOS_ANALYTICS_JS_URL', caos_analytics_get_url());
 
 /**
  * Register Settings
@@ -80,6 +81,10 @@ function caos_analytics_register_settings() {
 		'save-ga-locally-basic-settings',
 		'caos_analytics_cache_dir'
 	);
+	register_setting(
+	        'save-ga-locally-basic-settings',
+            'caos_analytics_cdn_url'
+    );
 	register_setting(
 		'save-ga-locally-basic-settings',
 		'sgal_ga_cookie_expiry_days'
@@ -142,6 +147,18 @@ function caos_analytics_get_content_dir_name() {
 	preg_match('/[^\/]+$/u', WP_CONTENT_DIR, $match);
 	
 	return $match[0];
+}
+
+/**
+ * @return string
+ */
+function caos_analytics_get_url() {
+    if (CAOS_ANALYTICS_CDN_URL) {
+        $url = '//' . CAOS_ANALYTICS_CDN_URL . '/' . caos_analytics_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE;
+    } else {
+        $url = get_site_url(CAOS_ANALYTICS_BLOG_ID, caos_analytics_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE);
+    }
+    return $url;
 }
 
 /**
@@ -245,7 +262,7 @@ function caos_analytics_settings_page() {
 
         <p>
 			<?php _e('Developed by: ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-            <a title="Buy me a beer!" href="<?php echo CAOS_ANALYTICS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
+            <a title="Buy me a beer!" href="<?= CAOS_ANALYTICS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
         </p>
 
         <p>
@@ -386,7 +403,7 @@ function caos_analytics_render_tracking_code() {
             return cookieValue
         }
         
-        cookieValue = getCookieValue('<?php echo CAOS_ANALYTICS_COOKIE_NAME; ?>');
+        cookieValue = getCookieValue('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>');
 		<?php endif; ?>
         
         (function(i, s, o, g, r, a, m) {
@@ -399,27 +416,27 @@ function caos_analytics_render_tracking_code() {
             a.async = 1
             a.src = g
             m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '<?php echo CAOS_ANALYTICS_JS_URL; ?>', 'ga')
+        })(window, document, 'script', '<?= CAOS_ANALYTICS_JS_URL; ?>', 'ga')
 		<?php if (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_ANALYTICS_COOKIE_NAME): ?>
-        if(document.cookie.indexOf('<?php echo CAOS_ANALYTICS_COOKIE_NAME; ?>=')) {
-            window['ga-disable-<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        if(document.cookie.indexOf('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>=')) {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
         } else {
-            window['ga-disable-<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
         }
 		<?php elseif (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_ANALYTICS_COOKIE_NAME && CAOS_ANALYTICS_COOKIE_VALUE): ?>
-        if(cookieValue === '<?php echo CAOS_ANALYTICS_COOKIE_VALUE; ?>') {
-            window['ga-disable-<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        if(cookieValue === '<?= CAOS_ANALYTICS_COOKIE_VALUE; ?>') {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
         } else {
-            window['ga-disable-<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
         }
 		<?php else: ?>
-        window['ga-disable-<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
 		<?php endif; ?>
-        ga('create', '<?php echo CAOS_ANALYTICS_TRACKING_ID; ?>',
+        ga('create', '<?= CAOS_ANALYTICS_TRACKING_ID; ?>',
             {
                 'cookieName': 'caosLocalGa',
-                'cookieDomain': '<?php echo $_SERVER['SERVER_NAME']; ?>',
-                'cookieExpires': '<?php echo CAOS_ANALYTICS_COOKIE_EXPIRY_DAYS; ?>'
+                'cookieDomain': '<?= $_SERVER['SERVER_NAME']; ?>',
+                'cookieExpires': '<?= CAOS_ANALYTICS_COOKIE_EXPIRY_DAYS; ?>'
             }
         )
 		<?php if (CAOS_ANALYTICS_DISABLE_DISPLAY_FEAT == 'on'): ?>
@@ -431,7 +448,7 @@ function caos_analytics_render_tracking_code() {
         ga('send', 'pageview')
 		<?php if (CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE): ?>
         setTimeout(
-            "ga('send', 'event', 'adjusted bounce rate', '<?php echo CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?php echo CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE * 1000; ?>)
+            "ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?= CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE * 1000; ?>)
 		<?php endif; ?>
     </script>
 	<?php

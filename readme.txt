@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 2.1.7
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpre
 - Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
 - Enable compatibility with Analytify for Wordpress,
 - Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
+- Serve analytics.js from your CDN,
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
 - Change enqueue order (prioritize order of loaded scripts),
@@ -98,7 +99,7 @@ CAOS adds a local file called ga-local.js, which enables you to use Analytics, w
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
-Yes, while I tried to add a CDN-function to CAOS, this seemed to create more problems than it'd solve. But @sixer came up with a great alternative, created by my friends @keycdn: CDN Enabler. Add the path to this plugin's directory to CDN Enabler and the analytics.js script is pulled directly from your CDN.
+Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js will be served from your CDN.
 
 = Can I buy you a beer? =
 
@@ -109,6 +110,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.2.0 =
+Added CDN support
 
 = 2.1.7 =
 Changed URLs to new home: daan.dev
