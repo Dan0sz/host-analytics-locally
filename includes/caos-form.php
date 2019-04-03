@@ -9,7 +9,7 @@
 $fileStatus = caos_analytics_cron_status();
 
 if ($fileStatus): ?>
-    <div id="setting-error-settings_updated" class="updated settings-success notice">
+    <div class="updated settings-success notice">
         <p>
             <strong><?php _e('Your cron is running healthy.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
         </p>
@@ -19,7 +19,7 @@ if ($fileStatus): ?>
         <p><?php _e('Next update scheduled at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?= caos_analytics_cron_next_scheduled(); ?></p>
     </div>
 <?php else: ?>
-    <div id="setting-error-settings_updated" class="notice notice-error">
+    <div class="notice notice-error">
         <p>
             <strong><?php _e('analytics.js hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
         </p>
