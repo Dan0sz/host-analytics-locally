@@ -155,11 +155,31 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Save analytics.js to...', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
+            <th scope="row"><?php _e('Which file to download?',
+                    CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
+            <td>
+                <?php
+                $fileNames = array(
+                        "Analytics.js (default)" => "analytics.js",
+                        "Ga.js" => "ga.js"
+                );
+                ?>
+                <select name="caos_analytics_js_file">
+                    <?php foreach ($fileNames as $label => $fileName): ?>
+                    <option value="<?= $fileName; ?>" <?php echo (CAOS_ANALYTICS_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <p class="description">
+                    <?php _e('If you don\'t necessarily need e.g. enhanced e-commerce features, etc. You can choose to download ga.js, instead of the default analytics.js', CAOS_ANALYTICS_TRANSLATE_DOMAIN) ;?>
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php _e('Save ' . CAOS_ANALYTICS_JS_FILE . ' to...', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
             <td>
                 <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_ANALYTICS_CACHE_DIR; ?>"/>
                 <p class="description">
-					<?php _e("Change the path where analytics.js is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos-analytics/</code>.", CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+					<?php _e("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos-analytics/</code>.", CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </p>
             </td>
         </tr>
@@ -242,7 +262,7 @@ if ($fileStatus): ?>
                 <input type="checkbox" name="caos_remove_wp_cron"
 					<?= CAOS_ANALYTICS_REMOVE_CRON == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-					<?php _e('If your local-ga.js isn\'t updated automatically or you have WP-Cron disabled, check this option and add the update-analytics.php-script to your crontab manually.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+					<?php _e('If your local copy of the Analytics-file isn\'t updated automatically or you have WP-Cron disabled, check this option and add the update-analytics.php-script to your crontab manually.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </p>
             </td>
         </tr>
