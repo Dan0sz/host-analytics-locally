@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Remote file to download
-$remoteFile = 'https://www.google-analytics.com/' . CAOS_ANALYTICS_JS_FILE;
+$remoteFile = CAOS_ANALYTICS_DL_URL . '/' . CAOS_ANALYTICS_JS_FILE;
 $localFile  = CAOS_ANALYTICS_JS_DIR;
 
 // Check if directory exists, otherwise create it.
@@ -52,29 +52,29 @@ if (!$fp) {
     $header .= "Referer: http://$host\r\n\r\n";
     fputs($fp, $header);
     $response = '';
-    
+
     // Get the response from the remote server
     while ($line = fread($fp, 4096)) {
         $response .= $line;
     }
-    
+
     // Close the connection
     fclose($fp);
-    
+
     // Remove the headers
     $pos      = strpos($response, "\r\n\r\n");
     $response = substr($response, $pos + 4);
-    
+
     // Return the processed response
     echo $response;
-    
+
     // Save the response to the local file
     if (!file_exists($localFile)) {
-        
+
         // Try to create the file, if doesn't exist
         fopen($localFile, 'w');
     }
-    
+
     if (is_writable($localFile)) {
         if ($fp = fopen($localFile, 'w')) {
             fwrite($fp, $response);

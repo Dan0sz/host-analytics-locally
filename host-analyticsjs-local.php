@@ -4,7 +4,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.2.3
+ * Version: 2.3.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -43,6 +43,7 @@ define('CAOS_ANALYTICS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_
 define('CAOS_ANALYTICS_SCRIPT_POSITION', esc_attr(get_option('sgal_script_position')));
 define('CAOS_ANALYTICS_BLOG_ID', get_current_blog_id());
 define('CAOS_ANALYTICS_JS_FILE', esc_attr(get_option('caos_analytics_js_file')) ?: 'analytics.js');
+define('CAOS_ANALYTICS_DL_URL', CAOS_ANALYTICS_JS_FILE == 'gtag.js' ? 'https://www.googletagmanager.com' : 'https://www.google-analytics.com');
 define('CAOS_ANALYTICS_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir')) ?: '/cache/caos-analytics/');
 define('CAOS_ANALYTICS_CDN_URL', esc_attr(get_option('caos_analytics_cdn_url')));
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
@@ -136,7 +137,7 @@ function caos_analytics_create_menu()
         'host_analyticsjs_local',
         'caos_analytics_settings_page'
     );
-    
+
     add_action(
         'admin_init',
         'caos_analytics_register_settings'
@@ -152,7 +153,7 @@ add_action('admin_menu', 'caos_analytics_create_menu');
 function caos_analytics_get_content_dir_name()
 {
     preg_match('/[^\/]+$/u', WP_CONTENT_DIR, $match);
-    
+
     return $match[0];
 }
 
@@ -166,7 +167,7 @@ function caos_analytics_get_url()
     } else {
         $url = get_site_url(CAOS_ANALYTICS_BLOG_ID, caos_analytics_get_content_dir_name() . CAOS_ANALYTICS_CACHE_DIR . CAOS_ANALYTICS_JS_FILE);
     }
-    
+
     return $url;
 }
 
@@ -186,19 +187,19 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
     } catch (\Exception $e) {
         return __('Date/Time cannot be set', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
     }
-    
+
     $intlLoaded = extension_loaded('intl');
-    
+
     if (!$intlLoaded) {
         return $dateObj->format('Y-m-d H:i:s');
     }
-    
+
     try {
         $format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
     } catch (\Exception $e) {
         return __('Date/Time cannot be formatted to locale', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
     }
-    
+
     return $format->format($dateTime);
 }
 
@@ -210,7 +211,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
 function caos_analytics_file_last_updated()
 {
     $fileMtime = filemtime(CAOS_ANALYTICS_JS_DIR);
-    
+
     return caos_analytics_format_time_by_locale($fileMtime, get_locale());
 }
 
@@ -222,7 +223,7 @@ function caos_analytics_file_last_updated()
 function caos_analytics_cron_next_scheduled()
 {
     $nextScheduled = wp_next_scheduled(CAOS_ANALYTICS_CRON);
-    
+
     return caos_analytics_format_time_by_locale($nextScheduled, get_locale());
 }
 
@@ -234,7 +235,7 @@ function caos_analytics_cron_next_scheduled()
 function caos_analytics_cron_status()
 {
     $fileModTime = filemtime(CAOS_ANALYTICS_JS_DIR);
-    
+
     if (time() - $fileModTime >= 48 * 3600) {
         return false;
     } else {
@@ -254,7 +255,7 @@ function caos_analytics_settings_link($links)
     $adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
     $settingsLink = "<a href='$adminUrl'>" . __('Settings') . "</a>";
     array_push($links, $settingsLink);
-    
+
     return $links;
 }
 $caosLink = plugin_basename(__FILE__);
@@ -279,7 +280,7 @@ function caos_analytics_settings_page()
             <?php _e('Developed by: ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
             <a title="Buy me a beer!" href="<?= CAOS_ANALYTICS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
         </p>
-        
+
         <?php include(plugin_dir_path(__FILE__) . 'includes/welcome-panel.php'); ?>
 
         <form method="post" action="options.php">
@@ -291,9 +292,9 @@ function caos_analytics_settings_page()
                 'save-ga-locally-basic-settings'
             );
             ?>
-            
+
             <?php include(plugin_dir_path(__FILE__) . 'includes/caos-form.php'); ?>
-            
+
             <?php do_action('caos_after_form_settings'); ?>
 
             <div style="clear: left; display: inline-block;">
@@ -302,7 +303,7 @@ function caos_analytics_settings_page()
 
             <div style="display: inline-block;">
                 <p class="submit">
-                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update analytics.js" type="button"
+                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_ANALYTICS_JS_FILE; ?>" type="button"
                            onclick="caosDownloadManually();"/>
                 </p>
             </div>
@@ -402,30 +403,63 @@ function caos_analytics_render_tracking_code()
     } ?>
 
     <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
+    <?php if (CAOS_ANALYTICS_JS_FILE == 'gtag.js'): ?>
+    <script async src="<?= CAOS_ANALYTICS_JS_URL; ?>?id=<?= CAOS_ANALYTICS_TRACKING_ID; ?>"></script>
+    <?php endif; ?>
+
     <script>
         <?php
-        if (CAOS_ANALYTICS_COOKIE_NAME && CAOS_ANALYTICS_COOKIE_VALUE): ?>
+        if (CAOS_ANALYTICS_ALLOW_TRACKING && CAOS_ANALYTICS_COOKIE_NAME
+            && CAOS_ANALYTICS_COOKIE_VALUE): ?>
         function getCookieValue(name)
         {
             cookies = document.cookie
             cookiesArray = cookies.split('; ')
             cookieValue = null
-            cookiesArray.forEach(function(cookie) {
+            cookiesArray.forEach(function (cookie) {
                 cookieArray = cookie.split('=')
-                if(cookieArray[0] !== name) {
+                if (cookieArray[0] !== name) {
                     return
                 }
                 cookieValue = cookieArray[1]
             })
             return cookieValue
         }
-        
-        cookieValue = getCookieValue('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>');
+
+        cookieValue = getCookieValue('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>')
         <?php endif; ?>
-        
-        (function(i, s, o, g, r, a, m) {
+
+        <?php if (CAOS_ANALYTICS_JS_FILE == 'gtag.js'): ?>
+        window.dataLayer = window.dataLayer || []
+        <?php if (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_ANALYTICS_COOKIE_NAME): ?>
+        if (document.cookie.indexOf('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>=')) {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        } else {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
+        }
+        <?php elseif (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_ANALYTICS_COOKIE_NAME && CAOS_ANALYTICS_COOKIE_VALUE): ?>
+        if (cookieValue === '<?= CAOS_ANALYTICS_COOKIE_VALUE; ?>') {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        } else {
+            window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
+        }
+        <?php else: ?>
+        window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
+        <?php endif; ?>
+        function gtag() {dataLayer.push(arguments)}
+
+        gtag('js', new Date())
+        gtag('config', '<?= CAOS_ANALYTICS_TRACKING_ID; ?>', {
+                'cookie_prefix': 'CaosGtag',
+                'cookie_domain': '<?= $_SERVER['SERVER_NAME']; ?>',
+                'cookie_expires': '<?= CAOS_ANALYTICS_COOKIE_EXPIRY_DAYS; ?>',
+                'anonymize_ip': '<?= CAOS_ANALYTICS_ANONYMIZE_IP ? 'true' : 'false'; ?>'
+            }
+        );
+        <?php else: ?>
+        (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r
-            i[r] = i[r] || function() {
+            i[r] = i[r] || function () {
                 (i[r].q = i[r].q || []).push(arguments)
             }, i[r].l = 1 * new Date()
             a = s.createElement(o),
@@ -435,13 +469,13 @@ function caos_analytics_render_tracking_code()
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '<?= CAOS_ANALYTICS_JS_URL; ?>', 'ga')
         <?php if (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_is_set' && CAOS_ANALYTICS_COOKIE_NAME): ?>
-        if(document.cookie.indexOf('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>=')) {
+        if (document.cookie.indexOf('<?= CAOS_ANALYTICS_COOKIE_NAME; ?>=')) {
             window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
         } else {
             window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
         }
         <?php elseif (CAOS_ANALYTICS_ALLOW_TRACKING == 'cookie_has_value' && CAOS_ANALYTICS_COOKIE_NAME && CAOS_ANALYTICS_COOKIE_VALUE): ?>
-        if(cookieValue === '<?= CAOS_ANALYTICS_COOKIE_VALUE; ?>') {
+        if (cookieValue === '<?= CAOS_ANALYTICS_COOKIE_VALUE; ?>') {
             window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = false
         } else {
             window['ga-disable-<?= CAOS_ANALYTICS_TRACKING_ID; ?>'] = true
@@ -466,6 +500,7 @@ function caos_analytics_render_tracking_code()
         <?php if (CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE): ?>
         setTimeout(
             "ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?= CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE * 1000; ?>)
+        <?php endif; ?>
         <?php endif; ?>
     </script>
     <?php
@@ -497,7 +532,7 @@ function caos_analytics_return_analytics_js_url($url)
 function caos_analytics_insert_tracking_code()
 {
     $sgal_enqueue_order = CAOS_ANALYTICS_ENQUEUE_ORDER ? CAOS_ANALYTICS_ENQUEUE_ORDER : 0;
-    
+
     if (CAOS_ANALYTICS_MI_COMPATIBILITY == 'on') {
         add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', 1000);
     } elseif (CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY == 'on') {

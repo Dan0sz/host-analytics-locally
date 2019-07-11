@@ -1,33 +1,33 @@
-=== CAOS | Host Google Analytics Locally ===
+=== CAOS for Analytics | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
 Donate link: https://daan.dev/donate/
-Tags: leverage browser cache, host analytics locally, google analytics, monster insights, gdpr, cookie notice, minimize external requests
+Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.2.3
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automagically download analytics.js, keep it updated using WordPress' built-in Cron-schedule, generate the tracking code, add it to your site's header or footer and tons of other features!
+Automagically download analytics.js/ga.js/gtag.js, keep it updated using WordPress' built-in Cron-schedule, generate the tracking code, add it to your site's header or footer and tons of other features!
 
 == Description ==
 
-CAOS for Google Analytics allows you to **host analytics.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+CAOS for Google Analytics allows you to **host analytics./gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/ga.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
 
 For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 == Features ==
-- Host analytics.js/ga.js locally,
+- Host analytics.js/ga.js/gtag.js locally,
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
 - Enable [compatibility with *Monster Insights' Google Analytics for Wordpress (and WooCommerce)*](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/),
 - Enable compatibility with Analytify for Wordpress,
-- Save analytics.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
-- Serve analytics.js from your CDN,
+- Save analytics.js/ga.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
+- Serve analytics.js/ga.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
 - Set Adjusted Bounce Rate,
 - Change enqueue order (prioritize order of loaded scripts),
@@ -35,7 +35,7 @@ For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpre
 - Anonymize IP addresses,
 - Track logged in Administrators,
 - Remove script from wp-cron, so you can add it manually to your Crontab,
-- Manually update analytics.js by the click of a button!
+- Manually update analytics.js/ga.js/gtag.js with the click of a button!
 
 == Installation ==
 
@@ -48,6 +48,9 @@ For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpre
 = I have another file I want to host locally. Could you make a plugin? =
 
 Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [CAOS for Webfonts](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/).
+
+= CAOS says analytics.js/gtag.js/ga.js isn't updated in more than two days. What's going on? =
+This is due to server configuration. Probably a permissions issue. It might be that PHP/WordPress isn't allowed to create files programmatically. If you can upload media files just fine, then this probably isn't the issue. Is your cron running? Try clicking the 'update analytics.js/gtag.js/ga.js' option to update the file manually. Meanwhile, contact your hosting provider so they can help you figure out if your cron is running correctly.
 
 = Is this plugin GDPR compliant? =
 
@@ -93,13 +96,13 @@ Probably your ga-local.js file got overwritten and emptied. Try activating and d
 
 Try enabling the option called "Disable all display features functionality?" With this you can enforce the disabling of the DisplayFeatures plugin.
 
-= I've installed your plugin but analytics.js/ga.js is still showing up as an external request in Pingdom e.a.? =
+= I've installed your plugin but analytics.js/ga.js/gtag.js is still showing up as an external request in Pingdom e.a.? =
 
 CAOS adds a local file called ga-local.js, which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js or ga.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
-Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js will be served from your CDN.
+Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js/gtag.js/ga.js will be served from your CDN.
 
 = Can I buy you a beer? =
 
@@ -110,6 +113,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.3.0 =
+Support for gtag.js added. Minor code optimizations.
 
 = 2.2.2 =
 Added option to cache ga.js locally, instead of analytics.js.

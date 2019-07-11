@@ -14,14 +14,14 @@ if ($fileStatus): ?>
             <strong><?php _e('Your cron is running healthy.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
         </p>
         <p>
-            <em>analytics.js</em> <?php _e('last updated at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?= caos_analytics_file_last_updated(); ?>
+            <em><?= CAOS_ANALYTICS_JS_FILE; ?></em> <?php _e('last updated at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?= caos_analytics_file_last_updated(); ?>
         </p>
         <p><?php _e('Next update scheduled at', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>: <?= caos_analytics_cron_next_scheduled(); ?></p>
     </div>
 <?php else: ?>
     <div class="notice notice-error">
         <p>
-            <strong><?php _e('analytics.js hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
+            <strong><?php _e(sprintf('%s hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_JS_FILE), CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></strong>
         </p>
     </div>
 <?php endif; ?>
@@ -161,16 +161,17 @@ if ($fileStatus): ?>
                 <?php
                 $fileNames = array(
                         "Analytics.js (default)" => "analytics.js",
+                        "Gtag.js" => "gtag.js",
                         "Ga.js" => "ga.js"
                 );
                 ?>
                 <select name="caos_analytics_js_file">
                     <?php foreach ($fileNames as $label => $fileName): ?>
-                    <option value="<?= $fileName; ?>" <?php echo (CAOS_ANALYTICS_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
+                    <option value="<?= $fileName; ?>" <?= (CAOS_ANALYTICS_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?php _e('If you don\'t necessarily need e.g. enhanced e-commerce features, etc. You can choose to download ga.js, instead of the default analytics.js', CAOS_ANALYTICS_TRANSLATE_DOMAIN) ;?>
+                    <?php _e('If you don\'t necessarily need e.g. enhanced e-commerce features, etc. You can choose to download ga.js or gtag.js, instead of the default analytics.js', CAOS_ANALYTICS_TRANSLATE_DOMAIN) ;?>
                 </p>
             </td>
         </tr>
@@ -188,7 +189,7 @@ if ($fileStatus): ?>
             <td>
                 <input class="caos_analytics_cdn_url" type="text" name="caos_analytics_cdn_url" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_ANALYTICS_CDN_URL ?>" />
                 <p class="description">
-                    <?php _e('If you\'re using a CDN, enter the URL here to server analytics.js from your CDN.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                    <?php _e(sprintf('If you\'re using a CDN, enter the URL here to serve %s from your CDN.', CAOS_ANALYTICS_JS_FILE), CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </p>
             </td>
         </tr>
