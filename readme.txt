@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,7 @@ Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. I
 
 This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /cache/ folder (e.g. /caos-cache/analytics/). This should resolve any issues you're having.
 
-= WordFence (or another security plugin) is detecting file changes in local-ga.js. What's going on? =
+= WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
 
 This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS for Analytics. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
 
@@ -84,13 +84,13 @@ No, sadly it isn't, because that plugin doesn't offer CAOS a efficient way to ch
 
 I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know. If you suspect you might've gotten behind (which I doubt) I've implement a manual update button within the CAOS for Analytics' settings.
 
-= The ga-local.js-file remains empty! What should I do? =
+= The ga.js/analytics.js/gtag.js-file remains empty! What should I do? =
 
 Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update-analytics.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator"). As this problem has been resolved many times already, check the forum!
 
 = I just updated to the latest version and the tracking stopped working! =
 
-Probably your ga-local.js file got overwritten and emptied. Try activating and de-activating the plugin, otherwise this will automatically resolve itself after the cronjob has run.
+Probably your gtag.js/analytics.js/ga.js file got overwritten and emptied. Try activating and de-activating the plugin, otherwise this will automatically resolve itself after the cronjob has run.
 
 = I disabled Demographic Reports in Google Analytics, but the script is still redirecting to doubleclick.net. How do I turn this off? =
 
@@ -98,7 +98,7 @@ Try enabling the option called "Disable all display features functionality?" Wit
 
 = I've installed your plugin but analytics.js/ga.js/gtag.js is still showing up as an external request in Pingdom e.a.? =
 
-CAOS adds a local file called ga-local.js, which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js or ga.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
+CAOS adds a local file called gtag.js/analytics.js/gtag.js (depending on your choice), which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js or ga.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
@@ -113,6 +113,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.3.2 =
+Fixed Adjusted Bounce Rate for gtag.js.
 
 = 2.3.1 =
 Fixed bug where sometimes wp-content directory wasn't detected correctly.
