@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,6 +113,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.3.1 =
+Fixed bug where sometimes wp-content directory wasn't detected correctly.
 
 = 2.3.0 =
 Support for gtag.js added. Minor code optimizations.
