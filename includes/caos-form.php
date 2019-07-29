@@ -235,7 +235,7 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Use Anonymize IP?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
+            <th scope="row"><?php _e('Anonymize IP?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
             <td>
                 <input type="checkbox" name="sgal_anonymize_ip"
 					<?= CAOS_ANALYTICS_ANONYMIZE_IP == "on" ? 'checked = "checked"' : ''; ?> />
@@ -268,6 +268,16 @@ if ($fileStatus): ?>
             </td>
         </tr>
         </tbody>
+        <tr valign="top">
+            <th scope="row"><?php _e('Remove settings at uninstall?', CAOS_ANALYTICS_UNINSTALL_SETTINGS); ?></th>
+            <td>
+                <input type="checkbox" name="caos_analytics_uninstall_settings"
+                    <?= CAOS_ANALYTICS_UNINSTALL_SETTINGS == "on" ? 'checked = "checked"' : ''; ?> />
+                <p class="description">
+                    <strong><?php _e('Warning!'); ?></strong> <?php _e('This will remove the settings from the database upon plugin deletion!.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                </p>
+            </td>
+        </tr>
     </table>
 </div>
 <script>

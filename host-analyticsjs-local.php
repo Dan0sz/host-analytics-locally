@@ -4,7 +4,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.3.3
+ * Version: 2.3.4
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -42,13 +42,14 @@ define('CAOS_ANALYTICS_REMOVE_CRON', esc_attr(get_option('caos_remove_wp_cron'))
 define('CAOS_ANALYTICS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_ANALYTICS_SCRIPT_POSITION', esc_attr(get_option('sgal_script_position')));
 define('CAOS_ANALYTICS_BLOG_ID', get_current_blog_id());
-define('CAOS_ANALYTICS_JS_FILE', esc_attr(get_option('caos_analytics_js_file')) ?: 'analytics.js');
+define('CAOS_ANALYTICS_JS_FILE', esc_attr(get_option('caos_analytics_js_file', 'analytics.js')));
 define('CAOS_ANALYTICS_DL_URL', CAOS_ANALYTICS_JS_FILE == 'gtag.js' ? 'https://www.googletagmanager.com' : 'https://www.google-analytics.com');
-define('CAOS_ANALYTICS_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir')) ?: '/cache/caos-analytics/');
+define('CAOS_ANALYTICS_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir', '/cache/caos-analytics/')));
 define('CAOS_ANALYTICS_CDN_URL', esc_attr(get_option('caos_analytics_cdn_url')));
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);
 define('CAOS_ANALYTICS_JS_DIR', CAOS_ANALYTICS_UPLOAD_PATH . CAOS_ANALYTICS_JS_FILE);
 define('CAOS_ANALYTICS_JS_URL', caos_analytics_get_url());
+define('CAOS_ANALYTICS_UNINSTALL_SETTINGS', esc_attr(get_option('caos_analytics_uninstall_settings')));
 
 /**
  * Register Settings
@@ -122,6 +123,10 @@ function caos_analytics_register_settings()
     register_setting(
         'save-ga-locally-basic-settings',
         'caos_disable_display_features'
+    );
+    register_setting(
+        'save-ga-locally-basic-settings',
+        'caos_analytics_uninstall_settings'
     );
 }
 
