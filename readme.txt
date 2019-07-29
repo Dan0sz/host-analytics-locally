@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.3.4
+Stable tag: 2.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,13 +14,11 @@ Automagically download analytics.js/ga.js/gtag.js, keep it updated using WordPre
 
 CAOS for Google Analytics allows you to **host analytics./gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
----
-Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration and optimization of your WordPress blog. Or feel free to [contact me](https://daan.dev/contact/) for a quote.
----
-
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/ga.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
+
+Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration and optimization of your WordPress blog. Or feel free to [contact me](https://daan.dev/contact/) for a quote.
 
 For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
@@ -64,10 +62,6 @@ This question has been asked on the support forum lots of times and in ALL cases
 = After installing this plugin I'm getting a 'Load resources from a consistent URL'-error on Google Pagespeed or GT Metrix. How can I fix this? =
 
 CAOS for Analytics *adds* a modified version of the Google Analytics tracking code to your header or footer, depending on your settings. If you're getting this notification (or optimization suggestion) this means that besides the GA tracking code added by CAOS, you're also loading a second tracking code somewhere else in your blog. Possibly in your theme's options or by another Google Analytics plugin. Remove/disable this and you're good to go.
-
-= I have removed your plugin, but the ga.js/analytics.js/gtag.js is still there. Why? =
-
-In short, you'll have to remove this manually. Technically, it's not possible to clean up leftover files after uninstall a plugin.
 
 = Is this plugin GDPR compliant? =
 
@@ -130,6 +124,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.3.5 =
+The cache-file and folder are now removed at plugin uninstall.
 
 = 2.3.4 =
 Added uninstall option and script.

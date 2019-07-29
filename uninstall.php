@@ -1,5 +1,4 @@
 <?php
-
 /**
  * If file is accessed directly or 'uninstall settings' option is not set, do nothing.
  */
@@ -32,4 +31,18 @@ $options = array(
 // Loop through array and delete each option.
 foreach ($options as $option) {
     delete_option($option);
+}
+
+// Delete cached file
+$cacheDir  = get_option('caos_analytics_cache_dir', '/cache/caos-analytics/');
+$jsFile    = get_option('caos_analytics_js_file', 'analytics.js');
+$fullPath  = WP_CONTENT_DIR . $cacheDir;
+$cacheFile = $fullPath . $jsFile;
+
+if (file_exists($cacheFile)) {
+    wp_delete_file($cacheFile);
+}
+
+if (file_exists($fullPath)) {
+    rmdir($fullPath);
 }
