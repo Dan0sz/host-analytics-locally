@@ -35,7 +35,7 @@ if ($fileStatus): ?>
                 <input type="text" name="sgal_tracking_id" value="<?= CAOS_ANALYTICS_TRACKING_ID; ?>"/>
             </td>
         </tr>
-        <tbody class="caos_basic_settings" <?= CAOS_ANALYTICS_MI_COMPATIBILITY == 'on' ? 'style="display: none;"' : ''; ?>>
+        <tbody class="caos_basic_settings" <?= empty(CAOS_ANALYTICS_COMPATIBILITY_MODE) ? '' : 'style="display: none;"'; ?>>
         <tr valign="top">
             <th scope="row"><?php _e('Allow tracking...', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
             <td>
@@ -51,7 +51,7 @@ if ($fileStatus): ?>
                         <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
                                name="caos_allow_tracking" value="<?= $option; ?>"
 							<?= $option == CAOS_ANALYTICS_ALLOW_TRACKING ? 'checked="checked"' : ''; ?>/>
-						<?= _e($label, CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+						<?php _e($label, CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                     </label>
                     <br/>
 				<?php endforeach; ?>
@@ -102,7 +102,7 @@ if ($fileStatus): ?>
                     <label>
                         <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
                                value="<?= $option; ?>" <?= $option == CAOS_ANALYTICS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
-						<?= _e($label, CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+						<?php _e($label, CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                     </label>
                     <br/>
 				<?php endforeach; ?>
@@ -130,27 +130,26 @@ if ($fileStatus): ?>
      style="float:left; width: 50%;">
     <h3><?php _e('Advanced Settings', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></h3>
     <table class="form-table">
-        <tbody class="caos_mi_compatibility">
         <tr valign="top">
-            <th scope="row"><?php _e('Enable compatibility with Monster Insights?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
+            <th scope="row">
+                <?php _e('Enable compatibility mode', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+            </th>
             <td>
-                <input class="caos_mi_compatibility_checkbox" type="checkbox" name="caos_mi_compatibility" <?= CAOS_ANALYTICS_MI_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
+                <?php
+                $compatibilityModes = array(
+                        'None (default)' => null,
+                        'GADP for WP by Analytify' => 'analytify',
+                        'GAD for WP by ExactMetrics' => 'exact_metrics',
+                        'GADP for WP by Monster Insights' => 'monster_insights'
+                );
+                ?>
+                <select name="caos_analytics_compatibility_mode" class="caos_analytics_compatibility_mode">
+                    <?php foreach ($compatibilityModes as $label => $mode): ?>
+                    <option value="<?= $mode; ?>" <?= (CAOS_ANALYTICS_COMPATIBILITY_MODE == $mode) ? 'selected' : ''; ?>><?= $label; ?></option>
+                    <?php endforeach; ?>
+                </select>
                 <p class="description">
-					<?php _e('The best choice, if you want to use enhanced Analytics features, such as event tracking in e.g. WooCommerce.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-					<?php _e('Allow Monster Insights\' plugin to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Google Analytics by Monster Insights.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-                    <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Read more', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
-                </p>
-            </td>
-        </tr>
-        <tr valign="top">
-            <th scope="row"><?php _e('Enable compatibility with Analytify for Wordpress?',
-					CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
-            <td>
-                <input class="caos_analytics_analytify_compatibility_checkbox" type="checkbox"
-                       name="caos_analytics_analytify_compatibility" <?=
-				CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY == 'on' ? 'checked = "checked"' : ''; ?> />
-                <p class="description">
-					<?php _e('Allow Analytify for Wordpress to use the locally hosted analytics.js-file generated and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within Analytify for Wordpress.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                    <?php _e('Allow another Google Analytics plugin to use the js-file created and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within the other plugin.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </p>
             </td>
         </tr>
@@ -193,8 +192,7 @@ if ($fileStatus): ?>
                 </p>
             </td>
         </tr>
-        </tbody>
-        <tbody class="caos_advanced_settings" <?= CAOS_ANALYTICS_MI_COMPATIBILITY == 'on' ? 'style="display: none;"' : ''; ?>>
+        <tbody class="caos_advanced_settings" <?= empty(CAOS_ANALYTICS_COMPATIBILITY_MODE) ? '' : 'style="display: none;"'; ?>>
         <tr valign="top">
             <th scope="row"><?php _e('Cookie expiry period (days)', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></th>
             <td>
@@ -297,9 +295,9 @@ if ($fileStatus): ?>
     jQuery('.caos_script_position_header, .caos_script_position_footer').click(function() {
         jQuery('.caos_add_manually').hide()
     })
-    jQuery('.caos_mi_compatibility_checkbox, .caos_analytics_analytify_compatibility_checkbox').click(function() {
+    jQuery('.caos_analytics_compatibility_mode').click(function() {
         settings = jQuery('.caos_advanced_settings, .caos_basic_settings');
-        if (this.checked) {
+        if (this.value !== '') {
             jQuery(settings).hide();
         } else {
             jQuery(settings).show();

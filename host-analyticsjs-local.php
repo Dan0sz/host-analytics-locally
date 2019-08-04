@@ -4,7 +4,7 @@
  * Plugin Name: CAOS for Analytics
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.3.5
+ * Version: 2.4.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -30,8 +30,10 @@ define('CAOS_ANALYTICS_TRACKING_ID', esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ANALYTICS_ALLOW_TRACKING', esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_ANALYTICS_COOKIE_NAME', esc_attr(get_option('sgal_cookie_notice_name')));
 define('CAOS_ANALYTICS_COOKIE_VALUE', esc_attr(get_option('caos_cookie_value')));
+define('CAOS_ANALYTICS_COMPATIBILITY_MODE', esc_attr(get_option('caos_analytics_compatibility_mode', null)));
 define('CAOS_ANALYTICS_MI_COMPATIBILITY', esc_attr(get_option('caos_mi_compatibility')));
 define('CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY', esc_attr(get_option('caos_analytics_analytify_compatibility')));
+define('CAOS_ANALYTICS_EXACTMETRICS_COMPATIBILITY', esc_attr(get_option('caos_analytics_exactmetrics_compatibility')));
 define('CAOS_ANALYTICS_COOKIE_EXPIRY', esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_ANALYTICS_COOKIE_EXPIRY_DAYS', CAOS_ANALYTICS_COOKIE_EXPIRY ? CAOS_ANALYTICS_COOKIE_EXPIRY * 86400 : 0);
 define('CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
@@ -74,11 +76,7 @@ function caos_analytics_register_settings()
     );
     register_setting(
         'save-ga-locally-basic-settings',
-        'caos_mi_compatibility'
-    );
-    register_setting(
-        'save-ga-locally-basic-settings',
-        'caos_analytics_analytify_compatibility'
+        'caos_analytics_compatibility_mode'
     );
     register_setting(
         'save-ga-locally-basic-settings',
@@ -541,10 +539,12 @@ function caos_analytics_insert_tracking_code()
 {
     $sgal_enqueue_order = CAOS_ANALYTICS_ENQUEUE_ORDER ? CAOS_ANALYTICS_ENQUEUE_ORDER : 0;
 
-    if (CAOS_ANALYTICS_MI_COMPATIBILITY == 'on') {
-        add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', 1000);
-    } elseif (CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY == 'on') {
-        add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', 1000);
+    if (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'monster_insights') {
+        add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+    } elseif (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'analytify') {
+        add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+    } elseif (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'exact_metrics') {
+        add_filter('gadwp_analytics_script_path', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
     } elseif (current_user_can('manage_options') && !CAOS_ANALYTICS_TRACK_ADMIN) {
         switch (CAOS_ANALYTICS_SCRIPT_POSITION) {
             case "footer":
