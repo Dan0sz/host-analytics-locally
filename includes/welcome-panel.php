@@ -8,9 +8,9 @@
 ?>
 <div id="welcome-panel" class="welcome-panel">
     <div class="welcome-panel-content">
-        <h2><?php _e('Thank you for using CAOS for Analytics!', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></h2>
+        <h2><?php _e('Thank you for using CAOS!', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></h2>
         <p class="about-description">
-			<?php _e('CAOS for Analytics completely optimizes the usage of Google Analytics on your WordPress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using WordPress\' built-in Cron-scheduler.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+			<?php _e('CAOS completely optimizes the usage of Google Analytics on your WordPress Website. Host your Google Analytics javascript-file (analytics.js) locally and keep it updated using WordPress\' built-in Cron-scheduler.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
         </p>
         <div class="welcome-panel-column-container">
             <div class="welcome-panel-column" style="width: 32%;">
@@ -29,7 +29,7 @@
                 <h3><?php _e('Get a Perfect Score on Pagespeed & Pingdom!', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></h3>
                 <p>
                     <strong><?php _e('Leverage your browser cache</strong> and <strong>lower pageload times</strong> by hosting your Google Fonts locally with', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
-                        <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/host-google-fonts-locally/" target="_blank"><?php _e('CAOS for Webfonts', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
+                        <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/host-google-fonts-locally/" target="_blank"><?php _e('OMGF', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>.
                 </p>
                 <p>
                     <a target="_blank" href="https://wordpress.org/plugins/host-webfonts-local/"><?php _e('Download now', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></a>
@@ -52,7 +52,7 @@
                     <?php _e('Need Help?', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </h3>
                 <p>
-                    <?php _e('Thank you for using CAOS for Analytics.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+                    <?php _e('Thank you for using CAOS.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
                 </p>
                 <p>
                     <?php _e('I am convinced that knowledge should be free. That\'s why I will never charge you for the plugins I create and I will help you to succeed in your projects through the <a href="https://daan.dev/how-to/" target="_blank">tutorials</a> on my blog.', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>

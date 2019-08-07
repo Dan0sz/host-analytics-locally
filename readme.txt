@@ -1,10 +1,10 @@
-=== CAOS for Analytics | Host Google Analytics Locally ===
+=== CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
 Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,15 +12,15 @@ Automagically download analytics.js/ga.js/gtag.js, keep it updated using WordPre
 
 == Description ==
 
-CAOS for Google Analytics allows you to **host analytics./gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics./gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/ga.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS for Analytics is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/ga.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
 
 Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration and optimization of your WordPress blog. Or feel free to [contact me](https://daan.dev/contact/) for a quote.
 
-For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
+For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 == Features ==
 - Host analytics.js/ga.js/gtag.js locally,
@@ -48,7 +48,7 @@ For more information: [How to setup CAOS for Analytics](https://daan.dev/wordpre
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [CAOS for Webfonts](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/).
+Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/).
 
 = CAOS says analytics.js/gtag.js/ga.js isn't updated in more than two days. What's going on? =
 
@@ -60,7 +60,7 @@ This question has been asked on the support forum lots of times and in ALL cases
 
 = After installing this plugin I'm getting a 'Load resources from a consistent URL'-error on Google Pagespeed or GT Metrix. How can I fix this? =
 
-CAOS for Analytics *adds* a modified version of the Google Analytics tracking code to your header or footer, depending on your settings. If you're getting this notification (or optimization suggestion) this means that besides the GA tracking code added by CAOS, you're also loading a second tracking code somewhere else in your blog. Possibly in your theme's options or by another Google Analytics plugin. Remove/disable this and you're good to go.
+CAOS *adds* a modified version of the Google Analytics tracking code to your header or footer, depending on your settings. If you're getting this notification (or optimization suggestion) this means that besides the GA tracking code added by CAOS, you're also loading a second tracking code somewhere else in your blog. Possibly in your theme's options or by another Google Analytics plugin. Remove/disable this and you're good to go.
 
 = Is this plugin GDPR compliant? =
 
@@ -68,7 +68,7 @@ Yes, it is! It is compatible with all Wordpress Cookie Notice plugins which eith
 
 = Google Tag Assistant says analytics.js is missing. Is this normal? =
 
-Yes, this is normal. This browser extensions looks for this exact string 'www.google-analytics.com/analytics.js'. Because with CAOS for Analytics you're hosting it locally, Tag Assistant doesn't find this string and returns an error. However, you can still use Tag Assistant to verify tracking works.
+Yes, this is normal. This browser extensions looks for this exact string 'www.google-analytics.com/analytics.js'. Because with CAOS you're hosting it locally, Tag Assistant doesn't find this string and returns an error. However, you can still use Tag Assistant to verify tracking works.
 
 = I use Google Analytics by Monster Insights. Is CAOS compatible with that plugin? =
 
@@ -84,7 +84,7 @@ This happens because analytics.js is saved within the 'cache'-folder and for som
 
 = WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
 
-This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS for Analytics. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
+This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
@@ -92,7 +92,7 @@ No, sadly it isn't, because that plugin doesn't offer CAOS a efficient way to ch
 
 = What is the current update interval of the Analytics-script? =
 
-I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know. If you suspect you might've gotten behind (which I doubt) I've implement a manual update button within the CAOS for Analytics' settings.
+I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know. If you suspect you might've gotten behind (which I doubt) I've implement a manual update button within the CAOS' settings.
 
 = The ga.js/analytics.js/gtag.js-file remains empty! What should I do? =
 
@@ -123,6 +123,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.4.1 =
+Changed name back to CAOS, because OMGF has its own shorthand now.
 
 = 2.4.0 =
 Added compatibility mode for Google Analytics Dashboard for WP by ExactMetrics. If you're using any compatibility mode, the settings path has changed, so you need to set it again.
@@ -176,7 +179,7 @@ Status bar now displays a date/time formatted according to locale chosen in Word
 Added status bar display cron and file health.
 
 = 2.0.4 =
-CAOS for Analytics is now compatible with WordPress Multi Site.
+CAOS is now compatible with WordPress Multi Site.
 
 = 2.0.3 =
 Tested with WP 5+
