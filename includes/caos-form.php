@@ -21,7 +21,7 @@ if ($fileStatus): ?>
 <?php else: ?>
     <div class="notice notice-error">
         <p>
-            <strong><?php _e(sprintf('%s hasn\'t been updated for more than two days. Is your cron running?', CAOS_ANALYTICS_JS_FILE), 'host-analyticsjs-local'); ?></strong>
+            <strong><?= sprintf(__('%s hasn\'t been updated for more than two days. Is your cron running?', 'host-analyticsjs-local'), CAOS_ANALYTICS_JS_FILE); ?></strong>
         </p>
     </div>
 <?php endif; ?>
@@ -51,7 +51,7 @@ if ($fileStatus): ?>
                         <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
                                name="caos_allow_tracking" value="<?= $option; ?>"
                             <?= $option == CAOS_ANALYTICS_ALLOW_TRACKING ? 'checked="checked"' : ''; ?>/>
-                        <?php _e($label, 'host-analyticsjs-local'); ?>
+                        <?= $label; ?>
                     </label>
                     <br/>
                 <?php endforeach; ?>
@@ -99,7 +99,7 @@ if ($fileStatus): ?>
                     <label>
                         <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
                                value="<?= $option; ?>" <?= $option == CAOS_ANALYTICS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
-                        <?php _e($label, 'host-analyticsjs-local'); ?>
+                        <?= $label; ?>
                     </label>
                     <br/>
                 <?php endforeach; ?>
@@ -172,7 +172,7 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Save ' . CAOS_ANALYTICS_JS_FILE . ' to...', 'host-analyticsjs-local'); ?></th>
+            <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_ANALYTICS_JS_FILE); ?></th>
             <td>
                 <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_ANALYTICS_CACHE_DIR; ?>"/>
                 <p class="description">
@@ -185,7 +185,7 @@ if ($fileStatus): ?>
             <td>
                 <input class="caos_analytics_cdn_url" type="text" name="caos_analytics_cdn_url" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_ANALYTICS_CDN_URL ?>"/>
                 <p class="description">
-                    <?php _e(sprintf('If you\'re using a CDN, enter the URL here to serve %s from your CDN.', CAOS_ANALYTICS_JS_FILE), 'host-analyticsjs-local'); ?>
+                    <?= sprintf(__('If you\'re using a CDN, enter the URL here to serve %s from your CDN.', 'host-analyticsjs-local'), CAOS_ANALYTICS_JS_FILE); ?>
                 </p>
             </td>
         </tr>
@@ -235,7 +235,7 @@ if ($fileStatus): ?>
                 <input type="checkbox" name="sgal_anonymize_ip"
                     <?= CAOS_ANALYTICS_ANONYMIZE_IP == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?php _e('Required by law in some countries.'); ?>
+                    <?php _e('Required by law in some countries.', 'host-analyticsjs-local'); ?>
                     <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank"><?php _e('More information about IP Anonymization', 'host-analyticsjs-local'); ?></a>.
                 </p>
             </td>
@@ -246,7 +246,7 @@ if ($fileStatus): ?>
                 <input type="checkbox" name="sgal_track_admin"
                     <?= CAOS_ANALYTICS_TRACK_ADMIN == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <strong><?php _e('Warning!'); ?></strong> <?php _e('This will track all your traffic as a logged in user.', 'host-analyticsjs-local'); ?>
+                    <strong><?php _e('Warning!', 'host-analyticsjs-local'); ?></strong> <?php _e('This will track all your traffic as a logged in user.', 'host-analyticsjs-local'); ?>
                 </p>
             </td>
         </tr>
@@ -264,12 +264,12 @@ if ($fileStatus): ?>
         </tr>
         </tbody>
         <tr valign="top">
-            <th scope="row"><?php _e('Remove settings at uninstall?', CAOS_ANALYTICS_UNINSTALL_SETTINGS); ?></th>
+            <th scope="row"><?php _e('Remove settings at uninstall?', 'host-analyticsjs-local'); ?></th>
             <td>
                 <input type="checkbox" name="caos_analytics_uninstall_settings"
                     <?= CAOS_ANALYTICS_UNINSTALL_SETTINGS == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <strong><?php _e('Warning!'); ?></strong> <?php _e('This will remove the settings from the database upon plugin deletion!.', 'host-analyticsjs-local'); ?>
+                    <strong><?php _e('Warning!', 'host-analyticsjs-local'); ?></strong> <?php _e('This will remove the settings from the database upon plugin deletion!.', 'host-analyticsjs-local'); ?>
                 </p>
             </td>
         </tr>
