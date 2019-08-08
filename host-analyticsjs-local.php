@@ -4,9 +4,10 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
+ * Text Domain: host-analyticsjs-local
  * License: GPL2v2 or later
  * @formatter:on
  */
@@ -25,7 +26,6 @@ define('CAOS_ANALYTICS_DB_TABLENAME', $wpdb->prefix . 'caos_analytics');
 define('CAOS_ANALYTICS_SITE_URL', 'https://daan.dev');
 define('CAOS_ANALYTICS_DB_CHARSET', $wpdb->get_charset_collate());
 define('CAOS_ANALYTICS_CRON', 'caos_update_analytics_js');
-define('CAOS_ANALYTICS_TRANSLATE_DOMAIN', 'host-analyticsjs-local');
 define('CAOS_ANALYTICS_TRACKING_ID', esc_attr(get_option('sgal_tracking_id')));
 define('CAOS_ANALYTICS_ALLOW_TRACKING', esc_attr(get_option('caos_allow_tracking')));
 define('CAOS_ANALYTICS_COOKIE_NAME', esc_attr(get_option('sgal_cookie_notice_name')));
@@ -183,7 +183,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
         $dateObj = new DateTime;
         $dateObj->setTimestamp($dateTime);
     } catch (\Exception $e) {
-        return __('Date/Time cannot be set', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
+        return __('Date/Time cannot be set', 'host-analyticsjs-local') . ': ' . $e->getMessage();
     }
 
     $intlLoaded = extension_loaded('intl');
@@ -195,7 +195,7 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
     try {
         $format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
     } catch (\Exception $e) {
-        return __('Date/Time cannot be formatted to locale', CAOS_ANALYTICS_TRANSLATE_DOMAIN) . ': ' . $e->getMessage();
+        return __('Date/Time cannot be formatted to locale', 'host-analyticsjs-local') . ': ' . $e->getMessage();
     }
 
     return $format->format($dateTime);
@@ -270,12 +270,12 @@ function caos_analytics_settings_page()
     ?>
 
     <div class="wrap">
-        <h1><?php _e('CAOS | Complete Analytics Optimization Suite', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?></h1>
+        <h1><?php _e('CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local'); ?></h1>
 
         <div id="caos-notices"></div>
 
         <p>
-            <?php _e('Developed by: ', CAOS_ANALYTICS_TRANSLATE_DOMAIN); ?>
+            <?php _e('Developed by: ', 'host-analyticsjs-local'); ?>
             <a title="Buy me a beer!" href="<?= CAOS_ANALYTICS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
         </p>
 
