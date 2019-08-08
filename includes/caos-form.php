@@ -27,7 +27,7 @@ if ($fileStatus): ?>
 <?php endif; ?>
 
 <div class="caos_left_column" style="float:left; width: 50%;">
-    <h3><?php _e('Basic Settings'); ?></h3>
+    <h3><?php _e('Basic Settings', 'host-analyticsjs-local'); ?></h3>
     <table class="form-table">
         <tr valign="top">
             <th scope="row"><?php _e('Google Analytics Tracking ID', 'host-analyticsjs-local'); ?></th>

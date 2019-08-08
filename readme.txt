@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,7 +124,7 @@ N/A
 
 == Changelog ==
 
-= 2.4.3 =
+= 2.4.3/2.4.4 =
 Oops! Forgot some strings!
 
 = 2.4.2 =
