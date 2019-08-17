@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 2.4.4
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Automagically download analytics.js/ga.js/gtag.js, keep it updated using WordPre
 
 == Description ==
 
-CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics./gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
@@ -23,7 +23,8 @@ Please keep in mind that, although I try to make the configuration of this plugi
 For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 == Features ==
-- Host analytics.js/ga.js/gtag.js locally,
+- Host analytics.js, ga.js and/or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/)),
+- When using gtag.js, the underlying request to analytics.js is also loaded from the local source!
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
 - Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/), Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
@@ -88,7 +89,7 @@ This is perfectly normal, since this is the file that was updated by the built-i
 
 = Is CAOS compatible with WooCommerce Google Analytics Integration? =
 
-No, sadly it isn't, because that plugin doesn't offer CAOS a efficient way to change the source of the analytics.js-file. However if you want to use CAOS with WooCommerce, I suggest using [Google Analytics by Monster Insights](https://nl.wordpress.org/plugins/google-analytics-for-wordpress/).
+No, sadly it isn't, because that plugin doesn't offer CAOS an efficient way to change the source of the analytics.js-file. However if you want to use CAOS with WooCommerce, I suggest using [Google Analytics by Monster Insights](https://nl.wordpress.org/plugins/google-analytics-for-wordpress/).
 
 = What is the current update interval of the Analytics-script? =
 
@@ -123,6 +124,10 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.5.0 =
+When using the gtag.js wrapper, the request to analytics.js is now also loaded from a local source!
+Added link to explain differences between ga.js, analytics.js and gtag.js.
 
 = 2.4.3/2.4.4 =
 Oops! Forgot some strings!

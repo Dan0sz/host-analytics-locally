@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.4.4
+ * Version: 2.5.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -31,9 +31,6 @@ define('CAOS_ANALYTICS_ALLOW_TRACKING', esc_attr(get_option('caos_allow_tracking
 define('CAOS_ANALYTICS_COOKIE_NAME', esc_attr(get_option('sgal_cookie_notice_name')));
 define('CAOS_ANALYTICS_COOKIE_VALUE', esc_attr(get_option('caos_cookie_value')));
 define('CAOS_ANALYTICS_COMPATIBILITY_MODE', esc_attr(get_option('caos_analytics_compatibility_mode', null)));
-define('CAOS_ANALYTICS_MI_COMPATIBILITY', esc_attr(get_option('caos_mi_compatibility')));
-define('CAOS_ANALYTICS_ANALYTIFY_COMPATIBILITY', esc_attr(get_option('caos_analytics_analytify_compatibility')));
-define('CAOS_ANALYTICS_EXACTMETRICS_COMPATIBILITY', esc_attr(get_option('caos_analytics_exactmetrics_compatibility')));
 define('CAOS_ANALYTICS_COOKIE_EXPIRY', esc_attr(get_option('sgal_ga_cookie_expiry_days')));
 define('CAOS_ANALYTICS_COOKIE_EXPIRY_DAYS', CAOS_ANALYTICS_COOKIE_EXPIRY ? CAOS_ANALYTICS_COOKIE_EXPIRY * 86400 : 0);
 define('CAOS_ANALYTICS_ADJUSTED_BOUNCE_RATE', esc_attr(get_option('sgal_adjusted_bounce_rate')));
@@ -45,7 +42,9 @@ define('CAOS_ANALYTICS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_
 define('CAOS_ANALYTICS_SCRIPT_POSITION', esc_attr(get_option('sgal_script_position')));
 define('CAOS_ANALYTICS_BLOG_ID', get_current_blog_id());
 define('CAOS_ANALYTICS_JS_FILE', esc_attr(get_option('caos_analytics_js_file', 'analytics.js')));
-define('CAOS_ANALYTICS_DL_URL', CAOS_ANALYTICS_JS_FILE == 'gtag.js' ? 'https://www.googletagmanager.com' : 'https://www.google-analytics.com');
+define('CAOS_ANALYTICS_GA_URL', 'https://www.google-analytics.com');
+define('CAOS_ANALYTICS_GTM_URL', 'https://www.googletagmanager.com');
+define('CAOS_ANALYTICS_DL_URL', CAOS_ANALYTICS_JS_FILE == 'gtag.js' ? CAOS_ANALYTICS_GTM_URL : CAOS_ANALYTICS_GA_URL);
 define('CAOS_ANALYTICS_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir', '/cache/caos-analytics/')));
 define('CAOS_ANALYTICS_CDN_URL', esc_attr(get_option('caos_analytics_cdn_url')));
 define('CAOS_ANALYTICS_UPLOAD_PATH', WP_CONTENT_DIR . CAOS_ANALYTICS_CACHE_DIR);

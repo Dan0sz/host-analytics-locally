@@ -37,7 +37,7 @@
                 <h3><?php _e('Suggested Reading', 'host-analyticsjs-local'); ?></h3>
                 <ul>
                     <li class="welcome-icon dashicons-before dashicons-analytics">
-                        <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/" target="_blank"><?php _e('Configure CAOS with Monster Insights and WooCommerce', 'host-analyticsjs-local'); ?></a>
+                        <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/difference-analyics-gtag-ga-js/" target="_blank"><?php _e('What\'s the difference between ga.js, gtag.js and analytics.js?', 'host-analyticsjs-local'); ?></a>
                     </li>
                     <li class="welcome-icon dashicons-before dashicons-welcome-learn-more">
                         <a href="<?= CAOS_ANALYTICS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/" target="_blank"><?php _e('Complete Guide to GDPR Compliance with CAOS', 'host-analyticsjs-local'); ?></a>
@@ -61,7 +61,7 @@
                     <?= sprintf(__("However, my time is just as valuable as yours. Consider supporting me by either %sdonating%s or leaving a %s5-star review%s on Wordpress.org.", 'host-analyticsjs-local'), '<a href="' . CAOS_ANALYTICS_SITE_URL . '/donate" target="_blank">', '</a>', '<a target="_blank" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post">', '</a>'); ?>
                 </p>
                 <p>
-                    <?= sprintf(__('If you\'re running into any issues, please make sure you\'ve read %sthe manual%s thoroughly. Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_ANALYTICS_SITE_URL . '/wordpress-plugins/optimize-analytics-wordpress/" target="_blank">' , '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>'); ?>
+                    <?= sprintf(__('If you\'re running into any issues, please make sure you\'ve read %sthe manual%s thoroughly. Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_ANALYTICS_SITE_URL . '/wordpress-plugins/optimize-analytics-wordpress/" target="_blank">' , '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_ANALYTICS_SITE_URL . '/contact" target="_blank">', '</a>'); ?>
                 </p>
                 <p>
                     <a target="_blank" class="button button-primary button-hero" href="<?= CAOS_ANALYTICS_SITE_URL; ?>/donate/"><span class="dashicons-before dashicons-heart"> <?php _e('Donate', 'host-analyticsjs-local'); ?></span></a>

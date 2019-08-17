@@ -157,8 +157,8 @@ if ($fileStatus): ?>
                 <?php
                 $fileNames = array(
                     __("Analytics.js (default)", 'host-analyticsjs-local') => "analytics.js",
-                    "Gtag.js"                => "gtag.js",
-                    "Ga.js"                  => "ga.js"
+                    "Gtag.js"                                              => "gtag.js",
+                    __("Ga.js (legacy)", 'host-analyticsjs-local')         => "ga.js"
                 );
                 ?>
                 <select name="caos_analytics_js_file">
@@ -167,7 +167,7 @@ if ($fileStatus): ?>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?php _e('If you don\'t necessarily need e.g. enhanced e-commerce features, etc. You can choose to download ga.js or gtag.js, instead of the default analytics.js', 'host-analyticsjs-local'); ?>
+                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_ANALYTICS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/" target="_blank">', '</a>'); ?>
                 </p>
             </td>
         </tr>
