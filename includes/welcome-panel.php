@@ -19,6 +19,7 @@
                     <li class="welcome-icon dashicons-before dashicons-analytics"><?php _e('Enter your Analytics Tracking-ID', 'host-analyticsjs-local'); ?></li>
                     <li class="welcome-icon dashicons-before dashicons-admin-tools"><?php _e('Configure when to allow tracking', 'host-analyticsjs-local'); ?></li>
                     <li class="welcome-icon dashicons-before dashicons-admin-appearance"><?php _e('Set the position of the tracking code', 'host-analyticsjs-local'); ?></li>
+                    <li class="welcome-icon dashicons-before dashicons-controls-play"><?php _e('Choose between Async or Default', 'host-analyticsjs-local'); ?></li>
                     <li class="welcome-icon dashicons-before dashicons-smiley"><?php _e("Click 'Save Changes' and you're done!", 'host-analyticsjs-local'); ?></li>
                 </ul>
                 <p>

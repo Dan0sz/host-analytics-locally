@@ -89,13 +89,13 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Position of tracking-code', 'host-analyticsjs-local'); ?></th>
             <td>
                 <?php
-                $sgal_script_position = array(
+                $caos_script_position = array(
                     'header' => __('Header (default)', 'host-analyticsjs-local'),
                     'footer' => __('Footer', 'host-analyticsjs-local'),
                     'manual' => __('Add manually', 'host-analyticsjs-local')
                 );
 
-                foreach ($sgal_script_position as $option => $label): ?>
+                foreach ($caos_script_position as $option => $label): ?>
                     <label>
                         <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
                                value="<?= $option; ?>" <?= $option == CAOS_ANALYTICS_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
@@ -109,11 +109,30 @@ if ($fileStatus): ?>
                 </p>
             </td>
         </tr>
+        <tr valign="top">
+            <th scope="row"><?php _e('Snippet type', 'host-analyticsjs-local'); ?></th>
+            <td>
+                <?php
+                $caos_snippet_type = array(
+                    'default' => __('Default', 'host-analyticsjs-local'),
+                    'async'   => __('Asynchronous', 'host-analyticsjs-local')
+                );
+                ?>
+                <select name="caos_snippet_type" class="caos_snippet_type">
+                    <?php foreach ($caos_snippet_type as $option => $label): ?>
+                        <option value="<?= $option; ?>" <?= CAOS_ANALYTICS_SNIPPET_TYPE == $option ? 'selected' : ''; ?>><?= $label; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <p class="description">
+                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for gtag.js and analytics.js)', 'host-analyticsjs-local'); ?> <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
+                </p>
+            </td>
+        </tr>
         <tr class="caos_add_manually" valign="top" <?= CAOS_ANALYTICS_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Tracking-code', 'host-analyticsjs-local'); ?></th>
             <td>
                 <label>
-                    <textarea style="display: block; width: 100%; height: 250px;"><?= caos_analytics_render_tracking_code(); ?></textarea>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php caos_analytics_render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
                     <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'host-analyticsjs-local'); ?>
