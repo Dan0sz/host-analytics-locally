@@ -2,9 +2,9 @@
 Contributors: DaanvandenBergh
 Donate link: https://daan.dev/donate/
 Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
-Requires at least: 4.5
+Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.6.1 =
+CAOS can now be properly translated.
 
 = 2.6.0 =
 Added support for asynchronous loading of the snippet.
