@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.6.1
+ * Version: 2.6.2
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -40,7 +40,7 @@ define('CAOS_ANALYTICS_TRACK_ADMIN', esc_attr(get_option('sgal_track_admin')));
 define('CAOS_ANALYTICS_REMOVE_CRON', esc_attr(get_option('caos_remove_wp_cron')));
 define('CAOS_ANALYTICS_DISABLE_DISPLAY_FEAT', esc_attr(get_option('caos_disable_display_features')));
 define('CAOS_ANALYTICS_SCRIPT_POSITION', esc_attr(get_option('sgal_script_position')));
-define('CAOS_ANALYTICS_SNIPPET_TYPE', esc_attr(get_option('caos_snippet_type')));
+define('CAOS_ANALYTICS_SNIPPET_TYPE', esc_attr(get_option('caos_snippet_type', 'default')));
 define('CAOS_ANALYTICS_BLOG_ID', get_current_blog_id());
 define('CAOS_ANALYTICS_JS_FILE', esc_attr(get_option('caos_analytics_js_file', 'analytics.js')));
 define('CAOS_ANALYTICS_GA_URL', 'https://www.google-analytics.com');
@@ -454,7 +454,6 @@ function caos_analytics_render_tracking_code()
         <?php endif; ?>
 
         function gtag() {dataLayer.push(arguments)}
-
         gtag('js', new Date())
         gtag('config', '<?= CAOS_ANALYTICS_TRACKING_ID; ?>', {
                 'cookie_prefix': 'CaosGtag',

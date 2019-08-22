@@ -65,7 +65,7 @@ function caos_analytics_update($remoteFile, $localFile)
     }
 
     $port = isset($url['port']) ? $url['port'] : '80';
-    $fp   = @fsockopen($host, '80', $errno, $errstr, $connTimeout);
+    $fp   = @fsockopen($host, $port, $errno, $errstr, $connTimeout);
 
     if (!$fp) {
         // On connection failure return the cached file (if it exist)
