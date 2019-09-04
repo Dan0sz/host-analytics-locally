@@ -124,7 +124,8 @@ if ($fileStatus): ?>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for gtag.js and analytics.js)', 'host-analyticsjs-local'); ?> <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
+                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for gtag.js and analytics.js)', 'host-analyticsjs-local'); ?>
+                    <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
                 </p>
             </td>
         </tr>
@@ -153,10 +154,11 @@ if ($fileStatus): ?>
             <td>
                 <?php
                 $compatibilityModes = array(
-                    __('None (default)', 'host-analyticsjs-local')                  => null,
-                    __('GADP for WP by Analytify', 'host-analyticsjs-local')        => 'analytify',
-                    __('GAD for WP by ExactMetrics', 'host-analyticsjs-local')      => 'exact_metrics',
-                    __('GADP for WP by Monster Insights', 'host-analyticsjs-local') => 'monster_insights'
+                    __('None (default)', 'host-analyticsjs-local')                           => null,
+                    __('WooCommerce Google Analytics Integration', 'host-analyticsjs-local') => 'woocommerce',
+                    __('GADP for WP by Analytify', 'host-analyticsjs-local')                 => 'analytify',
+                    __('GAD for WP by ExactMetrics', 'host-analyticsjs-local')               => 'exact_metrics',
+                    __('GADP for WP by Monster Insights', 'host-analyticsjs-local')          => 'monster_insights'
                 );
                 ?>
                 <select name="caos_analytics_compatibility_mode" class="caos_analytics_compatibility_mode">
@@ -296,27 +298,27 @@ if ($fileStatus): ?>
 </div>
 <script>
     jQuery('.caos_allow_tracking_').click(function () {
-        jQuery('.caos_gdpr_setting').hide()
-    })
+        jQuery('.caos_gdpr_setting').hide();
+    });
     jQuery('.caos_allow_tracking_cookie_is_set').click(function () {
-        jQuery('.caos_allow_tracking_name').show()
-        jQuery('.caos_allow_tracking_value').hide()
-    })
+        jQuery('.caos_allow_tracking_name').show();
+        jQuery('.caos_allow_tracking_value').hide();
+    });
     jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
-        jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show()
-    })
+        jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
+    });
     jQuery('.caos_script_position_manual').click(function () {
-        jQuery('.caos_add_manually').show()
-    })
+        jQuery('.caos_add_manually').show();
+    });
     jQuery('.caos_script_position_header, .caos_script_position_footer').click(function () {
-        jQuery('.caos_add_manually').hide()
-    })
+        jQuery('.caos_add_manually').hide();
+    });
     jQuery('.caos_analytics_compatibility_mode').click(function () {
-        settings = jQuery('.caos_advanced_settings, .caos_basic_settings')
+        settings = jQuery('.caos_advanced_settings, .caos_basic_settings');
         if (this.value !== '') {
-            jQuery(settings).hide()
+            jQuery(settings).hide();
         } else {
-            jQuery(settings).show()
+            jQuery(settings).show();
         }
-    })
+    });
 </script>

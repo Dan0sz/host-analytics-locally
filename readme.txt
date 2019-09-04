@@ -1,10 +1,10 @@
 === CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
 Donate link: https://daan.dev/donate/
-Tags: leverage browser cache, host analytics locally, google, ga, gtag, analytics, monster insights, gdpr, cookie notice, minimize external requests
+Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.6.3
+Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,12 +23,12 @@ Please keep in mind that, although I try to make the configuration of this plugi
 For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/).
 
 == Features ==
-- Host analytics.js, ga.js and/or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/)),
+- Host analytics.js, ga.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/)),
 - When using gtag.js, the underlying request to analytics.js is also loaded from the local source!
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
 - Add tracking code to header, footer or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
-- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/), Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
+- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
 - Save analytics.js/ga.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/ga.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
@@ -78,7 +78,7 @@ Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analyti
 
 = Is CAOS compatible with WooCommerce? =
 
-Yes, it is! Since version 1.80 CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, I suggest integrating Google Analytics for Wordpress by Monster Insights with WooCommerce to take advantage of the advanced e-Commerce tracking capabilities of Google Analytics. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
+Yes, it is! CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, install WooCommerce Google Analytics Integration (compatible since v2.6.4) or Monster Insights' Google Analytics (compatible since v1.8.0) plugin and enable the corresponding compatibility mode in CAOS.
 
 = I use WP Super Cache / W3 Total Cache / Autoptimize or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
 
@@ -87,10 +87,6 @@ This happens because analytics.js is saved within the 'cache'-folder and for som
 = WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
 
 This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
-
-= Is CAOS compatible with WooCommerce Google Analytics Integration? =
-
-No, sadly it isn't, because that plugin doesn't offer CAOS an efficient way to change the source of the analytics.js-file. However if you want to use CAOS with WooCommerce, I suggest using [Google Analytics by Monster Insights](https://nl.wordpress.org/plugins/google-analytics-for-wordpress/).
 
 = What is the current update interval of the Analytics-script? =
 
@@ -125,6 +121,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.6.4 =
+Added compatibility with WooCommerce Google Analytics Integration!
 
 = 2.6.3 =
 Fixed 'getCookieValue() is not a function.'-bug when using 'Allow tracking' options.

@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js locally, keep it updated using wp_cron(), anonymize IP, disable tracking of admins, place tracking code in footer, and more!
- * Version: 2.6.3
+ * Version: 2.6.4
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -555,7 +555,9 @@ function caos_analytics_return_analytics_js_url()
  */
 function caos_analytics_insert_tracking_code()
 {
-    if (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'monster_insights') {
+    if (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'woocommerce') {
+        add_filter('woocommerce_google_analytics_script_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+    } elseif (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'monster_insights') {
         add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
     } elseif (CAOS_ANALYTICS_COMPATIBILITY_MODE == 'analytify') {
         add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
