@@ -12,24 +12,24 @@ if (!defined('ABSPATH')) {
 }
 
 // Remote file to download
-$remoteFile = CAOS_ANALYTICS_DL_URL . '/' . CAOS_ANALYTICS_JS_FILE;
-$localFile  = CAOS_ANALYTICS_JS_DIR;
+$remoteFile = CAOS_REMOTE_URL . '/' . CAOS_OPT_REMOTE_JS_FILE;
+$localFile  = CAOS_LOCAL_FILE_DIR;
 
 // Check if directory exists, otherwise create it.
-$uploadDir = CAOS_ANALYTICS_UPLOAD_PATH;
+$uploadDir = CAOS_LOCAL_DIR;
 if (!file_exists($uploadDir)) {
     wp_mkdir_p($uploadDir);
 }
 
-if (CAOS_ANALYTICS_JS_FILE == 'gtag.js') {
+if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
     $remoteFile = array(
         'analytics' => array(
-            'remote' => CAOS_ANALYTICS_GA_URL . '/analytics.js',
-            'local'  => CAOS_ANALYTICS_UPLOAD_PATH . 'analytics.js'
+            'remote' => CAOS_GA_URL . '/analytics.js',
+            'local'  => CAOS_LOCAL_DIR . 'analytics.js'
         ),
         'gtag' => array(
-            'remote' => CAOS_ANALYTICS_GTM_URL . '/' . CAOS_ANALYTICS_JS_FILE,
-            'local'  => CAOS_ANALYTICS_JS_DIR
+            'remote' => CAOS_GTM_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
+            'local'  => CAOS_LOCAL_FILE_DIR
         )
     );
 }
@@ -44,6 +44,9 @@ if (is_array($remoteFile)) {
     }
 } else {
     caos_analytics_update($remoteFile, $localFile);
+    if (CAOS_OPT_STEALTH_MODE && (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js')) {
+        caos_analytics_insert_proxy(CAOS_LOCAL_FILE_DIR);
+    }
 }
 
 /**
@@ -125,7 +128,23 @@ function caos_analytics_update($remoteFile, $localFile)
 function caos_analytics_update_gtag_js($file)
 {
     $caosGaUrl = str_replace('gtag.js', 'analytics.js', caos_analytics_get_url());
-    $gaUrl = CAOS_ANALYTICS_GA_URL . '/analytics.js';
+    $gaUrl = CAOS_GA_URL . '/analytics.js';
 
     file_put_contents($file, str_replace($gaUrl, $caosGaUrl, file_get_contents($file)));
+}
+
+/**
+ * Opens file and replaces every instance of google-analytics.com with CAOS' proxy endpoint.
+ * Used only when Stealth Mode is enabled.
+ *
+ * @param $file
+ */
+function caos_analytics_insert_proxy($file)
+{
+    $find = array( 'http://', 'https://' );
+    $replace = '';
+    $siteUrl = str_replace( $find, $replace, get_site_url(CAOS_BLOG_ID));
+    $proxyUrl = $siteUrl . CAOS_PROXY_URI;
+
+    file_put_contents($file, str_replace('www.google-analytics.com', $proxyUrl, file_get_contents($file)));
 }
