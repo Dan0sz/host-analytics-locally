@@ -177,7 +177,7 @@ if ($fileStatus): ?>
                 <input type="checkbox" class="caos_stealth_mode" name="caos_stealth_mode"
                     <?= CAOS_OPT_STEALTH_MODE == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <strong><?php _e('Use at your own risk!', 'host-analyticsjs-local'); ?></strong> <?= sprintf(__('This setting will allow you to circumvent most Ad Blockers. Make sure your blog respects any relevant privacy laws! Trigger a manual update after saving this setting. (SSL [https] required! / Only works with analytics.js / Does not work for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
+                    <strong><?php _e('Use at your own risk!', 'host-analyticsjs-local'); ?></strong> <?= sprintf(__('This setting will send all hits to Google Analytics through your blog\'s server, which allows you to bypass most Ad Blockers. Please make sure your blog respects any relevant privacy laws! Trigger a manual update after saving your changes. (SSL [https] required! / Only works with analytics.js / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
                 </p>
             </td>
         </tr>-->

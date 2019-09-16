@@ -56,12 +56,14 @@ class CAOS_Proxy extends WP_REST_Controller
      *
      * @return bool
      */
-    public function send_data_permissions_check($request)
+    public function send_data_permissions_check()
     {
         return true;
     }
 
     /**
+     * The uip-parameter is added to the query, to keep the location data accurate.
+     *
      * @param WP_REST_Request $request
      *
      * @return mixed|WP_Error|WP_REST_Response
@@ -70,13 +72,38 @@ class CAOS_Proxy extends WP_REST_Controller
     public function send_data($request)
     {
         $params = $request->get_params();
-        $query  = '?' . http_build_query($params);
+        $ip     = array('uip' => $this->get_user_ip_address());
+        $query  = '?' . http_build_query($params + $ip);
+        $url    = CAOS_GA_URL . '/r/collect' . $query;
         try {
-            $response = wp_remote_get(CAOS_GA_URL . '/r/collect' . $query);
+            $response = wp_remote_get(
+                $url,
+                array(
+                    'headers' => array(
+                        'X-Forwarded-For' => $ip
+                    )
+                )
+            );
         } catch (\Exception $error) {
             throw new Exception($error->getMessage());
         }
 
         return $response;
+    }
+
+    /**
+     * @return string
+     */
+    private function get_user_ip_address()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $ip;
     }
 }
