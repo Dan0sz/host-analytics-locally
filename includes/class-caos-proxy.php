@@ -71,16 +71,17 @@ class CAOS_Proxy extends WP_REST_Controller
      */
     public function send_data($request)
     {
-        $params = $request->get_params();
-        $ip     = array('uip' => $this->get_user_ip_address());
-        $query  = '?' . http_build_query($params + $ip);
-        $url    = CAOS_GA_URL . '/r/collect' . $query;
+        $params  = $request->get_params();
+        $ip      = $this->get_user_ip_address();
+        $paramIp = array('uip' => $ip);
+        $query   = '?' . http_build_query($params + $paramIp);
+        $url     = CAOS_GA_URL . '/r/collect' . $query;
         try {
             $response = wp_remote_get(
                 $url,
                 array(
                     'headers' => array(
-                        'X-Forwarded-For' => $ip
+                        'X-Forwarded-For' => $this->get_user_ip_address()
                     )
                 )
             );
@@ -102,6 +103,11 @@ class CAOS_Proxy extends WP_REST_Controller
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
         } else {
             $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if (is_array(explode(',', $ip))) {
+            $ip = explode(',', $ip);
+            return $ip[0];
         }
 
         return $ip;
