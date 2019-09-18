@@ -146,6 +146,7 @@ if ($fileStatus): ?>
 <div class="caos_column_right"
      style="float:left; width: 50%;">
     <h3><?php _e('Advanced Settings', 'host-analyticsjs-local'); ?></h3>
+    <p class="description"><strong><?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?></strong></p>
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
@@ -170,20 +171,20 @@ if ($fileStatus): ?>
                     <?php _e('Allow another Google Analytics plugin to use the js-file created and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within the other plugin.', 'host-analyticsjs-local'); ?>
                 </p>
             </td>
-        </tr><!-- Experimental. Not ready for stable yet.
+        </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Enable stealth mode', 'host-analyticsjs-local'); ?></th>
+            <th scope="row"><?php _e('Enable stealth mode', 'host-analyticsjs-local'); ?> *</th>
             <td>
                 <input type="checkbox" class="caos_stealth_mode" name="caos_stealth_mode"
                     <?= CAOS_OPT_STEALTH_MODE == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <strong><?php _e('Use at your own risk!', 'host-analyticsjs-local'); ?></strong> <?= sprintf(__('This setting will send all hits to Google Analytics through your blog\'s server, which allows you to bypass most Ad Blockers. Please make sure your blog respects any relevant privacy laws! Trigger a manual update after saving your changes. (SSL [https] required! / Only works with analytics.js / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
+                    <strong><?php _e('Experimental', 'host-analyticsjs-local'); ?></strong>: <?= sprintf(__('Use at your own risk! This setting allows you to bypass most Ad Blockers. Make sure your blog/account respects any relevant privacy laws. (SSL [https] required! / Only works with analytics.js / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
                 </p>
             </td>
-        </tr>-->
+        </tr>
         <tr valign="top">
             <th scope="row"><?php _e('Which file to download?',
-                    'host-analyticsjs-local'); ?></th>
+                    'host-analyticsjs-local'); ?> *</th>
             <td>
                 <?php
                 $fileNames = array(
@@ -203,7 +204,7 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?></th>
+            <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?> *</th>
             <td>
                 <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
                 <p class="description">
