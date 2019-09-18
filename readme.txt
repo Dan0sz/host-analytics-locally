@@ -4,11 +4,11 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automagically download analytics.js/ga.js/gtag.js, keep it updated using WordPress' built-in Cron-schedule, generate the tracking code, add it to your site's header or footer and tons of other features!
+Automagically download and update analytics.js/ga.js/gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
 
 == Description ==
 
