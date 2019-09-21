@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.7.2
+ * Version: 2.7.3
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -419,7 +419,7 @@ function caos_analytics_render_tracking_code()
 
     <script>
         <?php
-        if (CAOS_OPT_ALLOW_TRACKING && CAOS_OPT_COOKIE_NAME
+        if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME
             && CAOS_OPT_COOKIE_VALUE): ?>
         function getCookieValue(name)
         {
@@ -441,8 +441,15 @@ function caos_analytics_render_tracking_code()
 
         <?php if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'): ?>
         window.dataLayer = window.dataLayer || [];
+
         <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=')) {
+        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
+            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
+        } else {
+            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+        }
+        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME): ?>
+        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
             window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
         } else {
             window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
@@ -496,7 +503,13 @@ function caos_analytics_render_tracking_code()
         <?php endif; ?>
 
         <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=')) {
+        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
+            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
+        } else {
+            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+        }
+        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME): ?>
+        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
             window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
         } else {
             window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;

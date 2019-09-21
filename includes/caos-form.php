@@ -41,9 +41,10 @@ if ($fileStatus): ?>
             <td>
                 <?php
                 $caos_allow_tracking_choice = array(
-                    ''                 => __('Always (default)', 'host-analyticsjs-local'),
-                    'cookie_is_set'    => __('When cookie is set', 'host-analyticsjs-local'),
-                    'cookie_has_value' => __('When cookie has a value', 'host-analyticsjs-local')
+                    ''                  => __('Always (default)', 'host-analyticsjs-local'),
+                    'cookie_is_set'     => __('When cookie is set', 'host-analyticsjs-local'),
+                    'cookie_is_not_set' => __('When cookie is NOT set', 'host-analyticsjs-local'),
+                    'cookie_has_value'  => __('When cookie has a value', 'host-analyticsjs-local')
                 );
 
                 foreach ($caos_allow_tracking_choice as $option => $label): ?>
@@ -146,7 +147,9 @@ if ($fileStatus): ?>
 <div class="caos_column_right"
      style="float:left; width: 50%;">
     <h3><?php _e('Advanced Settings', 'host-analyticsjs-local'); ?></h3>
-    <p class="description"><strong><?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?></strong></p>
+    <p class="description">
+        <strong><?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?></strong>
+    </p>
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
@@ -184,7 +187,8 @@ if ($fileStatus): ?>
         </tr>
         <tr valign="top">
             <th scope="row"><?php _e('Which file to download?',
-                    'host-analyticsjs-local'); ?> *</th>
+                    'host-analyticsjs-local'); ?> *
+            </th>
             <td>
                 <?php
                 $fileNames = array(
@@ -299,7 +303,8 @@ if ($fileStatus): ?>
     jQuery('.caos_allow_tracking_').click(function () {
         jQuery('.caos_gdpr_setting').hide();
     });
-    jQuery('.caos_allow_tracking_cookie_is_set').click(function () {
+    jQuery('.caos_allow_tracking_cookie_is_set, .caos_allow_tracking_cookie_is_not_set')
+    .click(function () {
         jQuery('.caos_allow_tracking_name').show();
         jQuery('.caos_allow_tracking_value').hide();
     });

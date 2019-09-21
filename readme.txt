@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.7.3 =
+Bugfix for 'when cookie is set'-option. Added 'when cookie is NOT set'-option. Code optimization for 'when cookie has value'-option.
 
 = 2.7.1 =
 Bugfix for detecting user's location when Stealth Mode is used.
