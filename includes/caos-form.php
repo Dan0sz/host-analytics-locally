@@ -151,7 +151,7 @@ if ($fileStatus): ?>
         <strong><?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?></strong>
     </p>
     <table class="form-table">
-        <tr valign="top">
+        <tr valign="top" class="caos-compatibility-mode">
             <th scope="row">
                 <?php _e('Enable compatibility mode', 'host-analyticsjs-local'); ?>
             </th>
@@ -165,7 +165,7 @@ if ($fileStatus): ?>
                     __('GADP for WP by Monster Insights', 'host-analyticsjs-local')          => 'monster_insights'
                 );
                 ?>
-                <select name="caos_analytics_compatibility_mode" class="caos_analytics_compatibility_mode">
+                <select name="caos_analytics_compatibility_mode" class="caos-compatibility-mode-input">
                     <?php foreach ($compatibilityModes as $label => $mode): ?>
                         <option value="<?= $mode; ?>" <?= (CAOS_OPT_COMPATIBILITY_MODE == $mode) ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
@@ -175,17 +175,17 @@ if ($fileStatus): ?>
                 </p>
             </td>
         </tr>
-        <tr valign="top">
+        <tr valign="top" class="caos-stealth-mode">
             <th scope="row"><?php _e('Enable stealth mode', 'host-analyticsjs-local'); ?> *</th>
             <td>
-                <input type="checkbox" class="caos_stealth_mode" name="caos_stealth_mode"
+                <input type="checkbox" class="caos-stealth-mode-input" name="caos_stealth_mode"
                     <?= CAOS_OPT_STEALTH_MODE == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <strong><?php _e('Experimental', 'host-analyticsjs-local'); ?></strong>: <?= sprintf(__('Use at your own risk! This setting allows you to bypass most Ad Blockers. Make sure your blog/account respects any relevant privacy laws. (SSL [https] required! / Only works with analytics.js / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
+                    <strong><?php _e('Experimental', 'host-analyticsjs-local'); ?></strong>: <?= sprintf(__('Use at your own risk! This setting allows you to bypass most Ad Blockers. Make sure your blog/account respects any relevant privacy laws. (SSL [https] required! / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
                 </p>
             </td>
         </tr>
-        <tr valign="top">
+        <tr valign="top" class="caos-js-file">
             <th scope="row"><?php _e('Which file to download?',
                     'host-analyticsjs-local'); ?> *
             </th>
@@ -197,7 +197,7 @@ if ($fileStatus): ?>
                     __("Ga.js (legacy)", 'host-analyticsjs-local')         => "ga.js"
                 );
                 ?>
-                <select name="caos_analytics_js_file">
+                <select name="caos_analytics_js_file" class="caos-js-file-input">
                     <?php foreach ($fileNames as $label => $fileName): ?>
                         <option value="<?= $fileName; ?>" <?= (CAOS_OPT_REMOTE_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
@@ -299,30 +299,3 @@ if ($fileStatus): ?>
         </tr>
     </table>
 </div>
-<script>
-    jQuery('.caos_allow_tracking_').click(function () {
-        jQuery('.caos_gdpr_setting').hide();
-    });
-    jQuery('.caos_allow_tracking_cookie_is_set, .caos_allow_tracking_cookie_is_not_set')
-    .click(function () {
-        jQuery('.caos_allow_tracking_name').show();
-        jQuery('.caos_allow_tracking_value').hide();
-    });
-    jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
-        jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
-    });
-    jQuery('.caos_script_position_manual').click(function () {
-        jQuery('.caos_add_manually').show();
-    });
-    jQuery('.caos_script_position_header, .caos_script_position_footer').click(function () {
-        jQuery('.caos_add_manually').hide();
-    });
-    jQuery('.caos_analytics_compatibility_mode').click(function () {
-        settings = jQuery('.caos_advanced_settings, .caos_basic_settings');
-        if (this.value !== '') {
-            jQuery(settings).hide();
-        } else {
-            jQuery(settings).show();
-        }
-    });
-</script>
