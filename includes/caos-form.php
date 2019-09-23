@@ -40,19 +40,12 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Allow tracking...', 'host-analyticsjs-local'); ?></th>
             <td>
                 <?php
-                $caos_allow_tracking_choice = array(
-                    ''                  => __('Always (default)', 'host-analyticsjs-local'),
-                    'cookie_is_set'     => __('When cookie is set', 'host-analyticsjs-local'),
-                    'cookie_is_not_set' => __('When cookie is NOT set', 'host-analyticsjs-local'),
-                    'cookie_has_value'  => __('When cookie has a value', 'host-analyticsjs-local')
-                );
-
-                foreach ($caos_allow_tracking_choice as $option => $label): ?>
+                foreach (caos_allow_tracking_choice() as $option => $details): ?>
                     <label>
                         <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
                                name="caos_allow_tracking" value="<?= $option; ?>"
-                            <?= $option == CAOS_OPT_ALLOW_TRACKING ? 'checked="checked"' : ''; ?>/>
-                        <?= $label; ?>
+                            <?= $option == CAOS_OPT_ALLOW_TRACKING ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>');"/>
+                        <?= $details['label']; ?>
                     </label>
                     <br/>
                 <?php endforeach; ?>
@@ -87,30 +80,6 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Position of tracking-code', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <?php
-                $caos_script_position = array(
-                    'header' => __('Header (default)', 'host-analyticsjs-local'),
-                    'footer' => __('Footer', 'host-analyticsjs-local'),
-                    'manual' => __('Add manually', 'host-analyticsjs-local')
-                );
-
-                foreach ($caos_script_position as $option => $label): ?>
-                    <label>
-                        <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
-                               value="<?= $option; ?>" <?= $option == CAOS_OPT_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> />
-                        <?= $label; ?>
-                    </label>
-                    <br/>
-                <?php endforeach; ?>
-                <p class="description">
-                    <?php _e('Load the Analytics tracking-snippet in the header, footer or manually?', 'host-analyticsjs-local'); ?>
-                    <?php _e('If e.g. your theme doesn\'t load the wp_head conventionally, choose \'Add manually\'.', 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <tr valign="top">
             <th scope="row"><?php _e('Snippet type', 'host-analyticsjs-local'); ?></th>
             <td>
                 <?php
@@ -127,6 +96,24 @@ if ($fileStatus): ?>
                 <p class="description">
                     <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for gtag.js and analytics.js)', 'host-analyticsjs-local'); ?>
                     <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php _e('Position of tracking-code', 'host-analyticsjs-local'); ?></th>
+            <td>
+                <?php
+                foreach (caos_script_position() as $option => $details): ?>
+                    <label>
+                        <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
+                               value="<?= $option; ?>" <?= $option == CAOS_OPT_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>')"/>
+                        <?= $details['label']; ?>
+                    </label>
+                    <br/>
+                <?php endforeach; ?>
+                <p class="description">
+                    <?php _e('Load the Analytics tracking-snippet in the header, footer or manually?', 'host-analyticsjs-local'); ?>
+                    <?php _e('If e.g. your theme doesn\'t load the wp_head conventionally, choose \'Add manually\'.', 'host-analyticsjs-local'); ?>
                 </p>
             </td>
         </tr>
@@ -156,18 +143,9 @@ if ($fileStatus): ?>
                 <?php _e('Enable compatibility mode', 'host-analyticsjs-local'); ?>
             </th>
             <td>
-                <?php
-                $compatibilityModes = array(
-                    __('None (default)', 'host-analyticsjs-local')                           => null,
-                    __('WooCommerce Google Analytics Integration', 'host-analyticsjs-local') => 'woocommerce',
-                    __('GADP for WP by Analytify', 'host-analyticsjs-local')                 => 'analytify',
-                    __('GAD for WP by ExactMetrics', 'host-analyticsjs-local')               => 'exact_metrics',
-                    __('GADP for WP by Monster Insights', 'host-analyticsjs-local')          => 'monster_insights'
-                );
-                ?>
                 <select name="caos_analytics_compatibility_mode" class="caos-compatibility-mode-input">
-                    <?php foreach ($compatibilityModes as $label => $mode): ?>
-                        <option value="<?= $mode; ?>" <?= (CAOS_OPT_COMPATIBILITY_MODE == $mode) ? 'selected' : ''; ?>><?= $label; ?></option>
+                    <?php foreach (caos_compatibility_modes() as $option => $details): ?>
+                        <option value="<?= $option; ?>" <?= (CAOS_OPT_COMPATIBILITY_MODE == $option) ? 'selected' : ''; ?>><?= $details['label']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
@@ -190,15 +168,8 @@ if ($fileStatus): ?>
                     'host-analyticsjs-local'); ?> *
             </th>
             <td>
-                <?php
-                $fileNames = array(
-                    __("Analytics.js (default)", 'host-analyticsjs-local') => "analytics.js",
-                    "Gtag.js"                                              => "gtag.js",
-                    __("Ga.js (legacy)", 'host-analyticsjs-local')         => "ga.js"
-                );
-                ?>
                 <select name="caos_analytics_js_file" class="caos-js-file-input">
-                    <?php foreach ($fileNames as $label => $fileName): ?>
+                    <?php foreach (caos_js_file() as $label => $fileName): ?>
                         <option value="<?= $fileName; ?>" <?= (CAOS_OPT_REMOTE_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
                 </select>

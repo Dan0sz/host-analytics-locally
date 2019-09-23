@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.7.4
+ * Version: 2.7.5
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -154,6 +154,94 @@ function caos_analytics_create_menu()
     );
 }
 add_action('admin_menu', 'caos_analytics_create_menu');
+
+function caos_allow_tracking_choice()
+{
+    $gdpr       = 'caos_gdpr_setting';
+    $allowName  = 'caos_allow_tracking_name';
+    $allowValue = 'caos_allow_tracking_value';
+
+    return array(
+        ''                  => array(
+            'label' => __('Always (default)', 'host-analyticsjs-local'),
+            'show'  => null,
+            'hide'  => $gdpr
+        ),
+        'cookie_is_set'     => array(
+            'label' => __('When cookie is set', 'host-analyticsjs-local'),
+            'show'  => $allowName,
+            'hide'  => $allowValue
+        ),
+        'cookie_is_not_set' => array(
+            'label' => __('When cookie is NOT set', 'host-analyticsjs-local'),
+            'show'  => $allowName,
+            'hide'  => $allowValue
+        ),
+        'cookie_has_value'  => array(
+            'label' => __('When cookie has a value', 'host-analyticsjs-local'),
+            'show'  => "$allowName, $allowValue",
+            'hide'  => null
+        )
+    );
+}
+
+function caos_script_position()
+{
+    $addManually = 'caos_add_manually';
+
+    return array(
+        'header' => array(
+            'label' => __('Header (default)', 'host-analyticsjs-local'),
+            'hide'  => $addManually,
+            'show'  => null
+        ),
+        'footer' => array(
+            'label' => __('Footer', 'host-analyticsjs-local'),
+            'hide'  => $addManually,
+            'show'  => null
+        ),
+        'manual' => array(
+            'label' => __('Add manually', 'host-analyticsjs-local'),
+            'hide'  => null,
+            'show'  => $addManually
+        )
+    );
+}
+
+function caos_js_file()
+{
+    return array(
+        __("Analytics.js (default)", 'host-analyticsjs-local') => "analytics.js",
+        "Gtag.js"                                              => "gtag.js",
+        __("Ga.js (legacy)", 'host-analyticsjs-local')         => "ga.js"
+    );
+}
+
+/**
+ * Render Compatibility Modes and show/hide options.
+ *
+ * @return array
+ */
+function caos_compatibility_modes()
+{
+    return array(
+        ''                 => array(
+            'label' => __('None (default)', 'host-analyticsjs-local')
+        ),
+        'woocommerce'      => array(
+            'label' => __('WooCommerce Google Analytics Integration', 'host-analyticsjs-local')
+        ),
+        'analytify'        => array(
+            'label' => __('GADP for WP by Analytify', 'host-analyticsjs-local')
+        ),
+        'exact_metrics'    => array(
+            'label' => __('GAD for WP by ExactMetrics', 'host-analyticsjs-local')
+        ),
+        'monster_insights' => array(
+            'label' => __('GADP for WP by Monster Insights', 'host-analyticsjs-local')
+        )
+    );
+}
 
 /**
  * @return string

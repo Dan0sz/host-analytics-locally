@@ -24,34 +24,25 @@ function caosDownloadManually() {
     });
 }
 
-jQuery('.caos_allow_tracking_').click(function () {
-    jQuery('.caos_gdpr_setting').hide();
-});
+function showOptions(className) {
+    if (className) {
+        jQuery('.' + className).show();
+    }
+}
 
-jQuery('.caos_allow_tracking_cookie_is_set, .caos_allow_tracking_cookie_is_not_set').click(function () {
-    jQuery('.caos_allow_tracking_name').show();
-    jQuery('.caos_allow_tracking_value').hide();
-});
-
-jQuery('.caos_allow_tracking_cookie_has_value').click(function () {
-    jQuery('.caos_allow_tracking_name, .caos_allow_tracking_value').show();
-});
-
-jQuery('.caos_script_position_manual').click(function () {
-    jQuery('.caos_add_manually').show();
-});
-
-jQuery('.caos_script_position_header, .caos_script_position_footer').click(function () {
-    jQuery('.caos_add_manually').hide();
-});
+function hideOptions(className) {
+    if (className) {
+        jQuery('.' + className).hide();
+    }
+}
 
 jQuery('.caos-compatibility-mode-input').click(function () {
-    settings = jQuery('.caos_advanced_settings, .caos_basic_settings');
+    settings = 'caos_advanced_settings, .caos_basic_settings';
     if (this.value !== '') {
-        jQuery(settings).hide();
+        hideOptions(settings);
         jQuery('.caos-js-file-input').val('analytics.js');
     } else {
-        jQuery(settings).show();
+        showOptions(settings);
     }
 });
 
