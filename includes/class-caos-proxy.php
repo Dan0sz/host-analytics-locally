@@ -14,6 +14,11 @@ class CAOS_Proxy extends WP_REST_Controller
         '/collect'
     );
 
+    const CAOS_PLUGIN_ENDPOINTS = array(
+        '/plugins/ua/ec.js',
+        '/plugins/ua/linkid.js'
+    );
+
     /** @var string $namespace */
     protected $namespace;
 
@@ -30,8 +35,8 @@ class CAOS_Proxy extends WP_REST_Controller
     }
 
     /**
-     * analytics.js seems to randomly use /r/ in the Measurement Protocol endpoint. That's why
-     * we register them both.
+     * analytics.js seems to randomly use /r/ and /j/ in the Measurement Protocol endpoint. That's why
+     * we register them all.
      */
     public function register_routes()
     {
@@ -43,7 +48,25 @@ class CAOS_Proxy extends WP_REST_Controller
                     array(
                         'methods'             => WP_REST_Server::READABLE,
                         'callback'            => array($this, 'send_data'),
-                        'permission_callback' => array($this, 'send_data_permissions_check')
+                        'permission_callback' => array($this, 'permissions_check')
+                    ),
+                    'schema' => null,
+                )
+            );
+        }
+
+        /**
+         * linkid.js seems to be causing issues.
+         */
+        foreach (self::CAOS_PLUGIN_ENDPOINTS as $endpoint) {
+            register_rest_route(
+                $this->namespace,
+                '/' . $this->rest_base . $endpoint,
+                array(
+                    array(
+                        'methods' => WP_REST_Server::READABLE,
+                        'callback' => array($this, 'file_download'),
+                        'permission_callback' => array($this, 'permissions_check')
                     ),
                     'schema' => null,
                 )
@@ -56,7 +79,7 @@ class CAOS_Proxy extends WP_REST_Controller
      *
      * @return bool
      */
-    public function send_data_permissions_check()
+    public function permissions_check()
     {
         return true;
     }
@@ -111,5 +134,22 @@ class CAOS_Proxy extends WP_REST_Controller
         }
 
         return $ip;
+    }
+
+    /**
+     * When Enhanced Ecommerce features are used, we need to redirect the requests to download the
+     * plugins. Sadly, these redirects will be caught by Ad Blockers.
+     *
+     * @param $request
+     */
+    public function file_download($request)
+    {
+        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function($value) use ($request) {
+            return strpos($request->get_route(), $value) !== false;
+        });
+        $file = CAOS_GA_URL . $endpoint[0];
+
+        // Force the download
+        header("Location: $file");
     }
 }
