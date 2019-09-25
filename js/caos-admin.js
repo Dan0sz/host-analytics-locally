@@ -13,7 +13,7 @@ function caosDownloadManually() {
             action: 'caos_analytics_ajax_manual_download'
         },
         success: function (response) {
-            var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>File successfully downloaded and saved.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+            var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>' + response + '</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
             
             jQuery('html, body').animate({scrollTop: 0}, 800);
             

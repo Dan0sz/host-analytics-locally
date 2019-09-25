@@ -65,3 +65,5 @@ if (is_array($remoteFile)) {
         }
     }
 }
+
+wp_die(__('File successfully downloaded and saved.'));
