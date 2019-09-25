@@ -129,8 +129,9 @@ class CAOS_Proxy extends WP_REST_Controller
         $endpoint = reset($endpoint);
         $localFileUrl = content_url() . rtrim(CAOS_OPT_CACHE_DIR, '/') . $endpoint;
 
-        // Set Redirect
+        // Set Redirect and die() to force redirect on some servers.
         header("Location: $localFileUrl");
+        die();
     }
 
     /**
