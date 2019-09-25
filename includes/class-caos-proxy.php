@@ -5,7 +5,8 @@
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
  */
-include('class-caos-update.php');
+
+include(dirname(__FILE__) . '/class-caos-update.php');
 
 class CAOS_Proxy extends WP_REST_Controller
 {
