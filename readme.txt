@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.7.6
+Stable tag: 2.7.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.7.7 =
+Stealth Mode now also works for Google Analytics' Enhanced Commerce and Enhanced Link Attribution plugins.
 
 = 2.7.6 =
 Added fix for Stealth Mode, when using Google Analytics E-commerce features. Known issue: the download

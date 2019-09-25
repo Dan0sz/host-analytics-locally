@@ -5,6 +5,7 @@
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
  */
+include('class-caos-update.php');
 
 class CAOS_Proxy extends WP_REST_Controller
 {
@@ -55,9 +56,6 @@ class CAOS_Proxy extends WP_REST_Controller
             );
         }
 
-        /**
-         * linkid.js seems to be causing issues.
-         */
         foreach (self::CAOS_PLUGIN_ENDPOINTS as $endpoint) {
             register_rest_route(
                 $this->namespace,
@@ -65,7 +63,7 @@ class CAOS_Proxy extends WP_REST_Controller
                 array(
                     array(
                         'methods' => WP_REST_Server::READABLE,
-                        'callback' => array($this, 'file_download'),
+                        'callback' => array($this, 'set_redirect'),
                         'permission_callback' => array($this, 'permissions_check')
                     ),
                     'schema' => null,
@@ -116,6 +114,25 @@ class CAOS_Proxy extends WP_REST_Controller
     }
 
     /**
+     * When Enhanced Ecommerce features are used, we need to redirect the requests to download the
+     * plugins. Sadly, these redirects will be caught by Ad Blockers.
+     *
+     * @param $request
+     */
+    public function set_redirect($request)
+    {
+        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function($value) use ($request) {
+            return strpos($request->get_route(), $value) !== false;
+        });
+
+        $endpoint = reset($endpoint);
+        $localFileUrl = content_url() . rtrim(CAOS_OPT_CACHE_DIR, '/') . $endpoint;
+
+        // Set Redirect
+        header("Location: $localFileUrl");
+    }
+
+    /**
      * @return string
      */
     private function get_user_ip_address()
@@ -134,22 +151,5 @@ class CAOS_Proxy extends WP_REST_Controller
         }
 
         return $ip;
-    }
-
-    /**
-     * When Enhanced Ecommerce features are used, we need to redirect the requests to download the
-     * plugins. Sadly, these redirects will be caught by Ad Blockers.
-     *
-     * @param $request
-     */
-    public function file_download($request)
-    {
-        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function($value) use ($request) {
-            return strpos($request->get_route(), $value) !== false;
-        });
-        $file = CAOS_GA_URL . $endpoint[0];
-
-        // Force the download
-        header("Location: $file");
     }
 }
