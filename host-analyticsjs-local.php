@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.7.11
+ * Version: 2.8.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -155,6 +155,9 @@ function caos_analytics_create_menu()
 }
 add_action('admin_menu', 'caos_analytics_create_menu');
 
+/**
+ * @return array
+ */
 function caos_allow_tracking_choice()
 {
     $gdpr       = 'caos_gdpr_setting';
@@ -185,6 +188,9 @@ function caos_allow_tracking_choice()
     );
 }
 
+/**
+ * @return array
+ */
 function caos_script_position()
 {
     $addManually = 'caos_add_manually';
@@ -208,6 +214,9 @@ function caos_script_position()
     );
 }
 
+/**
+ * @return array
+ */
 function caos_js_file()
 {
     return array(
@@ -377,7 +386,7 @@ function caos_analytics_settings_page()
             <a title="Buy me a beer!" href="<?= CAOS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
         </p>
 
-        <?php include(plugin_dir_path(__FILE__) . 'includes/welcome-panel.php'); ?>
+        <?php require_once(dirname(__FILE__) . '/includes/templates/settings-welcome.php'); ?>
 
         <form method="post" action="options.php">
             <?php
@@ -389,7 +398,7 @@ function caos_analytics_settings_page()
             );
             ?>
 
-            <?php include(plugin_dir_path(__FILE__) . 'includes/caos-form.php'); ?>
+            <?php require_once(dirname(__FILE__) . '/includes/templates/settings-form.php'); ?>
 
             <?php do_action('caos_after_form_settings'); ?>
 
@@ -450,7 +459,7 @@ register_activation_hook(__FILE__, 'caos_analytics_activate_cron');
  */
 function caos_analytics_load_cron_script()
 {
-    include(plugin_dir_path(__FILE__) . 'includes/update-analytics.php');
+    require_once(dirname(__FILE__) . '/includes/scripts/update-analytics.php');
 }
 add_action(CAOS_CRON, 'caos_analytics_load_cron_script');
 
@@ -480,7 +489,7 @@ function caos_register_routes()
         return;
     }
 
-    include(plugin_dir_path(__FILE__) . 'includes/class-caos-proxy.php');
+    require_once(dirname(__FILE__) . '/includes/class-caos-proxy.php');
 
     $proxy = new CAOS_Proxy();
     $proxy->register_routes();
@@ -494,149 +503,27 @@ function caos_analytics_render_tracking_code()
 {
     if (!CAOS_OPT_TRACKING_ID) {
         return;
-    } ?>
+    }
 
-    <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
-    <?php if (
-    CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'
-    || (CAOS_OPT_SNIPPET_TYPE == 'async' && CAOS_OPT_REMOTE_JS_FILE != 'ga.js')):
-    $urlId = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
-    ?>
-    <script <?= CAOS_OPT_SNIPPET_TYPE == 'async' ? 'async' : ''; ?> src="<?= CAOS_LOCAL_FILE_URL . $urlId; ?>"></script>
-<?php endif; ?>
+    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->\n";
 
-    <script>
-        <?php
-        if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME
-            && CAOS_OPT_COOKIE_VALUE): ?>
-        function getCookieValue(name)
-        {
-            cookies = document.cookie;
-            cookiesArray = cookies.split('; ');
-            cookieValue = null;
-            cookiesArray.forEach(function (cookie) {
-                cookieArray = cookie.split('=');
-                if (cookieArray[0] !== name) {
-                    return;
-                }
-                cookieValue = cookieArray[1];
-            });
-            return cookieValue;
-        }
+    if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' || (CAOS_OPT_SNIPPET_TYPE == 'async' && CAOS_OPT_REMOTE_JS_FILE != 'ga.js')) {
+        $urlId = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
+        $snippetType = 'async' ? 'async' : '';
+        $localFileUrl = CAOS_LOCAL_FILE_URL . $urlId;
 
-        cookieValue = getCookieValue('<?= CAOS_OPT_COOKIE_NAME; ?>');
-        <?php endif; ?>
+        echo "<script $snippetType src='$localFileUrl'></script>";
+    }
 
-        <?php if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'): ?>
-        window.dataLayer = window.dataLayer || [];
+    if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
+        require_once('includes/templates/tracking-code-cookie-value.phtml');
+    }
 
-        <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE): ?>
-        if (cookieValue === '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php else: ?>
-        window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        <?php endif; ?>
-
-        function gtag() {dataLayer.push(arguments);}
-
-        gtag('js', new Date());
-        gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', {
-                'cookie_prefix': 'CaosGtag',
-                'cookie_domain': '<?= $_SERVER['SERVER_NAME']; ?>',
-                'cookie_expires': '<?= CAOS_COOKIE_EXPIRY_DAYS; ?>',
-                'anonymize_ip': '<?= CAOS_OPT_ANONYMIZE_IP ? 'true' : 'false'; ?>'
-            }
-        );
-
-        <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
-        setTimeout(
-            gtag('event', 'Adjusted Bounce Rate', {
-                    'event_category': 'ABR'
-                }
-            ), <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>
-        );
-        <?php endif; ?>
-
-        <?php else: ?>
-        <?php if (CAOS_OPT_SNIPPET_TYPE == 'default'): ?>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments);
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m);
-        })(window, document, 'script', '<?= CAOS_LOCAL_FILE_URL; ?>', 'ga');
-        <?php elseif (CAOS_OPT_SNIPPET_TYPE == 'async'): ?>
-        window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
-        ga.l = +new Date;
-        <?php endif; ?>
-
-        <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME): ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE): ?>
-        if (cookieValue === '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        } else {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
-        }
-        <?php else: ?>
-        window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = false;
-        <?php endif; ?>
-
-        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>',
-            {
-                'cookieName': 'caosLocalGa',
-                'cookieDomain': '<?= $_SERVER['SERVER_NAME']; ?>',
-                'cookieExpires': '<?= CAOS_COOKIE_EXPIRY_DAYS; ?>'
-            }
-        );
-
-        <?php if (CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on'): ?>
-        ga('set', 'displayFeaturesTask', null);
-        <?php endif; ?>
-
-        <?php if (CAOS_OPT_ANONYMIZE_IP == 'on'): ?>
-        ga('set', 'anonymizeIp', true);
-        <?php endif; ?>
-        ga('send', 'pageview');
-
-        <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
-        setTimeout(
-            "ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
-        <?php endif; ?>
-
-        <?php endif; ?>
-    </script>
-    <?php
+    if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
+        require_once('includes/templates/tracking-code-gtag.phtml');
+    } else {
+        require_once('includes/templates/tracking-code-analytics.phtml');
+    }
 }
 
 /**

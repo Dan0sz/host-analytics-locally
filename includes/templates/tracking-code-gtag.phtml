@@ -1,0 +1,35 @@
+<?php
+/**
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ */
+?>
+<script>
+    window.dataLayer = window.dataLayer || [];
+</script>
+
+<?php require_once(dirname(__FILE__) . '/tracking-code-ga-disable.phtml'); ?>
+
+<script>
+    function gtag() {dataLayer.push(arguments);}
+
+    gtag('js', new Date());
+    gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', {
+            'cookie_prefix': 'CaosGtag',
+            'cookie_domain': '<?= $_SERVER['SERVER_NAME']; ?>',
+            'cookie_expires': '<?= CAOS_COOKIE_EXPIRY_DAYS; ?>',
+            'anonymize_ip': '<?= CAOS_OPT_ANONYMIZE_IP ? 'true' : 'false'; ?>'
+        }
+    );
+
+    <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
+    setTimeout(
+        gtag('event', 'Adjusted Bounce Rate', {
+                'event_category': 'ABR'
+            }
+        ), <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>
+    );
+    <?php endif; ?>
+</script>

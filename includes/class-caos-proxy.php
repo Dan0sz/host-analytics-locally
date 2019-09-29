@@ -63,8 +63,8 @@ class CAOS_Proxy extends WP_REST_Controller
                 '/' . $this->rest_base . $endpoint,
                 array(
                     array(
-                        'methods' => WP_REST_Server::READABLE,
-                        'callback' => array($this, 'set_redirect'),
+                        'methods'             => WP_REST_Server::READABLE,
+                        'callback'            => array($this, 'set_redirect'),
                         'permission_callback' => array($this, 'permissions_check')
                     ),
                     'schema' => null,
@@ -74,8 +74,6 @@ class CAOS_Proxy extends WP_REST_Controller
     }
 
     /**
-     * @param $request
-     *
      * @return bool
      */
     public function permissions_check()
@@ -84,7 +82,8 @@ class CAOS_Proxy extends WP_REST_Controller
     }
 
     /**
-     * The uip-parameter is added to the query, to keep the location data accurate.
+     * The uip-parameter is added to the query, to preserve the visitor's location.
+     * The ua-parameter is added to the query, to preserve the visitor's User-Agent.
      *
      * @param WP_REST_Request $request
      *
@@ -93,17 +92,21 @@ class CAOS_Proxy extends WP_REST_Controller
      */
     public function send_data($request)
     {
-        $params  = $request->get_params();
-        $ip      = $this->get_user_ip_address();
-        $paramIp = array('uip' => $ip);
-        $query   = '?' . http_build_query($params + $paramIp);
-        $url     = CAOS_GA_URL . '/r/collect' . $query;
+        $params         = $request->get_params();
+        $ip             = $this->get_user_ip_address();
+        $passThruParams = array(
+            'uip'        => $ip,
+            'ua'         => $request->get_header('user_agent')
+        );
+        $query          = '?' . http_build_query($params + $passThruParams);
+        $url            = CAOS_GA_URL . '/r/collect' . $query;
         try {
             $response = wp_remote_get(
                 $url,
                 array(
-                    'headers' => array(
-                        'X-Forwarded-For' => $this->get_user_ip_address()
+                    'user-agent' => $request->get_header('user_agent'),
+                    'headers'    => array(
+                        'X-Forwarded-For:' => $this->get_user_ip_address()
                     )
                 )
             );
@@ -115,18 +118,18 @@ class CAOS_Proxy extends WP_REST_Controller
     }
 
     /**
-     * When Enhanced Ecommerce features are used, we need to redirect the requests to download the
-     * plugins. Sadly, these redirects will be caught by Ad Blockers.
+     * If Ecommerce Plugins are used, we need to capture these requests and redirect them to the
+     * locally hosted versions, so these requests will also bypass Ad Blockers.
      *
      * @param $request
      */
     public function set_redirect($request)
     {
-        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function($value) use ($request) {
+        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function ($value) use ($request) {
             return strpos($request->get_route(), $value) !== false;
         });
 
-        $endpoint = reset($endpoint);
+        $endpoint     = reset($endpoint);
         $localFileUrl = content_url() . rtrim(CAOS_OPT_CACHE_DIR, '/') . $endpoint;
 
         // Set Redirect and die() to force redirect on some servers.
@@ -149,6 +152,7 @@ class CAOS_Proxy extends WP_REST_Controller
 
         if (is_array(explode(',', $ip))) {
             $ip = explode(',', $ip);
+
             return $ip[0];
         }
 

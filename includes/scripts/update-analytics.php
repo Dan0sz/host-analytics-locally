@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-include(dirname(__FILE__) . '/class-caos-update.php');
+require_once(dirname(dirname(__FILE__)) . '/class-caos-update.php');
 $update = new CAOS_Update();
 
 // Remote file to download
