@@ -368,7 +368,7 @@ function caos_analytics_render_tracking_code() {
 	} ?>
 
     <!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->
-    <script>
+    <script <?php echo apply_filters('caos_script_attributes', '')?>>
 		<?php
 		if (CAOS_ANALYTICS_COOKIE_NAME && CAOS_ANALYTICS_COOKIE_VALUE): ?>
         function getCookieValue(name)
