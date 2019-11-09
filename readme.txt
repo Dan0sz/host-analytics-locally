@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.8.0
+Stable tag: 2.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/opt
 
 == Features ==
 - Host analytics.js, ga.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/)),
+- WP devs can easily modify the tracking code by using WP filters,
 - When using gtag.js, the underlying request to analytics.js is also loaded from the local source!
 - **Bypass Ad Blockers** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/),
@@ -122,6 +123,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.8.1 =
+Code optimizations: the tracking code snippets can now be modified using `add_filter()`. CAOS' own settings are also added using those filters.
 
 = 2.8.0 =
 Major overhaul of code to minimize plugin size and maximize performance.

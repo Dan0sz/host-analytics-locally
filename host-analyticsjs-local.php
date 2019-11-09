@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.8.0
+ * Version: 2.8.1
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -49,13 +49,13 @@ define('CAOS_GTM_URL', 'https://www.googletagmanager.com');
 define('CAOS_REMOTE_URL', CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? CAOS_GTM_URL : CAOS_GA_URL);
 define('CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR);
 define('CAOS_LOCAL_FILE_DIR', CAOS_LOCAL_DIR . CAOS_OPT_REMOTE_JS_FILE);
-define('CAOS_LOCAL_FILE_URL', caos_analytics_get_url());
+define('CAOS_LOCAL_FILE_URL', caos_get_url());
 define('CAOS_PROXY_URI', '/wp-json/caos-analytics/v1/proxy');
 
 /**
  * Register Settings
  */
-function caos_analytics_register_settings()
+function caos_register_settings()
 {
     register_setting(
         'save-ga-locally-basic-settings',
@@ -123,10 +123,6 @@ function caos_analytics_register_settings()
     );
     register_setting(
         'save-ga-locally-basic-settings',
-        'caos_remove_wp_cron'
-    );
-    register_setting(
-        'save-ga-locally-basic-settings',
         'caos_disable_display_features'
     );
     register_setting(
@@ -138,22 +134,73 @@ function caos_analytics_register_settings()
 /**
  * Create WP menu-item
  */
-function caos_analytics_create_menu()
+function caos_create_menu()
 {
     add_options_page(
         'Complete Analytics Optimization Suite',
         'Optimize Analytics',
         'manage_options',
         'host_analyticsjs_local',
-        'caos_analytics_settings_page'
+        'caos_settings_page'
     );
 
     add_action(
         'admin_init',
-        'caos_analytics_register_settings'
+        'caos_register_settings'
     );
 }
-add_action('admin_menu', 'caos_analytics_create_menu');
+add_action('admin_menu', 'caos_create_menu');
+
+/**
+ * Create settings page
+ */
+function caos_settings_page()
+{
+    if (!current_user_can('manage_options')) {
+        wp_die(__("You're not cool enough to access this page.", 'host-analyticsjs-local'));
+    }
+    ?>
+
+    <div class="wrap">
+        <h1><?php _e('CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local'); ?></h1>
+
+        <div id="caos-notices"></div>
+
+        <p>
+            <?php _e('Developed by: ', 'host-analyticsjs-local'); ?>
+            <a title="Buy me a beer!" href="<?= CAOS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
+        </p>
+
+        <?php require_once(dirname(__FILE__) . '/includes/templates/settings-welcome.php'); ?>
+
+        <form method="post" action="options.php">
+            <?php
+            settings_fields(
+                'save-ga-locally-basic-settings'
+            );
+            do_settings_sections(
+                'save-ga-locally-basic-settings'
+            );
+            ?>
+
+            <?php require_once(dirname(__FILE__) . '/includes/templates/settings-form.php'); ?>
+
+            <?php do_action('caos_after_form_settings'); ?>
+
+            <div style="clear: left; display: inline-block;">
+                <?php submit_button(); ?>
+            </div>
+
+            <div style="display: inline-block;">
+                <p class="submit">
+                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button"
+                           onclick="caosDownloadManually();"/>
+                </p>
+            </div>
+        </form>
+    </div>
+    <?php
+}
 
 /**
  * @return array
@@ -255,7 +302,7 @@ function caos_compatibility_modes()
 /**
  * @return string
  */
-function caos_analytics_get_url()
+function caos_get_url()
 {
     $url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 
@@ -269,7 +316,7 @@ function caos_analytics_get_url()
 /**
  * @return string
  */
-function caos_analytics_get_dir()
+function caos_get_dir()
 {
     $dir = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 
@@ -284,7 +331,7 @@ function caos_analytics_get_dir()
  *
  * @return string
  */
-function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US')
+function caos_format_time_by_locale($dateTime = null, $locale = 'en_US')
 {
     try {
         $dateObj = new DateTime;
@@ -313,11 +360,11 @@ function caos_analytics_format_time_by_locale($dateTime = null, $locale = 'en_US
  *
  * @return string
  */
-function caos_analytics_file_last_updated()
+function caos_file_last_updated()
 {
     $fileMtime = filemtime(CAOS_LOCAL_FILE_DIR);
 
-    return caos_analytics_format_time_by_locale($fileMtime, get_locale());
+    return caos_format_time_by_locale($fileMtime, get_locale());
 }
 
 /**
@@ -325,11 +372,11 @@ function caos_analytics_file_last_updated()
  *
  * @return string
  */
-function caos_analytics_cron_next_scheduled()
+function caos_cron_next_scheduled()
 {
     $nextScheduled = wp_next_scheduled(CAOS_CRON);
 
-    return caos_analytics_format_time_by_locale($nextScheduled, get_locale());
+    return caos_format_time_by_locale($nextScheduled, get_locale());
 }
 
 /**
@@ -337,7 +384,7 @@ function caos_analytics_cron_next_scheduled()
  *
  * @return bool
  */
-function caos_analytics_cron_status()
+function caos_cron_status()
 {
     $fileModTime = filemtime(CAOS_LOCAL_FILE_DIR);
 
@@ -355,7 +402,7 @@ function caos_analytics_cron_status()
  *
  * @return mixed
  */
-function caos_analytics_settings_link($links)
+function caos_settings_link($links)
 {
     $adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
     $settingsLink = "<a href='$adminUrl'>" . __('Settings', 'host-analyticsjs-local') . "</a>";
@@ -364,70 +411,19 @@ function caos_analytics_settings_link($links)
     return $links;
 }
 $caosLink = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$caosLink", 'caos_analytics_settings_link');
-
-/**
- * Create settings page
- */
-function caos_analytics_settings_page()
-{
-    if (!current_user_can('manage_options')) {
-        wp_die(__("You're not cool enough to access this page.", 'host-analyticsjs-local'));
-    }
-    ?>
-
-    <div class="wrap">
-        <h1><?php _e('CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local'); ?></h1>
-
-        <div id="caos-notices"></div>
-
-        <p>
-            <?php _e('Developed by: ', 'host-analyticsjs-local'); ?>
-            <a title="Buy me a beer!" href="<?= CAOS_SITE_URL; ?>/donate/">Daan van den Bergh</a>.
-        </p>
-
-        <?php require_once(dirname(__FILE__) . '/includes/templates/settings-welcome.php'); ?>
-
-        <form method="post" action="options.php">
-            <?php
-            settings_fields(
-                'save-ga-locally-basic-settings'
-            );
-            do_settings_sections(
-                'save-ga-locally-basic-settings'
-            );
-            ?>
-
-            <?php require_once(dirname(__FILE__) . '/includes/templates/settings-form.php'); ?>
-
-            <?php do_action('caos_after_form_settings'); ?>
-
-            <div style="clear: left; display: inline-block;">
-                <?php submit_button(); ?>
-            </div>
-
-            <div style="display: inline-block;">
-                <p class="submit">
-                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button"
-                           onclick="caosDownloadManually();"/>
-                </p>
-            </div>
-        </form>
-    </div>
-    <?php
-}
+add_filter("plugin_action_links_$caosLink", 'caos_settings_link');
 
 /**
  * Create Cache-dir upon reactivation.
  */
-function caos_analytics_create_cache_dir()
+function caos_create_cache_dir()
 {
     $uploadDir = CAOS_LOCAL_DIR;
     if (!is_dir($uploadDir)) {
         wp_mkdir_p($uploadDir);
     }
 }
-register_activation_hook(__FILE__, 'caos_analytics_create_cache_dir');
+register_activation_hook(__FILE__, 'caos_create_cache_dir');
 
 /**
  * Enqueue JS scripts for Administrator Area.
@@ -435,49 +431,49 @@ register_activation_hook(__FILE__, 'caos_analytics_create_cache_dir');
  *
  * @param $hook
  */
-function caos_analytics_enqueue_js_scripts($hook)
+function caos_enqueue_js_scripts($hook)
 {
     if ($hook == 'settings_page_host_analyticsjs_local') {
         wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), ['jquery'], CAOS_STATIC_VERSION, true);
     }
 }
-add_action('admin_enqueue_scripts', 'caos_analytics_enqueue_js_scripts');
+add_action('admin_enqueue_scripts', 'caos_enqueue_js_scripts');
 
 /**
  * Register hook to schedule script in wp_cron()
  */
-function caos_analytics_activate_cron()
+function caos_activate_cron()
 {
     if (!wp_next_scheduled(CAOS_CRON)) {
         wp_schedule_event(time(), 'daily', CAOS_CRON);
     }
 }
-register_activation_hook(__FILE__, 'caos_analytics_activate_cron');
+register_activation_hook(__FILE__, 'caos_activate_cron');
 
 /**
  * Load update script to schedule in wp_cron()
  */
-function caos_analytics_load_cron_script()
+function caos_load_cron_script()
 {
     require_once(dirname(__FILE__) . '/includes/scripts/update-analytics.php');
 }
-add_action(CAOS_CRON, 'caos_analytics_load_cron_script');
+add_action(CAOS_CRON, 'caos_load_cron_script');
 
 /**
  * Manually Update Local Analytics.js Script
  */
-add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_analytics_load_cron_script');
+add_action('wp_ajax_caos_analytics_ajax_manual_download', 'caos_load_cron_script');
 
 /**
  * Remove script from wp_cron upon plugin deactivation
  */
-function caos_analytics_deactivate_cron()
+function caos_deactivate_cron()
 {
     if (wp_next_scheduled(CAOS_CRON)) {
         wp_clear_scheduled_hook(CAOS_CRON);
     }
 }
-register_deactivation_hook(__FILE__, 'caos_analytics_deactivate_cron');
+register_deactivation_hook(__FILE__, 'caos_deactivate_cron');
 
 /**
  * Register CAOS Proxy so endpoint can be used.
@@ -499,7 +495,7 @@ add_action('rest_api_init', 'caos_register_routes');
 /**
  * Generate tracking code and add to header/footer (default is header)
  */
-function caos_analytics_render_tracking_code()
+function caos_render_tracking_code()
 {
     if (!CAOS_OPT_TRACKING_ID) {
         return;
@@ -529,7 +525,7 @@ function caos_analytics_render_tracking_code()
 /**
  * Render a HTML comment for logged in Administrators in the source code.
  */
-function caos_analytics_show_admin_message()
+function caos_show_admin_message()
 {
     echo "<!-- This site is using CAOS, but you\'re an Administrator. So we\'re not loading the tracking code. -->\n";
 }
@@ -539,7 +535,7 @@ function caos_analytics_show_admin_message()
  *
  * @return string
  */
-function caos_analytics_return_analytics_js_url()
+function caos_return_analytics_js_url()
 {
     return CAOS_LOCAL_FILE_URL;
 }
@@ -547,38 +543,91 @@ function caos_analytics_return_analytics_js_url()
 /**
  * Render the tracking code in it's selected locations
  */
-function caos_analytics_insert_tracking_code()
+function caos_insert_tracking_code()
 {
     if (CAOS_OPT_COMPATIBILITY_MODE == 'woocommerce') {
-        add_filter('woocommerce_google_analytics_script_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+        add_filter('woocommerce_google_analytics_script_src', 'caos_return_analytics_js_url', PHP_INT_MAX);
     } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
-        add_filter('monsterinsights_frontend_output_analytics_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+        add_filter('monsterinsights_frontend_output_analytics_src', 'caos_return_analytics_js_url', PHP_INT_MAX);
     } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'analytify') {
-        add_filter('analytify_output_ga_js_src', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+        add_filter('analytify_output_ga_js_src', 'caos_return_analytics_js_url', PHP_INT_MAX);
     } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'exact_metrics') {
-        add_filter('gadwp_analytics_script_path', 'caos_analytics_return_analytics_js_url', PHP_INT_MAX);
+        add_filter('gadwp_analytics_script_path', 'caos_return_analytics_js_url', PHP_INT_MAX);
     } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
         switch (CAOS_OPT_SCRIPT_POSITION) {
             case "footer":
-                add_action('wp_footer', 'caos_analytics_show_admin_message', CAOS_OPT_ENQUEUE_ORDER);
+                add_action('wp_footer', 'caos_show_admin_message', CAOS_OPT_ENQUEUE_ORDER);
                 break;
             case "manual":
                 break;
             default:
-                add_action('wp_head', 'caos_analytics_show_admin_message', CAOS_OPT_ENQUEUE_ORDER);
+                add_action('wp_head', 'caos_show_admin_message', CAOS_OPT_ENQUEUE_ORDER);
                 break;
         }
     } else {
+        do_action('caos_process_settings');
+
         switch (CAOS_OPT_SCRIPT_POSITION) {
             case "footer":
-                add_action('wp_footer', 'caos_analytics_render_tracking_code', CAOS_OPT_ENQUEUE_ORDER);
+                add_action('wp_footer', 'caos_render_tracking_code', CAOS_OPT_ENQUEUE_ORDER);
                 break;
             case "manual":
                 break;
             default:
-                add_action('wp_head', 'caos_analytics_render_tracking_code', CAOS_OPT_ENQUEUE_ORDER);
+                add_action('wp_head', 'caos_render_tracking_code', CAOS_OPT_ENQUEUE_ORDER);
                 break;
         }
     }
 }
-add_action('init', 'caos_analytics_insert_tracking_code');
+add_action('init', 'caos_insert_tracking_code');
+
+function caos_is_gtag()
+{
+    return CAOS_OPT_REMOTE_JS_FILE == 'gtag.js';
+}
+
+function caos_disable_display_features()
+{
+    if (CAOS_OPT_DISABLE_DISPLAY_FEAT !== 'on') {
+        return;
+    }
+
+    if (caos_is_gtag()) {
+        add_filter('caos_gtag_config', function($config, $trackingId) {
+            return $config + array('displayFeaturesTask' => null);
+        }, 10, 2);
+    }
+
+    add_filter('caos_analytics_before_send', function($config) {
+        $option = array(
+            'display_features' => "ga('set', 'displayFeaturesTask', null);"
+        );
+
+        return $config + $option;
+    });
+}
+
+add_action('caos_process_settings', 'caos_disable_display_features');
+
+function caos_anonymize_ip()
+{
+    if (CAOS_OPT_ANONYMIZE_IP !== 'on') {
+        return;
+    }
+
+    if (caos_is_gtag()) {
+        add_filter('caos_gtag_config', function($config, $trackingId) {
+            return $config + array('anonymize_ip' => true);
+        }, 10, 2);
+    }
+
+    add_filter('caos_analytics_before_send', function($config) {
+        $option = array(
+            'anonymize' => "ga('set', 'anonymizeIp', true);"
+        );
+
+        return $config + $option;
+    });
+}
+
+add_action('caos_process_settings', 'caos_anonymize_ip');

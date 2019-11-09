@@ -58,7 +58,10 @@ class CAOS_Update
      */
     public function insert_proxy($file)
     {
-        $find     = array('http://', 'https://');
+        $find     = array(
+            'http://',
+            'https://'
+        );
         $replace  = '';
         $siteUrl  = str_replace($find, $replace, get_site_url(CAOS_BLOG_ID));
         $proxyUrl = $siteUrl . CAOS_PROXY_URI;

@@ -39,7 +39,7 @@ if (is_array($remoteFile)) {
         $update->update_file($location['local'], $location['remote']);
 
         if ($file == 'gtag') {
-            $caosGaUrl = str_replace('gtag.js', 'analytics.js', caos_analytics_get_url());
+            $caosGaUrl = str_replace('gtag.js', 'analytics.js', caos_get_url());
             $gaUrl = CAOS_GA_URL . '/analytics.js';
             $update->update_gtag_js($location['local'], $gaUrl, $caosGaUrl);
         }

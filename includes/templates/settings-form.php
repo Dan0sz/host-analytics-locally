@@ -6,7 +6,7 @@
  * @license  : GPL2v2 or later
  */
 
-$fileStatus = caos_analytics_cron_status();
+$fileStatus = caos_cron_status();
 
 if ($fileStatus): ?>
     <div class="updated settings-success notice">
@@ -14,9 +14,9 @@ if ($fileStatus): ?>
             <strong><?php _e('Your cron is running healthy.', 'host-analyticsjs-local'); ?></strong>
         </p>
         <p>
-            <em><?= CAOS_OPT_REMOTE_JS_FILE; ?></em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?= caos_analytics_file_last_updated(); ?>
+            <em><?= CAOS_OPT_REMOTE_JS_FILE; ?></em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?= caos_file_last_updated(); ?>
         </p>
-        <p><?php _e('Next update scheduled at', 'host-analyticsjs-local'); ?>: <?= caos_analytics_cron_next_scheduled(); ?></p>
+        <p><?php _e('Next update scheduled at', 'host-analyticsjs-local'); ?>: <?= caos_cron_next_scheduled(); ?></p>
     </div>
 <?php else: ?>
     <div class="notice notice-error">
@@ -121,7 +121,7 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Tracking-code', 'host-analyticsjs-local'); ?></th>
             <td>
                 <label>
-                    <textarea style="display: block; width: 100%; height: 250px;"><?php caos_analytics_render_tracking_code(); ?></textarea>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php caos_render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
                     <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'host-analyticsjs-local'); ?>

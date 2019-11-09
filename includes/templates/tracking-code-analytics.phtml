@@ -36,14 +36,25 @@
         }
     );
 
-    <?php if (CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on'): ?>
-    ga('set', 'displayFeaturesTask', null);
-    <?php endif; ?>
+    <?php
+    /**
+     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     *
+     * Example: add_filter('caos_analytics_before_send', 'your_filter_function_name');
+     */
+    ?>
+    <?= implode("\n", apply_filters('caos_analytics_before_send', array(), CAOS_OPT_TRACKING_ID)); ?>
 
-    <?php if (CAOS_OPT_ANONYMIZE_IP == 'on'): ?>
-    ga('set', 'anonymizeIp', true);
-    <?php endif; ?>
     ga('send', 'pageview');
+
+    <?php
+    /**
+     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     *
+     * Example: add_filter('caos_analytics_after_send', 'your_filter_function_name');
+     */
+    ?>
+    <?= implode("\n", apply_filters('caos_analytics_after_send', array(), CAOS_OPT_TRACKING_ID)); ?>
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout(

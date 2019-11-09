@@ -10,19 +10,27 @@
     window.dataLayer = window.dataLayer || [];
 </script>
 
-<?php require_once(dirname(__FILE__) . '/tracking-code-ga-disable.phtml'); ?>
+<?php
+require_once(dirname(__FILE__) . '/tracking-code-ga-disable.phtml');
+
+/**
+ * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+ *
+ * Example: add_filter('caos_gtag_config', 'your_filter_function_name', 10, 2);
+ */
+$caosGtagConfig = apply_filters('caos_gtag_config', array(
+    'cookie_prefix'  => 'CaosGtag',
+    'cookie_domain'  => $_SERVER['SERVER_NAME'],
+    'cookie_expires' => CAOS_COOKIE_EXPIRY_DAYS
+), CAOS_OPT_TRACKING_ID);
+?>
 
 <script>
     function gtag() {dataLayer.push(arguments);}
 
     gtag('js', new Date());
-    gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', {
-            'cookie_prefix': 'CaosGtag',
-            'cookie_domain': '<?= $_SERVER['SERVER_NAME']; ?>',
-            'cookie_expires': '<?= CAOS_COOKIE_EXPIRY_DAYS; ?>',
-            'anonymize_ip': '<?= CAOS_OPT_ANONYMIZE_IP ? 'true' : 'false'; ?>'
-        }
-    );
+
+    gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout(
