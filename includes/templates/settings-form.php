@@ -199,9 +199,9 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Capture outbound links?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" class="caos_capture_outbound_links" name="caos_capture_outbound_links" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />
+                <input type="checkbox" class="caos-capture-outbound-links" name="caos_capture_outbound_links" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?= sprintf(__('Find out when users click a link to leave your site. Only compatible with <code>analytics.js</code>.  %sRead more%s', 'host-analyticsjs-local'), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'); ?>
+                    <?= sprintf(__('Find out when users click a link to leave your site. Only works with <code>analytics.js</code> and when Stealth Mode is disabled.  %sRead more%s', 'host-analyticsjs-local'), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'); ?>
                 </p>
             </td>
         </tr>

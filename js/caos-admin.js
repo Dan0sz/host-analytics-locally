@@ -46,16 +46,22 @@ jQuery('.caos-compatibility-mode-input').click(function () {
     }
 });
 
-jQuery('.caos-stealth-mode-input, .caos_capture_outbound_links').click(function () {
+jQuery('.caos-stealth-mode-input, .caos-capture-outbound-links').click(function () {
     setting = jQuery('.caos-js-file-input');
     if (this.checked === true) {
         setting.val('analytics.js');
+    }
+    if (this.className === 'caos-stealth-mode-input') {
+        jQuery('.caos-capture-outbound-links').attr('checked', false);
+    } else {
+        jQuery('.caos-stealth-mode-input').attr('checked', false);
+
     }
 });
 
 jQuery('.caos-js-file-input').click(function () {
     stealth = jQuery('.caos-stealth-mode-input');
-    outbound = jQuery('.caos_capture_outbound_links');
+    outbound = jQuery('.caos-capture-outbound-links');
     compatibility = jQuery('.caos-compatibility-mode-input');
     if (this.value !== 'analytics.js') {
         stealth.attr('checked', false);

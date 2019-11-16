@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.9.1
+ * Version: 2.9.2
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -21,7 +21,7 @@ global $wpdb;
 /**
  * Define Constants
  */
-define('CAOS_STATIC_VERSION', '2.9.0');
+define('CAOS_STATIC_VERSION', '2.9.2');
 define('CAOS_SITE_URL', 'https://daan.dev');
 define('CAOS_BLOG_ID', get_current_blog_id());
 define('CAOS_OPT_TRACKING_ID', esc_attr(get_option('sgal_tracking_id')));
