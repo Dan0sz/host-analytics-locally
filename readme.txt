@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 2.8.1
+Stable tag: 2.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -123,6 +123,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/ "Let's do sho
 N/A
 
 == Changelog ==
+
+= 2.8.2 =
+Replaced file_get_contents() and with cUrl to make CAOS compatible with servers that have `allow_url_fopen` disabled.
 
 = 2.8.1 =
 Code optimizations: the tracking code snippets can now be modified using `add_filter()`. CAOS' own settings are also added using those filters.
