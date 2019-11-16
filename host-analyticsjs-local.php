@@ -4,7 +4,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * Description: A plugin that allows you to completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js/ga.js locally, bypass Ad Blockers in Stealth Mode, serve from CDN, place tracking code in footer, and much more!
- * Version: 2.8.2
+ * Version: 2.9.0
  * Author: Daan van den Bergh
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
@@ -21,7 +21,7 @@ global $wpdb;
 /**
  * Define Constants
  */
-define('CAOS_STATIC_VERSION', '2.7.4');
+define('CAOS_STATIC_VERSION', '2.9.0');
 define('CAOS_SITE_URL', 'https://daan.dev');
 define('CAOS_BLOG_ID', get_current_blog_id());
 define('CAOS_OPT_TRACKING_ID', esc_attr(get_option('sgal_tracking_id')));
@@ -41,6 +41,7 @@ define('CAOS_OPT_SNIPPET_TYPE', esc_attr(get_option('caos_snippet_type', 'defaul
 define('CAOS_OPT_REMOTE_JS_FILE', esc_attr(get_option('caos_analytics_js_file', 'analytics.js')));
 define('CAOS_OPT_CACHE_DIR', esc_attr(get_option('caos_analytics_cache_dir', '/cache/caos-analytics/')));
 define('CAOS_OPT_CDN_URL', esc_attr(get_option('caos_analytics_cdn_url')));
+define('CAOS_OPT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option('caos_capture_outbound_links')));
 define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option('caos_analytics_uninstall_settings')));
 define('CAOS_COOKIE_EXPIRY_DAYS', CAOS_OPT_COOKIE_EXPIRY ? CAOS_OPT_COOKIE_EXPIRY * 86400 : 0);
 define('CAOS_CRON', 'caos_update_analytics_js');
@@ -92,6 +93,10 @@ function caos_register_settings()
     register_setting(
         'save-ga-locally-basic-settings',
         'caos_analytics_cdn_url'
+    );
+    register_setting(
+            'save-ga-locally-basic-settings',
+        'caos_capture_outbound_links'
     );
     register_setting(
         'save-ga-locally-basic-settings',
@@ -427,17 +432,27 @@ register_activation_hook(__FILE__, 'caos_create_cache_dir');
 
 /**
  * Enqueue JS scripts for Administrator Area.
- * s
  *
  * @param $hook
  */
-function caos_enqueue_js_scripts($hook)
+function caos_enqueue_admin_js_scripts($hook)
 {
     if ($hook == 'settings_page_host_analyticsjs_local') {
         wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', __FILE__), ['jquery'], CAOS_STATIC_VERSION, true);
     }
 }
-add_action('admin_enqueue_scripts', 'caos_enqueue_js_scripts');
+add_action('admin_enqueue_scripts', 'caos_enqueue_admin_js_scripts');
+
+/**
+ * Enqueue JS scripts for frontend.
+ */
+function caos_enqueue_js_scripts()
+{
+    if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS === 'on') {
+        wp_enqueue_script('caos_frontend_script', plugins_url('js/caos-frontend.js', __FILE__), ['jquery'], CAOS_STATIC_VERSION, true);
+    }
+}
+add_action('wp_enqueue_scripts', 'caos_enqueue_js_scripts');
 
 /**
  * Register hook to schedule script in wp_cron()

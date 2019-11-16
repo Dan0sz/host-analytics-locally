@@ -14,11 +14,11 @@ function caosDownloadManually() {
         },
         success: function (response) {
             var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>' + response + '</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
-            
+
             jQuery('html, body').animate({scrollTop: 0}, 800);
-            
+
             jQuery(successMessage).insertAfter('.wrap h1');
-            
+
             return false;
         }
     });
@@ -46,7 +46,7 @@ jQuery('.caos-compatibility-mode-input').click(function () {
     }
 });
 
-jQuery('.caos-stealth-mode-input').click(function () {
+jQuery('.caos-stealth-mode-input, .caos_capture_outbound_links').click(function () {
     setting = jQuery('.caos-js-file-input');
     if (this.checked === true) {
         setting.val('analytics.js');
@@ -55,9 +55,11 @@ jQuery('.caos-stealth-mode-input').click(function () {
 
 jQuery('.caos-js-file-input').click(function () {
     stealth = jQuery('.caos-stealth-mode-input');
+    outbound = jQuery('.caos_capture_outbound_links');
     compatibility = jQuery('.caos-compatibility-mode-input');
     if (this.value !== 'analytics.js') {
         stealth.attr('checked', false);
+        outbound.attr('checked', false);
         compatibility.val(null);
         // We need to trigger a click to show applicable options again.
         compatibility.click();

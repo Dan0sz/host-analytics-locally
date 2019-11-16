@@ -7,6 +7,7 @@
  */
 
 $fileStatus = caos_cron_status();
+$utmTags    = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 
 if ($fileStatus): ?>
     <div class="updated settings-success notice">
@@ -50,9 +51,9 @@ if ($fileStatus): ?>
                     <br/>
                 <?php endforeach; ?>
                 <p class="description">
-                    <?= sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/" target="_blank">', '</a>'); ?>
+                    <?= sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/?utm_source=caos&utm_medium=plugin&utm_campaign=settings" target="_blank">', '</a>'); ?>
                     <?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'host-analyticsjs-local'); ?>
-                    <a href="<?= CAOS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/" target="_blank">
+                    <a href="<?= CAOS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/<?= $utmTags; ?>" target="_blank">
                         <?php _e('Read more', 'host-analyticsjs-local'); ?></a>.
                 </p>
             </td>
@@ -94,7 +95,7 @@ if ($fileStatus): ?>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for gtag.js and analytics.js)', 'host-analyticsjs-local'); ?>
+                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', 'host-analyticsjs-local'); ?>
                     <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
                 </p>
             </td>
@@ -164,8 +165,7 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top" class="caos-js-file">
-            <th scope="row"><?php _e('Which file to download?',
-                    'host-analyticsjs-local'); ?> *
+            <th scope="row"><?php _e('Which file to download?', 'host-analyticsjs-local'); ?> *
             </th>
             <td>
                 <select name="caos_analytics_js_file" class="caos-js-file-input">
@@ -174,7 +174,7 @@ if ($fileStatus): ?>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/" target="_blank">', '</a>'); ?>
+                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/?utm_source=caos&utm_medium=plugin&utm_campaign=settings" target="_blank">', '</a>'); ?>
                 </p>
             </td>
         </tr>
@@ -192,7 +192,16 @@ if ($fileStatus): ?>
             <td>
                 <input class="caos_analytics_cdn_url" type="text" name="caos_analytics_cdn_url" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_OPT_CDN_URL ?>"/>
                 <p class="description">
-                    <?= sprintf(__('If you\'re using a CDN, enter the URL here to serve %s from your CDN.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?>
+                    <?= sprintf(__('If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?>
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php _e('Capture outbound links?', 'host-analyticsjs-local'); ?></th>
+            <td>
+                <input type="checkbox" class="caos_capture_outbound_links" name="caos_capture_outbound_links" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />
+                <p class="description">
+                    <?= sprintf(__('Find out when users click a link to leave your site. Only compatible with <code>analytics.js</code>.  %sRead more%s', 'host-analyticsjs-local'), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'); ?>
                 </p>
             </td>
         </tr>
