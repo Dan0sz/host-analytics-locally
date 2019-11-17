@@ -38,7 +38,7 @@
 
     <?php
     /**
-     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.
      *
      * Example: add_filter('caos_analytics_before_send', 'your_filter_function_name');
      */
@@ -49,7 +49,7 @@
 
     <?php
     /**
-     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.
      *
      * Example: add_filter('caos_analytics_after_send', 'your_filter_function_name');
      */
@@ -58,6 +58,6 @@
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout(
-        "ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . " seconds"; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+        ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . " seconds"; ?>'), <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
     <?php endif; ?>
 </script>

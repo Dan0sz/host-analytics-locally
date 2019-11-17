@@ -11,14 +11,14 @@
 function _caosLt(event)
 {
     /* If GA is blocked or not loaded, or not main|middle|touch click then don't track */
-    if (!ga.hasOwnProperty('loaded') || ga.loaded != true || (event.which != 1 && event.which != 2)) {
+    if (!ga.hasOwnProperty('loaded') || ga.loaded !== true || (event.which !== 1 && event.which !== 2)) {
         return;
     }
 
     var eventLink = event.srcElement || event.target;
 
     /* Loop up the DOM tree through parent elements if clicked element is not a link (eg: an image inside a link) */
-    while(eventLink && (typeof eventLink.tagName == 'undefined' || eventLink.tagName.toLowerCase() != 'a' || !eventLink.href)) {
+    while(eventLink && (typeof eventLink.tagName == 'undefined' || eventLink.tagName.toLowerCase() !== 'a' || !eventLink.href)) {
         eventLink = eventLink.parentNode;
     }
 
@@ -28,13 +28,13 @@ function _caosLt(event)
         var link = eventLink.href;
 
         /* Only if it is an external link */
-        if (link.indexOf(location.host) == -1 && !link.match(/^javascript\:/i)) {
+        if (link.indexOf(location.host) === -1 && !link.match(/^javascript\:/i)) {
 
             /* Is actual target set and not _(self|parent|top)? */
             var target = (eventLink.target && !eventLink.target.match(/^_(self|parent|top)$/i)) ? eventLink.target : false;
 
             /* Assume a target if Ctrl|shift|meta-click */
-            if (event.ctrlKey || event.shiftKey || event.metaKey || event.which == 2) {
+            if (event.ctrlKey || event.shiftKey || event.metaKey || event.which === 2) {
                 target = '_blank';
             }
 
@@ -49,11 +49,11 @@ function _caosLt(event)
             };
 
             if (target) { /* If target opens a new window then just track */
-                ga('send', 'event', 'outbound', link, document.location.pathname + document.location.search);
+                ga('send', 'event', 'outbound-link', link, document.location.pathname + document.location.search);
             } else { /* Prevent standard click, track then open */
                 event.preventDefault ? event.preventDefault() : event.returnValue = !1;
                 /* send event with callback */
-                ga('send', 'event', 'outbound', link, document.location.pathname + document.location.search, {
+                ga('send', 'event', 'outbound-link', link, document.location.pathname + document.location.search, {
                     'transport': 'beacon',
                     'hitCallback': hitBack
                 });

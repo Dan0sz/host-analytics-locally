@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 2.9.2
+Stable tag: 2.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/opt
 - WP devs can easily modify the tracking code by using WP filters,
 - When using gtag.js, the underlying request to analytics.js is also loaded from the local source!
 - **Bypass Ad Blockers** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
+- Capture outbound links,
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
@@ -123,6 +124,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/?utm_source=wo
 N/A
 
 == Changelog ==
+
+= 2.9.3 =
+Fixed minor 'ga is not defined'-bug when user is logged in.
 
 = 2.9.2 =
 Track outbound links doesn't work when Stealth Mode is enabled. Added additional verification in settings form.
