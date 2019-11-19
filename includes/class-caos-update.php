@@ -15,6 +15,11 @@
 class CAOS_Update
 {
     /**
+     * @var $fileHandle
+     */
+    private $fileHandle;
+
+    /**
      * Downloads $remoteFile and writes it to $localFile
      *
      * We're using cUrl so allow_furl_open doesn't need to be set.
@@ -24,25 +29,23 @@ class CAOS_Update
      */
     public function update_file($localFile, $remoteFile)
     {
-        $localFile = fopen($localFile, 'w+');
-        $curl      = curl_init($remoteFile);
+        $this->fileHandle = fopen($localFile, 'w+');
+        $curl             = curl_init();
 
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FILE           => $localFile,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HEADER         => false
+                CURLOPT_URL            => $remoteFile,
+                CURLOPT_FILE           => $this->fileHandle,
+                CURLOPT_HEADER         => false,
+                CURLOPT_FOLLOWLOCATION => true
             )
         );
 
         curl_exec($curl);
         curl_close($curl);
-
-        return fclose($localFile);
+        fclose($this->fileHandle);
     }
 
     /**

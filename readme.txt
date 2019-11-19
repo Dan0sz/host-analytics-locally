@@ -4,7 +4,7 @@ Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,6 +124,9 @@ Yes, please! [Click here to buy me a beer](http://daan.dev/donate/?utm_source=wo
 N/A
 
 == Changelog ==
+
+= 2.9.4 =
+Further improvements for downloading of analytics.js.
 
 = 2.9.3 =
 Fixed minor 'ga is not defined'-bug when user is logged in.
