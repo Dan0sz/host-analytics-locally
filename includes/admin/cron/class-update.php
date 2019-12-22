@@ -1,23 +1,26 @@
 <?php
-/**
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
- */
+ * * * * * * * * * * * * * * * * * * * */
 
-/**
- * Class CAOS_Update
- *
- * This class contains all needed functions for downloading and syncing remote files to a local
- * version.
- */
-class CAOS_Update
+defined('ABSPATH') || exit;
+
+class CAOS_Admin_Cron_Update
 {
     /**
-     * @var $fileHandle
+     * @var $file
      */
-    private $fileHandle;
+    private $file;
 
     /**
      * Downloads $remoteFile and writes it to $localFile
@@ -27,17 +30,17 @@ class CAOS_Update
      * @param $localFile
      * @param $remoteFile
      */
-    public function update_file($localFile, $remoteFile)
+    protected function update_file_curl($localFile, $remoteFile)
     {
-        $this->fileHandle = fopen($localFile, 'w+');
-        $curl             = curl_init();
+        $this->file = fopen($localFile, 'w+');
+        $curl       = curl_init();
 
         curl_setopt_array(
             $curl,
             array(
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_URL            => $remoteFile,
-                CURLOPT_FILE           => $this->fileHandle,
+                CURLOPT_FILE           => $this->file,
                 CURLOPT_HEADER         => false,
                 CURLOPT_FOLLOWLOCATION => true
             )
@@ -45,7 +48,22 @@ class CAOS_Update
 
         curl_exec($curl);
         curl_close($curl);
-        fclose($this->fileHandle);
+        fclose($this->file);
+
+        if (file_exists($localFile) && filesize($localFile) > 1) {
+            return;
+        }
+
+        $this->update_file($localFile, $remoteFile);
+    }
+
+    /**
+     * @param $localFile
+     * @param $remoteFile
+     */
+    protected function update_file($localFile, $remoteFile)
+    {
+        file_put_contents($localFile, file_get_contents($remoteFile));
     }
 
     /**
@@ -53,7 +71,7 @@ class CAOS_Update
      *
      * @param $path
      */
-    public function create_dir_recursive($path)
+    protected function create_dir_recursive($path)
     {
         if (!file_exists($path)) {
             wp_mkdir_p($path);
@@ -67,7 +85,7 @@ class CAOS_Update
      * @param $gaUrl
      * @param $caosGaUrl
      */
-    public function update_gtag_js($file, $gaUrl, $caosGaUrl)
+    protected function update_gtag_js($file, $gaUrl, $caosGaUrl)
     {
         return file_put_contents($file, str_replace($gaUrl, $caosGaUrl, file_get_contents($file)));
     }
@@ -79,7 +97,7 @@ class CAOS_Update
      *
      * @param $file
      */
-    public function insert_proxy($file)
+    protected function insert_proxy($file)
     {
         $find     = array(
             'http://',

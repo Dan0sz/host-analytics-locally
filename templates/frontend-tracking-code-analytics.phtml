@@ -1,10 +1,17 @@
 <?php
-/**
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
- */
+ * * * * * * * * * * * * * * * * * * * */
 ?>
 <script>
     <?php if (CAOS_OPT_SNIPPET_TYPE == 'default'): ?>
@@ -25,7 +32,10 @@
     <?php endif; ?>
 </script>
 
-<?php require_once(dirname(__FILE__) . '/tracking-code-ga-disable.phtml'); ?>
+<?php
+$template = new CAOS_Frontend_Tracking();
+$template->get_tracking_code_template('ga-disable');
+?>
 
 <script>
     ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>',

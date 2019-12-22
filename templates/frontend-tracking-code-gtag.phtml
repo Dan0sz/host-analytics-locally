@@ -1,17 +1,25 @@
 <?php
-/**
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
- */
+ * * * * * * * * * * * * * * * * * * * */
 ?>
 <script>
     window.dataLayer = window.dataLayer || [];
 </script>
 
 <?php
-require_once(dirname(__FILE__) . '/tracking-code-ga-disable.phtml');
+$template = new CAOS_Frontend_Tracking();
+$template->get_tracking_code_template('ga-disable');
 
 /**
  * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.

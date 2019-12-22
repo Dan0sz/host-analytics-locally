@@ -1,9 +1,16 @@
-/**
- * @author: Daan van den Bergh
- * @url: https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
- * @license: GPL2v2 or later
- */
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
 
 function caosDownloadManually() {
     jQuery.ajax({

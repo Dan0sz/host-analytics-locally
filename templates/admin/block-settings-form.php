@@ -1,12 +1,21 @@
 <?php
-/**
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
- */
+ * * * * * * * * * * * * * * * * * * * */
 
-$fileStatus = caos_cron_status();
+$admin      = new CAOS_Admin_Functions();
+$frontend   = new CAOS_Frontend_Tracking();
+$fileStatus = $admin->cron_status();
 $utmTags    = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 
 if ($fileStatus): ?>
@@ -15,9 +24,9 @@ if ($fileStatus): ?>
             <strong><?php _e('Your cron is running healthy.', 'host-analyticsjs-local'); ?></strong>
         </p>
         <p>
-            <em><?= CAOS_OPT_REMOTE_JS_FILE; ?></em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?= caos_file_last_updated(); ?>
+            <em><?= CAOS_OPT_REMOTE_JS_FILE; ?></em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?= $admin->file_last_updated(); ?>
         </p>
-        <p><?php _e('Next update scheduled at', 'host-analyticsjs-local'); ?>: <?= caos_cron_next_scheduled(); ?></p>
+        <p><?php _e('Next update scheduled at', 'host-analyticsjs-local'); ?>: <?= $admin->cron_next_scheduled(); ?></p>
     </div>
 <?php else: ?>
     <div class="notice notice-error">
@@ -33,7 +42,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Google Analytics Tracking ID', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="text" name="sgal_tracking_id" value="<?= CAOS_OPT_TRACKING_ID; ?>"/>
+                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_TRACKING_ID; ?>" value="<?= CAOS_OPT_TRACKING_ID; ?>"/>
             </td>
         </tr>
         <tbody class="caos_basic_settings" <?= empty(CAOS_OPT_COMPATIBILITY_MODE) ? '' : 'style="display: none;"'; ?>>
@@ -41,10 +50,10 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Allow tracking...', 'host-analyticsjs-local'); ?></th>
             <td>
                 <?php
-                foreach (caos_allow_tracking_choice() as $option => $details): ?>
+                foreach (CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS as $option => $details): ?>
                     <label>
                         <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
-                               name="caos_allow_tracking" value="<?= $option; ?>"
+                               name="<?= CAOS_Admin_Settings::CAOS_SETTING_ALLOW_TRACKING; ?>" value="<?= $option; ?>"
                             <?= $option == CAOS_OPT_ALLOW_TRACKING ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>');"/>
                         <?= $details['label']; ?>
                     </label>
@@ -62,7 +71,7 @@ if ($fileStatus): ?>
             valign="top" <?= CAOS_OPT_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Cookie name', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="text" name="sgal_cookie_notice_name"
+                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_NOTICE_NAME; ?>"
                        value="<?= CAOS_OPT_COOKIE_NAME; ?>"/>
                 <p class="description">
                     <?php _e('The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local'); ?>
@@ -73,7 +82,7 @@ if ($fileStatus): ?>
             valign="top" <?= CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Cookie value', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="text" name="caos_cookie_value"
+                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_VALUE; ?>"
                        value="<?= CAOS_OPT_COOKIE_VALUE; ?>"/>
                 <p class="description">
                     <?php _e('The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local'); ?>
@@ -89,7 +98,7 @@ if ($fileStatus): ?>
                     'async'   => __('Asynchronous', 'host-analyticsjs-local')
                 );
                 ?>
-                <select name="caos_snippet_type" class="caos_snippet_type">
+                <select name="<?= CAOS_Admin_Settings::CAOS_SETTING_SNIPPET_TYPE; ?>" class="caos_snippet_type">
                     <?php foreach ($caos_snippet_type as $option => $label): ?>
                         <option value="<?= $option; ?>" <?= CAOS_OPT_SNIPPET_TYPE == $option ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
@@ -104,9 +113,9 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Position of tracking-code', 'host-analyticsjs-local'); ?></th>
             <td>
                 <?php
-                foreach (caos_script_position() as $option => $details): ?>
+                foreach (CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS as $option => $details): ?>
                     <label>
-                        <input class="caos_script_position_<?= $option; ?>" type="radio" name="sgal_script_position"
+                        <input class="caos_script_position_<?= $option; ?>" type="radio" name="<?= CAOS_Admin_Settings::CAOS_SETTING_SCRIPT_POSITION; ?>"
                                value="<?= $option; ?>" <?= $option == CAOS_OPT_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>')"/>
                         <?= $details['label']; ?>
                     </label>
@@ -122,7 +131,7 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Tracking-code', 'host-analyticsjs-local'); ?></th>
             <td>
                 <label>
-                    <textarea style="display: block; width: 100%; height: 250px;"><?php caos_render_tracking_code(); ?></textarea>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php $frontend->render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
                     <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'host-analyticsjs-local'); ?>
@@ -144,8 +153,8 @@ if ($fileStatus): ?>
                 <?php _e('Enable compatibility mode', 'host-analyticsjs-local'); ?>
             </th>
             <td>
-                <select name="caos_analytics_compatibility_mode" class="caos-compatibility-mode-input">
-                    <?php foreach (caos_compatibility_modes() as $option => $details): ?>
+                <select name="<?= CAOS_Admin_Settings::CAOS_SETTING_COMPATIBILITY_MODE; ?>" class="caos-compatibility-mode-input">
+                    <?php foreach (CAOS_Admin_Settings::CAOS_ADMIN_COMPATIBILITY_OPTIONS as $option => $details): ?>
                         <option value="<?= $option; ?>" <?= (CAOS_OPT_COMPATIBILITY_MODE == $option) ? 'selected' : ''; ?>><?= $details['label']; ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -157,7 +166,7 @@ if ($fileStatus): ?>
         <tr valign="top" class="caos-stealth-mode">
             <th scope="row"><?php _e('Enable stealth mode', 'host-analyticsjs-local'); ?> *</th>
             <td>
-                <input type="checkbox" class="caos-stealth-mode-input" name="caos_stealth_mode"
+                <input type="checkbox" class="caos-stealth-mode-input" name="<?= CAOS_Admin_Settings::CAOS_SETTING_STEALTH_MODE; ?>"
                     <?= CAOS_OPT_STEALTH_MODE == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <strong><?php _e('Experimental', 'host-analyticsjs-local'); ?></strong>: <?= sprintf(__('Use at your own risk! This setting allows you to bypass most Ad Blockers. Make sure your blog/account respects any relevant privacy laws. (SSL [https] required! / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
@@ -168,20 +177,20 @@ if ($fileStatus): ?>
             <th scope="row"><?php _e('Which file to download?', 'host-analyticsjs-local'); ?> *
             </th>
             <td>
-                <select name="caos_analytics_js_file" class="caos-js-file-input">
-                    <?php foreach (caos_js_file() as $label => $fileName): ?>
+                <select name="<?= CAOS_Admin_Settings::CAOS_SETTING_JS_FILE; ?>" class="caos-js-file-input">
+                    <?php foreach (CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS as $label => $fileName): ?>
                         <option value="<?= $fileName; ?>" <?= (CAOS_OPT_REMOTE_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/?utm_source=caos&utm_medium=plugin&utm_campaign=settings" target="_blank">', '</a>'); ?>
+                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $utmTags . '" target="_blank">', '</a>'); ?>
                 </p>
             </td>
         </tr>
         <tr valign="top">
             <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?> *</th>
             <td>
-                <input class="caos_analytics_cache_dir" type="text" name="caos_analytics_cache_dir" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
+                <input class="caos_analytics_cache_dir" type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_CACHE_DIR; ?>" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
                 <p class="description">
                     <?php _e("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos-analytics/</code>.", 'host-analyticsjs-local'); ?>
                 </p>
@@ -190,7 +199,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Serve from a CDN?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input class="caos_analytics_cdn_url" type="text" name="caos_analytics_cdn_url" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_OPT_CDN_URL ?>"/>
+                <input class="caos_analytics_cdn_url" type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_CDN_URL; ?>" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_OPT_CDN_URL ?>"/>
                 <p class="description">
                     <?= sprintf(__('If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?>
                 </p>
@@ -199,7 +208,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Capture outbound links?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" class="caos-capture-outbound-links" name="caos_capture_outbound_links" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />
+                <input type="checkbox" class="caos-capture-outbound-links" name="<?= CAOS_Admin_Settings::CAOS_SETTING_CAPTURE_OUTBOUND_LINKS; ?>" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <?= sprintf(__('Find out when users click a link to leave your site. Only works with <code>analytics.js</code> and when Stealth Mode is disabled.  %sRead more%s', 'host-analyticsjs-local'), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'); ?>
                 </p>
@@ -209,7 +218,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Cookie expiry period (days)', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="number" name="sgal_ga_cookie_expiry_days" min="0" max="365"
+                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_SETTING_GA_COOKIE_EXPIRY_DAYS; ?>" min="0" max="365"
                        value="<?= CAOS_OPT_COOKIE_EXPIRY; ?>"/>
                 <p class="description">
                     <?php _e('The number of days when the cookie will automatically expire.', 'host-analyticsjs-local'); ?>
@@ -219,7 +228,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Use adjusted bounce rate?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60"
+                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_SETTING_ADJUSTED_BOUNCE_RATE; ?>" min="0" max="60"
                        value="<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>"/>
                 <p class="description">
                     <a href="https://moz.com/blog/adjusted-bounce-rate" target="_blank"><?php _e('More information about adjusted bounce rate', 'host-analyticsjs-local'); ?></a>.
@@ -229,7 +238,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Change enqueue order? (Default = 0)', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="number" name="sgal_enqueue_order" min="0"
+                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_SETTING_ENQUEUE_ORDER; ?>" min="0"
                        value="<?= CAOS_OPT_ENQUEUE_ORDER; ?>"/>
                 <p class="description">
                     <?php _e('Leave this alone if you don\'t know what you\'re doing.', 'host-analyticsjs-local'); ?>
@@ -238,7 +247,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Disable all display features functionality?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" name="caos_disable_display_features"
+                <input type="checkbox" name="<?= CAOS_Admin_Settings::CAOS_SETTING_DISABLE_DISPLAY_FEATURES; ?>"
                     <?= CAOS_OPT_DISABLE_DISPLAY_FEAT == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank"><?php _e('More information about display features', 'host-analyticsjs-local'); ?></a>.
@@ -248,7 +257,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Anonymize IP?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" name="sgal_anonymize_ip"
+                <input type="checkbox" name="<?= CAOS_Admin_Settings::CAOS_SETTING_ANONYMIZE_IP; ?>"
                     <?= CAOS_OPT_ANONYMIZE_IP == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <?php _e('Required by law in some countries.', 'host-analyticsjs-local'); ?>
@@ -259,7 +268,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Track logged in Administrators?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" name="sgal_track_admin"
+                <input type="checkbox" name="<?= CAOS_Admin_Settings::CAOS_SETTING_TRACK_ADMIN; ?>"
                     <?= CAOS_OPT_TRACK_ADMIN == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <strong><?php _e('Warning!', 'host-analyticsjs-local'); ?></strong> <?php _e('This will track all your traffic as a logged in user.', 'host-analyticsjs-local'); ?>
@@ -270,7 +279,7 @@ if ($fileStatus): ?>
         <tr valign="top">
             <th scope="row"><?php _e('Remove settings at uninstall?', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" name="caos_analytics_uninstall_settings"
+                <input type="checkbox" name="<?= CAOS_Admin_Settings::CAOS_SETTING_UNINSTALL_SETTINGS; ?>"
                     <?= CAOS_OPT_UNINSTALL_SETTINGS == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <strong><?php _e('Warning!', 'host-analyticsjs-local'); ?></strong> <?php _e('This will remove the settings from the database upon plugin deletion!.', 'host-analyticsjs-local'); ?>

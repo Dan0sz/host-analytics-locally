@@ -1,14 +1,21 @@
 <?php
-/**
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
- */
+ * * * * * * * * * * * * * * * * * * * */
 
-include(dirname(__FILE__) . '/class-caos-update.php');
+defined('ABSPATH') || exit;
 
-class CAOS_Proxy extends WP_REST_Controller
+class CAOS_API_Proxy extends WP_REST_Controller
 {
     const CAOS_PROXY_ENDPOINTS = array(
         '/r/collect',
