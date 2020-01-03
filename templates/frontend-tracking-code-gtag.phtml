@@ -41,11 +41,6 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
-    setTimeout(
-        gtag('event', 'Adjusted Bounce Rate', {
-                'event_category': 'ABR'
-            }
-        ), <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>
-    );
+    setTimeout("gtag('event', 'Adjusted Bounce Rate', {'event_category': 'ABR'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
     <?php endif; ?>
 </script>
