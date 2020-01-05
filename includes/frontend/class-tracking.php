@@ -52,6 +52,11 @@ class CAOS_Frontend_Tracking
                     break;
             }
         } else {
+            /**
+             * Allows WP DEV's to modify the output of the tracking code.
+             *
+             * E.g. add_action('caos_process_settings', 'your_function_name');
+             */
             do_action('caos_process_settings');
 
             switch (CAOS_OPT_SCRIPT_POSITION) {
@@ -128,7 +133,7 @@ class CAOS_Frontend_Tracking
      */
     public function show_admin_message()
     {
-        echo "<!-- This site is using CAOS, but you\'re an Administrator. So we\'re not loading the tracking code. -->\n";
+        echo "<!-- " . __('This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.', 'host-analyticsjs-local') . " -->\n";
     }
 
     /**
@@ -150,7 +155,7 @@ class CAOS_Frontend_Tracking
             return;
         }
 
-        echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->\n";
+        echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
         if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' || (CAOS_OPT_SNIPPET_TYPE == 'async' && CAOS_OPT_REMOTE_JS_FILE != 'ga.js')) {
             $urlId = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';

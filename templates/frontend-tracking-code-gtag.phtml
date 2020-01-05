@@ -34,11 +34,20 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
 ?>
 
 <script>
-    function gtag() {dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
 
     gtag('js', new Date());
 
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
+
+    <?=
+    /**
+     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     *
+     * Example: add_filter('caos_gtag_additional_config', 'your_filter_function_name', 10, 2);
+     */
+    apply_filters('caos_gtag_additional_config', '');
+    ?>
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout("gtag('event', 'Adjusted Bounce Rate', {'event_category': 'ABR'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
