@@ -32,6 +32,10 @@ class CAOS_Admin_Cron_Update
      */
     protected function update_file_curl($localFile, $remoteFile)
     {
+        if (!function_exists('curl_exec')) {
+            $this->throw_error(500, 'cURL is disabled on your server and required for CAOS to function properly. Contact your hosting provider for assistance to enable cURL on your server.');
+        }
+
         $this->file = fopen($localFile, 'w+');
         $curl       = curl_init();
 
@@ -55,6 +59,15 @@ class CAOS_Admin_Cron_Update
         }
 
         $this->update_file($localFile, $remoteFile);
+    }
+
+    /**
+     * @param $code
+     * @param $message
+     */
+    private function throw_error($code, $message)
+    {
+        wp_send_json_error(__($message, 'host-analyticsjs-local'), (int) $code);
     }
 
     /**

@@ -12,12 +12,24 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
+/**
+ * TODO: Notices are not dismissible, although they should be. Fix?
+ */
 function caosDownloadManually() {
     jQuery.ajax({
         type: 'POST',
         url: ajaxurl,
         data: {
             action: 'caos_analytics_ajax_manual_download'
+        },
+        error: function (response) {
+            var errorMessage = '<div id="message" class="notice notice-error is-dismissible"><p>' + response.responseJSON.data + '</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+
+            jQuery('html, body').animate({scrollTop: 0}, 800);
+
+            jQuery(errorMessage).insertAfter('.wrap h1');
+
+            return false;
         },
         success: function (response) {
             var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>' + response + '</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
@@ -31,18 +43,27 @@ function caosDownloadManually() {
     });
 }
 
+/**
+ * @param className
+ */
 function showOptions(className) {
     if (className) {
         jQuery('.' + className).show();
     }
 }
 
+/**
+ * @param className
+ */
 function hideOptions(className) {
     if (className) {
         jQuery('.' + className).hide();
     }
 }
 
+/**
+ * Toggle sections.
+ */
 jQuery('.caos-compatibility-mode-input').click(function () {
     settings = 'caos_advanced_settings, .caos_basic_settings';
     if (this.value !== '') {
@@ -53,6 +74,9 @@ jQuery('.caos-compatibility-mode-input').click(function () {
     }
 });
 
+/**
+ * Toggle sections.
+ */
 jQuery('.caos-stealth-mode-input, .caos-capture-outbound-links').click(function () {
     setting = jQuery('.caos-js-file-input');
     if (this.checked === true) {
@@ -66,6 +90,9 @@ jQuery('.caos-stealth-mode-input, .caos-capture-outbound-links').click(function 
     }
 });
 
+/**
+ * Toggle sections.
+ */
 jQuery('.caos-js-file-input').click(function () {
     stealth = jQuery('.caos-stealth-mode-input');
     outbound = jQuery('.caos-capture-outbound-links');
