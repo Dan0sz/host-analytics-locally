@@ -67,8 +67,7 @@ if ($fileStatus): ?>
                 </p>
             </td>
         </tr>
-        <tr class="caos_gdpr_setting caos_allow_tracking_name"
-            valign="top" <?= CAOS_OPT_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
+        <tr class="caos_gdpr_setting caos_allow_tracking_name" valign="top" <?= CAOS_OPT_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Cookie name', 'host-analyticsjs-local'); ?></th>
             <td>
                 <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_NOTICE_NAME; ?>"
@@ -78,8 +77,7 @@ if ($fileStatus): ?>
                 </p>
             </td>
         </tr>
-        <tr class="caos_gdpr_setting caos_allow_tracking_name caos_allow_tracking_value"
-            valign="top" <?= CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' ? '' : 'style="display: none;"'; ?>>
+        <tr class="caos_gdpr_setting caos_allow_tracking_name caos_allow_tracking_value" valign="top" <?= CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Cookie value', 'host-analyticsjs-local'); ?></th>
             <td>
                 <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_VALUE; ?>"
@@ -94,8 +92,8 @@ if ($fileStatus): ?>
             <td>
                 <?php
                 $caos_snippet_type = array(
-                    'default' => __('Default', 'host-analyticsjs-local'),
-                    'async'   => __('Asynchronous', 'host-analyticsjs-local')
+                    ''      => __('Default', 'host-analyticsjs-local'),
+                    'async' => __('Asynchronous', 'host-analyticsjs-local')
                 );
                 ?>
                 <select name="<?= CAOS_Admin_Settings::CAOS_SETTING_SNIPPET_TYPE; ?>" class="caos_snippet_type">

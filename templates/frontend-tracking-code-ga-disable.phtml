@@ -12,8 +12,12 @@
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
+$customAttributes = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'
+    ? apply_filters('caos_gtag_script_element_attributes', '')
+    : apply_filters('caos_analytics_script_element_attributes', '');
 ?>
-<script>
+<script <?= $customAttributes; ?>>
     <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
     if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
         window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;

@@ -158,11 +158,14 @@ class CAOS_Frontend_Tracking
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
         if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' || (CAOS_OPT_SNIPPET_TYPE == 'async' && CAOS_OPT_REMOTE_JS_FILE != 'ga.js')) {
-            $urlId = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
-            $snippetType = 'async' ? 'async' : '';
-            $localFileUrl = CAOS_LOCAL_FILE_URL . $urlId;
+            $urlId            = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
+            $snippetType      = CAOS_OPT_SNIPPET_TYPE;
+            $localFileUrl     = CAOS_LOCAL_FILE_URL . $urlId;
+            $scriptAttributes = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'
+                ? apply_filters('caos_gtag_script_element_attributes', '')
+                : apply_filters('caos_analytics_script_element_attributes', '');
 
-            echo "<script $snippetType src='$localFileUrl'></script>";
+            echo "<script $snippetType src='$localFileUrl' $scriptAttributes></script>";
         }
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {

@@ -12,9 +12,14 @@
  * @copyright: (c) 2019 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
+$customAttributes = apply_filters('caos_analytics_script_element_attributes', '');
 ?>
-<script>
-    <?php if (CAOS_OPT_SNIPPET_TYPE == 'default'): ?>
+<script <?= $customAttributes; ?>>
+    <?php if (CAOS_OPT_SNIPPET_TYPE == 'async'): ?>
+    window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
+    ga.l = +new Date;
+    <?php else: ?>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
@@ -26,9 +31,6 @@
         a.src = g;
         m.parentNode.insertBefore(a, m);
     })(window, document, 'script', '<?= CAOS_LOCAL_FILE_URL; ?>', 'ga');
-    <?php elseif (CAOS_OPT_SNIPPET_TYPE == 'async'): ?>
-    window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
-    ga.l = +new Date;
     <?php endif; ?>
 </script>
 
@@ -37,7 +39,7 @@ $template = new CAOS_Frontend_Tracking();
 $template->get_tracking_code_template('ga-disable');
 ?>
 
-<script>
+<script <?= $customAttributes; ?>>
     ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>',
         {
             'cookieName': 'caosLocalGa',
