@@ -1,0 +1,55 @@
+<?php
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+?>
+<script>
+    window.dataLayer = window.dataLayer || [];
+</script>
+
+<?php
+$template = new CAOS_Frontend_Tracking();
+$template->get_tracking_code_template('ga-disable');
+
+/**
+ * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+ *
+ * Example: add_filter('caos_gtag_config', 'your_filter_function_name', 10, 2);
+ */
+$caosGtagConfig = apply_filters('caos_gtag_config', array(
+    'cookie_prefix'  => 'CaosGtag',
+    'cookie_domain'  => $_SERVER['SERVER_NAME'],
+    'cookie_expires' => CAOS_COOKIE_EXPIRY_DAYS
+), CAOS_OPT_TRACKING_ID);
+?>
+
+<script>
+    function gtag() { dataLayer.push(arguments); }
+
+    gtag('js', new Date());
+
+    gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
+
+    <?=
+    /**
+     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+     *
+     * Example: add_filter('caos_gtag_additional_config', 'your_filter_function_name', 10, 2);
+     */
+    apply_filters('caos_gtag_additional_config', '');
+    ?>
+
+    <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
+    setTimeout("gtag('event', 'Adjusted Bounce Rate', {'event_category': 'ABR'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    <?php endif; ?>
+</script>

@@ -1,0 +1,32 @@
+<?php
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+?>
+<script>
+    <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME): ?>
+    if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
+        window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    }
+    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME): ?>
+    if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
+        window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    }
+    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE): ?>
+    if (cookieValue !== '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
+        window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    }
+    <?php else: ?>
+    // You're always allowing cookies. No additional script is needed.
+    <?php endif; ?>
+</script>

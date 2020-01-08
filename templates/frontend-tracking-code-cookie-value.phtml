@@ -1,0 +1,33 @@
+<?php
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+?>
+<script>
+    function getCookieValue(name)
+    {
+        cookies = document.cookie;
+        cookiesArray = cookies.split('; ');
+        cookieValue = null;
+        cookiesArray.forEach(function (cookie) {
+            cookieArray = cookie.split('=');
+            if (cookieArray[0] !== name) {
+                return;
+            }
+            cookieValue = cookieArray[1];
+        });
+        return cookieValue;
+    }
+
+    cookieValue = getCookieValue('<?= CAOS_OPT_COOKIE_NAME; ?>');
+</script>
