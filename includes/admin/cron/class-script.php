@@ -38,7 +38,9 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         $file = $this->download();
 
-        wp_die(__("$file successfully downloaded and saved."));
+        if (DOING_AJAX) {
+            wp_die($file . ' ' . __("successfully downloaded and saved.", 'host-analyticsjs-local'));
+        }
     }
 
     /**
