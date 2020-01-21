@@ -37,16 +37,16 @@ $customAttributes = apply_filters('caos_analytics_script_element_attributes', ''
 <?php
 $template = new CAOS_Frontend_Tracking();
 $template->get_tracking_code_template('ga-disable');
+
+$createConfig = apply_filters('caos_analytics_ga_create_config', array(
+    'cookieName' => 'caosLocalGa',
+    'cookieDomain' => $_SERVER['SERVER_NAME'],
+    'cookieExpires' => CAOS_COOKIE_EXPIRY_DAYS
+));
 ?>
 
 <script <?= $customAttributes; ?>>
-    ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>',
-        {
-            'cookieName': 'caosLocalGa',
-            'cookieDomain': '<?= $_SERVER['SERVER_NAME']; ?>',
-            'cookieExpires': '<?= CAOS_COOKIE_EXPIRY_DAYS; ?>'
-        }
-    );
+    ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
 
     <?php
     /**
