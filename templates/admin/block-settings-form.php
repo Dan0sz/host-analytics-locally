@@ -60,7 +60,7 @@ if ($fileStatus): ?>
                     <br/>
                 <?php endforeach; ?>
                 <p class="description">
-                    <?= sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/?utm_source=caos&utm_medium=plugin&utm_campaign=settings" target="_blank">', '</a>'); ?>
+                    <?= sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$utmTags\" target='_blank'>", '</a>'); ?>
                     <?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'host-analyticsjs-local'); ?>
                     <a href="<?= CAOS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/<?= $utmTags; ?>" target="_blank">
                         <?php _e('Read more', 'host-analyticsjs-local'); ?></a>.
@@ -224,12 +224,12 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Use adjusted bounce rate?', 'host-analyticsjs-local'); ?></th>
+            <th scope="row"><?php _e('Use adjusted bounce rate? (seconds)', 'host-analyticsjs-local'); ?></th>
             <td>
                 <input type="number" name="<?= CAOS_Admin_Settings::CAOS_SETTING_ADJUSTED_BOUNCE_RATE; ?>" min="0" max="60"
                        value="<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>"/>
                 <p class="description">
-                    <a href="https://moz.com/blog/adjusted-bounce-rate" target="_blank"><?php _e('More information about adjusted bounce rate', 'host-analyticsjs-local'); ?></a>.
+                    <a href="<?= CAOS_SITE_URL; ?>/how-to/adjusted-bounce-rate-caos/<?= $utmTags; ?>" target="_blank"><?php _e('More information about adjusted bounce rate', 'host-analyticsjs-local'); ?></a>.
                 </p>
             </td>
         </tr>
