@@ -21,7 +21,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
             <?= get_plugin_data(CAOS_PLUGIN_FILE)['Description']; ?>
         </p>
         <div class="welcome-panel-column-container">
-            <div class="welcome-panel-column" style="width: 32%;">
+            <div class="welcome-panel-column" style="width: 31%; margin-right: 15px;">
                 <h3><?php _e('Quickstart', 'host-analyticsjs-local'); ?></h3>
                 <ul>
                     <li class="welcome-icon dashicons-before dashicons-analytics"><?php _e('Enter your Analytics Tracking-ID', 'host-analyticsjs-local'); ?></li>
@@ -34,12 +34,19 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
                     <a target="_blank" href="<?= CAOS_SITE_URL; ?>/wordpress-plugins/optimize-analytics-wordpress/<?= $utmTags; ?>"><?php _e('Click here', 'host-analyticsjs-local'); ?></a> <?php _e('for a more comprehensive guide.', 'host-analyticsjs-local'); ?>
                 </p>
             </div>
-            <div class="welcome-panel-column" style="width: 32%;">
+            <div class="welcome-panel-column" style="width: 31%; margin-right: 15px;">
                 <h3>
                     <?php _e('Need Help?', 'host-analyticsjs-local'); ?>
                 </h3>
                 <p>
-                    <?= sprintf(__('If you\'re running into any issues, please make sure you\'ve read %sthe manual%s thoroughly. Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress-plugins/optimize-analytics-wordpress/' . $utmTags . '" target="_blank">' , '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_SITE_URL . '/contact' . $utmTags . '" target="_blank">', '</a>'); ?>
+                    <?= sprintf(__('Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress-plugins/optimize-analytics-wordpress/' . $utmTags . '" target="_blank">' , '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_SITE_URL . '/contact' . $utmTags . '" target="_blank">', '</a>'); ?>
+                </p>
+                <h3><span class="dashicons dashicons-dashboard"></span> <?php _e('Make WordPress <em>Faster</em> Than Superman', 'host-analyticsjs-local'); ?></h3>
+                <p>
+                    <?= __('Superman could reach the other side of the world in 25 seconds. Google wants your website to do it in two. Let\'s give Google a run for its money.', 'host-analyticsjs-local'); ?>
+                </p>
+                <p>
+                    <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-services/<?= $utmTags; ?>"><span class="dashicons dashicons-thumbs-up"></span> Hire me</a>
                 </p>
             </div>
             <div class="welcome-panel-column welcome-panel-last" style="width: 33%;">
@@ -53,7 +60,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
                     <?= sprintf(__("However, my time is just as valuable as yours. Consider supporting me by either %sdonating%s or leaving a %s5-star review%s on Wordpress.org.", 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/donate' . $utmTags . '" target="_blank">', '</a>', '<a target="_blank" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post">', '</a>'); ?>
                 </p>
                 <p>
-                    <a target="_blank" class="button button-primary button-hero" href="<?= CAOS_SITE_URL; ?>/donate/?utm_source=caos&utm_medium=plugin&utm_campaign=donate_button"><span class="dashicons-before dashicons-heart"> <?php _e('Donate', 'host-analyticsjs-local'); ?></span></a>
+                    <a target="_blank" class="button button-secondary button-hero" href="<?= CAOS_SITE_URL; ?>/donate/?utm_source=caos&utm_medium=plugin&utm_campaign=donate_button"><span class="dashicons-before dashicons-heart"> <?php _e('Donate', 'host-analyticsjs-local'); ?></span></a>
                     <a target="_blank" class="button button-secondary button-hero" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post"><span class="dashicons-before dashicons-star-filled"> <?php _e('Review', 'host-analyticsjs-local'); ?></span></a>
                     <a target="_blank" class="button button-secondary button-hero" href="https://twitter.com/Dan0sz"><span class="dashicons-before dashicons-twitter"> <?php _e('Follow', 'host-analyticsjs-local'); ?></span></a>
                 </p>
@@ -61,3 +68,9 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
         </div>
     </div>
 </div>
+
+<style>
+    h3 > .dashicons {
+        line-height: 1.4;
+    }
+</style>
