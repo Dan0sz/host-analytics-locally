@@ -36,7 +36,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/opt
 - Save analytics.js/ga.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/ga.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
-- Set Adjusted Bounce Rate,
+- Set [Adjusted Bounce Rate](https://daan.dev/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - Change enqueue order (prioritize order of loaded scripts),
 - Force disabling display features functionalities,
 - Anonymize IP addresses,
