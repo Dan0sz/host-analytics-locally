@@ -46,7 +46,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
                     <?= __('Superman can reach the other side of the world in <strong>3 seconds</strong>. Google wants your website to do it <strong>faster</strong>. Let\'s give Google a run for its money.', 'host-analyticsjs-local'); ?>
                 </p>
                 <p>
-                    <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-services/<?= $utmTags; ?>"><span class="dashicons dashicons-thumbs-up"></span> Hire me</a>
+                    <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-services/<?= $utmTags; ?>"><span class="dashicons dashicons-thumbs-up"></span> Hire me</a> <span><em>(<?= __('Starting at € 99,-', 'host-analyticsjs-local'); ?>)</em></span>
                 </p>
             </div>
             <div class="welcome-panel-column welcome-panel-last" style="width: 33%;">
