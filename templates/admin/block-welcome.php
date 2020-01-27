@@ -43,7 +43,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
                 </p>
                 <h3><span class="dashicons dashicons-dashboard"></span> <?php _e('Make WordPress <em>Faster</em> Than Superman', 'host-analyticsjs-local'); ?></h3>
                 <p>
-                    <?= __('Superman could reach the other side of the world in <strong>3 seconds</strong>. Google wants your website to do it <strong>faster</strong>. Let\'s give Google a run for its money.', 'host-analyticsjs-local'); ?>
+                    <?= __('Superman can reach the other side of the world in <strong>3 seconds</strong>. Google wants your website to do it <strong>faster</strong>. Let\'s give Google a run for its money.', 'host-analyticsjs-local'); ?>
                 </p>
                 <p>
                     <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-services/<?= $utmTags; ?>"><span class="dashicons dashicons-thumbs-up"></span> Hire me</a>
