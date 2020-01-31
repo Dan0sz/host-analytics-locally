@@ -14,6 +14,7 @@
  * * * * * * * * * * * * * * * * * * * */
 
 $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
+$tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+Google+Analytics+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
 ?>
 <div id="welcome-panel" class="welcome-panel">
     <div class="welcome-panel-content">
@@ -51,18 +52,20 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
             </div>
             <div class="welcome-panel-column welcome-panel-last" style="width: 33%;">
                 <h3>
-                    <?php _e('Support CAOS', 'host-analyticsjs-local'); ?>
+                    <?php _e('Support CAOS & Spread the Word!', 'host-analyticsjs-local'); ?>
                 </h3>
                 <p>
                     <?= sprintf(__('I am convinced that knowledge should be free. That\'s why I will never charge you for the plugins I create and I will help you to succeed in your projects through the %stutorials%s on my blog.', 'host-analyticsjs-local'), '<a href="https://daan.dev/how-to/' . $utmTags . '" target="_blank">', '</a>'); ?>
                 </p>
                 <p>
-                    <?= sprintf(__("However, my time is just as valuable as yours. Consider supporting me by either %sdonating%s or leaving a %s5-star review%s on Wordpress.org.", 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/donate' . $utmTags . '" target="_blank">', '</a>', '<a target="_blank" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post">', '</a>'); ?>
+                    <?= __('But that doesn\'t mean there\'s nothing you can do to show your support! :)', 'host-analyticsjs-local'); ?>
                 </p>
                 <p>
-                    <a target="_blank" class="button button-secondary button-hero" href="<?= CAOS_SITE_URL; ?>/donate/?utm_source=caos&utm_medium=plugin&utm_campaign=donate_button"><span class="dashicons-before dashicons-heart"> <?php _e('Donate', 'host-analyticsjs-local'); ?></span></a>
+                    <?= sprintf(__('Please help me spread the word by leaving a %s5-star review%s on Wordpress.org or sending a %sTweet%s about CAOS.', 'host-analyticsjs-local'), '<a target="_blank" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post">', '</a>', "<a href='$tweetUrl'>", '</a>'); ?>
+                </p>
+                <p>
                     <a target="_blank" class="button button-secondary button-hero" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post"><span class="dashicons-before dashicons-star-filled"> <?php _e('Review', 'host-analyticsjs-local'); ?></span></a>
-                    <a target="_blank" class="button button-secondary button-hero" href="https://twitter.com/Dan0sz"><span class="dashicons-before dashicons-twitter"> <?php _e('Follow', 'host-analyticsjs-local'); ?></span></a>
+                    <a target="_blank" class="button button-secondary button-hero" href="<?= $tweetUrl; ?>"><span class="dashicons-before dashicons-twitter"> <?php _e('Tweet', 'host-analyticsjs-local'); ?></span></a>
                 </p>
             </div>
         </div>

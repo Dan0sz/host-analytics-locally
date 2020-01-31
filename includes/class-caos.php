@@ -49,6 +49,7 @@ class CAOS
         define('CAOS_OPT_COOKIE_VALUE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_COOKIE_VALUE)));
         define('CAOS_OPT_COMPATIBILITY_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_COMPATIBILITY_MODE, null)));
         define('CAOS_OPT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_STEALTH_MODE)));
+        define('CAOS_OPT_DNS_PREFETCH', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_DNS_PREFETCH)));
         define('CAOS_OPT_COOKIE_EXPIRY', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_GA_COOKIE_EXPIRY_DAYS)));
         define('CAOS_OPT_ADJUSTED_BOUNCE_RATE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_ADJUSTED_BOUNCE_RATE)));
         define('CAOS_OPT_ENQUEUE_ORDER', esc_attr(get_option(CAOS_Admin_Settings::CAOS_SETTING_ENQUEUE_ORDER, 0)));

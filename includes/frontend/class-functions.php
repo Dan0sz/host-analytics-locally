@@ -24,6 +24,7 @@ class CAOS_Frontend_Functions
     {
         // @formatter:off
         add_action('wp_enqueue_scripts', array($this, 'enqueue_js_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'add_dns_prefetch'), 1);
         add_action('rest_api_init', array($this, 'register_routes'));
         // @formatter:on
     }
@@ -54,5 +55,23 @@ class CAOS_Frontend_Functions
 
         $proxy = new CAOS_API_Proxy();
         $proxy->register_routes();
+    }
+
+    /**
+     * Add DNS Prefetch to google-analytics.com and CDN URL (if set) in wp_head().
+     */
+    public function add_dns_prefetch()
+    {
+        if (!CAOS_OPT_DNS_PREFETCH) {
+            return;
+        }
+
+        echo "<link rel='dns-prefetch' href='//www.google-analytics.com'>\n";
+
+        if (!$cdn = CAOS_OPT_CDN_URL) {
+            return;
+        }
+
+        echo "<link rel='dns-prefetch' href='//$cdn'>\n";
     }
 }

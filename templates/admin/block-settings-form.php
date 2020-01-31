@@ -204,6 +204,15 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
+            <th scope="row"><?= __('Enable DNS Prefetch? (Recommended)', 'host-analyticsjs-local'); ?></th>
+            <td>
+                <input type="checkbox" class="caos-dns-prefetch" name="<?= CAOS_Admin_Settings::CAOS_SETTING_DNS_PREFETCH; ?>" <?= CAOS_OPT_DNS_PREFETCH == 'on' ? 'checked = "checked"' : ''; ?> />
+                <p class="description">
+                    <?= __('Pre-connect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests to these servers.', 'host-analyticsjs-local'); ?>
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
             <th scope="row"><?php _e('Capture outbound links?', 'host-analyticsjs-local'); ?></th>
             <td>
                 <input type="checkbox" class="caos-capture-outbound-links" name="<?= CAOS_Admin_Settings::CAOS_SETTING_CAPTURE_OUTBOUND_LINKS; ?>" <?= CAOS_OPT_CAPTURE_OUTBOUND_LINKS == "on" ? 'checked = "checked"' : ''; ?> />

@@ -84,6 +84,7 @@ class CAOS_Admin_Settings
     const CAOS_SETTING_COOKIE_VALUE             = 'caos_cookie_value';
     const CAOS_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
     const CAOS_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
+    const CAOS_SETTING_DNS_PREFETCH             = 'caos_dns_prefetch';
     const CAOS_SETTING_JS_FILE                  = 'caos_analytics_js_file';
     const CAOS_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
