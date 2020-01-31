@@ -28,7 +28,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/opt
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - In Stealth Mode, requests to linkid.js and ec.js are also hosted locally,
-- Preconnect (DNS Prefetch) to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
+- Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
 - Capture outbound links,
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
@@ -124,7 +124,7 @@ N/A
 == Changelog ==
 
 = 3.2.0 =
-CAOS can now DNS prefetch google-analytics.com and CDN URL (if set).
+CAOS can now preconnect to google-analytics.com and CDN URL (if set).
 
 = 3.1.3 =
 Do not output success message when update-script is executed by CRON.

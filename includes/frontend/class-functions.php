@@ -58,7 +58,7 @@ class CAOS_Frontend_Functions
     }
 
     /**
-     * Add DNS Prefetch to google-analytics.com and CDN URL (if set) in wp_head().
+     * Add Preconnect to google-analytics.com and CDN URL (if set) in wp_head().
      */
     public function add_dns_prefetch()
     {
@@ -66,12 +66,12 @@ class CAOS_Frontend_Functions
             return;
         }
 
-        echo "<link rel='dns-prefetch' href='//www.google-analytics.com'>\n";
+        echo "<link rel='preconnect' href='//www.google-analytics.com' crossorigin>\n";
 
         if (!$cdn = CAOS_OPT_CDN_URL) {
             return;
         }
 
-        echo "<link rel='dns-prefetch' href='//$cdn'>\n";
+        echo "<link rel='preconnect' href='//$cdn' crossorigin>\n";
     }
 }
