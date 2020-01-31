@@ -4,6 +4,7 @@ Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie n
 Requires at least: 4.6
 Tested up to: 5.3
 Stable tag: 3.2.0
+Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
