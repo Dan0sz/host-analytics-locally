@@ -1,6 +1,5 @@
 === CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
-Donate link: https://daan.dev/donate/
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.3
@@ -116,10 +115,6 @@ CAOS adds a local file called gtag.js/analytics.js/gtag.js (depending on your ch
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
 Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js/gtag.js/ga.js will be served from your CDN.
-
-= Can I buy you a beer? =
-
-Yes, please! [Click here to buy me a beer](http://daan.dev/donate/?utm_source=wordpress&utm_medium=description&utm_campaign=caos "Let's do shots!")!
 
 == Screenshots ==
 
