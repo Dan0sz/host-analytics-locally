@@ -204,11 +204,11 @@ if ($fileStatus): ?>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?= __('Enable DNS Prefetch? (Recommended)', 'host-analyticsjs-local'); ?></th>
+            <th scope="row"><?= __('Enable Preconnect? (Recommended)', 'host-analyticsjs-local'); ?></th>
             <td>
-                <input type="checkbox" class="caos-dns-prefetch" name="<?= CAOS_Admin_Settings::CAOS_SETTING_DNS_PREFETCH; ?>" <?= CAOS_OPT_DNS_PREFETCH == 'on' ? 'checked = "checked"' : ''; ?> />
+                <input type="checkbox" class="caos-preconnect" name="<?= CAOS_Admin_Settings::CAOS_SETTING_PRECONNECT; ?>" <?= CAOS_OPT_PRECONNECT == 'on' ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?= __('Pre-connect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests to these servers.', 'host-analyticsjs-local'); ?>
+                    <?= __('Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests to these servers.', 'host-analyticsjs-local'); ?>
                 </p>
             </td>
         </tr>

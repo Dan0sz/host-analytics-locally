@@ -62,7 +62,7 @@ class CAOS_Frontend_Functions
      */
     public function add_dns_prefetch()
     {
-        if (!CAOS_OPT_DNS_PREFETCH) {
+        if (!CAOS_OPT_PRECONNECT) {
             return;
         }
 
