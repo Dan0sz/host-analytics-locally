@@ -25,58 +25,24 @@ class CAOS_Admin_Cron_Update
     /**
      * Downloads $remoteFile and writes it to $localFile
      *
-     * We're using cUrl so allow_furl_open doesn't need to be set.
-     *
      * @param $localFile
      * @param $remoteFile
+     *
+     * @return void|string
      */
-    protected function update_file_curl($localFile, $remoteFile)
+    protected function update_file($localFile, $remoteFile)
     {
-        if (!function_exists('curl_exec')) {
-            $this->throw_error(500, 'cURL is disabled on your server and required for CAOS to function properly. Contact your hosting provider for assistance to enable cURL on your server.');
+        $this->file = wp_remote_get($remoteFile, $localFile);
+
+        if (is_wp_error($this->file)) {
+            return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
         }
 
-        $this->file = fopen($localFile, 'w+');
-        $curl       = curl_init();
-
-        curl_setopt_array(
-            $curl,
-            array(
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL            => $remoteFile,
-                CURLOPT_FILE           => $this->file,
-                CURLOPT_HEADER         => false,
-                CURLOPT_FOLLOWLOCATION => true
-            )
-        );
-
-        curl_exec($curl);
-        curl_close($curl);
-        fclose($this->file);
+        $this->filesystem()->put_contents($localFile, $this->file['body']);
 
         if (file_exists($localFile) && filesize($localFile) > 1) {
             return;
         }
-
-        $this->update_file($localFile, $remoteFile);
-    }
-
-    /**
-     * @param $code
-     * @param $message
-     */
-    private function throw_error($code, $message)
-    {
-        wp_send_json_error(__($message, 'host-analyticsjs-local'), (int) $code);
-    }
-
-    /**
-     * @param $localFile
-     * @param $remoteFile
-     */
-    protected function update_file($localFile, $remoteFile)
-    {
-        file_put_contents($localFile, file_get_contents($remoteFile));
     }
 
     /**
@@ -121,5 +87,22 @@ class CAOS_Admin_Cron_Update
         $proxyUrl = $siteUrl . CAOS_PROXY_URI;
 
         return file_put_contents($file, str_replace('www.google-analytics.com', $proxyUrl, file_get_contents($file)));
+    }
+
+    /**
+     * Helper to return WordPress filesystem subclass.
+     *
+     * @return WP_Filesystem_Base $wp_filesystem
+     */
+    private function filesystem()
+    {
+        global $wp_filesystem;
+
+        if ( is_null( $wp_filesystem ) ) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        return $wp_filesystem;
     }
 }

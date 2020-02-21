@@ -70,7 +70,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     {
         if (is_array($this->remoteFile)) {
             foreach ($this->remoteFile as $file => $location) {
-                $this->update_file_curl($location['local'], $location['remote']);
+                $this->update_file($location['local'], $location['remote']);
 
                 if ($file == 'gtag') {
                     $caosGaUrl = str_replace('gtag.js', 'analytics.js', caos_init()->get_url());
@@ -84,7 +84,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         $file = 'Analytics.js';
 
-        $this->update_file_curl($this->localFile, $this->remoteFile);
+        $this->update_file($this->localFile, $this->remoteFile);
 
         if (CAOS_OPT_STEALTH_MODE && (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js')) {
             $this->insert_proxy(CAOS_LOCAL_FILE_DIR);
@@ -100,7 +100,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             foreach ($plugins as $plugin) {
                 $this->localFile = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
                 $this->remoteFile = CAOS_GA_URL . $plugin;
-                $this->update_file_curl($this->localFile, $this->remoteFile);
+                $this->update_file($this->localFile, $this->remoteFile);
             }
 
             $file .= ', ec.js and linkid.js';
