@@ -55,7 +55,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/opt
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining two plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 = CAOS says analytics.js/gtag.js/ga.js isn't updated in more than two days. What's going on? =
 
