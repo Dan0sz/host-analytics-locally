@@ -64,7 +64,7 @@ jQuery(document).ready(function ($) {
             /**
              * Only appear if widget reaches top of screen.
              */
-            widgetOffset = caos_admin.$welcome_panel.offset().top;
+            widgetOffset = caos_admin.$welcome_panel.offset().top - 20;
 
             if ($(window).scrollTop() >= widgetOffset) {
                 caos_admin.$welcome_panel.css('opacity', '0');
