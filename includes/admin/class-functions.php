@@ -33,7 +33,7 @@ class CAOS_Admin_Functions
 
         if ($fileStatus) {
             if ($lastSuccess + self::CAOS_ADMIN_SUCCESS_MESSAGE_INTERVAL < time()) {
-                CAOS_Admin_Notice::set_notice(__('CAOS is running healthy.', 'host-analyticsjs-local') . ' <strong>' . CAOS_OPT_REMOTE_JS_FILE . '</strong> ' . __('was last updated on', 'host-analyticsjs-local') . ' <em>' . $this->file_last_updated() . '</em> ' . __('and the next update is scheduled on') . ' <em>' . $this->cron_next_scheduled() . '</em>.', false);
+                CAOS_Admin_Notice::set_notice(__('CAOS is running healthy.', 'host-analyticsjs-local') . ' <strong>' . CAOS_OPT_REMOTE_JS_FILE . '</strong> ' . __('was last updated on', 'host-analyticsjs-local') . ' <em>' . $this->file_last_updated() . '</em> ' . __('and the next update is scheduled on', 'host-analyticsjs-local') . ' <em>' . $this->cron_next_scheduled() . '</em>.', false);
 
                 update_option(self::CAOS_ADMIN_TIME_LAST_SUCCESS, time());
             }
