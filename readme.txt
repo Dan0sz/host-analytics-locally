@@ -2,8 +2,8 @@
 Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 3.2.0
+Tested up to: 5.4
+Stable tag: 3.3.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -122,6 +122,10 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.3.0 =
+* Added new notices interface. Notices are now dismissible and CAOS now throws a global notice to notify you of issues with your analytics/gtag file.
+* Revamped settings screen with toggleable interface.
 
 = 3.2.0 =
 CAOS can now preconnect to google-analytics.com and CDN URL (if set).
