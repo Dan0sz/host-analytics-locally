@@ -105,6 +105,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function __construct()
     {
+        parent::__construct();
+
         $caosLink = plugin_basename(CAOS_PLUGIN_FILE);
 
         // @formatter:off
@@ -113,7 +115,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_js_scripts'));
         // @formatter:on
 
-        parent::__construct();
+        $this->do_cron_check();
     }
 
     /**
@@ -233,6 +235,16 @@ class CAOS_Admin_Settings extends CAOS_Admin
         if ($hook == 'settings_page_host_analyticsjs_local') {
             wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
         }
+    }
+
+    /**
+     * Checks downloaded file and cron health.
+     *
+     * @return CAOS_Admin_Functions
+     */
+    private function do_cron_check()
+    {
+        return new CAOS_Admin_Functions();
     }
 
     /**

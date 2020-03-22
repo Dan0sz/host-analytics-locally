@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
- * @copyright: (c) 2019 Daan van den Bergh
+ * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -17,8 +17,8 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Notice
 {
-    const CAOS_ADMIN_NOTICE_TRANSIENT  = 'omgf_admin_notice';
-    const CAOS_ADMIN_NOTICE_EXPIRATION = 30;
+    const CAOS_ADMIN_NOTICE_TRANSIENT  = 'caos_admin_notice';
+    const CAOS_ADMIN_NOTICE_EXPIRATION = 86400;
 
     /** @var array $notices */
     public static $notices = [];

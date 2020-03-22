@@ -13,30 +13,9 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-$admin      = new CAOS_Admin_Functions();
-$frontend   = new CAOS_Frontend_Tracking();
-$fileStatus = $admin->cron_status();
-$utmTags    = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
-
-if ($fileStatus): ?>
-    <div class="updated settings-success notice">
-        <p>
-            <strong><?php _e('Your cron is running healthy.', 'host-analyticsjs-local'); ?></strong>
-        </p>
-        <p>
-            <em><?= CAOS_OPT_REMOTE_JS_FILE; ?></em> <?php _e('last updated at', 'host-analyticsjs-local'); ?>: <?= $admin->file_last_updated(); ?>
-        </p>
-        <p><?php _e('Next update scheduled at', 'host-analyticsjs-local'); ?>: <?= $admin->cron_next_scheduled(); ?></p>
-    </div>
-<?php else: ?>
-    <div class="notice notice-error">
-        <p>
-            <strong><?= sprintf(__('%s hasn\'t been updated for more than two days. Is your cron running?', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?></strong>
-        </p>
-    </div>
-<?php endif; ?>
-
-
+$frontend = new CAOS_Frontend_Tracking();
+$utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
+?>
 <table class="form-table">
     <tr valign="top">
         <th scope="row"><?php _e('Google Analytics Tracking ID', 'host-analyticsjs-local'); ?></th>

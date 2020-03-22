@@ -40,7 +40,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         // Only sent a success message if this is a AJAX request.
         if (wp_doing_ajax()) {
-            CAOS_Admin_Notice::set_notice($file . ' ' . __("are downloaded successfully and will now be loaded locally.", 'host-analyticsjs-local'));
+            CAOS_Admin_Notice::set_notice($file . ' ' . __("downloaded successfully and will now be loaded locally.", 'host-analyticsjs-local'));
         }
     }
 

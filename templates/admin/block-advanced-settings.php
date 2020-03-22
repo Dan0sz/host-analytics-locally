@@ -17,7 +17,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 ?>
 
 <p class="description">
-    <strong><?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?></strong>
+    <?php _e('* Manual update required after saving changes.', 'host-analyticsjs-local'); ?>
 </p>
 <table class="form-table">
     <tr valign="top" class="caos-compatibility-mode">

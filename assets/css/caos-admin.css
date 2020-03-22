@@ -59,5 +59,12 @@
 
 .settings-column.right {
     float: right;
-    width: 28.6%;
+    width: 23%;
+}
+
+/**
+ * Welcome Block
+ */
+h3 > .dashicons {
+    line-height: 1.4;
 }

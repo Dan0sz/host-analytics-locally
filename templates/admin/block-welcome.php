@@ -68,9 +68,3 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
         </div>
     </div>
 </div>
-
-<style>
-    h3 > .dashicons {
-        line-height: 1.4;
-    }
-</style>
