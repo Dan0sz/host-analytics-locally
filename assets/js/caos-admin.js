@@ -17,11 +17,35 @@ jQuery(document).ready(function ($) {
         // Buttons
         $manual_download: $('#manual-download'),
 
+        // Settings screen elements
+        $nav: $('.caos-nav span'),
+        $nav_basic_settings: $('.basic-settings'),
+        $nav_advanced_settings: $('.advanced-settings'),
+        $basic_settings_form: $('#caos-basic-settings-form'),
+        $advanced_settings_form: $('#caos-advanced-settings-form'),
+
         /**
          * Initialize CAOS Admin Functions.
          */
         init: function () {
+            // Nav
+            this.$nav.on('click', this.toggle_section);
+
+            // Buttons
             $('#manual-download').on('click', this.manual_download);
+        },
+
+        toggle_section: function () {
+            caos_admin.$nav.removeClass('selected');
+            $(this).addClass('selected');
+
+            if (this.classList.contains('basic-settings')) {
+                caos_admin.$basic_settings_form.fadeIn();
+                caos_admin.$advanced_settings_form.fadeOut(100);
+            } else {
+                caos_admin.$advanced_settings_form.fadeIn();
+                caos_admin.$basic_settings_form.fadeOut(100);
+            }
         },
 
         /**

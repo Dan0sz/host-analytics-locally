@@ -17,6 +17,7 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Settings extends CAOS_Admin
 {
+    const CAOS_ADMIN_SETTINGS_SECTION           = 'caos-basic-settings';
     const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS     = array(
         ''                  => array(
             'label' => 'Always (default)',
@@ -111,6 +112,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_filter("plugin_action_links_$caosLink", array($this, 'settings_link'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_js_scripts'));
         // @formatter:on
+
+        parent::__construct();
     }
 
     /**
@@ -144,30 +147,47 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <div class="wrap">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local'); ?></h1>
 
-            <div id="caos-notices"></div>
+            <p>
+                <?= get_plugin_data(CAOS_PLUGIN_FILE)['Description']; ?>
+            </p>
 
-            <?php $this->get_template('welcome'); ?>
-
-            <form method="post" action="options.php">
-                <?php
-                settings_fields('caos-basic-settings');
-                do_settings_sections('caos-basic-settings');
-                ?>
-
-                <?php $this->get_template('settings-form'); ?>
-
-                <?php do_action('caos_after_form_settings'); ?>
-
-                <div style="clear: left; display: inline-block;">
-                    <?php submit_button(); ?>
+            <div class="settings-column left">
+                <div class="caos-nav">
+                    <span class="basic-settings dashicons-before dashicons-analytics selected"><?php _e('Basic', 'host-analyticsjs-local'); ?></span>
+                    <span class="advanced-settings dashicons-before dashicons-admin-settings"><?php _e('Advanced', 'host-analyticsjs-local'); ?></span>
                 </div>
 
-                <div style="display: inline-block;">
-                    <p class="submit">
-                        <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
-                    </p>
-                </div>
-            </form>
+                <form method="post" action="options.php">
+                    <?php
+                    settings_fields(self::CAOS_ADMIN_SETTINGS_SECTION);
+                    do_settings_sections(self::CAOS_ADMIN_SETTINGS_SECTION);
+                    ?>
+
+                    <div id="caos-basic-settings-form">
+                        <?php $this->get_template('basic-settings'); ?>
+                    </div>
+
+                    <div id="caos-advanced-settings-form" style="display: none;">
+                        <?php $this->get_template('advanced-settings'); ?>
+                    </div>
+
+                    <?php do_action('caos_after_form_settings'); ?>
+
+                    <div style="clear: left; display: inline-block;">
+                        <?php submit_button(); ?>
+                    </div>
+
+                    <div style="display: inline-block;">
+                        <p class="submit">
+                            <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="settings-column right">
+                <?php $this->get_template('welcome'); ?>
+            </div>
         </div>
         <?php
     }
@@ -181,7 +201,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     {
         foreach ($this->get_settings() as $constant => $value) {
             register_setting(
-                'caos-basic-settings',
+                self::CAOS_ADMIN_SETTINGS_SECTION,
                 $value
             );
         }

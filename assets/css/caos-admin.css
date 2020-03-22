@@ -1,0 +1,63 @@
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @copyright: (c) 2019 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * Navigation
+ */
+.caos-nav {
+    padding: 1em 0 1.5em;
+}
+
+.caos-nav .dashicons-before:before {
+    margin-right: .25em;
+}
+
+.caos-nav span {
+    color: #23282d;
+    font-size: 1.3em;
+    margin-right: 1.5em;
+    font-weight: 600;
+}
+
+.caos-nav span:hover {
+    cursor: pointer;
+}
+
+.caos-nav .selected,
+.caos-nav span:hover {
+    border-bottom: 1px dashed #23282d;
+    padding: 3px 0;
+}
+
+.caos-nav span:not(.selected) {
+    opacity: 0.85;
+}
+
+/**
+ * Sections
+ */
+.settings-column {
+    display: inline-block;
+}
+
+.settings-column.left {
+    float: left;
+    min-width: 655px;
+    width: 66%;
+}
+
+.settings-column.right {
+    float: right;
+    width: 28.6%;
+}
