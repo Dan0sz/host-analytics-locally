@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || exit;
 
-class CAOS_Admin_Settings
+class CAOS_Admin_Settings extends CAOS_Admin
 {
     const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS     = array(
         ''                  => array(
@@ -164,7 +164,7 @@ class CAOS_Admin_Settings
 
                 <div style="display: inline-block;">
                     <p class="submit">
-                        <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" onclick="caosDownloadManually();"/>
+                        <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
                     </p>
                 </div>
             </form>

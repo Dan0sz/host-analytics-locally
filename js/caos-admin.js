@@ -12,36 +12,37 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-/**
- * TODO: Notices are not dismissible, although they should be. Fix?
- */
-function caosDownloadManually() {
-    jQuery.ajax({
-        type: 'POST',
-        url: ajaxurl,
-        data: {
-            action: 'caos_analytics_ajax_manual_download'
+jQuery(document).ready(function ($) {
+    var caos_admin = {
+        // Buttons
+        $manual_download: $('#manual-download'),
+
+        /**
+         * Initialize CAOS Admin Functions.
+         */
+        init: function () {
+            $('#manual-download').on('click', this.manual_download);
         },
-        error: function (response) {
-            var errorMessage = '<div id="message" class="notice notice-error is-dismissible"><p>' + response.responseJSON.data + '</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
 
-            jQuery('html, body').animate({scrollTop: 0}, 800);
-
-            jQuery(errorMessage).insertAfter('.wrap h1');
-
-            return false;
-        },
-        success: function (response) {
-            var successMessage = '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible"><p><strong>' + response + '</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
-
-            jQuery('html, body').animate({scrollTop: 0}, 800);
-
-            jQuery(successMessage).insertAfter('.wrap h1');
-
-            return false;
+        /**
+         * Triggered when 'Update' button is clicked.
+         */
+        manual_download: function () {
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    action: 'caos_analytics_ajax_manual_download'
+                },
+                complete: function () {
+                    location.reload();
+                }
+            });
         }
-    });
-}
+    };
+
+    caos_admin.init();
+});
 
 /**
  * @param className
