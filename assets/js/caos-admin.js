@@ -23,6 +23,8 @@ jQuery(document).ready(function ($) {
         $nav_advanced_settings: $('.advanced-settings'),
         $basic_settings_form: $('#caos-basic-settings-form'),
         $advanced_settings_form: $('#caos-advanced-settings-form'),
+        $welcome_panel: $('#caos-welcome-panel'),
+        $welcome_panel_clone: $('#caos-welcome-panel-clone'),
 
         /**
          * Initialize CAOS Admin Functions.
@@ -30,6 +32,9 @@ jQuery(document).ready(function ($) {
         init: function () {
             // Nav
             this.$nav.on('click', this.toggle_section);
+
+            // Sidebar
+            $(window).scroll(this.scroll_sidebar);
 
             // Buttons
             $('#manual-download').on('click', this.manual_download);
@@ -45,6 +50,29 @@ jQuery(document).ready(function ($) {
             } else {
                 caos_admin.$advanced_settings_form.fadeIn();
                 caos_admin.$basic_settings_form.fadeOut(100);
+            }
+        },
+
+        scroll_sidebar: function () {
+            /**
+             * Make sure widgetClone has correct width, since its
+             * position is fixed.
+             */
+            widgetWidth = caos_admin.$welcome_panel.width();
+            caos_admin.$welcome_panel_clone.width(widgetWidth);
+
+            /**
+             * Only appear if widget reaches top of screen.
+             */
+            widgetOffset = caos_admin.$welcome_panel.offset().top;
+
+            if ($(window).scrollTop() >= widgetOffset) {
+                caos_admin.$welcome_panel.css('opacity', '0');
+                caos_admin.$welcome_panel_clone.css('top', 20);
+                caos_admin.$welcome_panel_clone.show();
+            } else {
+                caos_admin.$welcome_panel.css('opacity', '1');
+                caos_admin.$welcome_panel_clone.hide();
             }
         },
 

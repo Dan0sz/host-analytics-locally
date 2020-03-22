@@ -188,7 +188,12 @@ class CAOS_Admin_Settings extends CAOS_Admin
             </div>
 
             <div class="settings-column right">
-                <?php $this->get_template('welcome'); ?>
+                <div id="caos-welcome-panel" class="welcome-panel">
+                    <?php $this->get_template('welcome'); ?>
+                </div>
+                <div id="caos-welcome-panel-clone" class="welcome-panel" style="display: none;">
+                    <?php $this->get_template('welcome'); ?>
+                </div>
             </div>
         </div>
         <?php
