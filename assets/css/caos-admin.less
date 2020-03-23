@@ -11,47 +11,57 @@
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
 /**
  * Navigation
  */
 .caos-nav {
   padding: 1em 0 1.5em;
+
+  span {
+    color: #23282d;
+    font-size: 1.3em;
+    margin-right: 1.5em;
+    font-weight: 600;
+  }
+
+  span:not(.selected) {
+    opacity: 0.85;
+  }
+
+  span:hover {
+    cursor: pointer;
+  }
+
+  span:hover,
+  .selected {
+    border-bottom: 1px dashed #23282d;
+    padding: 3px 0;
+  }
+
+  .dashicons-before:before {
+    margin-right: .25em;
+  }
 }
-.caos-nav span {
-  color: #23282d;
-  font-size: 1.3em;
-  margin-right: 1.5em;
-  font-weight: 600;
-}
-.caos-nav span:not(.selected) {
-  opacity: 0.85;
-}
-.caos-nav span:hover {
-  cursor: pointer;
-}
-.caos-nav span:hover,
-.caos-nav .selected {
-  border-bottom: 1px dashed #23282d;
-  padding: 3px 0;
-}
-.caos-nav .dashicons-before:before {
-  margin-right: 0.25em;
-}
+
 /**
  * Sections
  */
 .settings-column {
   display: inline-block;
+
+  &.left {
+    float: left;
+    width: 66%;
+  }
+
+  &.right {
+    float: right;
+    min-width: 270px;
+    width: 30%;
+  }
 }
-.settings-column.left {
-  float: left;
-  width: 66%;
-}
-.settings-column.right {
-  float: right;
-  min-width: 270px;
-  width: 30%;
-}
+
 /**
  * Welcome Block
  */
@@ -61,27 +71,29 @@
   width: 100%;
   padding: 20px 10px 5px;
   box-sizing: border-box;
+
+  h3 > .dashicons {
+    line-height: 1.4;
+  }
 }
-#caos-welcome-panel h3 > .dashicons,
-#caos-welcome-panel-clone h3 > .dashicons {
-  line-height: 1.4;
-}
+
 #caos-welcome-panel-clone {
   display: none;
   position: fixed;
   z-index: 100000;
 }
+
 /**
  * Responsiveness
  */
 @media only screen and (max-width: 768px) {
   .settings-column {
     display: block;
-  }
-  .settings-column.left,
-  .settings-column.right {
-    float: none;
-    width: 100%;
+
+    &.left,
+    &.right {
+      float: none;
+      width: 100%;
+    }
   }
 }
-/*# sourceMappingURL=caos-admin.css.map */
