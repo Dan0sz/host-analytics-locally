@@ -238,7 +238,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function enqueue_admin_js_scripts($hook)
     {
         if ($hook == 'settings_page_host_analyticsjs_local') {
-            wp_enqueue_script('caos_admin_script', plugins_url('js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
+            wp_enqueue_script('caos_admin_script', plugins_url('assets/js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
         }
     }
 

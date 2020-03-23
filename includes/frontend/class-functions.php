@@ -39,7 +39,7 @@ class CAOS_Frontend_Functions
         }
 
         if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS === 'on') {
-            wp_enqueue_script('caos_frontend_script', plugins_url('js/caos-frontend.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
+            wp_enqueue_script('caos_frontend_script', plugins_url('assets/js/caos-frontend.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
         }
     }
 
