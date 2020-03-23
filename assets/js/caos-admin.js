@@ -43,6 +43,11 @@ jQuery(document).ready(function ($) {
 
             // Buttons
             $('#manual-download').on('click', this.manual_download);
+
+            // Options
+            $('.caos-compatibility-mode-input').on('click', this.toggle_compatibility_mode);
+            $('.caos-stealth-mode-input, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
+            $('.caos-js-file-input').on('click', this.toggle_js_file_input);
         },
 
         /**
@@ -102,6 +107,51 @@ jQuery(document).ready(function ($) {
                 }
             });
         },
+
+        /**
+         * Toggle Compatibility Mode options
+         */
+        toggle_compatibility_mode: function () {
+            settings = 'caos_advanced_settings, .caos_basic_settings';
+            if (this.value !== '') {
+                hideOptions(settings);
+                jQuery('.caos-js-file-input').val('analytics.js');
+            } else {
+                showOptions(settings);
+            }
+        },
+
+        /**
+         * Toggle Stealth Mode options
+         */
+        toggle_stealth_mode: function () {
+            setting = jQuery('.caos-js-file-input');
+            if (this.checked === true) {
+                setting.val('analytics.js');
+            }
+            if (this.className === 'caos-stealth-mode-input') {
+                jQuery('.caos-capture-outbound-links').attr('checked', false);
+            } else {
+                jQuery('.caos-stealth-mode-input').attr('checked', false);
+
+            }
+        },
+
+        /**
+         * Toggle JS File Input options
+         */
+        toggle_js_file_input: function () {
+            stealth = jQuery('.caos-stealth-mode-input');
+            outbound = jQuery('.caos-capture-outbound-links');
+            compatibility = jQuery('.caos-compatibility-mode-input');
+            if (this.value !== 'analytics.js') {
+                stealth.attr('checked', false);
+                outbound.attr('checked', false);
+                compatibility.val(null);
+                // We need to trigger a click to show applicable options again.
+                compatibility.click();
+            }
+        }
     };
 
     caos_admin.init();
@@ -124,48 +174,3 @@ function hideOptions(className) {
         jQuery('.' + className).hide();
     }
 }
-
-/**
- * Toggle sections.
- */
-jQuery('.caos-compatibility-mode-input').click(function () {
-    settings = 'caos_advanced_settings, .caos_basic_settings';
-    if (this.value !== '') {
-        hideOptions(settings);
-        jQuery('.caos-js-file-input').val('analytics.js');
-    } else {
-        showOptions(settings);
-    }
-});
-
-/**
- * Toggle sections.
- */
-jQuery('.caos-stealth-mode-input, .caos-capture-outbound-links').click(function () {
-    setting = jQuery('.caos-js-file-input');
-    if (this.checked === true) {
-        setting.val('analytics.js');
-    }
-    if (this.className === 'caos-stealth-mode-input') {
-        jQuery('.caos-capture-outbound-links').attr('checked', false);
-    } else {
-        jQuery('.caos-stealth-mode-input').attr('checked', false);
-
-    }
-});
-
-/**
- * Toggle sections.
- */
-jQuery('.caos-js-file-input').click(function () {
-    stealth = jQuery('.caos-stealth-mode-input');
-    outbound = jQuery('.caos-capture-outbound-links');
-    compatibility = jQuery('.caos-compatibility-mode-input');
-    if (this.value !== 'analytics.js') {
-        stealth.attr('checked', false);
-        outbound.attr('checked', false);
-        compatibility.val(null);
-        // We need to trigger a click to show applicable options again.
-        compatibility.click();
-    }
-});
