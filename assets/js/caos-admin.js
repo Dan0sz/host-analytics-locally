@@ -33,13 +33,21 @@ jQuery(document).ready(function ($) {
             // Nav
             this.$nav.on('click', this.toggle_section);
 
-            // Sidebar
-            $(window).scroll(this.scroll_sidebar);
+            /**
+             * Sidebar
+             * Shouldn't scroll on mobile devices.
+             */
+            if ($(window).width() > 768) {
+                $(window).scroll(this.scroll_sidebar);
+            }
 
             // Buttons
             $('#manual-download').on('click', this.manual_download);
         },
 
+        /**
+         * Toggle between settings settings.
+         */
         toggle_section: function () {
             caos_admin.$nav.removeClass('selected');
             $(this).addClass('selected');
@@ -53,6 +61,9 @@ jQuery(document).ready(function ($) {
             }
         },
 
+        /**
+         * Makes the sidebar stick when scrolling.
+         */
         scroll_sidebar: function () {
             /**
              * Make sure widgetClone has correct width, since its
@@ -90,7 +101,7 @@ jQuery(document).ready(function ($) {
                     location.reload();
                 }
             });
-        }
+        },
     };
 
     caos_admin.init();
