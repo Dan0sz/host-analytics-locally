@@ -184,25 +184,19 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
                     <?php do_action('caos_settings_content'); ?>
 
-                    <?php do_action( 'caos_after_' . $this->active_tab); ?>
+                    <?php
+                    $current_section = str_replace('-', '_', $this->active_tab);
+                    do_action( "after_$current_section");
+                    ?>
 
-                    <div style="clear: left; display: inline-block;">
-                        <?php submit_button(); ?>
-                    </div>
+                    <?php submit_button(null, 'primary', 'submit', false); ?>
 
-                    <div style="display: inline-block;">
-                        <p class="submit">
-                            <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
-                        </p>
-                    </div>
+                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
                 </form>
             </div>
 
             <div class="settings-column right">
                 <div id="caos-welcome-panel" class="welcome-panel">
-                    <?php $this->get_template('welcome'); ?>
-                </div>
-                <div id="caos-welcome-panel-clone" class="welcome-panel" style="display: none;">
                     <?php $this->get_template('welcome'); ?>
                 </div>
             </div>
@@ -291,7 +285,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     }
 
     /**
-     *
+     * Render active content.
      */
     public function do_content()
     {
