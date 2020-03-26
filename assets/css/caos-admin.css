@@ -17,25 +17,9 @@
 .caos-nav {
   padding: 1em 0 1.5em;
 }
-.caos-nav span {
-  color: #23282d;
-  font-size: 1.3em;
-  margin-right: 1.5em;
-  font-weight: 600;
-}
-.caos-nav span:not(.selected) {
-  opacity: 0.85;
-}
-.caos-nav span:hover {
-  cursor: pointer;
-}
-.caos-nav span:hover,
-.caos-nav .selected {
-  border-bottom: 1px dashed #23282d;
-  padding: 3px 0;
-}
 .caos-nav .dashicons-before:before {
   margin-right: 0.25em;
+  line-height: 1.2;
 }
 /**
  * Sections

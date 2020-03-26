@@ -16,11 +16,12 @@
 $frontend = new CAOS_Frontend_Tracking();
 $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 ?>
+<h3><?= __('Basic Settings', 'host-analyticsjs-local'); ?></h3>
 <table class="form-table">
     <tr valign="top">
         <th scope="row"><?php _e('Google Analytics Tracking ID', 'host-analyticsjs-local'); ?></th>
         <td>
-            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_TRACKING_ID; ?>" value="<?= CAOS_OPT_TRACKING_ID; ?>"/>
+            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID; ?>" value="<?= CAOS_OPT_TRACKING_ID; ?>"/>
         </td>
     </tr>
     <tbody class="caos_basic_settings" <?= empty(CAOS_OPT_COMPATIBILITY_MODE) ? '' : 'style="display: none;"'; ?>>
@@ -31,7 +32,7 @@ $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
             foreach (CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS as $option => $details): ?>
                 <label>
                     <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
-                           name="<?= CAOS_Admin_Settings::CAOS_SETTING_ALLOW_TRACKING; ?>" value="<?= $option; ?>"
+                           name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING; ?>" value="<?= $option; ?>"
                         <?= $option == CAOS_OPT_ALLOW_TRACKING ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>');"/>
                     <?= $details['label']; ?>
                 </label>
@@ -48,7 +49,7 @@ $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
     <tr class="caos_gdpr_setting caos_allow_tracking_name" valign="top" <?= CAOS_OPT_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
         <th scope="row"><?php _e('Cookie name', 'host-analyticsjs-local'); ?></th>
         <td>
-            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_NOTICE_NAME; ?>"
+            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME; ?>"
                    value="<?= CAOS_OPT_COOKIE_NAME; ?>"/>
             <p class="description">
                 <?php _e('The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local'); ?>
@@ -58,7 +59,7 @@ $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
     <tr class="caos_gdpr_setting caos_allow_tracking_name caos_allow_tracking_value" valign="top" <?= CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' ? '' : 'style="display: none;"'; ?>>
         <th scope="row"><?php _e('Cookie value', 'host-analyticsjs-local'); ?></th>
         <td>
-            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_SETTING_COOKIE_VALUE; ?>"
+            <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE; ?>"
                    value="<?= CAOS_OPT_COOKIE_VALUE; ?>"/>
             <p class="description">
                 <?php _e('The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local'); ?>
@@ -74,7 +75,7 @@ $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
                 'async' => __('Asynchronous', 'host-analyticsjs-local')
             );
             ?>
-            <select name="<?= CAOS_Admin_Settings::CAOS_SETTING_SNIPPET_TYPE; ?>" class="caos_snippet_type">
+            <select name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE; ?>" class="caos_snippet_type">
                 <?php foreach ($caos_snippet_type as $option => $label): ?>
                     <option value="<?= $option; ?>" <?= CAOS_OPT_SNIPPET_TYPE == $option ? 'selected' : ''; ?>><?= $label; ?></option>
                 <?php endforeach; ?>
@@ -91,7 +92,7 @@ $utmTags  = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
             <?php
             foreach (CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS as $option => $details): ?>
                 <label>
-                    <input class="caos_script_position_<?= $option; ?>" type="radio" name="<?= CAOS_Admin_Settings::CAOS_SETTING_SCRIPT_POSITION; ?>"
+                    <input class="caos_script_position_<?= $option; ?>" type="radio" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION; ?>"
                            value="<?= $option; ?>" <?= $option == CAOS_OPT_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>')"/>
                     <?= $details['label']; ?>
                 </label>
