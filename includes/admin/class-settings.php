@@ -115,22 +115,37 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /** @var string $active_tab */
     private $active_tab;
 
+    /** @var string $page */
+    private $page;
+
     /**
      * CAOS_Admin_Settings constructor.
      */
     public function __construct()
     {
-        $this->active_tab     = isset($_GET['tab']) ? $_GET['tab'] : 'caos-basic-settings';
+        $this->active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'caos-basic-settings';
+        $this->page       = isset($_GET['page']) ? $_GET['page'] : '';
 
         parent::__construct();
 
         // @formatter:off
+        // Global
         add_action('admin_menu', array($this, 'create_menu'));
+        add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), array($this, 'settings_link'));
+
+        if (!$this->page == 'host_analyticsjs_local') {
+            return;
+        }
+
+        // Scripts
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_js_scripts'));
+
+        // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
         add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
+
+        // Content
         add_action('caos_settings_content', [$this, 'do_content'], 1);
-        add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), array($this, 'settings_link'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_js_scripts'));
         // @formatter:on
 
         $this->do_cron_check();
