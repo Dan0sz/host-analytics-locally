@@ -24,7 +24,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     private $localFile;
 
     /** @var string $tweet */
-    private $tweet = "https://twitter.com/intent/tweet?text=I+just+optimized+Google+Analytics+with+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
+    private $tweet = "https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
 
     /** @var string $review */
     private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
@@ -42,11 +42,11 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         $this->is_gtag();
 
-        $file = $this->download();
+        $file_downloaded = $this->download();
 
         // Only sent a success message if this is a AJAX request.
         if (wp_doing_ajax()) {
-            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file . ' ' . __("downloaded successfully and has been added to your Google Analytics tracking code.", 'host-analyticsjs-local') . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $this->review, $this->tweet));
+            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file_downloaded . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $this->review, $this->tweet));
         }
     }
 
@@ -74,6 +74,8 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
      */
     private function download()
     {
+        $added = __('added to your Google Analytics tracking code.', 'host-analyticsjs-local');
+
         if (is_array($this->remoteFile)) {
             foreach ($this->remoteFile as $file => $location) {
                 $this->update_file($location['local'], $location['remote']);
@@ -85,7 +87,9 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 }
             }
 
-            return __('Gtag.js and analytics.js', 'host-analyticsjs-local');
+            $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
+
+            return __('Gtag.js and analytics.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
         }
 
         $file = 'Analytics.js';
@@ -109,9 +113,13 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 $this->update_file($this->localFile, $this->remoteFile);
             }
 
-            $file .= ', ' . __('ec.js and linkid.js', 'host-analyticsjs-local');
+            $this->tweet = sprintf($this->tweet, 'analytics.js,+ec.js+and+linkid.js');
+
+            return $file . ', ' . __('ec.js and linkid.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
         }
 
-        return $file;
+        $this->tweet = sprintf($this->tweet, 'analytics.js');
+
+        return $file . ' ' . __('is downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
     }
 }
