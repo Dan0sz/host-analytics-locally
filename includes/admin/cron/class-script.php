@@ -23,6 +23,12 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     /** @var string $localFile */
     private $localFile;
 
+    /** @var string $tweet */
+    private $tweet = "https://twitter.com/intent/tweet?text=I+just+optimized+Google+Analytics+with+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
+
+    /** @var string $review */
+    private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
+
     /**
      * CAOS_Admin_Cron_Script constructor.
      */
@@ -40,7 +46,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         // Only sent a success message if this is a AJAX request.
         if (wp_doing_ajax()) {
-            CAOS_Admin_Notice::set_notice($file . ' ' . __("downloaded successfully and will now be loaded locally.", 'host-analyticsjs-local'));
+            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file . ' ' . __("downloaded successfully and has been added to your Google Analytics tracking code.", 'host-analyticsjs-local') . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $this->review, $this->tweet));
         }
     }
 
@@ -79,7 +85,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 }
             }
 
-            return 'Gtag.js and analytics.js';
+            return __('Gtag.js and analytics.js', 'host-analyticsjs-local');
         }
 
         $file = 'Analytics.js';
@@ -103,7 +109,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 $this->update_file($this->localFile, $this->remoteFile);
             }
 
-            $file .= ', ec.js and linkid.js';
+            $file .= ', ' . __('ec.js and linkid.js', 'host-analyticsjs-local');
         }
 
         return $file;
