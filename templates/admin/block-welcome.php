@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @url      : https://daan.dev/wordpress-plugins/caos/
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -28,7 +28,7 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
                 <li class="welcome-icon dashicons-before dashicons-smiley"><?php _e("Click 'Save Changes' and you're done!", 'host-analyticsjs-local'); ?></li>
             </ul>
             <p>
-                <a target="_blank" href="<?= CAOS_SITE_URL; ?>/wordpress-plugins/optimize-analytics-wordpress/<?= $utmTags; ?>"><?php _e('Click here', 'host-analyticsjs-local'); ?></a> <?php _e('for a more comprehensive guide.', 'host-analyticsjs-local'); ?>
+                <a target="_blank" href="<?= CAOS_SITE_URL; ?>/wordpress-plugins/caos/<?= $utmTags; ?>"><?php _e('Click here', 'host-analyticsjs-local'); ?></a> <?php _e('for a more comprehensive guide.', 'host-analyticsjs-local'); ?>
             </p>
         </div>
         <div class="welcome-panel-column" style="width: 100%; margin-right: 15px;">
@@ -64,7 +64,7 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
                 <?php _e('Need Help?', 'host-analyticsjs-local'); ?>
             </h3>
             <p>
-                <?= sprintf(__('Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress-plugins/optimize-analytics-wordpress/' . $utmTags . '" target="_blank">', '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_SITE_URL . '/contact' . $utmTags . '" target="_blank">', '</a>'); ?>
+                <?= sprintf(__('Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress-plugins/caos/' . $utmTags . '" target="_blank">', '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_SITE_URL . '/contact' . $utmTags . '" target="_blank">', '</a>'); ?>
             </p>
         </div>
     </div>

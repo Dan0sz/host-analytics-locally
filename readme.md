@@ -11,7 +11,7 @@ Just install the plugin, enter your Tracking-ID and the plugin adds the necessar
 
 Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration and optimization of your WordPress blog. Or feel free to [contact me](https://daan.dev/contact/?utm_source=github&utm_medium=description&utm_campaign=caos) for a quote.
 
-For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/?utm_source=github&utm_medium=description&utm_campaign=caos).
+For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/caos/?utm_source=github&utm_medium=description&utm_campaign=caos).
 
 ## Features
 - Host analytics.js, ga.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=github&utm_medium=description&utm_campaign=caos)),

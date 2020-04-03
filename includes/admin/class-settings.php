@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @url      : https://daan.dev/wordpress-plugins/caos/
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -226,6 +226,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function register_settings()
     {
+        if ($this->active_tab !== self::CAOS_ADMIN_SECTION_BASIC_SETTINGS
+            && $this->active_tab !== self::CAOS_ADMIN_SECTION_ADV_SETTINGS) {
+            $this->active_tab = self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
+        }
+
         foreach ($this->get_settings() as $constant => $value) {
             register_setting(
                 $this->active_tab,

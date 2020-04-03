@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @url      : https://daan.dev/wordpress-plugins/caos/
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -48,7 +48,7 @@ class CAOS
         define('CAOS_OPT_COOKIE_NAME', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME)));
         define('CAOS_OPT_COOKIE_VALUE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE)));
         define('CAOS_OPT_SNIPPET_TYPE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE)));
-        define('CAOS_OPT_SCRIPT_POSITION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION)));
+        define('CAOS_OPT_SCRIPT_POSITION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header')));
         define('CAOS_OPT_COMPATIBILITY_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, null)));
         define('CAOS_OPT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_STEALTH_MODE)));
         define('CAOS_OPT_PRECONNECT', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_PRECONNECT)));

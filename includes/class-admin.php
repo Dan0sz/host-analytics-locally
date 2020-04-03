@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/optimize-analytics-wordpress/
+ * @url      : https://daan.dev/wordpress-plugins/caos/
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -25,8 +25,12 @@ class CAOS_Admin
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
-        add_action('admin_notices', array($this, 'add_notice'));
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
+        add_action('admin_notices', [$this, 'add_notice']);
+
+        // Notices
+        add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
+        add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
     }
 
     /**
@@ -48,5 +52,42 @@ class CAOS_Admin
     public function add_notice()
     {
         CAOS_Admin_Notice::print_notice();
+    }
+
+    /**
+     * @param $new_tracking_id
+     * @param $old_tracking_id
+     *
+     * @return mixed
+     */
+    public function add_tracking_code_notice($old_tracking_id, $new_tracking_id)
+    {
+        if ($new_tracking_id !== $old_tracking_id && !empty($new_tracking_id)) {
+            CAOS_Admin_Notice::set_notice(__("CAOS has connected WordPress to Google Analytics using Tracking ID: $new_tracking_id.", 'host-analyticsjs-local'), false);
+        }
+
+        return $new_tracking_id;
+    }
+
+    /**
+     * @param $new_position
+     * @param $old_position
+     *
+     * @return mixed
+     */
+    public function add_script_position_notice($old_position, $new_position)
+    {
+        if ($new_position !== $old_position && !empty($new_position)) {
+            switch ($new_position) {
+                case 'manual':
+                    CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', 'host-analyticsjs-local'), false, 'info');
+                    break;
+                default:
+                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", 'host-analyticsjs-local'), false, 'success');
+                    break;
+            }
+        }
+
+        return $new_position;
     }
 }
