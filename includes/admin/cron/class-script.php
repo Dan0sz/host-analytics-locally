@@ -92,7 +92,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             return __('Gtag.js and analytics.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
         }
 
-        $file = 'Analytics.js';
+        $file = ucfirst(CAOS_OPT_REMOTE_JS_FILE);
 
         $this->update_file($this->localFile, $this->remoteFile);
 
@@ -118,7 +118,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             return $file . ', ' . __('ec.js and linkid.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
         }
 
-        $this->tweet = sprintf($this->tweet, 'analytics.js');
+        $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
 
         return $file . ' ' . __('is downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
     }
