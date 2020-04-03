@@ -206,7 +206,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
                     <?php submit_button(null, 'primary', 'submit', false); ?>
 
-                    <input id="manual-download" class="button button-secondary" name="caos-download" value="Update <?= CAOS_OPT_REMOTE_JS_FILE; ?>" type="button" />
+                    <a href="#" id="manual-download" class="button button-secondary"><?= __('Update', 'host-analyticsjs-local'); ?> <?= CAOS_OPT_REMOTE_JS_FILE; ?></a>
                 </form>
             </div>
 

@@ -23,7 +23,15 @@ class CAOS_AJAX
     public function __construct()
     {
         // @formatter:off
-        add_action('wp_ajax_caos_analytics_ajax_manual_download', array(new CAOS_Setup(), 'load_cron_script'));
+        add_action('wp_ajax_caos_analytics_ajax_manual_download', [$this, 'manual_download']);
         // @formatter:on
+    }
+
+    /**
+     * @return CAOS_Admin_Cron_Script
+     */
+    public function manual_download()
+    {
+        return new CAOS_Admin_Cron_Script();
     }
 }
