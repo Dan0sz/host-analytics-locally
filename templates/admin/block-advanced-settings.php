@@ -62,9 +62,9 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
     <tr valign="top">
         <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?> *</th>
         <td>
-            <input class="caos_analytics_cache_dir" type="text" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR; ?>" placeholder="e.g. /cache/caos-analytics/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
+            <input class="caos_analytics_cache_dir" type="text" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR; ?>" placeholder="e.g. /cache/caos/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
             <p class="description">
-                <?php _e("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos-analytics/</code>.", 'host-analyticsjs-local'); ?>
+                <?php _e("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos/</code>.", 'host-analyticsjs-local'); ?>
             </p>
         </td>
     </tr>

@@ -39,7 +39,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function __construct()
     {
-        $this->namespace = 'caos-analytics/v1';
+        $this->namespace = 'caos/v1';
         $this->rest_base = 'proxy';
     }
 
