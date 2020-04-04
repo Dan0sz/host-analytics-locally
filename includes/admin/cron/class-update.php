@@ -78,15 +78,19 @@ class CAOS_Admin_Cron_Update
      */
     protected function insert_proxy($file)
     {
-        $find     = array(
+        $find             = array(
             'http://',
             'https://'
         );
-        $replace  = '';
-        $siteUrl  = str_replace($find, $replace, get_site_url(CAOS_BLOG_ID));
-        $proxyUrl = $siteUrl . CAOS_PROXY_URI;
+        $replace          = '';
+        $siteUrl          = str_replace($find, $replace, get_site_url(CAOS_BLOG_ID));
+        $proxyUrl         = $siteUrl . CAOS_PROXY_URI;
+        $google_endpoints = apply_filters('caos_stealth_mode_google_endpoints', []);
+        $caos_endpoint    = apply_filters('caos_stealth_mode_endpoint', '');
+        $new_file         = file_put_contents($file, str_replace($google_endpoints, $caos_endpoint, file_get_contents($file)));
+        $new_file         = file_put_contents($file, str_replace('www.google-analytics.com', $proxyUrl, file_get_contents($file)));
 
-        return file_put_contents($file, str_replace('www.google-analytics.com', $proxyUrl, file_get_contents($file)));
+        return $new_file;
     }
 
     /**

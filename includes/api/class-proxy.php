@@ -49,7 +49,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function register_routes()
     {
-        foreach (self::CAOS_PROXY_ENDPOINTS as $endpoint) {
+        $endpoints = apply_filters('caos_stealth_mode_endpoint', self::CAOS_PROXY_ENDPOINTS);
+
+        foreach ($endpoints as $endpoint) {
             register_rest_route(
                 $this->namespace,
                 '/' . $this->rest_base . $endpoint,
@@ -101,19 +103,25 @@ class CAOS_API_Proxy extends WP_REST_Controller
     {
         $params         = $request->get_params();
         $ip             = $this->get_user_ip_address();
+
+        if (CAOS_OPT_ANONYMIZE_IP) {
+            $ip = $this->anonymize_ip($ip);
+        }
+
         $passThruParams = array(
             'uip'        => $ip,
             'ua'         => $request->get_header('user_agent')
         );
         $query          = '?' . http_build_query($params + $passThruParams);
         $url            = CAOS_GA_URL . '/r/collect' . $query;
+
         try {
             $response = wp_remote_get(
                 $url,
                 array(
                     'user-agent' => $request->get_header('user_agent'),
                     'headers'    => array(
-                        'X-Forwarded-For:' => $this->get_user_ip_address()
+                        'X-Forwarded-For:' => $ip
                     )
                 )
             );
@@ -164,5 +172,17 @@ class CAOS_API_Proxy extends WP_REST_Controller
         }
 
         return $ip;
+    }
+
+    /**
+     * Anonymize current IP, before sending it to Google to respect the Anonymize IP advanced setting.
+     *
+     * @param $ip
+     *
+     * @return string|string[]|null
+     */
+    private function anonymize_ip($ip)
+    {
+        return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
     }
 }
