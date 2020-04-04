@@ -22,7 +22,7 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 <table class="form-table">
     <tr valign="top" class="caos-compatibility-mode">
         <th scope="row">
-            <?php _e('Enable compatibility mode', 'host-analyticsjs-local'); ?>
+            <?php _e('Enable Compatibility Mode', 'host-analyticsjs-local'); ?>
         </th>
         <td>
             <select name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE; ?>" class="caos-compatibility-mode-input">
@@ -31,17 +31,17 @@ $utmTags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
                 <?php endforeach; ?>
             </select>
             <p class="description">
-                <?php _e('Allow another Google Analytics plugin to use the js-file created and updated by CAOS. Enabling this option means that you\'ll manage Google Analytics entirely within the other plugin.', 'host-analyticsjs-local'); ?>
+                <?= sprintf(__('Allow another Google Analytics plugin to use <code>%s</code> and manage Google Analytics entirely within the other plugin.', 'host-analyticsjs-local'), CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE); ?>
             </p>
         </td>
     </tr>
     <tr valign="top" class="caos-stealth-mode">
-        <th scope="row"><?php _e('Enable stealth mode', 'host-analyticsjs-local'); ?> *</th>
+        <th scope="row"><?= apply_filters('caos_stealth_mode_setting_label', __('Enable Stealth Mode Lite', 'host-analyticsjs-local')); ?> *</th>
         <td>
             <input type="checkbox" class="caos-stealth-mode-input" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_STEALTH_MODE; ?>"
                 <?= CAOS_OPT_STEALTH_MODE == "on" ? 'checked = "checked"' : ''; ?> />
             <p class="description">
-                <strong><?php _e('Experimental', 'host-analyticsjs-local'); ?></strong>: <?= sprintf(__('Use at your own risk! This setting allows you to bypass most Ad Blockers. Make sure your blog/account respects any relevant privacy laws. (SSL [https] required! / Does not work (yet) for Google Analytics Remarketing features. %sRead more%s)', 'host-analyticsjs-local'), '<a target="_blank" href="https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview">', '</a>'); ?>
+                <?= apply_filters('caos_stealth_mode_setting_description', sprintf(__('Bypass some Ad Blockers. To bypass <u>all</u> Ad Blockers and track incognito browser sessions, upgrade to <a target="_blank" href="%s">Super Stealth</a>! (SSL required) <a target="_blank" href="%s">How does it work?</a>', 'host-analyticsjs-local'), 'https://woosh.dev/wordpress-plugins/caos-upgrades/super-stealth/', CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')); ?>
             </p>
         </td>
     </tr>
