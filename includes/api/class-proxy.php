@@ -49,7 +49,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function register_routes()
     {
-        $endpoints = apply_filters('caos_stealth_mode_endpoint', self::CAOS_PROXY_ENDPOINTS);
+        $endpoints = apply_filters('caos_stealth_mode_proxy_endpoint', self::CAOS_PROXY_ENDPOINTS);
 
         foreach ($endpoints as $endpoint) {
             register_rest_route(
