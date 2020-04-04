@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
          */
         init: function () {
             // Buttons
-            $('#manual-download').on('click', this.manual_download);
+            $('#manual-download, #notice-manual-download').on('click', this.manual_download);
 
             // Options
             $('.caos-compatibility-mode-input').on('click', this.toggle_compatibility_mode);

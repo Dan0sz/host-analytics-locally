@@ -31,6 +31,9 @@ class CAOS_Admin
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
+        add_action('update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
+        add_action('update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
+        add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
     }
 
     /**
@@ -89,5 +92,66 @@ class CAOS_Admin
         }
 
         return $new_position;
+    }
+
+    /**
+     * @param $old_value
+     * @param $new_value
+     *
+     * @return bool
+     */
+    public function add_stealth_mode_notice($old_value, $new_value)
+    {
+        if ($new_value == 'on') {
+            CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.'), 'https://woosh.dev/wordpress-plugins/caos-upgrades/super-stealth/'), false);
+        } else {
+            CAOS_Admin_Notice::set_notice(__('Stealth Mode disabled.'), false);
+        }
+
+        $this->add_update_file_reminder();
+
+        return $new_value;
+    }
+
+    /**
+     * @param $old_filename
+     * @param $new_filename
+     *
+     * @return string
+     */
+    public function add_js_file_notice($old_filename, $new_filename)
+    {
+        if ($new_filename !== $old_filename && !empty($new_filename)) {
+            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
+        }
+
+        $this->add_update_file_reminder();
+
+        return $new_filename;
+    }
+
+    /**
+     * @param $old_dir
+     * @param $new_dir
+     *
+     * @return string
+     */
+    public function add_cache_dir_notice($old_dir, $new_dir)
+    {
+        if ($new_dir !== $old_dir && !empty($new_dir)) {
+            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', 'host-analyticsjs-local'), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir), false);
+        }
+
+        $this->add_update_file_reminder();
+
+        return $new_dir;
+    }
+
+    /**
+     * Set reminder to update the selected file.
+     */
+    private function add_update_file_reminder()
+    {
+        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', 'host-analyticsjs-local') . '</a> ' . sprintf(__('to download/update %s.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE), false, 'info');
     }
 }
