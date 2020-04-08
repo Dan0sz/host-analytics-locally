@@ -46,7 +46,10 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         // Only sent a success message if this is a AJAX request.
         if (wp_doing_ajax()) {
-            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file_downloaded . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $this->review, $this->tweet));
+            $review_link = apply_filters('caos_manual_download_review_link', $this->review);
+            $tweet_link  = apply_filters('caos_manual_download_tweet_link', $this->tweet);
+
+            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file_downloaded . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link));
         }
     }
 
