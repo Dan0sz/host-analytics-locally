@@ -103,9 +103,12 @@ class CAOS_Admin
     public function add_stealth_mode_notice($old_value, $new_value)
     {
         if ($new_value == 'on') {
-            CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.'), 'https://woosh.dev/wordpress-plugins/caos-upgrades/super-stealth/'), false);
+            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', 'host-analyticsjs-local'), 'https://woosh.dev/wordpress-plugins/caos-upgrades/super-stealth/'));
+
+            CAOS_Admin_Notice::set_notice($message, false);
         } else {
-            CAOS_Admin_Notice::set_notice(__('Stealth Mode disabled.'), false);
+            $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
+            CAOS_Admin_Notice::set_notice($message, false);
         }
 
         $this->add_update_file_reminder();
