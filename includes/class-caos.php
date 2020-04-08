@@ -24,9 +24,9 @@ class CAOS
     {
         $this->define_constants();
         $this->do_ajax();
+        $this->do_setup();
 
         if(is_admin()) {
-            $this->do_setup();
             $this->do_settings();
         }
 
