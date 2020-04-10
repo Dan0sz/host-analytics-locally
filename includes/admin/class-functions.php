@@ -79,6 +79,18 @@ class CAOS_Admin_Functions
     }
 
     /**
+     * Get formatted timestamp of next scheduled cronjob.
+     *
+     * @return string
+     */
+    public function cron_next_scheduled()
+    {
+        $nextScheduled = wp_next_scheduled(CAOS_CRON);
+
+        return $this->format_time_by_locale($nextScheduled, get_locale());
+    }
+
+    /**
      * Format any UNIX timestamp to a date/time in WP's chosen locale.
      *
      * @param null   $dateTime
@@ -108,17 +120,5 @@ class CAOS_Admin_Functions
         }
 
         return $format->format($dateTime);
-    }
-
-    /**
-     * Get formatted timestamp of next scheduled cronjob.
-     *
-     * @return string
-     */
-    public function cron_next_scheduled()
-    {
-        $nextScheduled = wp_next_scheduled(CAOS_CRON);
-
-        return $this->format_time_by_locale($nextScheduled, get_locale());
     }
 }
