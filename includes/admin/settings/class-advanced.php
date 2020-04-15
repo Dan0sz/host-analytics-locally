@@ -44,7 +44,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 140);
         add_filter('caos_advanced_settings_content', [$this, 'do_anonymize_ip'], 150);
         add_filter('caos_advanced_settings_content', [$this, 'do_track_admin'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
+        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 170);
 
         // Uninstall Setting
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 200);

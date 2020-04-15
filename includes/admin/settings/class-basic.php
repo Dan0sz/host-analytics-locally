@@ -37,10 +37,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 80);
         add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 90);
         add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 100);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 100);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 110);
 
         // Close
-        add_filter('caos_basic_settings_content', [$this, 'do_after'], 100);
+        add_filter('caos_basic_settings_content', [$this, 'do_after'], 150);
     }
 
     /**
