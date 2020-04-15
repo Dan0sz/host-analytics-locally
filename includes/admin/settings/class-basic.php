@@ -48,14 +48,12 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Screen
      */
     public function do_tracking_id()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Google Analytics Tracking ID', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID; ?>" value="<?= CAOS_OPT_TRACKING_ID; ?>"/>
-            </td>
-        </tr>
-        <?php
+        $this->do_text(
+            __('Google Analytics Tracking ID', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
+            __('e.g. UA-1234567-12', 'host-analyticsjs-local'),
+            CAOS_OPT_TRACKING_ID
+        );
     }
 
     /**

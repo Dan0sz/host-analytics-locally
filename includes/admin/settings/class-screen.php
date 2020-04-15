@@ -66,6 +66,54 @@ class CAOS_Admin_Settings_Screen
     }
 
     /**
+     * Generate number setting.
+     *
+     * @param $label
+     * @param $name
+     * @param $value
+     * @param $description
+     */
+    public function do_number($label, $name, $value, $description, $min = 0)
+    {
+        ?>
+        <tr valign="top">
+            <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
+            <td>
+                <input class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>"/>
+                <p class="description">
+                    <?= apply_filters($name . '_setting_description', $description); ?>
+                </p>
+            </td>
+        </tr>
+        <?php
+    }
+
+    /**
+     * Generate text setting.
+     *
+     * @param        $label
+     * @param        $name
+     * @param        $placeholder
+     * @param        $value
+     * @param string $description
+     * @param bool   $update_required
+     */
+    public function do_text($label, $name, $placeholder, $value, $description = '', $update_required = false)
+    {
+        ?>
+        <tr>
+            <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?> <?= $update_required ? '*' : ''; ?></th>
+            <td>
+                <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>"/>
+                <p class="description">
+                    <?= apply_filters($name . 'setting_description', $description); ?>
+                </p>
+            </td>
+        </tr>
+        <?php
+    }
+
+    /**
      * Generate checkbox setting.
      *
      * @param $label
@@ -77,12 +125,12 @@ class CAOS_Admin_Settings_Screen
     {
         ?>
         <tr>
-            <th scope="row"><?= apply_filters($label . '_setting_label', $label); ?></th>
+            <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
                 <input type="checkbox" class="<?= str_replace('_' , '-' , $name); ?>" name="<?= $name; ?>"
                     <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?= apply_filters($description . '_setting_description', $description); ?>
+                    <?= apply_filters($name . '_setting_description', $description); ?>
                 </p>
             </td>
         </tr>

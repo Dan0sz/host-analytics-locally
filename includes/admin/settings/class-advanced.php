@@ -131,17 +131,14 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_cache_dir()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?= sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?> *</th>
-            <td>
-                <input class="caos_analytics_cache_dir" type="text" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR; ?>" placeholder="e.g. /cache/caos/" value="<?= CAOS_OPT_CACHE_DIR; ?>"/>
-                <p class="description">
-                    <?php _e("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos/</code>.", 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_text(
+            sprintf(__('Save %s to...', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
+            __('e.g. /cache/caos/', 'host-analyticsjs-local'),
+            CAOS_OPT_CACHE_DIR,
+            __("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos/</code>.", 'host-analyticsjs-local'),
+            true
+        );
     }
 
     /**
@@ -149,17 +146,13 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_cdn_url()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Serve from a CDN?', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input class="caos_analytics_cdn_url" type="text" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL; ?>" placeholder="e.g. cdn.mydomain.com" value="<?= CAOS_OPT_CDN_URL ?>"/>
-                <p class="description">
-                    <?= sprintf(__('If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_text(
+            __('Serve from a CDN?', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL,
+            __('e.g. cdn.mydomain.com', 'host-analyticsjs-local'),
+            CAOS_OPT_CDN_URL,
+            sprintf(__('If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE)
+        );
     }
 
     /**
@@ -201,18 +194,12 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_cookie_expiry()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Cookie expiry period (days)', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS; ?>" min="0" max="365"
-                       value="<?= CAOS_OPT_COOKIE_EXPIRY; ?>"/>
-                <p class="description">
-                    <?php _e('The number of days when the cookie will automatically expire.', 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_number(
+            __('Cookie expiry period (days)', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS,
+            CAOS_OPT_COOKIE_EXPIRY,
+            __('The number of days when the cookie will automatically expire.', 'host-analyticsjs-local')
+        );
     }
 
     /**
@@ -220,18 +207,12 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_adjusted_bounce_rate()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Use adjusted bounce rate? (seconds)', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE; ?>" min="0" max="60"
-                       value="<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>"/>
-                <p class="description">
-                    <a href="<?= CAOS_SITE_URL; ?>/how-to/adjusted-bounce-rate-caos/<?= $this->utm_tags; ?>" target="_blank"><?php _e('More information about adjusted bounce rate', 'host-analyticsjs-local'); ?></a>.
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_number(
+            __('Use adjusted bounce rate? (seconds)', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+            '<a href="' . CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags . '" target="_blank">' . __('More information about adjusted bounce rate', 'host-analyticsjs-local') . '</a>.'
+        );
     }
 
     /**
@@ -239,17 +220,12 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_change_enqueue_order()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Change enqueue order? (Default = 0)', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="number" name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER; ?>" min="0"
-                       value="<?= CAOS_OPT_ENQUEUE_ORDER; ?>"/>
-                <p class="description">
-                    <?php _e('Leave this alone if you don\'t know what you\'re doing.', 'host-analyticsjs-local'); ?>
-            </td>
-        </tr>
-        <?php
+        $this->do_number(
+            __('Change enqueue order? (Default = 0)', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER,
+            CAOS_OPT_ENQUEUE_ORDER,
+            __('Do not change this unless you know, what you\'re doing.', 'host-analyticsjs-local')
+        );
     }
 
     /**
