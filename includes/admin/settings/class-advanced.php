@@ -71,23 +71,13 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_compatibility_mode()
     {
-        ?>
-        <tr valign="top" class="caos-compatibility-mode">
-            <th scope="row">
-                <?php _e('Enable Compatibility Mode', 'host-analyticsjs-local'); ?>
-            </th>
-            <td>
-                <select name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE; ?>" class="caos-compatibility-mode-input">
-                    <?php foreach (CAOS_Admin_Settings::CAOS_ADMIN_COMPATIBILITY_OPTIONS as $option => $details): ?>
-                        <option value="<?= $option; ?>" <?= (CAOS_OPT_COMPATIBILITY_MODE == $option) ? 'selected' : ''; ?>><?= $details['label']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <p class="description">
-                    <?= sprintf(__('Allow another Google Analytics plugin to use <code>%s</code> and manage Google Analytics entirely within the other plugin.', 'host-analyticsjs-local'), CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_select(
+            __('Enable Compatibility Mode', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
+            CAOS_Admin_Settings::CAOS_ADMIN_COMPATIBILITY_OPTIONS,
+            CAOS_OPT_COMPATIBILITY_MODE,
+            sprintf(__('Allow another Google Analytics plugin to use <code>%s</code> and manage Google Analytics entirely within the other plugin.', 'host-analyticsjs-local'), CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE)
+        );
     }
 
     /**
@@ -108,22 +98,14 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Screen
      */
     public function do_remote_js_file()
     {
-        ?>
-        <tr valign="top" class="caos-js-file">
-            <th scope="row"><?php _e('Which file to download?', 'host-analyticsjs-local'); ?> *
-            </th>
-            <td>
-                <select name="<?= CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE; ?>" class="caos-js-file-input">
-                    <?php foreach (CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS as $label => $fileName): ?>
-                        <option value="<?= $fileName; ?>" <?= (CAOS_OPT_REMOTE_JS_FILE == $fileName) ? 'selected' : ''; ?>><?= $label; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <p class="description">
-                    <?= sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_select(
+            __('Which file to download?', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
+            CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
+            CAOS_OPT_REMOTE_JS_FILE,
+            sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
+            true
+        );
     }
 
     /**

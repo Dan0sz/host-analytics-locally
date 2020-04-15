@@ -65,6 +65,27 @@ class CAOS_Admin_Settings_Screen
         <?php
     }
 
+    public function do_select($label, $select, $options, $selected, $description, $update_required = false)
+    {
+        ?>
+        <tr>
+            <th scope="row">
+                <?= apply_filters($select . '_setting_label', $label); ?> <?= $update_required ? '*' : ''; ?>
+            </th>
+            <td>
+                <select name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
+                    <?php foreach ($options as $option => $option_label): ?>
+                        <option value="<?= $option; ?>" <?= ($selected == $option) ? 'selected' : ''; ?>><?= $option_label; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <p class="description">
+                    <?= apply_filters($select . '_setting_description', $description); ?>
+                </p>
+            </td>
+        </tr>
+        <?php
+    }
+
     /**
      * Generate number setting.
      *

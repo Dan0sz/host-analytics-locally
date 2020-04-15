@@ -22,11 +22,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     const CAOS_ADMIN_SECTION_BASIC_SETTINGS           = 'caos-basic-settings';
     const CAOS_ADMIN_SECTION_ADV_SETTINGS             = 'caos-advanced-settings';
-
     /**
      * Option Values
      */
-    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS     = array(
+    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS  = array(
         ''                  => array(
             'label' => 'Always (default)',
             'show'  => null,
@@ -48,7 +47,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
             'hide'  => null
         )
     );
-    const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS    = array(
+    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = array(
+        ''      => 'Default',
+        'async' => 'Asynchronous'
+    );
+    const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = array(
         'header' => array(
             'label' => 'Header (default)',
             'hide'  => 'caos_add_manually',
@@ -65,27 +68,17 @@ class CAOS_Admin_Settings extends CAOS_Admin
             'show'  => 'caos_add_manually'
         )
     );
-    const CAOS_ADMIN_JS_FILE_OPTIONS            = array(
-        "Analytics.js (default)" => "analytics.js",
-        "Gtag.js"                => "gtag.js",
-        "Ga.js (legacy)"         => "ga.js"
+    const CAOS_ADMIN_JS_FILE_OPTIONS         = array(
+        "analytics.js" => "Analytics.js (default)",
+        "gtag.js"      => "Gtag.js",
+        "ga.js"        => "Ga.js (legacy)"
     );
-    const CAOS_ADMIN_COMPATIBILITY_OPTIONS      = array(
-        ''                 => array(
-            'label' => 'None (default)'
-        ),
-        'woocommerce'      => array(
-            'label' => 'WooCommerce Google Analytics Integration'
-        ),
-        'analytify'        => array(
-            'label' => 'GADP for WP by Analytify'
-        ),
-        'exact_metrics'    => array(
-            'label' => 'GAD for WP by ExactMetrics'
-        ),
-        'monster_insights' => array(
-            'label' => 'GADP for WP by Monster Insights'
-        )
+    const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = array(
+        ''                 => 'None (default)',
+        'woocommerce'      => 'WooCommerce Google Analytics Integration',
+        'analytify'        => 'GADP for WP by Analytify',
+        'exact_metrics'    => 'GAD for WP by ExactMetrics',
+        'monster_insights' => 'GADP for WP by Monster Insights'
     );
 
     /**

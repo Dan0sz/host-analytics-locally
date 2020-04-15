@@ -137,28 +137,13 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Screen
      */
     public function do_snippet_type()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Snippet type', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <?php
-                $caos_snippet_type = array(
-                    ''      => __('Default', 'host-analyticsjs-local'),
-                    'async' => __('Asynchronous', 'host-analyticsjs-local')
-                );
-                ?>
-                <select name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE; ?>" class="caos_snippet_type">
-                    <?php foreach ($caos_snippet_type as $option => $label): ?>
-                        <option value="<?= $option; ?>" <?= CAOS_OPT_SNIPPET_TYPE == $option ? 'selected' : ''; ?>><?= $label; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <p class="description">
-                    <?php _e('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', 'host-analyticsjs-local'); ?>
-                    <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">Read more</a>.
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_select(
+            __('Snippet type', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
+            CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
+            CAOS_OPT_SNIPPET_TYPE,
+            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', 'host-analyticsjs-local') . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', 'host-analyticsjs-local') . '</a>'
+        );
     }
 
     /**
