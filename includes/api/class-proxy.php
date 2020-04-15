@@ -138,7 +138,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
     }
 
     /**
-     * If Ecommerce Plugins are used, we need to capture these requests and redirect them to the
+     * If plugins are used, we need to capture these requests and redirect them to the
      * locally hosted versions, so these requests will also bypass Ad Blockers.
      *
      * @param $request
