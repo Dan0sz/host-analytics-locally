@@ -13,7 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Screen
+class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
 {
     /**
      * CAOS_Admin_Settings_Basic constructor.

@@ -13,7 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-class CAOS_Admin_Settings_Screen
+class CAOS_Admin_Settings_Builder
 {
     /** @var string $utm_tags */
     protected $utm_tags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
