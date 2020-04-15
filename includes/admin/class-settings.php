@@ -309,9 +309,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_content()
     {
-        $tab = str_replace('caos-', '', $this->active_tab);
-
-        $this->get_template($tab);
+        echo apply_filters(str_replace('-', '_', $this->active_tab) . '_content', '');
     }
 
     /**

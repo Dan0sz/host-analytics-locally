@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
 
             // Options
             $('.caos-compatibility-mode-input').on('click', this.toggle_compatibility_mode);
-            $('.caos-stealth-mode-input, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
+            $('.caos-stealth-mode, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
             $('.caos-js-file-input').on('click', this.toggle_js_file_input);
         },
 
@@ -67,10 +67,10 @@ jQuery(document).ready(function ($) {
             if (this.checked === true) {
                 setting.val('analytics.js');
             }
-            if (this.className === 'caos-stealth-mode-input') {
+            if (this.className === 'caos-stealth-mode') {
                 jQuery('.caos-capture-outbound-links').attr('checked', false);
             } else {
-                jQuery('.caos-stealth-mode-input').attr('checked', false);
+                jQuery('.caos-stealth-mode').attr('checked', false);
 
             }
         },
@@ -79,7 +79,7 @@ jQuery(document).ready(function ($) {
          * Toggle JS File Input options
          */
         toggle_js_file_input: function () {
-            stealth = jQuery('.caos-stealth-mode-input');
+            stealth = jQuery('.caos-stealth-mode');
             outbound = jQuery('.caos-capture-outbound-links');
             compatibility = jQuery('.caos-compatibility-mode-input');
             if (this.value !== 'analytics.js') {

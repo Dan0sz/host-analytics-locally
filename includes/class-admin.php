@@ -28,6 +28,10 @@ class CAOS_Admin
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('admin_notices', [$this, 'add_notice']);
 
+        // Settings
+        $this->do_basic_settings();
+        $this->do_advanced_settings();
+
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
@@ -55,6 +59,22 @@ class CAOS_Admin
     public function add_notice()
     {
         CAOS_Admin_Notice::print_notice();
+    }
+
+    /**
+     * @return CAOS_Admin_Settings_Basic
+     */
+    private function do_basic_settings()
+    {
+        return new CAOS_Admin_Settings_Basic();
+    }
+
+    /**
+     * @return CAOS_Admin_Settings_Advanced
+     */
+    private function do_advanced_settings()
+    {
+        return new CAOS_Admin_Settings_Advanced();
     }
 
     /**

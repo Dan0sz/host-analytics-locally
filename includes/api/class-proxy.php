@@ -17,16 +17,20 @@ defined('ABSPATH') || exit;
 
 class CAOS_API_Proxy extends WP_REST_Controller
 {
-    const CAOS_PROXY_ENDPOINTS = array(
+    /** @var array Default Google Analytics endpoints */
+    const CAOS_PROXY_COLLECT_ENDPOINTS = [
         '/r/collect',
         '/j/collect',
         '/collect'
-    );
+    ];
 
-    const CAOS_PLUGIN_ENDPOINTS = array(
-        '/plugins/ua/ec.js',
+    /** @var array Enhanced Link Attribution */
+    const CAOS_PLUGIN_LINK_ATTR_ENDPOINT = [
         '/plugins/ua/linkid.js'
-    );
+    ];
+
+    /** @var array $plugin_endpoints */
+    private $plugin_endpoints = [];
 
     /** @var string $namespace */
     protected $namespace;
@@ -39,8 +43,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function __construct()
     {
-        $this->namespace = 'caos/v1';
-        $this->rest_base = 'proxy';
+        $this->namespace        = 'caos/v1';
+        $this->rest_base        = 'proxy';
+        $this->plugin_endpoints = apply_filters('caos_stealth_mode_plugin_endpoints', self::CAOS_PLUGIN_LINK_ATTR_ENDPOINT);
     }
 
     /**
@@ -49,7 +54,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function register_routes()
     {
-        $endpoints = apply_filters('caos_stealth_mode_proxy_endpoint', self::CAOS_PROXY_ENDPOINTS);
+        $endpoints = apply_filters('caos_stealth_mode_proxy_endpoints', self::CAOS_PROXY_COLLECT_ENDPOINTS);
 
         foreach ($endpoints as $endpoint) {
             register_rest_route(
@@ -66,7 +71,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
             );
         }
 
-        foreach (self::CAOS_PLUGIN_ENDPOINTS as $endpoint) {
+        foreach ($this->plugin_endpoints as $endpoint) {
             register_rest_route(
                 $this->namespace,
                 '/' . $this->rest_base . $endpoint,
@@ -140,7 +145,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
      */
     public function set_redirect($request)
     {
-        $endpoint = array_filter(self::CAOS_PLUGIN_ENDPOINTS, function ($value) use ($request) {
+        $endpoint = array_filter($this->plugin_endpoints, function ($value) use ($request) {
             return strpos($request->get_route(), $value) !== false;
         });
 
