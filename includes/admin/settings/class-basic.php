@@ -69,29 +69,13 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_allow_tracking()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Allow tracking...', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <?php
-                foreach (CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS as $option => $details): ?>
-                    <label>
-                        <input type="radio" class="caos_allow_tracking_<?= $option; ?>"
-                               name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING; ?>" value="<?= $option; ?>"
-                            <?= $option == CAOS_OPT_ALLOW_TRACKING ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>');"/>
-                        <?= $details['label']; ?>
-                    </label>
-                    <br/>
-                <?php endforeach; ?>
-                <p class="description">
-                    <?= sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>'); ?>
-                    <?php _e('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'host-analyticsjs-local'); ?>
-                    <a href="<?= CAOS_SITE_URL; ?>/wordpress/gdpr-compliance-google-analytics/<?= $this->utm_tags; ?>" target="_blank">
-                        <?php _e('Read more', 'host-analyticsjs-local'); ?></a>.
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_radio(
+            __('Allow tracking...', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
+            CAOS_OPT_ALLOW_TRACKING,
+            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'host-analyticsjs-local') . sprintf(__('<a href="%s" target="_blank">Read more</a>.', 'host-analyticsjs-local'), CAOS_SITE_URL .  '/wordpress/gdpr-compliance-google-analytics/' . $this->utm_tags)
+        );
     }
 
     /**
@@ -99,18 +83,15 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_cookie_name()
     {
-        ?>
-        <tr class="caos_gdpr_setting caos_allow_tracking_name" valign="top" <?= CAOS_OPT_ALLOW_TRACKING ? '' : 'style="display: none;"'; ?>>
-            <th scope="row"><?php _e('Cookie name', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME; ?>"
-                       value="<?= CAOS_OPT_COOKIE_NAME; ?>"/>
-                <p class="description">
-                    <?php _e('The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_text(
+            __('Cookie name', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
+            __('e.g. cookie_accepted', 'host-analyticsjs-local'),
+            CAOS_OPT_COOKIE_NAME,
+            __('The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local'),
+            false,
+            CAOS_OPT_ALLOW_TRACKING
+        );
     }
 
     /**
@@ -118,18 +99,15 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_cookie_value()
     {
-        ?>
-        <tr class="caos_gdpr_setting caos_allow_tracking_name caos_allow_tracking_value" valign="top" <?= CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' ? '' : 'style="display: none;"'; ?>>
-            <th scope="row"><?php _e('Cookie value', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <input type="text" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE; ?>"
-                       value="<?= CAOS_OPT_COOKIE_VALUE; ?>"/>
-                <p class="description">
-                    <?php _e('The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_text(
+            __('Cookie value', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE,
+            __('e.g. true', 'host-analyticsjs-local'),
+            CAOS_OPT_COOKIE_VALUE,
+            __('The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local'),
+            false,
+            CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value'
+        );
     }
 
     /**
@@ -151,26 +129,13 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_script_position()
     {
-        ?>
-        <tr valign="top">
-            <th scope="row"><?php _e('Position of tracking-code', 'host-analyticsjs-local'); ?></th>
-            <td>
-                <?php
-                foreach (CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS as $option => $details): ?>
-                    <label>
-                        <input class="caos_script_position_<?= $option; ?>" type="radio" name="<?= CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION; ?>"
-                               value="<?= $option; ?>" <?= $option == CAOS_OPT_SCRIPT_POSITION ? 'checked="checked"' : ''; ?> onclick="showOptions('<?= $details['show']; ?>'); hideOptions('<?= $details['hide']; ?>')"/>
-                        <?= $details['label']; ?>
-                    </label>
-                    <br/>
-                <?php endforeach; ?>
-                <p class="description">
-                    <?php _e('Load the Analytics tracking-snippet in the header, footer or manually?', 'host-analyticsjs-local'); ?>
-                    <?php _e('If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local'); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
+        $this->do_radio(
+            __('Position of tracking-code', 'host-analyticsjs-local'),
+            CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
+            CAOS_OPT_SCRIPT_POSITION,
+            __('Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local')
+        );
     }
 
     /**

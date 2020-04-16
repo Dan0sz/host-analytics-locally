@@ -31,6 +31,9 @@ class CAOS_Admin_Settings_Builder
         <?php
     }
 
+    /**
+     *
+     */
     public function do_title()
     {
         ?>
@@ -48,6 +51,9 @@ class CAOS_Admin_Settings_Builder
         <?php
     }
 
+    /**
+     *
+     */
     public function do_tbody_close()
     {
         ?>
@@ -65,6 +71,47 @@ class CAOS_Admin_Settings_Builder
         <?php
     }
 
+    /**
+     * Generate radio setting
+     *
+     * @param $label
+     * @param $inputs
+     * @param $name
+     * @param $checked
+     * @param $description
+     */
+    public function do_radio($label, $inputs, $name, $checked, $description)
+    {
+        ?>
+        <tr>
+            <th scope="row"><?= $label; ?></th>
+            <td>
+                <?php foreach ($inputs as $option => $option_label): ?>
+                    <label>
+                        <input type="radio" class="<?= str_replace('_', '-', $name . '_' . $option); ?>"
+                               name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
+                        <?= $option_label; ?>
+                    </label>
+                    <br/>
+                <?php endforeach; ?>
+                <p class="description">
+                    <?= $description; ?>
+                </p>
+            </td>
+        </tr>
+        <?php
+    }
+
+    /**
+     * Generate select setting
+     *
+     * @param      $label
+     * @param      $select
+     * @param      $options
+     * @param      $selected
+     * @param      $description
+     * @param bool $update_required
+     */
     public function do_select($label, $select, $options, $selected, $description, $update_required = false)
     {
         ?>
@@ -119,10 +166,10 @@ class CAOS_Admin_Settings_Builder
      * @param string $description
      * @param bool   $update_required
      */
-    public function do_text($label, $name, $placeholder, $value, $description = '', $update_required = false)
+    public function do_text($label, $name, $placeholder, $value, $description = '', $update_required = false, $visible = true)
     {
         ?>
-        <tr>
+        <tr class="<?= str_replace('_', '-', $name); ?>-row" <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?> <?= $update_required ? '*' : ''; ?></th>
             <td>
                 <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>"/>

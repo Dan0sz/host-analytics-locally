@@ -22,64 +22,37 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     const CAOS_ADMIN_SECTION_BASIC_SETTINGS           = 'caos-basic-settings';
     const CAOS_ADMIN_SECTION_ADV_SETTINGS             = 'caos-advanced-settings';
+
     /**
      * Option Values
      */
-    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS  = array(
-        ''                  => array(
-            'label' => 'Always (default)',
-            'show'  => null,
-            'hide'  => 'caos_gdpr_setting'
-        ),
-        'cookie_is_set'     => array(
-            'label' => 'When cookie is set',
-            'show'  => 'caos_allow_tracking_name',
-            'hide'  => 'caos_allow_tracking_value'
-        ),
-        'cookie_is_not_set' => array(
-            'label' => 'When cookie is NOT set',
-            'show'  => 'caos_allow_tracking_name',
-            'hide'  => 'caos_allow_tracking_value'
-        ),
-        'cookie_has_value'  => array(
-            'label' => 'When cookie has a value',
-            'show'  => 'caos_allow_tracking_name, caos_allow_tracking_value',
-            'hide'  => null
-        )
-    );
-    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = array(
+    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS  = [
+        ''                  => 'Always (default)',
+        'cookie_is_set'     => 'When cookie is set',
+        'cookie_is_not_set' => 'When cookie is NOT set',
+        'cookie_has_value'  => 'When cookie has a value',
+    ];
+    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = [
         ''      => 'Default',
         'async' => 'Asynchronous'
-    );
-    const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = array(
-        'header' => array(
-            'label' => 'Header (default)',
-            'hide'  => 'caos_add_manually',
-            'show'  => null
-        ),
-        'footer' => array(
-            'label' => 'Footer',
-            'hide'  => 'caos_add_manually',
-            'show'  => null
-        ),
-        'manual' => array(
-            'label' => 'Add manually',
-            'hide'  => null,
-            'show'  => 'caos_add_manually'
-        )
-    );
-    const CAOS_ADMIN_JS_FILE_OPTIONS         = array(
+    ];
+    const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
+        'header' => 'Header (default)',
+        'footer' => 'Footer',
+        'manual' => 'Add manually',
+    ];
+    const CAOS_ADMIN_JS_FILE_OPTIONS         = [
         "analytics.js" => "Analytics.js (default)",
         "gtag.js"      => "Gtag.js",
         "ga.js"        => "Ga.js (legacy)"
-    );
-    const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = array(
+    ];
+    const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
         'woocommerce'      => 'WooCommerce Google Analytics Integration',
         'analytify'        => 'GADP for WP by Analytify',
         'exact_metrics'    => 'GAD for WP by ExactMetrics',
         'monster_insights' => 'GADP for WP by Monster Insights'
-    );
+    ];
 
     /**
      * CAOS Basic/Advanced Settings

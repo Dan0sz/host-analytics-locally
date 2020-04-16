@@ -24,6 +24,10 @@ jQuery(document).ready(function ($) {
             // Buttons
             $('#manual-download, #notice-manual-download').on('click', this.manual_download);
 
+            // Radio's
+            $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
+            $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
+
             // Options
             $('.caos-analytics-compatibility-mode').on('click', this.toggle_compatibility_mode);
             $('.caos-stealth-mode, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
@@ -47,15 +51,54 @@ jQuery(document).ready(function ($) {
         },
 
         /**
+         * Toggle Allow tracking options.
+         */
+        toggle_allow_tracking: function() {
+            option        = this.className.replace('caos-allow-tracking-', '');
+            $cookie_name  = $('.sgal-cookie-notice-name-row');
+            $cookie_value = $('.caos-cookie-value-row');
+
+            switch (option) {
+                case 'cookie-is-set':
+                case 'cookie-is-not-set':
+                    $cookie_name.show();
+                    $cookie_value.hide();
+                    break;
+                case 'cookie-has-value':
+                    $cookie_name.show();
+                    $cookie_value.show();
+                    break;
+                default:
+                    $cookie_name.hide();
+                    $cookie_value.hide();
+                    break;
+            }
+        },
+
+        /**
+         * Toggle 'Add Manual' window.
+         */
+        toggle_script_position: function() {
+            option        = this.className.replace('sgal-script-position-', '');
+            $add_manually = $('.caos_add_manually');
+
+            if (option === 'manual') {
+                $add_manually.show();
+            } else {
+                $add_manually.hide();
+            }
+        },
+
+        /**
          * Toggle Compatibility Mode options
          */
         toggle_compatibility_mode: function () {
-            settings = 'caos_advanced_settings, .caos_basic_settings';
+            settings = '.caos_advanced_settings, .caos_basic_settings';
             if (this.value !== '') {
-                hideOptions(settings);
-                jQuery('.caos-analytics-js-file').val('analytics.js');
+                $(settings).hide();
+                $('.caos-analytics-js-file').val('analytics.js');
             } else {
-                showOptions(settings);
+                $(settings).show();
             }
         },
 
@@ -63,14 +106,14 @@ jQuery(document).ready(function ($) {
          * Toggle Stealth Mode options
          */
         toggle_stealth_mode: function () {
-            setting = jQuery('.caos-analytics-js-file');
+            setting = $('.caos-analytics-js-file');
             if (this.checked === true) {
                 setting.val('analytics.js');
             }
             if (this.className === 'caos-stealth-mode') {
-                jQuery('.caos-capture-outbound-links').attr('checked', false);
+                $('.caos-capture-outbound-links').attr('checked', false);
             } else {
-                jQuery('.caos-stealth-mode').attr('checked', false);
+                $('.caos-stealth-mode').attr('checked', false);
 
             }
         },
@@ -79,9 +122,9 @@ jQuery(document).ready(function ($) {
          * Toggle JS File Input options
          */
         toggle_js_file_input: function () {
-            stealth = jQuery('.caos-stealth-mode');
-            outbound = jQuery('.caos-capture-outbound-links');
-            compatibility = jQuery('.caos-analytics-compatibility-mode');
+            stealth = $('.caos-stealth-mode');
+            outbound = $('.caos-capture-outbound-links');
+            compatibility = $('.caos-analytics-compatibility-mode');
             if (this.value !== 'analytics.js') {
                 stealth.attr('checked', false);
                 outbound.attr('checked', false);
@@ -94,21 +137,3 @@ jQuery(document).ready(function ($) {
 
     caos_admin.init();
 });
-
-/**
- * @param className
- */
-function showOptions(className) {
-    if (className) {
-        jQuery('.' + className).show();
-    }
-}
-
-/**
- * @param className
- */
-function hideOptions(className) {
-    if (className) {
-        jQuery('.' + className).hide();
-    }
-}
