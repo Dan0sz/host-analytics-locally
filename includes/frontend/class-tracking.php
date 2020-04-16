@@ -22,9 +22,10 @@ class CAOS_Frontend_Tracking
      */
     public function __construct()
     {
-        add_action('init', array($this, 'insert_tracking_code'));
-        add_action('caos_process_settings', array($this, 'disable_display_features'));
-        add_action('caos_process_settings', array($this, 'anonymize_ip'));
+        add_action('init', [$this, 'insert_tracking_code']);
+        add_action('caos_process_settings', [$this, 'disable_display_features']);
+        add_action('caos_process_settings', [$this, 'anonymize_ip']);
+        add_action('caos_process_settings', [$this, 'linkid']);
     }
 
     /**
@@ -115,6 +116,33 @@ class CAOS_Frontend_Tracking
             $option = array(
                 'anonymize' => "ga('set', 'anonymizeIp', true);"
             );
+
+            return $config + $option;
+        });
+    }
+
+    /**
+     * Enhanced Link Attribution
+     */
+    public function linkid()
+    {
+        if (CAOS_OPT_LINKID !== 'on') {
+            return;
+        }
+
+        if ($this->is_gtag()) {
+            add_filter('caos_gtag_config', function ($config, $trackingId) {
+                return $config + ['linkid', [
+                        'cookie_name' => 'caos_linkid'
+                    ]
+                ];
+            }, 10, 2);
+        }
+
+        add_filter('caos_analytics_before_send', function($config) {
+            $option = [
+                'linkid' => "ga('require', 'linkid', { 'cookieName': 'caos_linkid' });"
+            ];
 
             return $config + $option;
         });

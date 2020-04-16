@@ -38,13 +38,14 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 110);
-        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 130);
-        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_anonymize_ip'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_track_admin'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 170);
+        add_filter('caos_advanced_settings_content', [$this, 'do_linkid'], 110);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 130);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 140);
+        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_anonymize_ip'], 160);
+        add_filter('caos_advanced_settings_content', [$this, 'do_track_admin'], 170);
+        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 180);
 
         // Uninstall Setting
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 200);
@@ -172,6 +173,19 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     }
 
     /**
+     * Enable Enhanced Link Attribution
+     */
+    public function do_linkid()
+    {
+        $this->do_checkbox(
+            __('Enable Enhanced Link Attribution?', 'host-analyticsjs-local'),
+            CAOS_ADmin_Settings::CAOS_ADV_SETTING_LINKID,
+            CAOS_OPT_LINKID,
+            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. <a href="%s" target="_blank">Read more</a>.', 'host-analyticsjs-local'), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
+        );
+    }
+
+    /**
      * Cookie expiry period (days)
      */
     public function do_cookie_expiry()
@@ -193,7 +207,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Use adjusted bounce rate? (seconds)', 'host-analyticsjs-local'),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
             CAOS_OPT_ADJUSTED_BOUNCE_RATE,
-            '<a href="' . CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags . '" target="_blank">' . __('More information about adjusted bounce rate', 'host-analyticsjs-local') . '</a>.'
+            sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', 'host-analyticsjs-local'), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
         );
     }
 
@@ -219,7 +233,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Disable all display features functionality?', 'host-analyticsjs-local'),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES,
             CAOS_OPT_DISABLE_DISPLAY_FEAT,
-            '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">' . __('What\'s this?', 'host-analyticsjs-local') . '</a>'
+            sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', 'host-analyticsjs-local'), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features')
         );
     }
 

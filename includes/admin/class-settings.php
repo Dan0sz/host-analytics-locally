@@ -84,18 +84,19 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * CAOS Basic/Advanced Settings
      */
-    const CAOS_BASIC_SETTING_TRACKING_ID        = 'sgal_tracking_id';
-    const CAOS_BASIC_SETTING_ALLOW_TRACKING     = 'caos_allow_tracking';
-    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'sgal_cookie_notice_name';
-    const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'caos_cookie_value';
-    const CAOS_BASIC_SETTING_SNIPPET_TYPE       = 'caos_snippet_type';
-    const CAOS_BASIC_SETTING_SCRIPT_POSITION    = 'sgal_script_position';
-    const CAOS_ADV_SETTING_COMPATIBILITY_MODE   = 'caos_analytics_compatibility_mode';
-    const CAOS_ADV_SETTING_STEALTH_MODE         = 'caos_stealth_mode';
-    const CAOS_ADV_SETTING_PRECONNECT           = 'caos_preconnect';
-    const CAOS_ADV_SETTING_JS_FILE              = 'caos_analytics_js_file';
-    const CAOS_ADV_SETTING_CACHE_DIR            = 'caos_analytics_cache_dir';
-    const CAOS_ADV_SETTING_CDN_URL              = 'caos_analytics_cdn_url';
+    const CAOS_BASIC_SETTING_TRACKING_ID            = 'sgal_tracking_id';
+    const CAOS_BASIC_SETTING_ALLOW_TRACKING         = 'caos_allow_tracking';
+    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';
+    const CAOS_BASIC_SETTING_COOKIE_VALUE           = 'caos_cookie_value';
+    const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
+    const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
+    const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
+    const CAOS_ADV_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
+    const CAOS_ADV_SETTING_PRECONNECT               = 'caos_preconnect';
+    const CAOS_ADV_SETTING_JS_FILE                  = 'caos_analytics_js_file';
+    const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
+    const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
+    const CAOS_ADV_SETTING_LINKID                   = 'caos_linkid';
     const CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
     const CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
     const CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
