@@ -236,7 +236,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_basic_settings_tab()
     {
-        $this->generate_tab('caos-basic-settings', 'dashicons-analytics', __('Basic', 'host-analyticsjs-local'));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_BASIC_SETTINGS, 'dashicons-analytics', __('Basic Settings', 'host-analyticsjs-local'));
     }
 
     /**
@@ -244,7 +244,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_advanced_settings_tab()
     {
-        $this->generate_tab('caos-advanced-settings', 'dashicons-admin-settings', __('Advanced', 'host-analyticsjs-local'));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', 'host-analyticsjs-local'));
     }
 
     /**
