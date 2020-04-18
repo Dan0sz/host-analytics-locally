@@ -20,7 +20,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function __construct()
     {
-        $this->title = __('Basic Settings', 'host-analyticsjs-local');
+        $this->title = __('Basic Settings', $this->plugin_text_domain);
 
         // Open
         add_filter('caos_basic_settings_content', [$this, 'do_title'], 10);
@@ -49,9 +49,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_tracking_id()
     {
         $this->do_text(
-            __('Google Analytics Tracking ID', 'host-analyticsjs-local'),
+            __('Google Analytics Tracking ID', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
-            __('e.g. UA-1234567-12', 'host-analyticsjs-local'),
+            __('e.g. UA-1234567-12', $this->plugin_text_domain),
             CAOS_OPT_TRACKING_ID
         );
     }
@@ -70,11 +70,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_allow_tracking()
     {
         $this->do_radio(
-            __('Allow tracking...', 'host-analyticsjs-local'),
+            __('Allow tracking...', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
             CAOS_OPT_ALLOW_TRACKING,
-            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', 'host-analyticsjs-local') . sprintf(__('<a href="%s" target="_blank">Read more</a>.', 'host-analyticsjs-local'), CAOS_SITE_URL .  '/wordpress/gdpr-compliance-google-analytics/' . $this->utm_tags)
+            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', $this->plugin_text_domain) . sprintf(__('<a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL .  '/wordpress/gdpr-compliance-google-analytics/' . $this->utm_tags)
         );
     }
 
@@ -84,11 +84,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_cookie_name()
     {
         $this->do_text(
-            __('Cookie name', 'host-analyticsjs-local'),
+            __('Cookie name', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
-            __('e.g. cookie_accepted', 'host-analyticsjs-local'),
+            __('e.g. cookie_accepted', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_NAME,
-            __('The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local'),
+            __('The cookie name set by your Cookie Notice plugin when user accepts.', $this->plugin_text_domain),
             false,
             CAOS_OPT_ALLOW_TRACKING
         );
@@ -100,11 +100,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_cookie_value()
     {
         $this->do_text(
-            __('Cookie value', 'host-analyticsjs-local'),
+            __('Cookie value', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE,
-            __('e.g. true', 'host-analyticsjs-local'),
+            __('e.g. true', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_VALUE,
-            __('The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local'),
+            __('The value of the above specified cookie set by your Cookie Notice when user accepts.', $this->plugin_text_domain),
             false,
             CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value'
         );
@@ -116,11 +116,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_snippet_type()
     {
         $this->do_select(
-            __('Snippet type', 'host-analyticsjs-local'),
+            __('Snippet type', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', 'host-analyticsjs-local') . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', 'host-analyticsjs-local') . '</a>'
+            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', $this->plugin_text_domain) . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
         );
     }
 
@@ -130,11 +130,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_script_position()
     {
         $this->do_radio(
-            __('Position of tracking-code', 'host-analyticsjs-local'),
+            __('Position of tracking-code', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
             CAOS_OPT_SCRIPT_POSITION,
-            __('Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local')
+            __('Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', $this->plugin_text_domain)
         );
     }
 
@@ -147,13 +147,13 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
 
         ?>
         <tr class="caos_add_manually" valign="top" <?= CAOS_OPT_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
-            <th scope="row"><?php _e('Tracking-code', 'host-analyticsjs-local'); ?></th>
+            <th scope="row"><?php _e('Tracking-code', $this->plugin_text_domain); ?></th>
             <td>
                 <label>
                     <textarea style="display: block; width: 100%; height: 250px;"><?php $frontend->render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
-                    <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', 'host-analyticsjs-local'); ?>
+                    <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', $this->plugin_text_domain); ?>
                 </p>
             </td>
         </tr>

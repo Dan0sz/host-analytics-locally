@@ -32,16 +32,7 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
             </p>
         </div>
         <div class="welcome-panel-column" style="width: 100%; margin-right: 15px;">
-            <h3>
-                <span class="dashicons dashicons-dashboard"></span> <?php _e('Make WordPress <em>Faster</em> Than Superman', 'host-analyticsjs-local'); ?>
-            </h3>
-            <p>
-                <?= __('Superman can reach the other side of the world in <strong>3 seconds</strong>. Google wants your website to do it <strong>faster</strong>. Let\'s give Google a run for its money.', 'host-analyticsjs-local'); ?>
-            </p>
-            <p>
-                <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-services/<?= $utmTags; ?>"><span class="dashicons dashicons-thumbs-up"></span> Hire me</a>
-                <span><em>(<?= __('Starting at € 99,-', 'host-analyticsjs-local'); ?>)</em></span>
-            </p>
+            <?= apply_filters('caos_sidebar_ad', ''); ?>
         </div>
         <div class="welcome-panel-column welcome-panel-last" style="width: 100%;">
             <h3>

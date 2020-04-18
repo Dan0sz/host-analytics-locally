@@ -32,6 +32,7 @@ jQuery(document).ready(function ($) {
             $('.caos-analytics-compatibility-mode').on('click', this.toggle_compatibility_mode);
             $('.caos-stealth-mode, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
             $('.caos-analytics-js-file').on('click', this.toggle_js_file_input);
+            $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
         },
 
         /**
@@ -131,6 +132,19 @@ jQuery(document).ready(function ($) {
                 compatibility.val(null);
                 // We need to trigger a click to show applicable options again.
                 compatibility.click();
+            }
+        },
+
+        /**
+         * Toggle Optimize ID field.
+         */
+        toggle_optimize_id: function() {
+            $optimize_id = $('.caos-extension-optimize-id-row');
+
+            if (this.checked) {
+                $optimize_id.show();
+            } else {
+                $optimize_id.hide();
             }
         }
     };

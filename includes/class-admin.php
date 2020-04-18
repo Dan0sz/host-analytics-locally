@@ -31,6 +31,7 @@ class CAOS_Admin
         // Settings
         $this->do_basic_settings();
         $this->do_advanced_settings();
+        $this->do_connect_settings();
 
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
@@ -75,6 +76,14 @@ class CAOS_Admin
     private function do_advanced_settings()
     {
         return new CAOS_Admin_Settings_Advanced();
+    }
+
+    /**
+     * @return CAOS_Admin_Settings_Extensions
+     */
+    private function do_connect_settings()
+    {
+        return new CAOS_Admin_Settings_Extensions();
     }
 
     /**

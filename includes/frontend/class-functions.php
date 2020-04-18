@@ -49,7 +49,7 @@ class CAOS_Frontend_Functions
      */
     public function register_routes()
     {
-        if (!CAOS_OPT_STEALTH_MODE) {
+        if (!CAOS_OPT_EXT_STEALTH_MODE) {
             return;
         }
 

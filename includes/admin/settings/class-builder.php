@@ -15,6 +15,9 @@
 
 class CAOS_Admin_Settings_Builder
 {
+    /** @var string $plugin_text_domain */
+    protected $plugin_text_domain = 'host-analyticsjs-local';
+
     /** @var string $utm_tags */
     protected $utm_tags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 

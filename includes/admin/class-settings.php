@@ -20,8 +20,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Admin Sections
      */
-    const CAOS_ADMIN_SECTION_BASIC_SETTINGS           = 'caos-basic-settings';
-    const CAOS_ADMIN_SECTION_ADV_SETTINGS             = 'caos-advanced-settings';
+    const CAOS_ADMIN_SECTION_BASIC_SETTINGS = 'caos-basic-settings';
+    const CAOS_ADMIN_SECTION_ADV_SETTINGS   = 'caos-advanced-settings';
+    const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
 
     /**
      * Option Values
@@ -64,12 +65,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
     const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
-    const CAOS_ADV_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
     const CAOS_ADV_SETTING_PRECONNECT               = 'caos_preconnect';
     const CAOS_ADV_SETTING_JS_FILE                  = 'caos_analytics_js_file';
     const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
-    const CAOS_ADV_SETTING_LINKID                   = 'caos_linkid';
     const CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
     const CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
     const CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
@@ -78,12 +77,19 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_TRACK_ADMIN              = 'sgal_track_admin';
     const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
+    const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
+    const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
+    const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
+    const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
 
     /** @var string $active_tab */
     private $active_tab;
 
     /** @var string $page */
     private $page;
+
+    /** @var string $utm_tags */
+    private $utm_tags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
     /**
      * CAOS_Admin_Settings constructor.
@@ -110,8 +116,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
         add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
+        add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
 
         // Content
+        add_action('caos_sidebar_ad', [$this, 'do_super_stealth_ad']);
         add_action('caos_settings_content', [$this, 'do_content'], 1);
         // @formatter:on
 
@@ -194,7 +202,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function register_settings()
     {
         if ($this->active_tab !== self::CAOS_ADMIN_SECTION_BASIC_SETTINGS
-            && $this->active_tab !== self::CAOS_ADMIN_SECTION_ADV_SETTINGS) {
+            && $this->active_tab !== self::CAOS_ADMIN_SECTION_ADV_SETTINGS
+            && $this->active_tab !== self::CAOS_ADMIN_SECTION_EXT_SETTINGS) {
             $this->active_tab = self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
         }
 
@@ -218,8 +227,12 @@ class CAOS_Admin_Settings extends CAOS_Admin
         $constants  = $reflection->getConstants();
         $needle     = 'CAOS_BASIC_SETTING';
 
-        if ($this->active_tab == 'caos-advanced-settings') {
+        if ($this->active_tab == self::CAOS_ADMIN_SECTION_ADV_SETTINGS) {
             $needle = 'CAOS_ADV_SETTING';
+        }
+
+        if ($this->active_tab == self::CAOS_ADMIN_SECTION_EXT_SETTINGS) {
+            $needle = 'CAOS_EXT_SETTING';
         }
 
         return array_filter(
@@ -245,6 +258,14 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function do_advanced_settings_tab()
     {
         $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', 'host-analyticsjs-local'));
+    }
+
+    /**
+     * Add Connect Tab to Settings Screen.
+     */
+    public function do_extensions_tab()
+    {
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __('Extensions', 'host-analyticsjs-local'));
     }
 
     /**
@@ -277,6 +298,37 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function do_content()
     {
         echo apply_filters(str_replace('-', '_', $this->active_tab) . '_content', '');
+    }
+
+    /**
+     *
+     */
+    public function do_super_stealth_ad()
+    {
+        ?>
+        <h3>
+            <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
+        </h3>
+        <p>
+            <?= __('Did you know Ad Blockers block ~30% of your Google Analytics data?', 'host-analyticsjs-local'); ?>
+        </p>
+        <p>
+            <?= __('In other words, you\'re missing out on a lot of data to base any decisions (e.g. marketing strategies and budgets) on.', 'host-analyticsjs-local'); ?>
+        </p>
+        <p>
+            <?= __('CAOS is the <em>only (!) plugin</em> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
+        </p>
+        <p>
+            <?= __('Give the <em>Stealth Mode Lite extension</em> a try to uncover ~10% of data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
+        </p>
+        <p>
+            <?= __('Or, upgrade to <strong>Super Stealth Mode</strong> to make your Google Analytics 100% accurate again.', 'host-analyticsjs-local'); ?>
+        </p>
+        <p>
+            <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/<?= $this->utm_tags; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', 'host-analyticsjs-local'); ?></a>
+            <span><em>(<?= __('Only € 49,-', 'host-analyticsjs-local'); ?>)</em></span>
+        </p>
+        <?php
     }
 
     /**

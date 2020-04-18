@@ -99,7 +99,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         $this->update_file($this->localFile, $this->remoteFile);
 
-        if (CAOS_OPT_STEALTH_MODE && (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js')) {
+        if (CAOS_OPT_EXT_STEALTH_MODE && (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js')) {
             $this->insert_proxy(CAOS_LOCAL_FILE_DIR);
 
             $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';

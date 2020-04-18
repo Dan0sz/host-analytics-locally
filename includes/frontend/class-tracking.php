@@ -26,6 +26,7 @@ class CAOS_Frontend_Tracking
         add_action('caos_process_settings', [$this, 'disable_display_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'linkid']);
+        add_action('caos_process_settings', [$this, 'google_optimize']);
     }
 
     /**
@@ -126,12 +127,12 @@ class CAOS_Frontend_Tracking
      */
     public function linkid()
     {
-        if (CAOS_OPT_LINKID !== 'on') {
+        if (CAOS_OPT_EXT_LINKID !== 'on') {
             return;
         }
 
         if ($this->is_gtag()) {
-            add_filter('caos_gtag_config', function ($config, $trackingId) {
+            add_filter('caos_gtag_config', function ($config, $tracking_id) {
                 return $config + ['linkid', [
                         'cookie_name' => 'caos_linkid'
                     ]
@@ -142,6 +143,36 @@ class CAOS_Frontend_Tracking
         add_filter('caos_analytics_before_send', function($config) {
             $option = [
                 'linkid' => "ga('require', 'linkid', { 'cookieName': 'caos_linkid' });"
+            ];
+
+            return $config + $option;
+        });
+    }
+
+    /**
+     * Google Optimize
+     */
+    public function google_optimize()
+    {
+        if (CAOS_OPT_EXT_OPTIMIZE !== 'on') {
+            return;
+        }
+
+        $optimize_id = CAOS_OPT_EXT_OPTIMIZE_ID;
+
+        if (!$optimize_id) {
+            return;
+        }
+
+        if ($this->is_gtag()) {
+            add_filter('caos_gtag_config', function ($config, $tracking_id) use ($optimize_id) {
+                return $config + [ 'optimize_id' => $optimize_id ];
+            }, 10, 2);
+        }
+
+        add_filter('caos_analytics_before_send', function ($config) use ($optimize_id) {
+            $option = [
+                'optimize' => "ga('require', '$optimize_id');"
             ];
 
             return $config + $option;
