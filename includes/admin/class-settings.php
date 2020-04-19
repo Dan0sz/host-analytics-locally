@@ -23,7 +23,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_SECTION_BASIC_SETTINGS = 'caos-basic-settings';
     const CAOS_ADMIN_SECTION_ADV_SETTINGS   = 'caos-advanced-settings';
     const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
-
     /**
      * Option Values
      */
@@ -54,7 +53,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'exact_metrics'    => 'GAD for WP by ExactMetrics',
         'monster_insights' => 'GADP for WP by Monster Insights'
     ];
-
     /**
      * CAOS Basic/Advanced Settings
      */
@@ -81,15 +79,17 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
     const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
+    /**
+     * Info URLs
+     */
+    const WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH = 'https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/';
+    const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB      = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
     /** @var string $active_tab */
     private $active_tab;
 
     /** @var string $page */
     private $page;
-
-    /** @var string $utm_tags */
-    private $utm_tags = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
     /**
      * CAOS_Admin_Settings constructor.
@@ -319,13 +319,13 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
         </p>
         <p>
-            <?= __('Give the <strong>Stealth Mode Lite</strong> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
+            <?= sprintf(__('Give the <a href="%s">Stealth Mode Lite</a> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', 'host-analyticsjs-local'), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')); ?>
         </p>
         <p>
-            <?= __('Or, upgrade to <strong>Super Stealth Mode</strong> to make your Google Analytics 100% accurate again.', 'host-analyticsjs-local'); ?>
+            <?= sprintf(__('Or, upgrade to <strong><a href="%s" target="_blank">Super Stealth Mode</a></strong> and complete your Google Analytics data.', 'host-analyticsjs-local'), self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB); ?>
         </p>
         <p>
-            <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/<?= $this->utm_tags; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', 'host-analyticsjs-local'); ?></a>
+            <a target="_blank" class="button button-primary button-hero" href="<?= self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', 'host-analyticsjs-local'); ?></a>
             <span><em>(<?= __('Only € 49,-', 'host-analyticsjs-local'); ?>)</em></span>
         </p>
         <p>

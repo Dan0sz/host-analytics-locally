@@ -17,8 +17,9 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin
 {
-    const CAOS_ADMIN_JS_HANDLE  = 'caos-admin-js';
-    const CAOS_ADMIN_CSS_HANDLE = 'caos-admin-css';
+    const CAOS_ADMIN_JS_HANDLE          = 'caos-admin-js';
+    const CAOS_ADMIN_CSS_HANDLE         = 'caos-admin-css';
+    const CAOS_ADMIN_UTM_PARAMS_NOTICES = '?utm_source=caos&utm_medium=plugin&utm_campaign=notices';
 
     /**
      * CAOS_Admin constructor.
@@ -132,7 +133,7 @@ class CAOS_Admin
     public function add_stealth_mode_notice($old_value, $new_value)
     {
         if ($new_value == 'on') {
-            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', 'host-analyticsjs-local'), 'https://woosh.dev/wordpress-plugins/caos-upgrades/super-stealth/'));
+            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', 'host-analyticsjs-local'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
             CAOS_Admin_Notice::set_notice($message, false);
 
@@ -141,18 +142,16 @@ class CAOS_Admin
 
             if (get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS)) {
                 delete_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS);
-                $option_names = '<strong>outbound links capturing</strong> and ';
-                $disabled_options++;
-            }
-
-            if (get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE)) {
-                delete_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE);
-                $option_names .= '<strong>Google Optimize integration</strong>';
+                $option_names = '<strong>outbound links capturing</strong>';
                 $disabled_options++;
             }
 
             if ($disabled_options > 0) {
-                CAOS_Admin_Notice::set_notice("Disabled $option_names, because Stealth Mode was enabled.", false, 'info');
+                CAOS_Admin_Notice::set_notice(sprintf(__("Disabled %s, because Stealth Mode was enabled.", 'host-analyticsjs-local'), $option_names), false, 'info');
+            }
+
+            if (get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE) && !defined(SUPER_STEALTH_PLUGIN_BASENAME) && !is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME)) {
+                CAOS_Admin_Notice::set_notice(sprintf(__('<strong>Google Optimize integration</strong> is not compatible with Stealth Mode Lite. <em>Disable it</em>, or <a href="%s" target="_blank">upgrade to Super Stealth Mode</a> to use Google Optimize integration with Stealth Mode.', 'host-analytics-local'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
             }
         } else {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
