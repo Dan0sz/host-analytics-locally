@@ -301,11 +301,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
     }
 
     /**
-     *
+     * Show ad when Super Stealth is not installed, or is installed, but inactive.
      */
     public function do_super_stealth_ad()
     {
-        if(defined(SUPER_STEALTH_PLUGIN_BASENAME) && is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME)): ?>
+        if(!defined(SUPER_STEALTH_PLUGIN_BASENAME) || (defined(SUPER_STEALTH_PLUGIN_BASENAME) && !is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME))): ?>
         <h3>
             <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
         </h3>
