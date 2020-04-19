@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
 
             // Options
             $('.caos-analytics-compatibility-mode').on('click', this.toggle_compatibility_mode);
-            $('.caos-stealth-mode, .caos-capture-outbound-links').on('click', this.toggle_stealth_mode);
+            $('.caos-stealth-mode, .caos-extension-optimize').on('click', this.toggle_stealth_mode);
             $('.caos-analytics-js-file').on('click', this.toggle_js_file_input);
             $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
         },
@@ -107,12 +107,9 @@ jQuery(document).ready(function ($) {
          * Toggle Stealth Mode options
          */
         toggle_stealth_mode: function () {
-            setting = $('.caos-analytics-js-file');
-            if (this.checked === true) {
-                setting.val('analytics.js');
-            }
             if (this.className === 'caos-stealth-mode') {
-                $('.caos-capture-outbound-links').attr('checked', false);
+                $('.caos-extension-optimize').attr('checked', false);
+                $('.caos-extension-optimize-id-row').hide();
             } else {
                 $('.caos-stealth-mode').attr('checked', false);
 

@@ -142,16 +142,24 @@ class CAOS_Admin
 
             if (get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS)) {
                 delete_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS);
-                $option_names = '<strong>outbound links capturing</strong>';
+
+                $option_names = 'disabled <strong>outbound links capturing</strong>';
+                $disabled_options++;
+            }
+
+            if ($old_filename = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE) !== 'analytics.js') {
+                update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js');
+
+                if ($option_names) {
+                    $option_names .= ' and ';
+                }
+
+                $option_names .= "changed $old_filename to analytics.js";
                 $disabled_options++;
             }
 
             if ($disabled_options > 0) {
-                CAOS_Admin_Notice::set_notice(sprintf(__("Disabled %s, because Stealth Mode was enabled.", 'host-analyticsjs-local'), $option_names), false, 'info');
-            }
-
-            if (get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE) && !defined(SUPER_STEALTH_PLUGIN_BASENAME) && !is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME)) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('<strong>Google Optimize integration</strong> is not compatible with Stealth Mode Lite. <em>Disable it</em>, or <a href="%s" target="_blank">upgrade to Super Stealth Mode</a> to use Google Optimize integration with Stealth Mode.', 'host-analytics-local'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
+                CAOS_Admin_Notice::set_notice(ucfirst(sprintf(__("%s, because Stealth Mode was enabled.", 'host-analyticsjs-local'), $option_names)), false, 'info');
             }
         } else {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
