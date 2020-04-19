@@ -49,6 +49,9 @@
 #caos-welcome-panel h3 > .dashicons {
   line-height: 1.4;
 }
+#caos-welcome-panel .super-stealth-graph {
+  width: 100%;
+}
 /**
  * Responsiveness
  */

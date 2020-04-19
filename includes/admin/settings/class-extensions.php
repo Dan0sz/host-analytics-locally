@@ -56,7 +56,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Stealth Mode Lite', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
             CAOS_OPT_EXT_STEALTH_MODE,
-            sprintf(__('Bypass some Ad Blockers and uncover ~10%% of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong>, make Google Analytics 100%% accurate, and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), 'https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/', CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
+            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), 'https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/', CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
         );
     }
 

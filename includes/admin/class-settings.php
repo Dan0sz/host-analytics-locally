@@ -309,17 +309,17 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <h3>
             <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
         </h3>
+        <h4>
+            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', 'host-analyticsjs-local'); ?>
+        </h4>
         <p>
-            <?= __('Did you know Ad Blockers block ~30% of your Google Analytics data?', 'host-analyticsjs-local'); ?>
+            <img class="super-stealth-graph" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/super-stealth-graph-@2x.png'; ?>" />
         </p>
         <p>
-            <?= __('In other words, you\'re missing out on a lot of data to base any decisions (e.g. marketing strategies and budgets) on.', 'host-analyticsjs-local'); ?>
+            <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
         </p>
         <p>
-            <?= __('CAOS is the <em>only (!) plugin</em> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
-        </p>
-        <p>
-            <?= __('Give the <em>Stealth Mode Lite extension</em> a try to uncover ~10% of data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
+            <?= __('Give the <strong>Stealth Mode Lite</strong> <em>extension</em> a try to uncover ⅓ of data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
         </p>
         <p>
             <?= __('Or, upgrade to <strong>Super Stealth Mode</strong> to make your Google Analytics 100% accurate again.', 'host-analyticsjs-local'); ?>
