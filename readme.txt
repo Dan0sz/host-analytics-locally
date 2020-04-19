@@ -56,11 +56,15 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For anything else, please follow the steps in [this how-to](https://daan.dev/how-to/host-js-locally-crontab/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [WoOSH!](https://woosh.dev)
 
 = CAOS says analytics.js/gtag.js/ga.js isn't updated in more than two days. What's going on? =
 
 This is due to server configuration. Probably a permissions issue. It might be that PHP/WordPress isn't allowed to create files programmatically. If you can upload media files just fine, then this probably isn't the issue. Is your cron running? Try clicking the 'update analytics.js/gtag.js/ga.js' option to update the file manually. Meanwhile, contact your hosting provider so they can help you figure out if your cron is running correctly.
+
+= Can the gtm/js file used by Google Optimize be hosted locally? =
+
+No, it can't. The gtm/js file is generated using a Client ID, which is unique for each visitor of your site. Saving this file locally would break your A/B tests.
 
 = I have disabled the plugin, but the Google Analytics tracking code is still added to the page. What's going on? =
 
@@ -78,13 +82,9 @@ Yes, it is! It is compatible with all Wordpress Cookie Notice plugins which eith
 
 Yes, this is normal. This browser extensions looks for this exact string 'www.google-analytics.com/analytics.js'. Because with CAOS you're hosting it locally, Tag Assistant doesn't find this string and returns an error. However, you can still use Tag Assistant to verify tracking works.
 
-= I use Google Analytics by Monster Insights. Is CAOS compatible with that plugin? =
-
-Yes, it is! Since version 1.80 CAOS is completely compatible with Google Analytics for Wordpress by Monster Insights. Just enable the option 'Enable compatibility with Monster Insights?' within the 'Optimize Analytics'-screen and CAOS will automagically replace the default external source of analytics.js to your locally hosted file.
-
 = Is CAOS compatible with WooCommerce? =
 
-Yes, it is! CAOS is completely compatible with WooCommerce. If you're a WooCommerce-user, install WooCommerce Google Analytics Integration (compatible since v2.6.4) or Monster Insights' Google Analytics (compatible since v1.8.0) plugin and enable the corresponding compatibility mode in CAOS.
+Yes, it is! CAOS is compatible with several Google Analytics plugins for WooCommerce.
 
 = I use WP Super Cache / W3 Total Cache / Autoptimize or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
 
@@ -128,6 +128,9 @@ N/A
 * Code improvements for setting screen.
 * Added support for Enhanced Link Attribution (also works with (Super) Stealth.)
 * Added more filters and hooks for developers to extend CAOS.
+* Added support for Google Optimize (not compatible with Stealth Mode, and plugin file is not hosted locally, because file differs per user).
+* Fixed bug where notices would sometimes be displayed twice.
+* Added several notice to improve UX.
 
 = 3.3.7 =
 * Added filter hooks for when Stealth mode is enabled/disabled, to improve UX.
