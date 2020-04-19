@@ -147,7 +147,9 @@ class CAOS_Admin
                 $disabled_options++;
             }
 
-            if ($old_filename = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE) !== 'analytics.js') {
+            $old_filename = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE);
+
+            if ($old_filename !== 'analytics.js') {
                 update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js');
 
                 if ($option_names) {
@@ -181,6 +183,10 @@ class CAOS_Admin
     {
         if ($new_filename !== $old_filename && !empty($new_filename)) {
             CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
+
+            if (CAOS_OPT_EXT_STEALTH_MODE) {
+                update_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE, false);
+            }
         }
 
         $this->add_update_file_reminder();

@@ -120,11 +120,9 @@ jQuery(document).ready(function ($) {
          * Toggle JS File Input options
          */
         toggle_js_file_input: function () {
-            stealth = $('.caos-stealth-mode');
             outbound = $('.caos-capture-outbound-links');
             compatibility = $('.caos-analytics-compatibility-mode');
             if (this.value !== 'analytics.js') {
-                stealth.attr('checked', false);
                 outbound.attr('checked', false);
                 compatibility.val(null);
                 // We need to trigger a click to show applicable options again.
