@@ -29,15 +29,17 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         // Settings
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 30);
 
+        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 40);
+
         // Non-compatibility mode settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 40);
-        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 50);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 60);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 70);
-        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 80);
-        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 90);
-        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 100);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 110);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);
+        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 70);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 80);
+        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 90);
+        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 100);
+        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 110);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 120);
 
         // Close
         add_filter('caos_basic_settings_content', [$this, 'do_after'], 150);
@@ -54,6 +56,23 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('e.g. UA-1234567-12', $this->plugin_text_domain),
             CAOS_OPT_TRACKING_ID
         );
+    }
+
+    /**
+     * Show Compatibility Mode notice.
+     */
+    public function do_compatibility_mode_notice()
+    {
+        if (CAOS_OPT_COMPATIBILITY_MODE): ?>
+        <tr>
+            <th></th>
+            <td>
+                <p class="description">
+                    <?= __('Other settings are not displayed, because you\'re running CAOS in Compatibility Mode. This setting can be changed in <strong>Advanced Settings</strong>.', $this->plugin_text_domain); ?>
+                </p>
+            </td>
+        </tr>
+        <?php endif;
     }
 
     /**
