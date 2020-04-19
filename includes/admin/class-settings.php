@@ -310,7 +310,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
         </h3>
         <h4>
-            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', 'host-analyticsjs-local'); ?>
+            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', 'host-analyticsjs-local'); ?> <sup>1</sup>
         </h4>
         <p>
             <img class="super-stealth-graph" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/super-stealth-graph-@2x.png'; ?>" />
@@ -319,7 +319,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
         </p>
         <p>
-            <?= __('Give the <strong>Stealth Mode Lite</strong> <em>extension</em> a try to uncover ⅓ of data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
+            <?= __('Give the <strong>Stealth Mode Lite</strong> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', 'host-analyticsjs-local'); ?>
         </p>
         <p>
             <?= __('Or, upgrade to <strong>Super Stealth Mode</strong> to make your Google Analytics 100% accurate again.', 'host-analyticsjs-local'); ?>
@@ -327,6 +327,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <p>
             <a target="_blank" class="button button-primary button-hero" href="https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/<?= $this->utm_tags; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', 'host-analyticsjs-local'); ?></a>
             <span><em>(<?= __('Only € 49,-', 'host-analyticsjs-local'); ?>)</em></span>
+        </p>
+        <p>
+            <sup>1. Source: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
         </p>
         <?php
     }
