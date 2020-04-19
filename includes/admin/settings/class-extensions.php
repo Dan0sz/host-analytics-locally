@@ -82,7 +82,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Google Optimize integration', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE,
             CAOS_OPT_EXT_OPTIMIZE,
-            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/')
+            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. To use Google Optimize with Stealth Mode, get the <a href="%s" target="_blank">CAOS Super Stealth Upgrade</a>. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH)
         );
     }
 
