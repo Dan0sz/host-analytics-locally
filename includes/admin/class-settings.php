@@ -305,7 +305,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_super_stealth_ad()
     {
-        ?>
+        if(defined(SUPER_STEALTH_PLUGIN_BASENAME) && is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME)): ?>
         <h3>
             <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
         </h3>
@@ -329,9 +329,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <span><em>(<?= __('Only € 49,-', 'host-analyticsjs-local'); ?>)</em></span>
         </p>
         <p>
-            <sup>1. Source: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
+            <sup>1. <?= __('Source', 'host-analyticsjs-local'); ?>: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
         </p>
-        <?php
+        <?php endif;
     }
 
     /**
