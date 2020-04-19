@@ -105,20 +105,15 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';
             $this->create_dir_recursive($pluginDir);
 
-            $plugins = [
-                '/plugins/ua/ec.js',
+            $plugins = apply_filters('caos_stealth_mode_plugin_endpoints', [
                 '/plugins/ua/linkid.js'
-            ];
+            ]);
 
             foreach ($plugins as $plugin) {
                 $this->localFile = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
                 $this->remoteFile = CAOS_GA_URL . $plugin;
                 $this->update_file($this->localFile, $this->remoteFile);
             }
-
-            $this->tweet = sprintf($this->tweet, 'analytics.js,+ec.js+and+linkid.js');
-
-            return $file . ', ' . __('ec.js and linkid.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
         }
 
         $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
