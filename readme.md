@@ -15,12 +15,14 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 ## Features
 - Host analytics.js, ga.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=github&utm_medium=description&utm_campaign=caos)),
-- Endlessly extensible using the integrated filters and available mini plugins! E.g. [integrate Google Optimize](https://daan.dev/how-to/google-optimize-caos/), [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
+- Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=github&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - In Stealth Mode, requests to linkid.js and ec.js are also hosted locally,
 - Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
 - Capture outbound links,
+- Integrate Google Optimize,
+- Enhanced link attribution,
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/?utm_source=github&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
