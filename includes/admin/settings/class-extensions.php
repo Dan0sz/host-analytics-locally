@@ -94,9 +94,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $this->do_text(
             __('Google Optimize ID', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE_ID,
-            __('e.g. GTM-123456', $this->plugin_text_domain),
+            __('e.g. GTM-123ABCD', $this->plugin_text_domain),
             CAOS_OPT_EXT_OPTIMIZE_ID,
-            __('Replace GTM-XXXXXXX with your Optimize container ID.', $this->plugin_text_domain),
+            __('Enter your Optimize container ID.', $this->plugin_text_domain),
             false,
             CAOS_OPT_EXT_OPTIMIZE == 'on'
         );
