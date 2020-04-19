@@ -216,6 +216,6 @@ class CAOS_Admin
      */
     private function add_update_file_reminder()
     {
-        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', 'host-analyticsjs-local') . '</a> ' . sprintf(__('to download/update %s.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE), false, 'info');
+        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', 'host-analyticsjs-local') . '</a> ' . sprintf(__('to download/update %s.', 'host-analyticsjs-local'), get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)), false, 'info', 200, 'all', 'update_file');
     }
 }

@@ -25,15 +25,16 @@ class CAOS_Admin_Notice
 
     /**
      * @param        $message
-     * @param string $type (info|warning|error|success)
-     * @param string $screen_id
-     * @param bool   $json
+     * @param bool   $die
+     * @param string $type
      * @param int    $code
+     * @param string $screen_id
+     * @param string $id
      */
-    public static function set_notice($message, $die = true, $type = 'success', $code = 200, $screen_id = 'all')
+    public static function set_notice($message, $die = true, $type = 'success', $code = 200, $screen_id = 'all', $id = '')
     {
-        self::$notices                      = get_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT);
-        self::$notices[$screen_id][$type][] = $message;
+        self::$notices                         = get_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT);
+        self::$notices[$screen_id][$type][$id] = $message;
 
         set_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT, self::$notices, self::CAOS_ADMIN_NOTICE_EXPIRATION);
 
