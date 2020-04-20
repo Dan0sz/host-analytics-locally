@@ -91,6 +91,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /** @var string $page */
     private $page;
 
+    /** @var string $plugin_text_domain */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
     /**
      * CAOS_Admin_Settings constructor.
      */
@@ -150,12 +153,12 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function settings_page()
     {
         if (!current_user_can('manage_options')) {
-            wp_die(__("You're not cool enough to access this page.", 'host-analyticsjs-local'));
+            wp_die(__("You're not cool enough to access this page.", $this->plugin_text_domain));
         }
         ?>
 
         <div class="wrap">
-            <h1><?php _e('CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local'); ?></h1>
+            <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
             <p>
                 <?= get_plugin_data(CAOS_PLUGIN_FILE)['Description']; ?>
@@ -181,7 +184,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
                     <?php submit_button(null, 'primary', 'submit', false); ?>
 
-                    <a href="#" id="manual-download" class="button button-secondary"><?= __('Update', 'host-analyticsjs-local'); ?> <?= CAOS_OPT_REMOTE_JS_FILE; ?></a>
+                    <a href="#" id="manual-download" class="button button-secondary"><?= __('Update', $this->plugin_text_domain); ?> <?= CAOS_OPT_REMOTE_JS_FILE; ?></a>
                 </form>
             </div>
 
@@ -249,7 +252,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_basic_settings_tab()
     {
-        $this->generate_tab(self::CAOS_ADMIN_SECTION_BASIC_SETTINGS, 'dashicons-analytics', __('Basic Settings', 'host-analyticsjs-local'));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_BASIC_SETTINGS, 'dashicons-analytics', __('Basic Settings', $this->plugin_text_domain));
     }
 
     /**
@@ -257,7 +260,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_advanced_settings_tab()
     {
-        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', 'host-analyticsjs-local'));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', $this->plugin_text_domain));
     }
 
     /**
@@ -265,7 +268,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_extensions_tab()
     {
-        $this->generate_tab(self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __('Extensions', 'host-analyticsjs-local'));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __('Extensions', $this->plugin_text_domain));
     }
 
     /**
@@ -317,29 +320,29 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         if(!$plugin_is_active): ?>
             <h3>
-            <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
+            <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', $this->plugin_text_domain); ?>
         </h3>
         <h4>
-            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', 'host-analyticsjs-local'); ?> <sup>1</sup>
+            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', $this->plugin_text_domain); ?> <sup>1</sup>
         </h4>
         <p>
             <img class="super-stealth-graph" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/super-stealth-graph-@2x.png'; ?>" />
         </p>
         <p>
-            <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', 'host-analyticsjs-local'); ?>
+            <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', $this->plugin_text_domain); ?>
         </p>
         <p>
-            <?= sprintf(__('Give the <a href="%s">Stealth Mode Lite</a> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', 'host-analyticsjs-local'), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')); ?>
+            <?= sprintf(__('Give the <a href="%s">Stealth Mode Lite</a> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')); ?>
         </p>
         <p>
-            <?= sprintf(__('Or, upgrade to <strong><a href="%s" target="_blank">Super Stealth Mode</a></strong> and complete your Google Analytics data.', 'host-analyticsjs-local'), self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB); ?>
+            <?= sprintf(__('Or, upgrade to <strong><a href="%s" target="_blank">Super Stealth Mode</a></strong> and complete your Google Analytics data.', $this->plugin_text_domain), self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB); ?>
         </p>
         <p>
-            <a target="_blank" class="button button-primary button-hero" href="<?= self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', 'host-analyticsjs-local'); ?></a>
-            <span><em>(<?= __('Only € 49,-', 'host-analyticsjs-local'); ?>)</em></span>
+            <a target="_blank" class="button button-primary button-hero" href="<?= self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', $this->plugin_text_domain); ?></a>
+            <span><em>(<?= __('Only € 49,-', $this->plugin_text_domain); ?>)</em></span>
         </p>
         <p>
-            <sup>1. <?= __('Source', 'host-analyticsjs-local'); ?>: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
+            <sup>1. <?= __('Source', $this->plugin_text_domain); ?>: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
         </p>
         <?php endif;
     }
@@ -354,7 +357,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function settings_link($links)
     {
         $adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
-        $settingsLink = "<a href='$adminUrl'>" . __('Settings', 'host-analyticsjs-local') . "</a>";
+        $settingsLink = "<a href='$adminUrl'>" . __('Settings', $this->plugin_text_domain) . "</a>";
         array_push($links, $settingsLink);
 
         return $links;
