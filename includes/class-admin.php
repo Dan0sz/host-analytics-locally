@@ -21,6 +21,9 @@ class CAOS_Admin
     const CAOS_ADMIN_CSS_HANDLE         = 'caos-admin-css';
     const CAOS_ADMIN_UTM_PARAMS_NOTICES = '?utm_source=caos&utm_medium=plugin&utm_campaign=notices';
 
+    /** @var string $plugin_text_domain */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
     /**
      * CAOS_Admin constructor.
      */
@@ -37,9 +40,11 @@ class CAOS_Admin
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
-        add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
         add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
+        add_action('update_option_caos_analytics_js_file', [$this, 'add_update_js_file_notice']);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
+        add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
+        add_action('pre_update_option_caos_capture_outbound_links', [$this, 'add_outbound_links_notice'], 10, 2);
     }
 
     /**
@@ -96,7 +101,7 @@ class CAOS_Admin
     public function add_tracking_code_notice($old_tracking_id, $new_tracking_id)
     {
         if ($new_tracking_id !== $old_tracking_id && !empty($new_tracking_id)) {
-            CAOS_Admin_Notice::set_notice(__("CAOS has connected WordPress to Google Analytics using Tracking ID: $new_tracking_id.", 'host-analyticsjs-local'), false);
+            CAOS_Admin_Notice::set_notice(__("CAOS has connected WordPress to Google Analytics using Tracking ID: $new_tracking_id.", $this->plugin_text_domain), false);
         }
 
         return $new_tracking_id;
@@ -113,43 +118,15 @@ class CAOS_Admin
         if ($new_position !== $old_position && !empty($new_position)) {
             switch ($new_position) {
                 case 'manual':
-                    CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', 'host-analyticsjs-local'), false, 'info');
+                    CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', $this->plugin_text_domain), false, 'info');
                     break;
                 default:
-                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", 'host-analyticsjs-local'), false, 'success');
+                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", $this->plugin_text_domain), false, 'success');
                     break;
             }
         }
 
         return $new_position;
-    }
-
-    /**
-     * @param $old_value
-     * @param $new_value
-     *
-     * @return bool
-     */
-    public function add_stealth_mode_notice($new_value, $old_value)
-    {
-        if ($new_value !== $old_value && $new_value == 'on') {
-            if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS) {
-                CAOS_Admin_Notice::set_notice(__('Stealth Mode couldn\'t start, because <strong>outbound links capturing</strong> is enabled.', 'host-analyticsjs-local'), false, 'warning');
-
-                return $old_value;
-            }
-
-            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', 'host-analyticsjs-local'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
-
-            CAOS_Admin_Notice::set_notice($message, false);
-        } elseif (empty($new_value)) {
-            $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
-            CAOS_Admin_Notice::set_notice($message, false);
-        }
-
-        $this->add_update_file_reminder();
-
-        return $new_value;
     }
 
     /**
@@ -163,7 +140,7 @@ class CAOS_Admin
         if ($new_filename !== $old_filename && !empty($new_filename)) {
             if (CAOS_OPT_EXT_STEALTH_MODE) {
                 if ($new_filename == 'ga.js') {
-                    CAOS_Admin_Notice::set_notice(__('Ga.js is not compatible with Stealth Mode. Disable Stealth Mode to start using ga.js.', 'host-analyticsjs-local'), false, 'warning');
+                    CAOS_Admin_Notice::set_notice(__('Ga.js is not compatible with Stealth Mode. Disable Stealth Mode to start using ga.js.', $this->plugin_text_domain), false, 'warning');
 
                     return $old_filename;
                 }
@@ -175,12 +152,16 @@ class CAOS_Admin
                 }
             }
 
-            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', $this->plugin_text_domain), ucfirst($new_filename)), false);
         }
 
-        $this->add_update_file_reminder();
 
         return $new_filename;
+    }
+
+    public function add_update_js_file_notice()
+    {
+        $this->add_update_file_reminder();
     }
 
     /**
@@ -192,12 +173,69 @@ class CAOS_Admin
     public function add_cache_dir_notice($old_dir, $new_dir)
     {
         if ($new_dir !== $old_dir && !empty($new_dir)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', 'host-analyticsjs-local'), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir), false);
+
+            $this->add_update_file_reminder();
         }
 
-        $this->add_update_file_reminder();
 
         return $new_dir;
+    }
+
+    /**
+     * @param $old_value
+     * @param $new_value
+     *
+     * @return bool
+     */
+    public function add_stealth_mode_notice($new_value, $old_value)
+    {
+        if ($new_value !== $old_value && $new_value == 'on') {
+            if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS) {
+                CAOS_Admin_Notice::set_notice(__('Stealth Mode couldn\'t be enabled, because <strong>Outbound Link Capturing</strong> is enabled. Disable it to use Stealth Mode.', $this->plugin_text_domain), false, 'warning');
+
+                return $old_value;
+            }
+
+            if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
+                CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to use Stealth Mode with <em>gtag.js</em>.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
+
+                return $old_value;
+            }
+
+            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
+
+            CAOS_Admin_Notice::set_notice($message, false);
+
+            $this->add_update_file_reminder();
+        } elseif (empty($new_value)) {
+            $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', $this->plugin_text_domain));
+
+            CAOS_Admin_Notice::set_notice($message, false);
+
+            $this->add_update_file_reminder();
+        }
+
+        return $new_value;
+    }
+
+    /**
+     * @param $new_value
+     * @param $old_value
+     *
+     * @return mixed
+     */
+    public function add_outbound_links_notice($new_value, $old_value)
+    {
+        if ($new_value !== $old_value && $new_value == 'on') {
+            if (CAOS_OPT_EXT_STEALTH_MODE) {
+                CAOS_Admin_Notice::set_notice(__('Outbound Link Capturing couldn\'t be enabled, because <strong>Stealth Mode</strong> is enabled. Disable it to use Outbound Link Capturing.', $this->plugin_text_domain), false, 'warning');
+
+                return $old_value;
+            }
+        }
+
+        return $new_value;
     }
 
     /**
@@ -205,6 +243,6 @@ class CAOS_Admin
      */
     private function add_update_file_reminder()
     {
-        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', 'host-analyticsjs-local') . '</a> ' . sprintf(__('to download/update %s.', 'host-analyticsjs-local'), get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)), false, 'info', 200, 'all', 'update_file');
+        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', $this->plugin_text_domain) . '</a> ' . sprintf(__('to download/update %s.', $this->plugin_text_domain), get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)), false, 'info', 200, 'all', 'update_file');
     }
 }
