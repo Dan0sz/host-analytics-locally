@@ -305,8 +305,18 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_super_stealth_ad()
     {
-        if(!defined(SUPER_STEALTH_PLUGIN_BASENAME) || (defined(SUPER_STEALTH_PLUGIN_BASENAME) && !is_plugin_active(SUPER_STEALTH_PLUGIN_BASENAME))): ?>
-        <h3>
+        $super_stealth_plugin = array_filter(get_plugins(), function($key) {
+                    return strpos($key, 'caos-super-stealth') !== false;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $plugin_is_active = false;
+
+        if (!empty($super_stealth_plugin)) {
+            $plugin_is_active = is_plugin_active(key($super_stealth_plugin));
+        }
+
+        if(!$plugin_is_active): ?>
+            <h3>
             <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', 'host-analyticsjs-local'); ?>
         </h3>
         <h4>
