@@ -17,11 +17,8 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 {
-    /** @var string $remoteFile */
-    private $remoteFile;
-
-    /** @var string $localFile */
-    private $localFile;
+    /** @var string $files */
+    private $files;
 
     /** @var string $tweet */
     private $tweet = "https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
@@ -34,13 +31,10 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
      */
     public function __construct()
     {
-        $this->remoteFile = CAOS_REMOTE_URL . '/' . CAOS_OPT_REMOTE_JS_FILE;;
-        $this->localFile  = CAOS_LOCAL_FILE_DIR;
+        $this->files = $this->queue_files();
 
         // Check if directory exists, otherwise create it.
         $this->create_dir_recursive(CAOS_LOCAL_DIR);
-
-        $this->is_gtag();
 
         $file_downloaded = $this->download();
 
@@ -53,23 +47,29 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
         }
     }
 
-    /**
-     * If gtag.js is selected. We need to download analytics.js as well.
-     */
-    private function is_gtag()
+    private function queue_files()
     {
+        $key = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+
         if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
-            $this->remoteFile = array(
-                'analytics' => array(
+            return [
+                'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
                     'local'  => CAOS_LOCAL_DIR . 'analytics.js'
-                ),
-                'gtag' => array(
+                ],
+                $key => [
                     'remote' => CAOS_GTM_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
                     'local'  => CAOS_LOCAL_FILE_DIR
-                )
-            );
+                ]
+            ];
         }
+
+        return [
+            $key => [
+                'remote' => CAOS_GA_URL . '/' .  CAOS_OPT_REMOTE_JS_FILE,
+                'local'  => CAOS_LOCAL_FILE_DIR
+            ]
+        ];
     }
 
     /**
@@ -79,45 +79,37 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     {
         $added = __('added to your Google Analytics tracking code.', 'host-analyticsjs-local');
 
-        if (is_array($this->remoteFile)) {
-            foreach ($this->remoteFile as $file => $location) {
-                $this->update_file($location['local'], $location['remote']);
-
-                if ($file == 'gtag') {
-                    $caosGaUrl = str_replace('gtag.js', 'analytics.js', caos_init()->get_url());
-                    $gaUrl     = CAOS_GA_URL . '/analytics.js';
-                    $this->update_gtag_js($location['local'], $gaUrl, $caosGaUrl);
-                }
-            }
-
-            $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
-
-            return __('Gtag.js and analytics.js are downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
-        }
-
-        $file = ucfirst(CAOS_OPT_REMOTE_JS_FILE);
-
-        $this->update_file($this->localFile, $this->remoteFile);
-
-        if (CAOS_OPT_EXT_STEALTH_MODE && (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js')) {
-            $this->insert_proxy(CAOS_LOCAL_FILE_DIR);
-
-            $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';
-            $this->create_dir_recursive($pluginDir);
-
-            $plugins = apply_filters('caos_stealth_mode_plugin_endpoints', [
-                '/plugins/ua/linkid.js'
-            ]);
-
-            foreach ($plugins as $plugin) {
-                $this->localFile = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
-                $this->remoteFile = CAOS_GA_URL . $plugin;
-                $this->update_file($this->localFile, $this->remoteFile);
-            }
-        }
-
         $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
 
-        return $file . ' ' . __('is downloaded successfully and', 'host-analyticsjs-local') . ' ' . $added;
+        foreach ($this->files as $file => $location) {
+            $this->update_file($location['local'], $location['remote']);
+
+            if ($file == 'gtag') {
+                $caosGaUrl = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
+                $gaUrl     = CAOS_GA_URL . '/analytics.js';
+                $this->update_gtag_js($location['local'], $gaUrl, $caosGaUrl);
+
+                $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
+            }
+
+            if ($file == 'analytics' && CAOS_OPT_EXT_STEALTH_MODE) {
+                $this->insert_proxy($location['local']);
+
+                $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';
+                $this->create_dir_recursive($pluginDir);
+
+                $plugins = apply_filters('caos_stealth_mode_plugin_endpoints', [
+                    '/plugins/ua/linkid.js'
+                ]);
+
+                foreach ($plugins as $plugin) {
+                    $plugin_file        = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
+                    $plugin_remote_file = CAOS_GA_URL . $plugin;
+                    $this->update_file($plugin_file, $plugin_remote_file);
+                }
+            }
+        }
+
+        return sprintf(__('%s downloaded successfully and', 'host-analyticsjs-local'), ucfirst(CAOS_OPT_REMOTE_JS_FILE)) . ' ' . $added;
     }
 }

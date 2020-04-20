@@ -73,7 +73,7 @@ class CAOS
         define('CAOS_REMOTE_URL', CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? CAOS_GTM_URL : CAOS_GA_URL);
         define('CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR);
         define('CAOS_LOCAL_FILE_DIR', CAOS_LOCAL_DIR . CAOS_OPT_REMOTE_JS_FILE);
-        define('CAOS_LOCAL_FILE_URL', $this->get_url());
+        define('CAOS_LOCAL_FILE_URL', self::get_url());
         define('CAOS_PROXY_URI', '/wp-json/caos/v1/proxy');
     }
 
@@ -122,7 +122,7 @@ class CAOS
     /**
      * @return string
      */
-    public function get_url()
+    public static function get_url()
     {
         $url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 

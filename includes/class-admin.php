@@ -147,23 +147,10 @@ class CAOS_Admin
                 $disabled_options++;
             }
 
-            $old_filename = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE);
-
-            if ($old_filename !== 'analytics.js') {
-                update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js');
-
-                if ($option_names) {
-                    $option_names .= ' and ';
-                }
-
-                $option_names .= "changed $old_filename to analytics.js";
-                $disabled_options++;
-            }
-
             if ($disabled_options > 0) {
                 CAOS_Admin_Notice::set_notice(ucfirst(sprintf(__("%s, because Stealth Mode was enabled.", 'host-analyticsjs-local'), $option_names)), false, 'info');
             }
-        } else {
+        } elseif (empty($new_value)) {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
             CAOS_Admin_Notice::set_notice($message, false);
         }
@@ -184,8 +171,10 @@ class CAOS_Admin
         if ($new_filename !== $old_filename && !empty($new_filename)) {
             CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
 
-            if (CAOS_OPT_EXT_STEALTH_MODE) {
-                update_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE, false);
+            if (CAOS_OPT_EXT_STEALTH_MODE && $new_filename == 'ga.js') {
+                delete_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE);
+
+                CAOS_Admin_Notice::set_notice(__('<strong>Stealth Mode disabled</strong>, because it\'s not compatible with ga.js.', 'host-analyticsjs-local'));
             }
         }
 
