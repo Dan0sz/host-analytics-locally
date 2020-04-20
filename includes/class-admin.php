@@ -37,8 +37,8 @@ class CAOS_Admin
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
-        add_action('update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
-        add_action('update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
+        add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
+        add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
     }
 
@@ -130,26 +130,18 @@ class CAOS_Admin
      *
      * @return bool
      */
-    public function add_stealth_mode_notice($old_value, $new_value)
+    public function add_stealth_mode_notice($new_value, $old_value)
     {
-        if ($new_value == 'on') {
+        if ($new_value !== $old_value && $new_value == 'on') {
+            if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS) {
+                CAOS_Admin_Notice::set_notice(__('Stealth Mode couldn\'t start, because <strong>outbound links capturing</strong> is enabled.', 'host-analyticsjs-local'), false, 'warning');
+
+                return $old_value;
+            }
+
             $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', 'host-analyticsjs-local'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
             CAOS_Admin_Notice::set_notice($message, false);
-
-            $disabled_options = 0;
-            $option_names = '';
-
-            if (get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS)) {
-                delete_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS);
-
-                $option_names = 'disabled <strong>outbound links capturing</strong>';
-                $disabled_options++;
-            }
-
-            if ($disabled_options > 0) {
-                CAOS_Admin_Notice::set_notice(ucfirst(sprintf(__("%s, because Stealth Mode was enabled.", 'host-analyticsjs-local'), $option_names)), false, 'info');
-            }
         } elseif (empty($new_value)) {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', 'host-analyticsjs-local'));
             CAOS_Admin_Notice::set_notice($message, false);
@@ -166,16 +158,24 @@ class CAOS_Admin
      *
      * @return string
      */
-    public function add_js_file_notice($old_filename, $new_filename)
+    public function add_js_file_notice($new_filename, $old_filename)
     {
         if ($new_filename !== $old_filename && !empty($new_filename)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
+            if (CAOS_OPT_EXT_STEALTH_MODE) {
+                if ($new_filename == 'ga.js') {
+                    CAOS_Admin_Notice::set_notice(__('Ga.js is not compatible with Stealth Mode. Disable Stealth Mode to start using ga.js.', 'host-analyticsjs-local'), false, 'warning');
 
-            if (CAOS_OPT_EXT_STEALTH_MODE && $new_filename == 'ga.js') {
-                delete_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE);
+                    return $old_filename;
+                }
 
-                CAOS_Admin_Notice::set_notice(__('<strong>Stealth Mode disabled</strong>, because it\'s not compatible with ga.js.', 'host-analyticsjs-local'));
+                if ($new_filename == 'gtag.js') {
+                    CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
+
+                    return $old_filename;
+                }
             }
+
+            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', 'host-analyticsjs-local'), ucfirst($new_filename)), false);
         }
 
         $this->add_update_file_reminder();
