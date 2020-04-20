@@ -32,7 +32,7 @@ class CAOS_Admin
      */
     public function __construct()
     {
-        $this->super_stealth_active = $this->is_super_stealth_active();
+        add_action('plugins_loaded', [$this, 'is_super_stealth_active']);
 
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('admin_notices', [$this, 'add_notice']);
@@ -53,9 +53,9 @@ class CAOS_Admin
     }
 
     /**
-     * @return bool
+     * Save active state of Super Stealth Upgrade for later use.
      */
-    private function is_super_stealth_active()
+    public function is_super_stealth_active()
     {
         $super_stealth = array_filter(get_plugins(), function ($key) {
             return strpos($key, 'caos-super-stealth') !== false;
@@ -67,7 +67,7 @@ class CAOS_Admin
             $is_plugin_active = is_plugin_active(key($super_stealth));
         }
 
-        return $is_plugin_active;
+        $this->super_stealth_active = $is_plugin_active;
     }
 
     /**
