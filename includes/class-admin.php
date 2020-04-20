@@ -182,6 +182,9 @@ class CAOS_Admin
         return $new_filename;
     }
 
+    /**
+     * Throw an update file notice after Remote JS file option is changed.
+     */
     public function add_update_js_file_notice()
     {
         $this->add_update_file_reminder();
