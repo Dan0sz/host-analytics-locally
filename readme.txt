@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -28,7 +28,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - Also compatible with Enhanced Link Attribution.
-  - CAOS Super Stealth Upgrade adds compatibiliy with Enhanced Commerce.
+  - [CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Commerce and gtag.js.
 - Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
 - Capture outbound links,
 - Integrate Google Optimize,
@@ -125,6 +125,11 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.4.2 =
+* Added notices for settings incompatible with (Super) Stealth Mode to increase UX.
+* CAOS Super Stealth Upgrade now supports gtag.js.
+* Minor code optimizations.
 
 = 3.4.1 =
 * Fixed syntax errors in sidebar.
