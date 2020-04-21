@@ -126,6 +126,9 @@ N/A
 
 == Changelog ==
 
+= 3.4.4 =
+* Added polyfill for is_plugin_active to fix Fatal Errors in certain WordPress configurations.
+
 = 3.4.3 =
 * [HOTFIX] Fix for Fatal Error: Call to undefined function get_plugins().
 
