@@ -24,16 +24,11 @@ class CAOS_Admin
     /** @var string $plugin_text_domain */
     private $plugin_text_domain = 'host-analyticsjs-local';
 
-    /** @var bool $super_stealth_active */
-    private $super_stealth_active = false;
-
     /**
      * CAOS_Admin constructor.
      */
     public function __construct()
     {
-        add_action('plugins_loaded', [$this, 'is_super_stealth_active']);
-
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('admin_notices', [$this, 'add_notice']);
 
@@ -50,24 +45,6 @@ class CAOS_Admin
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
         add_action('pre_update_option_caos_capture_outbound_links', [$this, 'add_outbound_links_notice'], 10, 2);
-    }
-
-    /**
-     * Save active state of Super Stealth Upgrade for later use.
-     */
-    public function is_super_stealth_active()
-    {
-        $super_stealth = array_filter(get_plugins(), function ($key) {
-            return strpos($key, 'caos-super-stealth') !== false;
-        }, ARRAY_FILTER_USE_KEY);
-
-        $is_plugin_active = false;
-
-        if (!empty($super_stealth)) {
-            $is_plugin_active = is_plugin_active(key($super_stealth));
-        }
-
-        $this->super_stealth_active = $is_plugin_active;
     }
 
     /**
@@ -168,7 +145,7 @@ class CAOS_Admin
                     return $old_filename;
                 }
 
-                if ($new_filename == 'gtag.js' && !$this->super_stealth_active) {
+                if ($new_filename == 'gtag.js' && !$this->is_super_stealth_active()) {
                     CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
 
                     return $old_filename;
@@ -180,6 +157,48 @@ class CAOS_Admin
 
 
         return $new_filename;
+    }
+
+    /**
+     * @return bool
+     */
+    public function is_super_stealth_active()
+    {
+        $super_stealth = array_filter($this->get_plugins(), function ($basename) {
+            return strpos($basename, 'caos-super-stealth') !== false;
+        });
+
+        $is_plugin_active = false;
+
+        if (!empty($super_stealth)) {
+            $is_plugin_active = $this->is_plugin_active(reset($super_stealth));
+        }
+
+        return $is_plugin_active;
+    }
+
+    /**
+     * @return array[]
+     */
+    private function get_plugins()
+    {
+        return (array) get_option('active_plugins', array());
+    }
+
+    /**
+     * Polyfill for is_plugin_active()
+     *
+     * @param $plugin
+     *
+     * @return bool
+     */
+    private function is_plugin_active($plugin)
+    {
+        if (!function_exists('is_plugin_active')) {
+            return in_array($plugin, $this->get_plugins());
+        }
+
+        return is_plugin_active($plugin);
     }
 
     /**
@@ -223,7 +242,7 @@ class CAOS_Admin
                 return $old_value;
             }
 
-            if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' && !$this->super_stealth_active) {
+            if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' && !$this->is_super_stealth_active()) {
                 CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to use Stealth Mode with <em>gtag.js</em>.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
 
                 return $old_value;
