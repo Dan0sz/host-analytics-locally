@@ -53,6 +53,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'exact_metrics'    => 'GAD for WP by ExactMetrics',
         'monster_insights' => 'GADP for WP by Monster Insights'
     ];
+    const CAOS_ADMIN_EXT_PLUGIN_HANDLING     = [
+        'set_redirect' => 'Safe Mode (default)',
+        'send_file'    => 'Experimental (faster)'
+    ];
     /**
      * CAOS Basic/Advanced Settings
      */
@@ -75,6 +79,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_TRACK_ADMIN              = 'sgal_track_admin';
     const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
+    const CAOS_EXT_SETTING_PLUGIN_HANDLING          = 'caos_extension_plugin_handling';
     const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
     const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';

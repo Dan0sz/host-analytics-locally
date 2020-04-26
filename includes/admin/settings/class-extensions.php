@@ -26,9 +26,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 20);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode'], 30);
-        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 50);
-        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 70);
+        add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling'], 50);
+        add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode'], 60);
+        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 70);
+        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 80);
         add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 90);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
@@ -45,6 +46,20 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             <?= sprintf(__("Enhance the functionality of CAOS and %s to aid in measuring user interaction using plugins. Plugins are typically specific to a set of features that may not be required by all Google Analytics users, such as ecommerce or cross-domain measurement, and are therefore not included in %s by default.", $this->plugin_text_domain), $file, $file); ?>
         </p>
         <?php
+    }
+
+    /**
+     * Plugin Handling
+     */
+    public function do_plugin_handling()
+    {
+        $this->do_select(
+            __('Plugin Handling', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING,
+            CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
+            CAOS_OPT_EXT_PLUGIN_HANDLING,
+            __('Safe Mode works on all environments, because it creates two requests to get the plugin file: one 302 redirect and the plugin file (e.g. linkid.js). Experimental Mode returns the plugin file immediately. If Google Analytics doesn\'t collect any data when in Experimental Mode, switch back to Safe Mode.', $this->plugin_text_domain)
+        );
     }
 
     /**

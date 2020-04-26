@@ -62,6 +62,7 @@ class CAOS
         define('CAOS_OPT_CDN_URL', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL)));
         define('CAOS_OPT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS)));
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
+        define('CAOS_OPT_EXT_PLUGIN_HANDLING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING)) ?: 'set_redirect');
         define('CAOS_OPT_EXT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
         define('CAOS_OPT_EXT_OPTIMIZE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE)));

@@ -78,7 +78,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
                 array(
                     array(
                         'methods'             => WP_REST_Server::READABLE,
-                        'callback'            => array($this, 'set_redirect'),
+                        'callback'            => array($this, CAOS_OPT_EXT_PLUGIN_HANDLING),
                         'permission_callback' => array($this, 'permissions_check')
                     ),
                     'schema' => null,
@@ -138,8 +138,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
     }
 
     /**
-     * If plugins are used, we need to capture these requests and redirect them to the
-     * locally hosted versions, so these requests will also bypass Ad Blockers.
+     * If plugins are used and set_redirect is set, we need to capture these requests and
+     * redirect them to the locally hosted versions, so these requests will also bypass Ad
+     * Blockers.
      *
      * @param $request
      */
@@ -156,6 +157,30 @@ class CAOS_API_Proxy extends WP_REST_Controller
         header("Location: $localFileUrl");
         die();
     }
+
+    /**
+     * If plugins are used and get_file is set, we need to capture these requests and return the
+     * locally hosted versions, so these requests will also bypass Ad Blockers.
+     *
+     * @param $request
+     */
+    public function send_file($request)
+    {
+        $endpoint = array_filter($this->plugin_endpoints, function ($value) use ($request) {
+            return strpos($request->get_route(), $value) !== false;
+        });
+
+        $endpoint  = reset($endpoint);
+        $localFile = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR . trim($endpoint, '/');
+
+        header('Content-Type: application/javascript');
+        header("Content-Transfer-Encoding: Binary");
+        header('Content-Length: ' . filesize($localFile));
+        flush();
+        readfile($localFile);
+        die();
+    }
+
 
     /**
      * @return string
