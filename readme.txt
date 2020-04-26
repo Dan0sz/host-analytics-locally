@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.4.4
+Stable tag: 3.5.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,8 +27,8 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
-  - Also compatible with Enhanced Link Attribution.
-  - [CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Commerce and gtag.js.
+  - Plugins (e.g. linkid.js or ec.js) are also served from a local source when in Stealth Mode!
+  - *[CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Commerce (ec.js) and gtag.js.*
 - Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
 - Capture outbound links,
 - Integrate Google Optimize,
@@ -125,6 +125,9 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.5.0 =
+* Plugins (e.g. linkid.js or ec.js) are now handled twice as fast with the new *Extensions* > *Plugin Handling* option set to **Experimental** Mode.
 
 = 3.4.4 =
 * Added polyfill for is_plugin_active to fix Fatal Errors in certain WordPress configurations.
