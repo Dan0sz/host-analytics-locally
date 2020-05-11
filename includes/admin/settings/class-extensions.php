@@ -43,7 +43,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $file = CAOS_OPT_REMOTE_JS_FILE;
         ?>
         <p>
-            <?= sprintf(__("Enhance the functionality of CAOS and %s to aid in measuring user interaction using plugins. Plugins are typically specific to a set of features that may not be required by all Google Analytics users, such as ecommerce or cross-domain measurement, and are therefore not included in %s by default.", $this->plugin_text_domain), $file, $file); ?>
+            <?= sprintf(__("Enhance the functionality of CAOS and %s to aid in measuring user interaction using plugins.", $this->plugin_text_domain), $file); ?>
+        </p>
+        <p>
+            <?= sprintf(__("Plugins are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Super Stealth, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
+        </p>
+        <p>
+            <?= sprintf(__("For a list of available plugins, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://woosh.dev/wordpress-plugins/'); ?>
         </p>
         <?php
     }
