@@ -75,7 +75,7 @@ class CAOS
         define('CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR);
         define('CAOS_LOCAL_FILE_DIR', CAOS_LOCAL_DIR . CAOS_OPT_REMOTE_JS_FILE);
         define('CAOS_LOCAL_FILE_URL', self::get_url());
-        define('CAOS_PROXY_URI', '/wp-json/caos/v1/proxy');
+        define('CAOS_PROXY_URI', apply_filters('caos_stealth_mode_proxy_uri', '/wp-json/caos/v1/proxy'));
     }
 
     /**
