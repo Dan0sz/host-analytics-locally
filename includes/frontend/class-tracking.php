@@ -124,6 +124,8 @@ class CAOS_Frontend_Tracking
 
     /**
      * Enhanced Link Attribution
+     *
+     * TODO: Set samesite flag as soon as it's available. (https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution)
      */
     public function linkid()
     {
@@ -134,7 +136,8 @@ class CAOS_Frontend_Tracking
         if ($this->is_gtag()) {
             add_filter('caos_gtag_config', function ($config, $tracking_id) {
                 return $config + ['linkid', [
-                        'cookie_name' => 'caos_linkid'
+                        'cookie_name'  => 'caos_linkid',
+                        'cookie_flags' => 'samesite=none;secure'
                     ]
                 ];
             }, 10, 2);
@@ -142,7 +145,7 @@ class CAOS_Frontend_Tracking
 
         add_filter('caos_analytics_before_send', function($config) {
             $option = [
-                'linkid' => "ga('require', 'linkid', { 'cookieName': 'caos_linkid' });"
+                'linkid' => "ga('require', 'linkid', { 'cookieName':'caosLinkid', 'cookieFlags':'samesite=none;secure' });"
             ];
 
             return $config + $option;
