@@ -192,11 +192,11 @@ class CAOS_Admin_Settings_Builder
      * @param $checked
      * @param $description
      */
-    public function do_checkbox($label, $name, $checked, $description)
+    public function do_checkbox($label, $name, $checked, $description, $update_required = false)
     {
         ?>
         <tr>
-            <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
+            <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?> <?= $update_required ? '*' : ''; ?></th>
             <td>
                 <input type="checkbox" class="<?= str_replace('_' , '-' , $name); ?>" name="<?= $name; ?>"
                     <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
