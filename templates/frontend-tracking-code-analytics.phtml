@@ -39,9 +39,10 @@ $template = new CAOS_Frontend_Tracking();
 $template->get_tracking_code_template('ga-disable');
 
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
-    'cookieName' => 'caosLocalGa',
-    'cookieDomain' => $_SERVER['SERVER_NAME'],
-    'cookieExpires' => CAOS_COOKIE_EXPIRY_DAYS
+    'cookieName'    => 'caosLocalGa',
+    'cookieDomain'  => $_SERVER['SERVER_NAME'],
+    'cookieExpires' => CAOS_COOKIE_EXPIRY_DAYS,
+    'cookieFlags'   => 'samesite=none;secure'
 ));
 ?>
 
