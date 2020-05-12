@@ -124,6 +124,9 @@ class CAOS_Admin_Settings_Builder
             </th>
             <td>
                 <select name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
+                    <?php
+                    $options = apply_filters($select . '_setting_options', $options);
+                    ?>
                     <?php foreach ($options as $option => $option_label): ?>
                         <option value="<?= $option; ?>" <?= ($selected == $option) ? 'selected' : ''; ?>><?= $option_label; ?></option>
                     <?php endforeach; ?>
