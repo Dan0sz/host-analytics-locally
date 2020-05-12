@@ -93,6 +93,8 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             }
 
             if ($file == 'analytics' && CAOS_OPT_EXT_STEALTH_MODE) {
+                do_action('before_caos_stealth_mode_enable');
+
                 $this->insert_proxy($location['local']);
 
                 $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';
@@ -107,6 +109,8 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                     $plugin_remote_file = CAOS_GA_URL . $plugin;
                     $this->update_file($plugin_file, $plugin_remote_file);
                 }
+
+                do_action('after_caos_stealth_mode_enable');
             }
         }
 

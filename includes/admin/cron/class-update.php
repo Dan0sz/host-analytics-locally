@@ -84,7 +84,7 @@ class CAOS_Admin_Cron_Update
         );
         $replace          = '';
         $siteUrl          = str_replace($find, $replace, get_site_url(CAOS_BLOG_ID));
-        $proxyUrl         = $siteUrl . CAOS_PROXY_URI;
+        $proxyUrl         = apply_filters('caos_stealth_mode_proxy_uri', $siteUrl . CAOS_PROXY_URI);
         $google_endpoints = apply_filters('caos_stealth_mode_google_endpoints', []);
         $caos_endpoint    = apply_filters('caos_stealth_mode_endpoint', '');
         $new_file         = file_put_contents($file, str_replace($google_endpoints, $caos_endpoint, file_get_contents($file)));
