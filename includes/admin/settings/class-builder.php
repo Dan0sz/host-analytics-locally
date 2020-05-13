@@ -55,6 +55,23 @@ class CAOS_Admin_Settings_Builder
     }
 
     /**
+     * Show Compatibility Mode notice.
+     */
+    public function do_compatibility_mode_notice()
+    {
+        if (CAOS_OPT_COMPATIBILITY_MODE): ?>
+            <tr>
+                <th></th>
+                <td>
+                    <p class="description">
+                        <?= __('Some settings are not displayed, because you\'re running CAOS in Compatibility Mode. This setting can be changed in <strong>Advanced Settings</strong>.', $this->plugin_text_domain); ?>
+                    </p>
+                </td>
+            </tr>
+        <?php endif;
+    }
+
+    /**
      *
      */
     public function do_tbody_close()
