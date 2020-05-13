@@ -344,7 +344,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         </p>
         <p>
             <a target="_blank" class="button button-primary button-hero" href="<?= self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', $this->plugin_text_domain); ?></a>
-            <span><em>(<?= __('Only € 49,-', $this->plugin_text_domain); ?>)</em></span>
+            <span><em>(<?= __('As low as € 39,-', $this->plugin_text_domain); ?>)</em></span>
         </p>
         <p>
             <sup>1. <?= __('Source', $this->plugin_text_domain); ?>: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
