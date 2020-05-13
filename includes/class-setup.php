@@ -47,7 +47,7 @@ class CAOS_Setup
     public function activate_cron()
     {
         if (!wp_next_scheduled(CAOS_CRON)) {
-            wp_schedule_event(time(), 'daily', CAOS_CRON);
+            wp_schedule_event(time(), 'twicedaily', CAOS_CRON);
         }
     }
 
