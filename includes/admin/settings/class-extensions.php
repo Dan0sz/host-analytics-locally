@@ -58,7 +58,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             <?= sprintf(__("For a list of available plugins, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://woosh.dev/wordpress-plugins/'); ?>
         </p>
         <p>
-            <?= sprintf(__('* Manual update required after saving changes.', $this->plugin_text_domain)); ?>
+            <sub><em><strong><?= sprintf(__('* Manual update required after saving changes.', $this->plugin_text_domain)); ?></strong></em></sub>
         </p>
         <?php
     }
