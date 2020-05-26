@@ -129,6 +129,7 @@ N/A
 
 = 3.5.0 =
 * Plugins (e.g. linkid.js or ec.js) are now handled twice as fast with the new *Extensions* > *Plugin Handling* option set to **Experimental** Mode.
+  * Mind you that loading ec.js in Stealth Mode requires CAOS Super Stealth Upgrade to work.
 
 = 3.4.4 =
 * Added polyfill for is_plugin_active to fix Fatal Errors in certain WordPress configurations.
@@ -243,10 +244,6 @@ Damn Subversion. Had to add new file to versioning.
 
 = 2.7.7 =
 Stealth Mode now also works for Google Analytics Enhanced Link Attribution plugin.
-
-= 2.7.6 =
-Added fix for Stealth Mode, when using Google Analytics E-commerce features. Known issue: the download
-of ec.js does not bypass all Ad Blockers.
 
 = 2.7.5 =
 Optimized Javascript.
