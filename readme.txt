@@ -66,7 +66,7 @@ This is due to server configuration. Probably a permissions issue. It might be t
 
 = Can the gtm/js file used by Google Optimize be hosted locally? =
 
-No, it can't. The gtm/js file is generated using a Client ID, which is unique for each visitor of your site. Saving this file locally would break your A/B tests.
+No, it can't. The gtm/js (or gtm.js) file is generated using a Client ID, which is unique for each visitor of your site. Saving this file locally would break your A/B tests.
 
 = I have disabled the plugin, but the Google Analytics tracking code is still added to the page. What's going on? =
 
@@ -88,9 +88,9 @@ Yes, this is normal. This browser extensions looks for this exact string 'www.go
 
 Yes, it is! CAOS is compatible with several Google Analytics plugins for WooCommerce.
 
-= I use WP Super Cache / W3 Total Cache / Autoptimize or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
+= I use WP Super Cache / W3 Total Cache or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
 
-This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /cache/ folder (e.g. /caos-cache/analytics/). This should resolve any issues you're having.
+This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /cache/ folder (e.g. /uploads/caos/). This should resolve any issues you're having.
 
 = WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
 
@@ -98,15 +98,7 @@ This is perfectly normal, since this is the file that was updated by the built-i
 
 = What is the current update interval of the Analytics-script? =
 
-I have set it to daily, because Google updates the script very often. Also, the daily interval is the longest interval that wp_cron() allows, as far as I know. If you suspect you might've gotten behind (which I doubt) I've implement a manual update button within the CAOS' settings.
-
-= The ga.js/analytics.js/gtag.js-file remains empty! What should I do? =
-
-Make sure you are running the latest version, as I added some compatibility fixes along the way. If this doesn't resolve your issue, then your wp-cron isn't working properly. This is a server related issue. You can add the 'includes/update-analytics.php'-file to [your crontab](http://crontab-generator.org/ "Click here to create a crontab line using Crontab Generator"). As this problem has been resolved many times already, check the forum!
-
-= I just updated to the latest version and the tracking stopped working! =
-
-Probably your gtag.js/analytics.js/ga.js file got overwritten and emptied. Try activating and de-activating the plugin, otherwise this will automatically resolve itself after the cronjob has run.
+I have set it to twice daily, because Google updates the script very often. If you suspect you might've gotten behind (which I doubt) Run a manual update button within CAOS' settings.
 
 = I disabled Demographic Reports in Google Analytics, but the script is still redirecting to doubleclick.net. How do I turn this off? =
 
