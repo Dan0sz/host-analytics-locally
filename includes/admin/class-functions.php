@@ -39,7 +39,7 @@ class CAOS_Admin_Functions
             }
         } else {
             if ($lastError + self::CAOS_ADMIN_ERROR_MESSAGE_INTERVAL < time()) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, make sure your cron is running healthy.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE, CAOS_OPT_REMOTE_JS_FILE), false, 'error');
+                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', 'host-analyticsjs-local'), CAOS_OPT_REMOTE_JS_FILE, CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/wordpress-plugins/caos/#not-updated-for-more-than-two-days'), false, 'error');
 
                 update_option(self::CAOS_ADMIN_TIME_LAST_ERROR, time());
             }
