@@ -52,7 +52,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins repository directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings -> Optimize Analytics screen to configure the plugin
+1. Use the Settings -> Optimize Google Analytics screen to configure the plugin
 
 == Frequently Asked Questions ==
 

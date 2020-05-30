@@ -142,7 +142,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         // @formatter:off
         add_options_page(
             'CAOS',
-            'Optimize Analytics',
+            'Optimize Google Analytics',
             'manage_options',
             'host_analyticsjs_local',
             array($this, 'settings_page')
