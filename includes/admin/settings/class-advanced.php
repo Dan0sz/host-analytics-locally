@@ -189,10 +189,10 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_change_enqueue_order()
     {
         $this->do_number(
-            __('Change enqueue order? (Default = 0)', $this->plugin_text_domain),
+            __('Change enqueue order?', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER,
             CAOS_OPT_ENQUEUE_ORDER,
-            __('Do not change this unless you know, what you\'re doing.', $this->plugin_text_domain)
+            __('Do not change this unless you know, what you\'re doing. Defaults to 10.', $this->plugin_text_domain)
         );
     }
 
