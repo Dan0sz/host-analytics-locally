@@ -32,17 +32,17 @@ class CAOS_Admin_Cron_Update
      */
     protected function update_file($localFile, $remoteFile)
     {
+        do_action('caos_admin_update_before');
+
         $this->file = wp_remote_get($remoteFile, $localFile);
 
         if (is_wp_error($this->file)) {
             return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
         }
 
-        $this->filesystem()->put_contents($localFile, $this->file['body']);
+        CAOS::filesystem()->put_contents($localFile, $this->file['body']);
 
-        if (file_exists($localFile) && filesize($localFile) > 1) {
-            return;
-        }
+        do_action('caos_admin_update_after');
     }
 
     /**
@@ -91,22 +91,5 @@ class CAOS_Admin_Cron_Update
         $new_file         = file_put_contents($file, str_replace('www.google-analytics.com', $proxyUrl, file_get_contents($file)));
 
         return $new_file;
-    }
-
-    /**
-     * Helper to return WordPress filesystem subclass.
-     *
-     * @return WP_Filesystem_Base $wp_filesystem
-     */
-    private function filesystem()
-    {
-        global $wp_filesystem;
-
-        if ( is_null( $wp_filesystem ) ) {
-            require_once ABSPATH . '/wp-admin/includes/file.php';
-            WP_Filesystem();
-        }
-
-        return $wp_filesystem;
     }
 }
