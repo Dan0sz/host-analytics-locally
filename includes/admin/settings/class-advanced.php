@@ -102,9 +102,9 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         $this->do_text(
             sprintf(__('Save %s to...', $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
-            __('e.g. /cache/caos/', $this->plugin_text_domain),
+            __('e.g. /uploads/caos/', $this->plugin_text_domain),
             CAOS_OPT_CACHE_DIR,
-            __("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/cache/caos/</code>.", $this->plugin_text_domain),
+            __("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", $this->plugin_text_domain),
             true
         );
     }

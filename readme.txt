@@ -90,7 +90,7 @@ Yes, it is! CAOS is compatible with several Google Analytics plugins for WooComm
 
 = I use WP Super Cache / W3 Total Cache or another Caching and/or Minification plugin. Why is it removing analytics.js when I flush my cache? =
 
-This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /cache/ folder (e.g. /uploads/caos/). This should resolve any issues you're having.
+This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /uploads/ folder (e.g. /uploads/caos/). This should resolve any issues you're having.
 
 = WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
 
