@@ -103,6 +103,12 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             throw new Exception($error->getMessage());
         }
 
+        if ($request->get_param('result') == 1) {
+            $current_value = (int) get_transient(CAOS_Admin_Functions::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE);
+            // Does not expire, but can be safely cleaned by db clean up plugins.
+            set_transient(CAOS_Admin_Functions::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE, ++$current_value);
+        }
+
         return $response;
     }
 
