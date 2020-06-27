@@ -26,6 +26,8 @@ class CAOS_Admin_Functions
     private $plugin_text_domain = 'host-analyticsjs-local';
 
     /**
+     * Display notices and set transients.
+     *
      * CAOS_Admin_Functions constructor.
      */
     public function __construct()
