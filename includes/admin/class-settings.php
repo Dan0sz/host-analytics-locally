@@ -332,7 +332,23 @@ class CAOS_Admin_Settings extends CAOS_Admin
     {
         if ($hook == 'settings_page_host_analyticsjs_local') {
             wp_enqueue_script('caos_admin_script', plugins_url('assets/js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
+            wp_enqueue_script('caos_track_ad_blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, true);
+            wp_add_inline_script('caos_track_ad_blockers', $this->is_ad_blocker_active());
         }
+    }
+
+    /**
+     * Add inline script which checks if admin's Ad Blocker is active.
+     *
+     * @return string
+     */
+    private function is_ad_blocker_active()
+    {
+        $warning = sprintf(__("You're Ad Blocker is enabled. If 'Update %s' doesn't work, please disable your Ad Blocker.", $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE);
+
+        $script = "jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } if (caos_detect_ad_blocker === 1) { $('.settings-column form').before(\"<p style='color: #FF4136;'><strong>$warning</strong></p>\"); } });";
+
+        return $script;
     }
 
     /**
