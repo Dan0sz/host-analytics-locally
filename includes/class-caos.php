@@ -64,6 +64,7 @@ class CAOS
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
         define('CAOS_OPT_EXT_PLUGIN_HANDLING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING)) ?: 'set_redirect');
         define('CAOS_OPT_EXT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE)));
+        define('CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
         define('CAOS_OPT_EXT_OPTIMIZE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE)));
         define('CAOS_OPT_EXT_OPTIMIZE_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE_ID)));

@@ -23,9 +23,9 @@ class CAOS_Frontend_Functions
     public function __construct()
     {
         // @formatter:off
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_js_scripts'));
-        add_action('wp_enqueue_scripts', array($this, 'add_dns_prefetch'), 1);
-        add_action('rest_api_init', array($this, 'register_routes'));
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_js_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'add_dns_prefetch'], 1);
+        add_action('rest_api_init', [$this, 'register_routes']);
         // @formatter:on
     }
 
@@ -49,12 +49,15 @@ class CAOS_Frontend_Functions
      */
     public function register_routes()
     {
-        if (!CAOS_OPT_EXT_STEALTH_MODE) {
-            return;
+        if (CAOS_OPT_EXT_STEALTH_MODE) {
+            $proxy = new CAOS_API_Proxy();
+            $proxy->register_routes();
         }
 
-        $proxy = new CAOS_API_Proxy();
-        $proxy->register_routes();
+        if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS) {
+            $proxy = new CAOS_API_AdBlockDetect();
+            $proxy->register_routes();
+        }
     }
 
     /**

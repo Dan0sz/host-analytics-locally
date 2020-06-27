@@ -1,0 +1,32 @@
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://daan.dev/wordpress-plugins/caos/
+ * @copyright: (c) 2020 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+
+jQuery(document).ready(function ($) {
+    var caos_detective = {
+        init: function () {
+            this.create_element();
+        },
+
+        create_element: function () {
+            var e = document.createElement('div');
+
+            e.id = 'caos-detect-ad-block';
+            e.style.display = 'none';
+
+            document.body.appendChild(e);
+        }
+    };
+
+    caos_detective.init();
+});

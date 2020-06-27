@@ -28,17 +28,18 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling'], 50);
         add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode'], 60);
+        add_filter('caos_extensions_settings_content', [$this, 'do_track_ad_blockers'], 70);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 70);
+        add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 100);
 
         // Non-compatibility mode settings
-        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 80);
-        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 90);
-        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 100);
-        add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 110);
-        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 120);
+        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 110);
+        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 120);
+        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 130);
+        add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 140);
+        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 150);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 150);
+        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 200);
     }
 
     /**
@@ -89,6 +90,19 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_OPT_EXT_STEALTH_MODE,
             sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/'),
             true
+        );
+    }
+
+    /**
+     *
+     */
+    public function do_track_ad_blockers()
+    {
+        $this->do_checkbox(
+            __('Track Ad Blockers', $this->plugin_text_domain),
+                CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
+                CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
+                sprintf(__('Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (non-render blocking) snippets of JavaScript to your site\'s footer to send an event to Google Analytics when a visitor is using an Ad Blocker.', $this->plugin_text_domain))
         );
     }
 

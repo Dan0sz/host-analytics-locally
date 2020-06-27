@@ -81,6 +81,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
     const CAOS_EXT_SETTING_PLUGIN_HANDLING          = 'caos_extension_plugin_handling';
     const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
+    const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS        = 'caos_extension_track_ad_blockers';
     const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
     const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';

@@ -72,6 +72,10 @@ class CAOS_Frontend_Tracking
                     break;
             }
         }
+
+        if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
+            add_action('wp_head', [$this, 'trigger_ad_blocker']);
+        }
     }
 
     /**
@@ -247,5 +251,41 @@ class CAOS_Frontend_Tracking
     public function get_tracking_code_template($name)
     {
         return include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
+    }
+
+    /**
+     *
+     */
+    public function trigger_ad_blocker()
+    {
+        wp_enqueue_script('caos-track-ad-blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, true);
+        wp_add_inline_script('caos-track-ad-blockers', $this->check_ad_blocker_result());
+    }
+
+    /**
+     *
+     */
+    private function check_ad_blocker_result()
+    {
+        $url = site_url('wp-json/caos/v1/block/detect');
+        $script = "<script>
+            jQuery(document).ready(function ($) {
+                var caos_detect_ad_blocker = 1;
+            
+                if(document.getElementById('caos-detect-ad-block')) {
+                    caos_detect_ad_blocker = 0;
+                }
+            
+                $.ajax({
+                    method: 'GET',
+                    url: '$url',
+                    data: {
+                        result: caos_detect_ad_blocker
+                    }
+                })
+            });
+        </script>";
+
+        return $script;
     }
 }
