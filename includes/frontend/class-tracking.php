@@ -268,8 +268,7 @@ class CAOS_Frontend_Tracking
     private function check_ad_blocker_result()
     {
         $url = site_url('wp-json/caos/v1/block/detect');
-        $script = "<script>
-            jQuery(document).ready(function ($) {
+        $script = "jQuery(document).ready(function ($) {
                 var caos_detect_ad_blocker = 1;
             
                 if(document.getElementById('caos-detect-ad-block')) {
@@ -283,8 +282,7 @@ class CAOS_Frontend_Tracking
                         result: caos_detect_ad_blocker
                     }
                 })
-            });
-        </script>";
+            });";
 
         return $script;
     }
