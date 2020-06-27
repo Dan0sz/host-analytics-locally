@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.5.3
+Stable tag: 3.6.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -29,7 +29,8 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
   - *[CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Commerce (ec.js) and gtag.js.*
-- Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
+- Preconnect to google-analytics.com to reduce latency and speed up requests,
+- Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
 - Integrate Google Optimize,
 - Enhanced link attribution,
@@ -117,6 +118,13 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.6.0 =
+* CAOS now throws a notice if an Ad Blocker is enabled on CAOS' admin screen, because Ad Blockers block any URL with 'analytics' in it, e.g. host-analyticsjs-local, which'll cause manual updates to not work properly.
+* Added feature to send a custom event to Google Analytics when a page is viewed with an Ad Blocker enabled.
+* DNS-prefetch resource hint to google-analytics.com is now added automatically when Stealth Mode is disabled.
+* Changed CAOS' default cache-path to /uploads/caos/
+* Minor refactors and code optimizations.
 
 = 3.5.3 =
 * UX improvements and better notices.
