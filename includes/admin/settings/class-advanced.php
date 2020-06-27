@@ -32,8 +32,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 50);
         add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 60);
         add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 70);
-        add_filter('caos_advanced_settings_content', [$this, 'do_preconnect'], 80);
-        add_filter('caos_advanced_settings_content', [$this, 'do_capture_outbound_links'], 90);
+        add_filter('caos_advanced_settings_content', [$this, 'do_capture_outbound_links'], 80);
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
@@ -120,19 +119,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('e.g. cdn.mydomain.com', $this->plugin_text_domain),
             CAOS_OPT_CDN_URL,
             sprintf(__('If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE)
-        );
-    }
-
-    /**
-     * Enable Preconnect?
-     */
-    public function do_preconnect()
-    {
-        $this->do_checkbox(
-            __('Enable Preconnect? (Recommended)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_PRECONNECT,
-            CAOS_OPT_PRECONNECT,
-            __('Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests to these servers.', $this->plugin_text_domain)
         );
     }
 

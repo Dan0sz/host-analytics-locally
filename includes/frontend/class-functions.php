@@ -24,7 +24,12 @@ class CAOS_Frontend_Functions
     {
         // @formatter:off
         add_action('wp_enqueue_scripts', [$this, 'enqueue_js_scripts']);
-        add_action('wp_enqueue_scripts', [$this, 'add_dns_prefetch'], 1);
+
+        // If Stealth Mode is disabled, add DNS Prefetch for google-analytics.com
+        if (!CAOS_OPT_EXT_STEALTH_MODE) {
+            add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
+        }
+
         add_action('rest_api_init', [$this, 'register_routes']);
         // @formatter:on
     }
@@ -63,18 +68,12 @@ class CAOS_Frontend_Functions
     /**
      * Add Preconnect to google-analytics.com and CDN URL (if set) in wp_head().
      */
-    public function add_dns_prefetch()
+    public function add_dns_prefetch($hints, $type)
     {
-        if (!CAOS_OPT_PRECONNECT) {
-            return;
+        if ($type == 'preconnect') {
+            $hints[] = '//www.google-analytics.com';
         }
 
-        echo "<link rel='preconnect' href='//www.google-analytics.com' crossorigin>\n";
-
-        if (!$cdn = CAOS_OPT_CDN_URL) {
-            return;
-        }
-
-        echo "<link rel='preconnect' href='//$cdn' crossorigin>\n";
+        return $hints;
     }
 }

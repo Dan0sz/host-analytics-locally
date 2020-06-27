@@ -67,7 +67,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
     const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
-    const CAOS_ADV_SETTING_PRECONNECT               = 'caos_preconnect';
     const CAOS_ADV_SETTING_JS_FILE                  = 'caos_analytics_js_file';
     const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
