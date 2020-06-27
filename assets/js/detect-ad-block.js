@@ -13,7 +13,7 @@
  * * * * * * * * * * * * * * * * * * * */
 
 jQuery(document).ready(function ($) {
-    var caos_detective = {
+    var caos_adblock_detect = {
         init: function () {
             this.create_element();
         },
@@ -28,5 +28,5 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    caos_detective.init();
+    caos_adblock_detect.init();
 });
