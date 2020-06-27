@@ -82,12 +82,13 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             'cid' => $this->generate_uuid(),
             'ec'  => 'Tracking',
             'ea'  => 'Ad Blocker',
-            'el'  => (string) $request->get_param('result') == 0 ? 'Disabled' : 'Enabled'
+            'el'  => (string) $request->get_param('result') == 0 ? 'Disabled' : 'Enabled',
+            'ev'  => (string) $request->get_param('result')
         ];
 
-        $passThruParams = array(
+        $passThruParams = [
             'ua' => $request->get_header('user_agent')
-        );
+        ];
         $query          = '?' . http_build_query($params + $passThruParams);
         $url            = CAOS_GA_URL . '/collect' . $query;
 
