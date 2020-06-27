@@ -31,9 +31,6 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
                 <a target="_blank" href="<?= CAOS_SITE_URL; ?>/wordpress-plugins/caos/<?= $utmTags; ?>"><?php _e('Click here', 'host-analyticsjs-local'); ?></a> <?php _e('for a more comprehensive guide.', 'host-analyticsjs-local'); ?>
             </p>
         </div>
-        <div class="welcome-panel-column" style="width: 100%; margin-right: 15px;">
-            <?= apply_filters('caos_sidebar_ad', ''); ?>
-        </div>
         <div class="welcome-panel-column welcome-panel-last" style="width: 100%;">
             <h3>
                 <?php _e('Support CAOS & Spread the Word!', 'host-analyticsjs-local'); ?>
