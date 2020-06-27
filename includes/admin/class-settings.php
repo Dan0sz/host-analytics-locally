@@ -127,8 +127,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
         add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
 
-        // Content
-        add_action('caos_sidebar_ad', [$this, 'do_super_stealth_ad']);
         add_action('caos_settings_content', [$this, 'do_content'], 1);
         // @formatter:on
 
@@ -307,50 +305,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function do_content()
     {
         echo apply_filters(str_replace('-', '_', $this->active_tab) . '_content', '');
-    }
-
-    /**
-     * Show ad when Super Stealth is not installed, or is installed, but inactive.
-     */
-    public function do_super_stealth_ad()
-    {
-        $super_stealth_plugin = array_filter(get_plugins(), function($key) {
-                    return strpos($key, 'caos-super-stealth') !== false;
-        }, ARRAY_FILTER_USE_KEY);
-
-        $plugin_is_active = false;
-
-        if (!empty($super_stealth_plugin)) {
-            $plugin_is_active = is_plugin_active(key($super_stealth_plugin));
-        }
-
-        if(!$plugin_is_active): ?>
-            <h3>
-            <span class="dashicons dashicons-warning"></span> <?= __('Your Google Analytics Data is <u>Incomplete</u>', $this->plugin_text_domain); ?>
-        </h3>
-        <h4>
-            <?= __('Did you know <strong>~30%</strong> of your visitors use <strong>Ad Blockers</strong>?', $this->plugin_text_domain); ?> <sup>1</sup>
-        </h4>
-        <p>
-            <img class="super-stealth-graph" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/super-stealth-graph-@2x.png'; ?>" />
-        </p>
-        <p>
-            <?= __('CAOS is the <strong>only (!) plugin</strong> for WordPress with Stealth Mode technology to <em>bypass Ad Blockers</em>.', $this->plugin_text_domain); ?>
-        </p>
-        <p>
-            <?= sprintf(__('Give the <a href="%s">Stealth Mode Lite</a> <em>extension</em> a try to uncover ⅓ of Google Analytics data normally blocked by Ad Blockers.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')); ?>
-        </p>
-        <p>
-            <?= sprintf(__('Or, upgrade to <strong><a href="%s" target="_blank">Super Stealth Mode</a></strong> and complete your Google Analytics data.', $this->plugin_text_domain), self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB); ?>
-        </p>
-        <p>
-            <a target="_blank" class="button button-primary button-hero" href="<?= self::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB; ?>"><span class="dashicons dashicons-cart"></span> <?= __('Buy Now', $this->plugin_text_domain); ?></a>
-            <span><em>(<?= __('As low as € 29,-', $this->plugin_text_domain); ?>)</em></span>
-        </p>
-        <p>
-            <sup>1. <?= __('Source', $this->plugin_text_domain); ?>: <em><a target="_blank" href="https://www.socialmediatoday.com/news/global-ad-blocking-behavior-2019-infographic/551716/">Social Media Today</a></em></sup>
-        </p>
-        <?php endif;
     }
 
     /**
