@@ -121,6 +121,8 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
     }
 
     /**
+     * Returns anonymized IP to guarantee GDPR compliance.
+     *
      * @return string
      */
     private function get_user_ip_address()
