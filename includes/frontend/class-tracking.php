@@ -268,21 +268,7 @@ class CAOS_Frontend_Tracking
     private function check_ad_blocker_result()
     {
         $url = site_url('wp-json/caos/v1/block/detect');
-        $script = "jQuery(document).ready(function ($) {
-                var caos_detect_ad_blocker = 1;
-            
-                if(document.getElementById('caos-detect-ad-block')) {
-                    caos_detect_ad_blocker = 0;
-                }
-            
-                $.ajax({
-                    method: 'GET',
-                    url: '$url',
-                    data: {
-                        result: caos_detect_ad_blocker
-                    }
-                })
-            });";
+        $script = "jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } $.ajax({ method: 'GET', url: '$url', data: { result: caos_detect_ad_blocker } }) });";
 
         return $script;
     }
