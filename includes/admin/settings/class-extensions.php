@@ -102,7 +102,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Track Ad Blockers', $this->plugin_text_domain),
                 CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
                 CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-                sprintf(__('Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (non-render blocking) snippets of JavaScript to your site\'s footer and sends events to your Google Analytics dashboard about your visitors\' Ad Blocker usage.', $this->plugin_text_domain))
+                sprintf(__('Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) snippets of JavaScript to your site\'s footer and sends events to your Google Analytics dashboard about your visitors\' Ad Blocker usage.', $this->plugin_text_domain))
         );
     }
 
