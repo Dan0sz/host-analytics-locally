@@ -80,7 +80,8 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             't'   => 'event',
             'tid' => CAOS_OPT_TRACKING_ID,
             'cid' => $this->generate_uuid(),
-            'uip' => $this->get_user_ip_address(),
+            // Set IP to 0 to guarantee GDPR compliance.
+            'uip' => 0,
             'ec'  => 'Tracking',
             'ea'  => 'Ad Blocker',
             'el'  => (string) $request->get_param('result') == 0 ? 'Disabled' : 'Enabled',
@@ -118,30 +119,5 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
         $data = $data ?? random_bytes(16);
 
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-    }
-
-    /**
-     * Returns anonymized IP to guarantee GDPR compliance.
-     *
-     * @return string
-     */
-    private function get_user_ip_address()
-    {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-
-        if (is_array(explode(',', $ip))) {
-            $ip = explode(',', $ip);
-
-            return $ip[0];
-        }
-
-        // Anonymize IP, because this action does not require a cookie.
-        return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
     }
 }
