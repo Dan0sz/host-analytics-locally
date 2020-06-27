@@ -259,13 +259,13 @@ class CAOS_Frontend_Tracking
     public function trigger_ad_blocker()
     {
         wp_enqueue_script('caos-track-ad-blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, true);
-        wp_add_inline_script('caos-track-ad-blockers', $this->check_ad_blocker_result());
+        wp_add_inline_script('caos-track-ad-blockers', $this->send_ad_blocker_result());
     }
 
     /**
      *
      */
-    private function check_ad_blocker_result()
+    private function send_ad_blocker_result()
     {
         $url = site_url('wp-json/caos/v1/block/detect');
         $script = "jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } $.ajax({ method: 'GET', url: '$url', data: { result: caos_detect_ad_blocker } }) });";
