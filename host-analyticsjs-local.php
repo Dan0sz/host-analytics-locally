@@ -36,40 +36,13 @@ function caos_autoload($class)
         return;
     }
 
-    return include CAOS_PLUGIN_DIR . 'includes/' . woosh_load_class($class);
-}
-
-/**
- * For speed optimization, only load this function if another WoOSH! plugin isn't already loading it.
- */
-if (!function_exists('woosh_load_class')) {
-    function woosh_load_class($class)
-    {
-        $path     = explode('_', $class);
-        $filename = '';
-
-        if (count($path) == 1) {
-            $filename = 'class-' . strtolower(str_replace('_', '-', $class)) . '.php';
-        } elseif (count($path) == 2) {
-            array_shift($path);
-            $filename = 'class-' . strtolower($path[0]) . '.php';
-        } else {
-            array_shift($path);
-            end($path);
-            $i = 0;
-
-            while ($i < key($path)) {
-                $filename .= strtolower($path[$i]) . '/';
-                $i++;
-            }
-
-            $pieces = preg_split('/(?=[A-Z])/', lcfirst($path[$i]));
-
-            $filename .= 'class-' . strtolower(implode('-', $pieces)) . '.php';
-        }
-
-        return $filename;
+    if (!class_exists('Woosh_Autoloader')) {
+        require_once(CAOS_PLUGIN_DIR . 'woosh-autoload.php');
     }
+
+    $autoload = new Woosh_Autoloader($class);
+
+    return include CAOS_PLUGIN_DIR . 'includes/' . $autoload->load();
 }
 
 spl_autoload_register('caos_autoload');
