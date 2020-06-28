@@ -61,6 +61,7 @@ class Woosh_Autoloader
             // If entire part of path is written uppercase, we don't want to split.
             if (ctype_upper($path[$i])) {
                 $pieces[] = $path[$i];
+            // Words like OmgfPro or SuperStealth should be split up.
             } else {
                 $pieces = preg_split('/(?=[A-Z])/', lcfirst($path[$i]));
             }
