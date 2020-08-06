@@ -17,12 +17,24 @@ defined('ABSPATH') || exit;
 
 class CAOS_Frontend_Tracking
 {
+    const CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS = 'caos-track-ad-blockers';
+
+    /** @var string $handle */
+    private $handle = '';
+
+    /** @var bool $in_footer */
+    private $in_footer = false;
+
     /**
      * CAOS_Frontend_Tracking constructor.
      */
     public function __construct()
     {
+        $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.', '-', CAOS_OPT_REMOTE_JS_FILE);
+        $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
+
         add_action('init', [$this, 'insert_tracking_code']);
+        add_filter('script_loader_tag', [$this, 'add_async_attribute'], 10, 2);
         add_action('caos_process_settings', [$this, 'disable_display_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'linkid']);
@@ -54,6 +66,10 @@ class CAOS_Frontend_Tracking
                     break;
             }
         } else {
+            if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
+                add_action('wp_enqueue_scripts', [$this, 'trigger_ad_blocker'], CAOS_OPT_ENQUEUE_ORDER);
+            }
+
             /**
              * Allows WP DEV's to modify the output of the tracking code.
              *
@@ -62,20 +78,30 @@ class CAOS_Frontend_Tracking
             do_action('caos_process_settings');
 
             switch (CAOS_OPT_SCRIPT_POSITION) {
-                case "footer":
-                    add_action('wp_footer', array($this, 'render_tracking_code'), CAOS_OPT_ENQUEUE_ORDER);
-                    break;
                 case "manual":
                     break;
                 default:
-                    add_action('wp_head', array($this, 'render_tracking_code'), CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_enqueue_scripts', [$this, 'render_tracking_code'], CAOS_OPT_ENQUEUE_ORDER);
                     break;
             }
         }
+    }
 
-        if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
-            add_action('wp_head', [$this, 'trigger_ad_blocker']);
+    /**
+     * Adds async attribute to analytics.js/gtag.js script.
+     *
+     * @param $tag
+     * @param $handle
+     *
+     * @return string
+     */
+    public function add_async_attribute($tag, $handle)
+    {
+        if ((CAOS_OPT_SNIPPET_TYPE == 'async' && $handle == $this->handle) || $handle == self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS) {
+            return str_replace('script src', 'script async src', $tag);
         }
+
+        return $tag;
     }
 
     /**
@@ -223,34 +249,43 @@ class CAOS_Frontend_Tracking
 
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
-        if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' || (CAOS_OPT_SNIPPET_TYPE == 'async' && CAOS_OPT_REMOTE_JS_FILE != 'ga.js')) {
-            $urlId            = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
-            $snippetType      = CAOS_OPT_SNIPPET_TYPE;
-            $localFileUrl     = CAOS_LOCAL_FILE_URL . $urlId;
-            $scriptAttributes = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js'
-                ? apply_filters('caos_gtag_script_element_attributes', '')
-                : apply_filters('caos_analytics_script_element_attributes', '');
+        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ 'jquery', self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [ 'jquery' ];
 
-            echo "<script $snippetType src='$localFileUrl' $scriptAttributes></script>";
+        if (CAOS_OPT_REMOTE_JS_FILE != 'ga.js') {
+            $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
+            $local_file_url = CAOS_LOCAL_FILE_URL . $url_id;
+            wp_enqueue_script($this->handle, $local_file_url, $deps, null, $this->in_footer);
         }
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
-            $this->get_tracking_code_template('cookie-value');
+            wp_add_inline_script($this->handle, $this->get_tracking_code_template('cookie-value'));
         }
 
-        if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
-            $this->get_tracking_code_template('gtag');
-        } else {
-            $this->get_tracking_code_template('analytics');
+        switch (CAOS_OPT_REMOTE_JS_FILE) {
+            case 'gtag.js':
+                wp_add_inline_script($this->handle, $this->get_tracking_code_template('gtag'));
+                break;
+            case 'ga.js':
+                // TODO: $this->get_tracking_code_template('ga').
+                break;
+            default:
+                wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
+                break;
         }
     }
 
     /**
      * @param $name
+     *
+     * @return false|string
      */
     public function get_tracking_code_template($name)
     {
-        return include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
+        ob_start();
+
+        include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
+
+        return ob_get_clean();
     }
 
     /**
@@ -258,18 +293,39 @@ class CAOS_Frontend_Tracking
      */
     public function trigger_ad_blocker()
     {
-        wp_enqueue_script('caos-track-ad-blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, true);
-        wp_add_inline_script('caos-track-ad-blockers', $this->send_ad_blocker_result());
+        wp_enqueue_script(self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, $this->in_footer);
+        wp_add_inline_script(self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, $this->send_ad_blocker_result());
     }
 
     /**
-     *
+     * @return false|string
      */
     private function send_ad_blocker_result()
     {
         $url = site_url('wp-json/caos/v1/block/detect');
-        $script = "jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } $.ajax({ method: 'GET', url: '$url', data: { result: caos_detect_ad_blocker } }) });";
+        ob_start();
+        ?>
+        <script>
+            jQuery(window).on('caos_track_ad_blockers', function () {
+                jQuery(document).ready(function ($) {
+                    var caos_detect_ad_blocker = 1;
 
-        return $script;
+                    if (document.getElementById('caos-detect-ad-block')) {
+                        caos_detect_ad_blocker = 0;
+                    }
+
+                    $.ajax({
+                        method: 'GET',
+                        url: '<?= $url; ?>',
+                        data: {
+                            result: caos_detect_ad_blocker
+                        }
+                    });
+                });
+            });
+        </script>
+        <?php
+
+        return ob_get_clean();
     }
 }

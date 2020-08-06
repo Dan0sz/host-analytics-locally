@@ -16,22 +16,8 @@
 $customAttributes = apply_filters('caos_analytics_script_element_attributes', '');
 ?>
 <script <?= $customAttributes; ?>>
-    <?php if (CAOS_OPT_SNIPPET_TYPE == 'async'): ?>
     window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
     ga.l = +new Date;
-    <?php else: ?>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments);
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-    })(window, document, 'script', '<?= CAOS_LOCAL_FILE_URL; ?>', 'ga');
-    <?php endif; ?>
 </script>
 
 <?php
@@ -71,5 +57,9 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
 
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout("ga('send', 'event', 'adjusted bounce rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    <?php endif; ?>
+
+    <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS): ?>
+    jQuery(window).trigger('caos_track_ad_blockers');
     <?php endif; ?>
 </script>
