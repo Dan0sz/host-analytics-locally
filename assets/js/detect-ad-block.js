@@ -5,21 +5,19 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-jQuery(document).ready(function ($) {
-    var caos_adblock_detect = {
-        init: function () {
-            this.create_element();
-        },
+var caos_adblock_detect = {
+    init: function () {
+        this.create_element();
+    },
 
-        create_element: function () {
-            var e = document.createElement('div');
+    create_element: function () {
+        var e = document.createElement('div');
 
-            e.id = 'caos-detect-ad-block';
-            e.style.display = 'none';
+        e.id = 'caos-detect-ad-block';
+        e.style.display = 'none';
 
-            document.body.appendChild(e);
-        }
-    };
+        document.body.appendChild(e);
+    }
+};
 
-    caos_adblock_detect.init();
-});
+caos_adblock_detect.init();
