@@ -123,7 +123,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Enhanced Link Attribution?', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
             CAOS_OPT_EXT_LINKID,
-            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
+            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Not compatible with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
         );
     }
 
@@ -136,7 +136,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Google Optimize integration', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE,
             CAOS_OPT_EXT_OPTIMIZE,
-            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH)
+            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode and Minimal Analytics. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH)
         );
     }
 
