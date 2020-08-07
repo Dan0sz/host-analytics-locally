@@ -97,8 +97,12 @@ class CAOS_Frontend_Tracking
      */
     public function add_async_attribute($tag, $handle)
     {
-        if ((CAOS_OPT_SNIPPET_TYPE == 'async' && $handle == $this->handle) || $handle == self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS) {
+        if ((CAOS_OPT_SNIPPET_TYPE == 'async' && $handle == $this->handle)) {
             return str_replace('script src', 'script async src', $tag);
+        }
+
+        if ($handle == self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS) {
+            return str_replace('script src', 'script defer src', $tag);
         }
 
         return $tag;
@@ -251,7 +255,7 @@ class CAOS_Frontend_Tracking
 
         $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ 'jquery', self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [ 'jquery' ];
 
-        if (CAOS_OPT_REMOTE_JS_FILE != 'ga.js') {
+        if (CAOS_OPT_REMOTE_JS_FILE != 'minimal') {
             $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
             $local_file_url = CAOS_LOCAL_FILE_URL . $url_id;
             wp_enqueue_script($this->handle, $local_file_url, $deps, null, $this->in_footer);
@@ -265,8 +269,12 @@ class CAOS_Frontend_Tracking
             case 'gtag.js':
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('gtag'));
                 break;
-            case 'ga.js':
-                // TODO: $this->get_tracking_code_template('ga').
+            case 'minimal':
+                /**
+                 * Since there are no libraries loaded, we need to add the inline script to a default WordPress library.
+                 * We're using jQuery, but this might not work in all configurations. Open to suggestions.
+                 */
+                wp_add_inline_script('jquery', $this->get_tracking_code_template('minimal'));
                 break;
             default:
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
@@ -285,11 +293,12 @@ class CAOS_Frontend_Tracking
 
         include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
 
-        return ob_get_clean();
+        return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
     }
 
     /**
-     *
+     * Respects the tracking code's position (header/footer) because this script needs to be triggered after the
+     * pageview is sent.
      */
     public function trigger_ad_blocker()
     {
@@ -303,29 +312,12 @@ class CAOS_Frontend_Tracking
     private function send_ad_blocker_result()
     {
         $url = site_url('wp-json/caos/v1/block/detect');
+
         ob_start();
         ?>
-        <script>
-            jQuery(window).on('caos_track_ad_blockers', function () {
-                jQuery(document).ready(function ($) {
-                    var caos_detect_ad_blocker = 1;
-
-                    if (document.getElementById('caos-detect-ad-block')) {
-                        caos_detect_ad_blocker = 0;
-                    }
-
-                    $.ajax({
-                        method: 'GET',
-                        url: '<?= $url; ?>',
-                        data: {
-                            result: caos_detect_ad_blocker
-                        }
-                    });
-                });
-            });
-        </script>
+        <script>jQuery(window).on('caos_track_ad_blockers', function () { jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } $.ajax({ method: 'GET', url: '<?= $url; ?>', data: { result: caos_detect_ad_blocker } }); }); });</script>
         <?php
 
-        return ob_get_clean();
+        return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
     }
 }

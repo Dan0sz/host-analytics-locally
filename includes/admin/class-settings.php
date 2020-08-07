@@ -44,7 +44,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_JS_FILE_OPTIONS         = [
         "analytics.js" => "Analytics.js (default)",
         "gtag.js"      => "Gtag.js",
-        "ga.js"        => "Ga.js (legacy)"
+        "minimal"      => "Minimal Analytics (fastest)"
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
