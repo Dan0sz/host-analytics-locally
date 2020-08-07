@@ -124,7 +124,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
-        add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
+        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
+            add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
+        }
         add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
 
         add_action('caos_settings_content', [$this, 'do_content'], 1);
