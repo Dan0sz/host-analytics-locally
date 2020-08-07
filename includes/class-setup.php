@@ -30,7 +30,7 @@ class CAOS_Setup
         register_activation_hook(CAOS_PLUGIN_FILE, [$this, 'activate_cron']);
         register_activation_hook(CAOS_PLUGIN_FILE, [$this, 'show_ad_block_message']);
         register_deactivation_hook(CAOS_PLUGIN_FILE, [$this, 'deactivate_cron']);
-        add_action(CAOS_CRON, array($this, 'load_cron_script'));
+        add_action(CAOS_CRON, [$this, 'load_cron_script']);
         // @formatter:on
     }
 
@@ -50,7 +50,7 @@ class CAOS_Setup
      */
     public function activate_cron()
     {
-        if (!wp_next_scheduled(CAOS_CRON)) {
+        if (CAOS_OPT_SNIPPET_TYPE != 'minimal' && !wp_next_scheduled(CAOS_CRON)) {
             wp_schedule_event(time(), 'twicedaily', CAOS_CRON);
         }
     }
