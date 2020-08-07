@@ -255,7 +255,7 @@ class CAOS_Frontend_Tracking
 
         $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ 'jquery', self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [ 'jquery' ];
 
-        if (CAOS_OPT_REMOTE_JS_FILE != 'minimal') {
+        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
             $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
             $local_file_url = CAOS_LOCAL_FILE_URL . $url_id;
             wp_enqueue_script($this->handle, $local_file_url, $deps, null, $this->in_footer);
@@ -269,15 +269,16 @@ class CAOS_Frontend_Tracking
             case 'gtag.js':
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('gtag'));
                 break;
-            case 'minimal':
-                /**
-                 * Since there are no libraries loaded, we need to add the inline script to a default WordPress library.
-                 * We're using jQuery, but this might not work in all configurations. Open to suggestions.
-                 */
-                wp_add_inline_script('jquery', $this->get_tracking_code_template('minimal'));
-                break;
             default:
-                wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
+                if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+                    /**
+                     * Since there are no libraries loaded, we need to add the inline script to a default WordPress library.
+                     * We're using jQuery, but this might not work in all configurations. Open to suggestions.
+                     */
+                    wp_add_inline_script('jquery', $this->get_tracking_code_template('minimal'));
+                } else {
+                    wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
+                }
                 break;
         }
     }
