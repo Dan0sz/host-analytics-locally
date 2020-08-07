@@ -34,4 +34,8 @@
         a.ma={trackEvent:function o(r,s,t,u){return n("event",r,s,t,u)},
             trackException:function q(r,s){return n("exception",null,null,null,null,r,s)}}})
     (window,"<?= CAOS_OPT_TRACKING_ID; ?>",{anonymizeIp:true,colorDepth:true,characterSet:true,screenSize:true,language:true});
+
+    <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS): ?>
+    jQuery(window).trigger('caos_track_ad_blockers');
+    <?php endif; ?>
 </script>
