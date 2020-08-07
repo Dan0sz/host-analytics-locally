@@ -8,22 +8,22 @@ Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automagically download and update analytics.js/ga.js/gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
+Automagically download and update analytics.js/gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
 
 == Description ==
 
-CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js/ga.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/ga.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
 
 Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration of this plugin. Or [hire me to do it for you](https://woosh.dev/wordpress-services/caos-expert-configuration/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
-- Host analytics.js, ga.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
@@ -38,8 +38,8 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
 - Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
-- Save analytics.js/ga.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
-- Serve analytics.js/ga.js/gtag.js from your CDN,
+- Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
+- Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
 - Set [Adjusted Bounce Rate](https://daan.dev/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - Change enqueue order (prioritize order of loaded scripts),
@@ -47,7 +47,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Force disabling display features functionalities,
 - Anonymize IP addresses,
 - Track logged in Administrators,
-- Manually update analytics.js/ga.js/gtag.js with the click of a button!
+- Manually update analytics.js/gtag.js with the click of a button!
 
 == Installation ==
 
@@ -61,9 +61,9 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [WoOSH!](https://woosh.dev)
 
-= CAOS says analytics.js/gtag.js/ga.js isn't updated in more than two days. What's going on? =
+= CAOS says analytics.js/gtag.js isn't updated in more than two days. What's going on? =
 
-This is due to server configuration. Probably a permissions issue. It might be that PHP/WordPress isn't allowed to create files programmatically. If you can upload media files just fine, then this probably isn't the issue. Is your cron running? Try clicking the 'update analytics.js/gtag.js/ga.js' option to update the file manually. Meanwhile, contact your hosting provider so they can help you figure out if your cron is running correctly.
+This is due to server configuration. Probably a permissions issue. It might be that PHP/WordPress isn't allowed to create files programmatically. If you can upload media files just fine, then this probably isn't the issue. Is your cron running? Try clicking the 'update analytics.js/gtag.js' option to update the file manually. Meanwhile, contact your hosting provider so they can help you figure out if your cron is running correctly.
 
 = Can the gtm/js file used by Google Optimize be hosted locally? =
 
@@ -93,7 +93,7 @@ Yes, it is! CAOS is compatible with several Google Analytics plugins for WooComm
 
 This happens because analytics.js is saved within the 'cache'-folder and for some reason the cache/minify plugin thinks it should be refreshed. Change the path where analytics.js is saved within CAOS to a path outside the /uploads/ folder (e.g. /uploads/caos/). This should resolve any issues you're having.
 
-= WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js/ga.js. What's going on? =
+= WordFence (or another security plugin) is detecting file changes in analytics.js/gtag.js. What's going on? =
 
 This is perfectly normal, since this is the file that was updated by the built-in cronjob in older versions of CAOS. Update to the latest version and change the path where analytics.js is saved within CAOS to a path which is ignored by your security plugin (e.g. /uploads/ or /cache/). This should resolve any issues you're having.
 
@@ -105,13 +105,13 @@ I have set it to twice daily, because Google updates the script very often. If y
 
 Try enabling the option called "Disable all display features functionality?" With this you can enforce the disabling of the DisplayFeatures plugin.
 
-= I've installed your plugin but analytics.js/ga.js/gtag.js is still showing up as an external request in Pingdom e.a.? =
+= I've installed your plugin but analytics.js/gtag.js is still showing up as an external request in Pingdom e.a.? =
 
-CAOS adds a local file called gtag.js/analytics.js/gtag.js (depending on your choice), which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js or ga.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
+CAOS adds a local file called gtag.js/analytics.js/gtag.js (depending on your choice), which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
-Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js/gtag.js/ga.js will be served from your CDN.
+Yes, you can! Simply add the URL of your CDN within the advanced options and analytics.js/gtag.js will be served from your CDN.
 
 == Screenshots ==
 
@@ -292,7 +292,7 @@ Added support for asynchronous loading of the snippet.
 
 = 2.5.0 =
 When using the gtag.js wrapper, the request to analytics.js is now also loaded from a local source!
-Added link to explain differences between ga.js, analytics.js and gtag.js.
+Added link to explain differences between analytics.js and gtag.js.
 
 = 2.4.3/2.4.4 =
 Oops! Forgot some strings!

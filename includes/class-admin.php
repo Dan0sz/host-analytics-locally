@@ -139,12 +139,6 @@ class CAOS_Admin
     {
         if ($new_filename !== $old_filename && !empty($new_filename)) {
             if (CAOS_OPT_EXT_STEALTH_MODE) {
-                if ($new_filename == 'ga.js') {
-                    CAOS_Admin_Notice::set_notice(__('Ga.js is not compatible with Stealth Mode. Disable Stealth Mode to start using ga.js.', $this->plugin_text_domain), false, 'warning');
-
-                    return $old_filename;
-                }
-
                 if ($new_filename == 'gtag.js' && !$this->is_super_stealth_active()) {
                     CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
 

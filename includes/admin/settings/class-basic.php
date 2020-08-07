@@ -122,7 +122,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>)', $this->plugin_text_domain) . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>) Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
         );
     }
 

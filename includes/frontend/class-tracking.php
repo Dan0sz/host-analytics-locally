@@ -233,7 +233,7 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * Render the URL of the cached local-ga.js file
+     * Render the URL of the cached local file
      *
      * @return string
      */
