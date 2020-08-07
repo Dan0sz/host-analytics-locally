@@ -33,8 +33,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'cookie_has_value'  => 'When cookie has a value',
     ];
     const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = [
-        ''      => 'Default',
-        'async' => 'Asynchronous'
+        ''        => 'Default',
+        'async'   => 'Asynchronous',
+        'minimal' => 'Minimal Analytics (fastest)'
     ];
     const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
         'header' => 'Header (default)',
@@ -43,8 +44,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     ];
     const CAOS_ADMIN_JS_FILE_OPTIONS         = [
         "analytics.js" => "Analytics.js (default)",
-        "gtag.js"      => "Gtag.js",
-        "minimal"      => "Minimal Analytics (fastest)"
+        "gtag.js"      => "Gtag.js"
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
