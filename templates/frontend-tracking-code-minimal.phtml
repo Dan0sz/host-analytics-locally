@@ -19,13 +19,16 @@
  * TODO: Add Stealth Mode compatibility.
  * TODO: Track Ad Blockers does not work yet.
  */
+
+// Stealth Mode Compatible.
+$endpoint = apply_filters('caos_minimal_analytics_endpoint', 'https://www.google-analytics.com/collect');
 ?>
 <script>
     (function(a,b,c){var d=a.history,e=document,f=navigator||{},g=localStorage,
         h=encodeURIComponent,i=d.pushState,k=function(){return Math.random().toString(36)},
         l=function(){return g.cid||(g.cid=k()),g.cid},m=function(r){var s=[];for(var t in r)
             r.hasOwnProperty(t)&&void 0!==r[t]&&s.push(h(t)+"="+h(r[t]));return s.join("&")},
-        n=function(r,s,t,u,v,w,x){var z="https://www.google-analytics.com/collect",
+        n=function(r,s,t,u,v,w,x){var z="<?= $endpoint; ?>",
             A=m({v:"1",ds:"web",aip:c.anonymizeIp?1:void 0,tid:b,cid:l(),t:r||"pageview",
                 sd:c.colorDepth&&screen.colorDepth?screen.colorDepth+"-bits":void 0,dr:e.referrer||
                     void 0,dt:e.title,dl:e.location.origin+e.location.pathname+e.location.search,ul:c.language?
