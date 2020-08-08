@@ -62,7 +62,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
                 '/' . $this->rest_base . $endpoint,
                 array(
                     array(
-                        'methods'             => WP_REST_Server::READABLE,
+                        'methods'             => 'GET, POST',
                         'callback'            => array($this, 'send_data'),
                         'permission_callback' => array($this, 'permissions_check')
                     ),
@@ -77,7 +77,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
                 '/' . $this->rest_base . $endpoint,
                 array(
                     array(
-                        'methods'             => WP_REST_Server::READABLE,
+                        'methods'             => 'GET',
                         'callback'            => array($this, CAOS_OPT_EXT_PLUGIN_HANDLING),
                         'permission_callback' => array($this, 'permissions_check')
                     ),
@@ -107,6 +107,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
     public function send_data($request)
     {
         $params         = $request->get_params();
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            parse_str($request->get_body(), $params);
+        }
         $ip             = $this->get_user_ip_address();
 
         if (CAOS_OPT_ANONYMIZE_IP) {
