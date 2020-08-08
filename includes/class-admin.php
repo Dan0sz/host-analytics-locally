@@ -230,7 +230,7 @@ class CAOS_Admin
     public function add_stealth_mode_notice($new_value, $old_value)
     {
         if ($new_value !== $old_value && $new_value == 'on') {
-            if (CAOS_OPT_CAPTURE_OUTBOUND_LINKS) {
+            if (CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS) {
                 CAOS_Admin_Notice::set_notice(__('Stealth Mode couldn\'t be enabled, because <strong>Outbound Link Capturing</strong> is enabled. Disable it to use Stealth Mode.', $this->plugin_text_domain), false, 'warning');
 
                 return $old_value;
