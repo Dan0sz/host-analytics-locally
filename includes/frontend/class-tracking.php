@@ -293,7 +293,8 @@ class CAOS_Frontend_Tracking
                      * Since there are no libraries loaded, we need to add the inline script to a default WordPress library.
                      * We're using jQuery, but this might not work in all configurations. Open to suggestions.
                      */
-                    wp_add_inline_script('jquery', $this->get_tracking_code_template('minimal'));
+                    $handle = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS : 'jquery';
+                    wp_add_inline_script($handle, $this->get_tracking_code_template('minimal'));
                 } else {
                     wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
                 }
