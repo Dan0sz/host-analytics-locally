@@ -35,6 +35,7 @@ class CAOS_Frontend_Tracking
 
         add_action('init', [$this, 'insert_tracking_code']);
         add_filter('script_loader_tag', [$this, 'add_async_attribute'], 10, 2);
+        add_filter('caos_minimal_analytics_endpoint', [$this, 'set_stealth_mode_endpoint'], 10, 1);
         add_action('caos_process_settings', [$this, 'disable_display_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'linkid']);
@@ -106,6 +107,22 @@ class CAOS_Frontend_Tracking
         }
 
         return $tag;
+    }
+
+    /**
+     * If Stealth Mode is enabled, override $endpoint.
+     *
+     * @param $endpoint
+     *
+     * @return string
+     */
+    public function set_stealth_mode_endpoint($endpoint)
+    {
+        if (CAOS_OPT_EXT_STEALTH_MODE == 'on') {
+            return apply_filters('caos_minimal_analytics_stealth_mode_endpoint', site_url('wp-json/caos/v1/proxy/collect'));
+        }
+
+        return $endpoint;
     }
 
     /**

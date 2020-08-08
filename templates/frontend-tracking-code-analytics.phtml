@@ -15,7 +15,7 @@
 
 $customAttributes = apply_filters('caos_analytics_script_element_attributes', '');
 ?>
-<script <?= $customAttributes; ?>>
+<script>
     window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
     ga.l = +new Date;
 </script>
@@ -32,7 +32,7 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
 ));
 ?>
 
-<script <?= $customAttributes; ?>>
+<script>
     ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
 
     <?php
