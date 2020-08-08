@@ -290,8 +290,9 @@ class CAOS_Frontend_Tracking
             default:
                 if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
                     /**
-                     * Since there are no libraries loaded, we need to add the inline script to a default WordPress library.
-                     * We're using jQuery, but this might not work in all configurations. Open to suggestions.
+                     * Since no other libraries are loaded when Minimal Analytics is enabled, we need to add the
+                     * inline script to a default WordPress library. We're using jQuery, but this might not work in all
+                     * configurations. Open to suggestions.
                      */
                     $handle = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS : 'jquery';
                     wp_add_inline_script($handle, $this->get_tracking_code_template('minimal'));
