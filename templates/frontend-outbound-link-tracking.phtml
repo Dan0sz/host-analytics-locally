@@ -16,17 +16,12 @@
  * Track outbound links with Google Universal Analytics
  *
  * Thanks to Ralph Slooten: https://www.axllent.org/docs/view/track-outbound-links-with-analytics-js/
- *
- * TODO: Check if gtag is loaded.
  */
 ?>
 <script>
     function _caosLt(event)
     {
-        <?php if(CAOS_OPT_REMOTE_JS_FILE == 'analytics.js'): ?>
-        /* If GA is blocked or not loaded, or not main|middle|touch click then don't track */
-        if (!ga.hasOwnProperty('loaded') || ga.loaded !== true || (event.which !== 1 && event.which !== 2)) { return; }
-        <?php endif; ?>
+        if (typeof gtag !== 'function' || typeof ga !== 'function') { return; }
 
         var eventLink = event.srcElement || event.target;
 
