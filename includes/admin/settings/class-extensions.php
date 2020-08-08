@@ -181,7 +181,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Capture outbound links?', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
             CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
-            sprintf(__('Find out when users click a link to leave your site. Only works with <code>analytics.js</code> and when Stealth Mode is disabled.  %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
+            sprintf(__('Find out when users click a link to leave your site. Does not work when Stealth Mode is enabled.  %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
         );
     }
 }
