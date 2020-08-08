@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.6.0
+Stable tag: 3.7.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,6 +13,8 @@ Automagically download and update analytics.js/gtag.js, bypass Ad Blockers with 
 == Description ==
 
 CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+
+Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com), which is basically Google Analytics Lite. An extremely lightweight alternative Google Analytics' default libraries (analytics.js/gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
@@ -24,6 +26,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 == Features ==
 - Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Minimal Analytics support,
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
@@ -118,6 +121,10 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.7.0 =
+* *Track Ad Blockers* events are now sent *after* the Pageview is sent. Fixing the bug for it to create sessions instead of pageviews.
+* Added Minimal Analytics support to allow (light-weight) users to get rid of that nasty **Unused JS** notice in Google PageSpeed Insights.
 
 = 3.6.0 =
 * CAOS now throws a notice if an Ad Blocker is enabled on CAOS' admin screen, because Ad Blockers block any URL with 'analytics' in it, e.g. host-analyticsjs-local, which'll cause manual updates to not work properly.
