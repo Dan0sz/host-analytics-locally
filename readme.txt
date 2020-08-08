@@ -137,6 +137,7 @@ N/A
 * Fixed event category and label for Adjusted Bounce Rate for gtag.js.
 * Moved Capture Outbound Links and Adjusted Bounce Rate options to Extensions tab.
 * Moved Track Logged In Administrators? and Anonymize IP to Basic Settings tab.
+* Added Outbound Link Tracking support for gtag.js.
 
 = 3.6.0 =
 * CAOS now throws a notice if an Ad Blocker is enabled on CAOS' admin screen, because Ad Blockers block any URL with 'analytics' in it, e.g. host-analyticsjs-local, which'll cause manual updates to not work properly.

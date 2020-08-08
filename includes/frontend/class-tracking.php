@@ -20,7 +20,7 @@ class CAOS_Frontend_Tracking
     const CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS = 'caos-track-ad-blockers';
 
     /** @var string $handle */
-    private $handle = '';
+    public $handle = '';
 
     /** @var bool $in_footer */
     private $in_footer = false;
