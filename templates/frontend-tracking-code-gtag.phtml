@@ -32,11 +32,9 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
     'cookie_expires' => CAOS_COOKIE_EXPIRY_DAYS,
     'cookie_flags'   => 'samesite=none;secure'
 ), CAOS_OPT_TRACKING_ID);
-
-$customAttributes = apply_filters('caos_gtag_script_element_attributes', '');
 ?>
 
-<script <?= $customAttributes; ?>>
+<script>
     function gtag() { dataLayer.push(arguments); }
 
     gtag('js', new Date());
