@@ -60,30 +60,30 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * CAOS Basic/Advanced Settings
      */
-    const CAOS_BASIC_SETTING_TRACKING_ID            = 'sgal_tracking_id';
-    const CAOS_BASIC_SETTING_ALLOW_TRACKING         = 'caos_allow_tracking';
-    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';
-    const CAOS_BASIC_SETTING_COOKIE_VALUE           = 'caos_cookie_value';
+    const CAOS_BASIC_SETTING_TRACKING_ID        = 'sgal_tracking_id';
+    const CAOS_BASIC_SETTING_TRACK_ADMIN        = 'sgal_track_admin';
+    const CAOS_BASIC_SETTING_ALLOW_TRACKING     = 'caos_allow_tracking';
+    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'sgal_cookie_notice_name';
+    const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'caos_cookie_value';
     const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
+    const CAOS_BASIC_SETTING_ANONYMIZE_IP           = 'sgal_anonymize_ip';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
     const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
     const CAOS_ADV_SETTING_JS_FILE                  = 'caos_analytics_js_file';
     const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
-    const CAOS_ADV_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
     const CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
-    const CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
     const CAOS_ADV_SETTING_ENQUEUE_ORDER            = 'sgal_enqueue_order';
-    const CAOS_ADV_SETTING_ANONYMIZE_IP             = 'sgal_anonymize_ip';
-    const CAOS_ADV_SETTING_TRACK_ADMIN              = 'sgal_track_admin';
     const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
     const CAOS_EXT_SETTING_PLUGIN_HANDLING          = 'caos_extension_plugin_handling';
     const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
+    const CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
     const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS        = 'caos_extension_track_ad_blockers';
     const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
     const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
+    const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
     /**
      * Info URLs
      */

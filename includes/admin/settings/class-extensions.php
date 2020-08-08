@@ -34,10 +34,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         // Non-compatibility mode settings
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 110);
-        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 120);
-        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 130);
-        add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 140);
-        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 150);
+        add_filter('caos_extensions_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
+        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 130);
+        add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 140);
+        add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 150);
+        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 160);
+
+        add_filter('caos_extensions_settings_content', [$this, 'do_capture_outbound_links'], 80);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 200);
     }
@@ -94,6 +97,19 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     }
 
     /**
+     * Use adjusted bounce rate?
+     */
+    public function do_adjusted_bounce_rate()
+    {
+        $this->do_number(
+            __('Use adjusted bounce rate? (seconds)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+            sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
+        );
+    }
+
+    /**
      *
      */
     public function do_track_ad_blockers()
@@ -102,7 +118,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Track Ad Blockers', $this->plugin_text_domain),
                 CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
                 CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-                sprintf(__('Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) snippets of JavaScript to your site\'s footer and sends events to your Google Analytics dashboard about your visitors\' Ad Blocker usage.', $this->plugin_text_domain))
+                sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), CAOS_SITE_URL . '/wordpress-plugins/caos#extensions-settings')
         );
     }
 
@@ -123,7 +139,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Enhanced Link Attribution?', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
             CAOS_OPT_EXT_LINKID,
-            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Not compatible with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
+            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
         );
     }
 
@@ -153,6 +169,19 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enter your Optimize container ID.', $this->plugin_text_domain),
             false,
             CAOS_OPT_EXT_OPTIMIZE == 'on'
+        );
+    }
+
+    /**
+     * Capture outbound links?
+     */
+    public function do_capture_outbound_links()
+    {
+        $this->do_checkbox(
+            __('Capture outbound links?', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
+            CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
+            sprintf(__('Find out when users click a link to leave your site. Only works with <code>analytics.js</code> and when Stealth Mode is disabled.  %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
         );
     }
 }

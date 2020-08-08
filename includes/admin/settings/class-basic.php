@@ -33,13 +33,15 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
 
         // Non-compatibility mode settings
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);
-        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 60);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 70);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 80);
-        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 90);
-        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 100);
-        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 110);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 120);
+        add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 70);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 80);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 90);
+        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 100);
+        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip'], 110);
+        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 120);
+        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 130);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 140);
 
         // Close
         add_filter('caos_basic_settings_content', [$this, 'do_after'], 150);
@@ -55,6 +57,19 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
             __('e.g. UA-1234567-12', $this->plugin_text_domain),
             CAOS_OPT_TRACKING_ID
+        );
+    }
+
+    /**
+     * Track logged in Administrators
+     */
+    public function do_track_admin()
+    {
+        $this->do_checkbox(
+            __('Track logged in Administrators?', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
+            CAOS_OPT_TRACK_ADMIN,
+            '<strong>' . __('Warning!', $this->plugin_text_domain) . '</strong> ' . __('This will track all your traffic as a logged in user. (For testing/development purposes.)', $this->plugin_text_domain)
         );
     }
 
@@ -122,7 +137,20 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? (Only supported for <code>gtag.js</code> and <code>analytics.js</code>) Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
+        );
+    }
+
+    /**
+     * Anonymize IP
+     */
+    public function do_anonymize_ip()
+    {
+        $this->do_checkbox(
+            __('Anonymize IP?', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP,
+            CAOS_OPT_ANONYMIZE_IP,
+            __('Required by law in some countries. Replaces the last digits of a visitor\'s IP-address with \'000\'.', $this->plugin_text_domain)
         );
     }
 
