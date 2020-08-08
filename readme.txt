@@ -64,6 +64,14 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [WoOSH!](https://woosh.dev)
 
+= Why am I getting an Unused JS notice on Google PageSpeed Insights for analytics.js/gtag.js? =
+
+Google Analytics offers two code libraries: analytics.js and gtag.js. A library offers easy implementation of a certain application, but this wide compatibility range comes at a cost: it probably contains a bunch of code you don't even need.
+
+If you are a light-weight Google Analytics user, you can enable Minimal Analytics in CAOS' Basic Settings: Settings > Optimize Google Analytics > Basic Settings > Snippet Type: Minimal Analytics.
+
+Minimal Analytics is fully compatible with Stealth Mode.
+
 = CAOS says analytics.js/gtag.js isn't updated in more than two days. What's going on? =
 
 This is due to server configuration. Probably a permissions issue. It might be that PHP/WordPress isn't allowed to create files programmatically. If you can upload media files just fine, then this probably isn't the issue. Is your cron running? Try clicking the 'update analytics.js/gtag.js' option to update the file manually. Meanwhile, contact your hosting provider so they can help you figure out if your cron is running correctly.
