@@ -28,10 +28,9 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Minimal Analytics support,
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
-- When using gtag.js, the underlying request to analytics.js is also hosted locally!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Commerce (ec.js) and gtag.js.*
+  - *[CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
 - Preconnect to google-analytics.com to reduce latency and speed up requests,
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
@@ -130,7 +129,8 @@ N/A
 
 == Changelog ==
 
-= 3.7.0 =
+= 3.7.0 | August 9th, 2020 =
+* My daughter, Emma, is exactly one month old now!
 * *Track Ad Blockers* events are now sent *after* the Pageview is sent. Fixing the bug for it to create sessions instead of pageviews.
 * Added Minimal Analytics support to allow (light-weight) users to get rid of that nasty **Unused JS** notice in Google PageSpeed Insights.
   * This option can be enabled in Basic Settings > Snippet Type.
@@ -139,35 +139,39 @@ N/A
 * Moved Track Logged In Administrators? and Anonymize IP to Basic Settings tab.
 * Added Outbound Link Tracking support for gtag.js.
 * Outbound Link Tracking script is now loaded in line, to prevent blocking by Ad Blockers.
+* Dropped Stealth Mode support for gtag.js, because it has become unusable after an update of Global Site Tag. Will research the possibility of re-adding it.
+  * gtag.js will load analytics.js from google-analytics.com from now on.
+* Added release dates to the changelog. :)
 
-= 3.6.0 =
+= 3.6.0 | June 27th, 2020 =
 * CAOS now throws a notice if an Ad Blocker is enabled on CAOS' admin screen, because Ad Blockers block any URL with 'analytics' in it, e.g. host-analyticsjs-local, which'll cause manual updates to not work properly.
 * Added feature to send a custom event to Google Analytics when a page is viewed with an Ad Blocker enabled.
 * DNS-prefetch resource hint to google-analytics.com is now added automatically when Stealth Mode is disabled.
 * Changed CAOS' default cache-path to /uploads/caos/
 * Minor refactors and code optimizations.
 
-= 3.5.3 =
+= 3.5.3 | May 29th, 2020 =
 * UX improvements and better notices.
 * Updated FAQ.
 
-= 3.5.2 =
+= 3.5.2 | May 15th, 2020 =
 * Some options in extensions tab are now hidden when Compatibility Mode is enabled.
 * Run cron twice daily to prevent schedule misses.
 
-= 3.5.1 =
+= 3.5.1 | May 12th, 2020 =
 * Added clearer descriptions for some settings in the Extensions tab.
 * Added more filter and action hooks.
 * Added fix for SameSite cookie policy for analytics.js and gtag.js. It's not yet supported for linkid.js.
 
-= 3.5.0 =
+= 3.5.0 | April 26th, 2020 =
 * Plugins (e.g. linkid.js or ec.js) are now handled twice as fast with the new *Extensions* > *Plugin Handling* option set to **Experimental** Mode.
   * Mind you that loading ec.js in Stealth Mode requires CAOS Super Stealth Upgrade to work.
 
-= 3.4.4 =
+= 3.4.4 | April 21st, 2020 =
+* It's my 35th birthday!
 * Added polyfill for is_plugin_active to fix Fatal Errors in certain WordPress configurations.
 
-= 3.4.3 =
+= 3.4.3 | April 20th, 2020 =
 * [HOTFIX] Fix for Fatal Error: Call to undefined function get_plugins().
 
 = 3.4.2 =
@@ -178,7 +182,7 @@ N/A
 = 3.4.1 =
 * Fixed syntax errors in sidebar.
 
-= 3.4.0 =
+= 3.4.0 | April 19th, 2020 =
 * Code improvements for setting screen.
 * Added support for Enhanced Link Attribution (also works with (Super) Stealth.)
 * Added more filters and hooks for developers to extend CAOS.
@@ -186,7 +190,7 @@ N/A
 * Fixed bug where notices would sometimes be displayed twice.
 * Added several notice to improve UX.
 
-= 3.3.7 =
+= 3.3.7 | April 8th, 2020 =
 * Added filter hooks for when Stealth mode is enabled/disabled, to improve UX.
 * Added filter hooks for tweet and review link, to improve UX.
 
@@ -196,43 +200,43 @@ N/A
 = 3.3.5 =
 * HOTFIX: Stealth Mode filter to be used for Super Stealth Mode.
 
-= 3.3.4 =
+= 3.3.4 | April 4th, 2020=
 * Stealth Mode now respects the Anonymize IP setting.
 * Added some notices and reminders when some settings are changed, to improve UX.
 * Notices are now grouped.
 * When an update of the JS library is required after changing the settings, you will now be notified.
 
-= 3.3.3 =
+= 3.3.3 | March 27th, 2020 =
 * Added tabs in Settings to comply with WordPress plugin conventions == major code clean-up.
 
-= 3.3.2 =
+= 3.3.2 | March 23rd, 2020 =
 * Admin screen is now responsive.
 * Sidebar scrolls on larger screens.
 
 = 3.3.1 =
 * Fixed bug of paths to JS files for Capture Outbound Links and Admin JS.
 
-= 3.3.0 =
+= 3.3.0 | March 22nd, 2020 =
 * Added new notices interface. Notices are now dismissible and CAOS now throws a global notice to notify you of issues with your analytics/gtag file.
 * Revamped settings screen with toggleable interface.
 
-= 3.2.0 =
+= 3.2.0 | January 31st, 2020 =
 CAOS can now preconnect to google-analytics.com and CDN URL (if set).
 
-= 3.1.3 =
+= 3.1.3 | January 21st, 2020 =
 Do not output success message when update-script is executed by CRON.
 Added extra filter to allow further manipulation of the analytics.js tracking code.
 
-= 3.1.2 =
+= 3.1.2 | January 8th, 2020 =
 Added filters on script elements.
 
-= 3.1.1 =
+= 3.1.1 | January 7th, 2020 =
 CAOS now throws a notice if cURL is disabled on the server.
 
-= 3.1.0 =
+= 3.1.0 | January 5th, 2020 =
 Added filter to add additional configuration using the gtag tracking snippet. Updated readme.txt.
 
-= 3.0.1 =
+= 3.0.1 | January 3rd, 2020 =
 Fixed bug where using Adjusted Bounce Rate would trigger two pageviews.
 
 = 3.0.0 =
