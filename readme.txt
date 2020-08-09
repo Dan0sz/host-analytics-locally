@@ -141,6 +141,7 @@ N/A
 * Outbound Link Tracking script is now loaded in line, to prevent blocking by Ad Blockers.
 * Dropped Stealth Mode support for gtag.js, because it has become unusable after an update of Global Site Tag. Will research the possibility of re-adding it.
   * gtag.js will load analytics.js from google-analytics.com from now on.
+* CAOS now uses the same autoloader as OMGF (or other WoOSH! plugins -- if installed) removing overhead and effectively increasing performance.
 * Added release dates to the changelog. :)
 
 = 3.6.0 | June 27th, 2020 =
