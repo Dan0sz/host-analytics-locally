@@ -84,7 +84,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
-            sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is also cached and updated! Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
+            sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is not hosted locally and updated. Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
             true
         );
     }

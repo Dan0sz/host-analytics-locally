@@ -236,8 +236,8 @@ class CAOS_Admin
                 return $old_value;
             }
 
-            if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' && !$this->is_super_stealth_active()) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to use Stealth Mode with <em>gtag.js</em>.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
+            if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
+                CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> to use Stealth Mode.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
 
                 return $old_value;
             }
