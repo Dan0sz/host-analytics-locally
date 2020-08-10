@@ -49,7 +49,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
                 '/' . $this->rest_base . $endpoint,
                 array(
                     array(
-                        'methods'             => WP_REST_Server::READABLE,
+                        'methods'             => WP_REST_Server::CREATABLE,
                         'callback'            => [$this, 'send_data'],
                         'permission_callback' => [$this, 'permissions_check']
                     ),
@@ -75,6 +75,8 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
      */
     public function send_data($request)
     {
+        parse_str($request->get_body(), $label);
+
         $params = [
             'v'   => (string) 1,
             't'   => 'event',
@@ -84,7 +86,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             'uip' => 0,
             'ec'  => 'Tracking',
             'ea'  => 'Ad Blocker',
-            'el'  => (string) $request->get_param('result') == 0 ? 'Disabled' : 'Enabled',
+            'el'  => isset($label['result']) && $label['result'] == 0 ? 'Disabled' : 'Enabled',
             'ev'  => '1',
             'ua'  => $request->get_header('user_agent')
         ];

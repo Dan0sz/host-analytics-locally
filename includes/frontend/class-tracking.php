@@ -338,7 +338,20 @@ class CAOS_Frontend_Tracking
 
         ob_start();
         ?>
-        <script>jQuery(window).on('caos_track_ad_blockers', function () { jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } $.ajax({ method: 'GET', url: '<?= $url; ?>', data: { result: caos_detect_ad_blocker } }); }); });</script>
+        <script>
+            document.addEventListener('caos_track_ad_blockers', function (e) {
+                document.addEventListener('DOMContentLoaded', function (e) {
+                    var caos_detect_ad_blocker = 1;
+                    if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; }
+                    var ajax = new XMLHttpRequest();
+                    ajax.open('POST', '<?= $url; ?>');
+                    ajax.onreadystatechange = function () {
+                        if (ajax.readyState !== 4 || ajax.readyState !== 200) return;
+                    };
+                    ajax.send("result=" + caos_detect_ad_blocker);
+                });
+            });
+        </script>
         <?php
 
         return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
