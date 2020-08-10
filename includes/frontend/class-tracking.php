@@ -48,27 +48,41 @@ class CAOS_Frontend_Tracking
     public function insert_tracking_code()
     {
         if (CAOS_OPT_COMPATIBILITY_MODE == 'woocommerce') {
-            add_filter('woocommerce_google_analytics_script_src', array($this, 'return_analytics_js_url'), PHP_INT_MAX);
+            add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
-            add_filter('monsterinsights_frontend_output_analytics_src', array($this, 'return_analytics_js_url'), PHP_INT_MAX);
+            add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'analytify') {
-            add_filter('analytify_output_ga_js_src', array($this, 'return_analytics_js_url'), PHP_INT_MAX);
+            add_filter('analytify_output_ga_js_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'exact_metrics') {
-            add_filter('gadwp_analytics_script_path', array($this, 'return_analytics_js_url'), PHP_INT_MAX);
+            add_filter('gadwp_analytics_script_path', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
-                    add_action('wp_footer', array($this, 'show_admin_message'), CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_footer', [$this, 'show_admin_message'], CAOS_OPT_ENQUEUE_ORDER);
                     break;
                 case "manual":
                     break;
                 default:
-                    add_action('wp_head', array($this, 'show_admin_message'), CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_head', [$this, 'show_admin_message'], CAOS_OPT_ENQUEUE_ORDER);
                     break;
             }
         } else {
             if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
                 add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking'], CAOS_OPT_ENQUEUE_ORDER);
+            }
+
+            /**
+             * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
+             * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
+             */
+            if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+                if ($this->in_footer) {
+                    add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                } else {
+                    add_action('wp_head', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                }
+
+                return;
             }
 
             /**
@@ -271,7 +285,7 @@ class CAOS_Frontend_Tracking
 
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
-        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ 'jquery', self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [ 'jquery' ];
+        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [];
 
         if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
             $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
@@ -281,18 +295,6 @@ class CAOS_Frontend_Tracking
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
             wp_add_inline_script($this->handle, $this->get_tracking_code_template('cookie-value'));
-        }
-
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
-            /**
-             * Since no other libraries are loaded when Minimal Analytics is enabled, we need to add the
-             * inline script to a default WordPress library. We're using jQuery, but this might not work in all
-             * configurations. Open to suggestions.
-             */
-            $handle = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS : 'jquery';
-            wp_add_inline_script($handle, $this->get_tracking_code_template('minimal'));
-
-            return;
         }
 
         switch (CAOS_OPT_REMOTE_JS_FILE) {
@@ -310,13 +312,17 @@ class CAOS_Frontend_Tracking
      *
      * @return false|string
      */
-    public function get_tracking_code_template($name)
+    public function get_tracking_code_template($name, $strip = false)
     {
         ob_start();
 
         include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
 
-        return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
+        if (!$strip) {
+            return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
+        } else {
+            return ob_get_clean();
+        }
     }
 
     /**
@@ -330,7 +336,17 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * @return false|string
+     *
+     */
+    public function insert_minimal_tracking_snippet()
+    {
+        echo "\n<!-- This site is using Minimal Analytics brought to you by CAOS. -->\n";
+
+        echo $this->get_tracking_code_template('minimal', true);
+    }
+
+    /**
+     * @return string
      */
     private function send_ad_blocker_result()
     {
