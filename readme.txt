@@ -131,6 +131,8 @@ N/A
 
 = 3.7.2 =
 * jQuery is no longer used in the frontend (e.g. for Track Ad Blockers option).
+* Fixed bug where Track Ad Blockers wouldn't work with gtag.js.
+* Replaced jQuery in frontend with vanilla JavaScript to avoid conflicts with JS optimization plugins.
 
 = 3.7.1 =
 * Fixed bug where Minimal Analytics wouldn't run if gtag.js was previously set as remote JS file.
