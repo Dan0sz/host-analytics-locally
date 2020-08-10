@@ -365,7 +365,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             });
         </script>
         <?php
-        return str_replace(['<script>, </script>'] , '', ob_get_clean());
+        return str_replace(['<script>', '</script>'], '', ob_get_clean());
     }
 
     /**
