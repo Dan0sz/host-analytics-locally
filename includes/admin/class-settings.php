@@ -351,10 +351,21 @@ class CAOS_Admin_Settings extends CAOS_Admin
     private function is_ad_blocker_active()
     {
         $warning = sprintf(__("Your Ad Blocker is enabled. If 'Update %s' doesn't work, please disable your Ad Blocker.", $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE);
-
-        $script = "jQuery(document).ready(function ($) { var caos_detect_ad_blocker = 1; if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; } if (caos_detect_ad_blocker === 1) { $('.settings-column form').before(\"<p style='color: #FF4136;'><strong>$warning</strong></p>\"); } });";
-
-        return $script;
+        ob_start();
+        ?>
+        <script>
+            jQuery(document).ready(function ($) {
+                var caos_detect_ad_blocker = 1;
+                if (document.getElementById('caos-detect-ad-block')) {
+                    caos_detect_ad_blocker = 0;
+                }
+                if (caos_detect_ad_blocker === 1) {
+                    $('.settings-column form').before("<p style='color: #FF4136;'><strong><?= $warning; ?></strong></p>");
+                }
+            });
+        </script>
+        <?php
+        return str_replace(['<script>, </script>'] , '', ob_get_clean());
     }
 
     /**
