@@ -325,7 +325,7 @@ class CAOS_Frontend_Tracking
      */
     public function insert_ad_blocker_tracking()
     {
-        wp_enqueue_script(self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, $this->in_footer);
+        wp_enqueue_script(self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [], CAOS_STATIC_VERSION, $this->in_footer);
         wp_add_inline_script(self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, $this->send_ad_blocker_result());
     }
 
