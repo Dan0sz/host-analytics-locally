@@ -32,7 +32,6 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
 
 <script>
     ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
-
     <?php
     /**
      * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.
@@ -41,9 +40,7 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
      */
     ?>
     <?= implode("\n", apply_filters('caos_analytics_before_send', array(), CAOS_OPT_TRACKING_ID)); ?>
-
     ga('send', 'pageview');
-
     <?php
     /**
      * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.
@@ -52,11 +49,9 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
      */
     ?>
     <?= implode("\n", apply_filters('caos_analytics_after_send', array(), CAOS_OPT_TRACKING_ID)); ?>
-
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
     setTimeout("ga('send', 'event', 'Adjusted Bounce Rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
     <?php endif; ?>
-
     <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS): ?>
     var event = new Event('caos_track_ad_blockers');
     document.dispatchEvent(event);

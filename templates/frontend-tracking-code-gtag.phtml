@@ -36,11 +36,8 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
 
 <script>
     function gtag() { dataLayer.push(arguments); }
-
     gtag('js', new Date());
-
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
-
     <?=
     /**
      * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
@@ -49,8 +46,11 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
      */
     apply_filters('caos_gtag_additional_config', '');
     ?>
-
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE): ?>
-    setTimeout("gtag('event', '10 seconds', {'event_category': 'Adjusted Bounce Rate'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    setTimeout("gtag('event', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>', {'event_category': 'Adjusted Bounce Rate'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    <?php endif; ?>
+    <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS): ?>
+    var event = new Event('caos_track_ad_blockers');
+    document.dispatchEvent(event);
     <?php endif; ?>
 </script>
