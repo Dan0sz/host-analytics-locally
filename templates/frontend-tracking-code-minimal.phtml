@@ -25,6 +25,7 @@ $endpoint = apply_filters('caos_minimal_analytics_endpoint', 'https://www.google
     setTimeout("ma.trackEvent('adjusted bounce rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
     <?php endif; ?>
     <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS): ?>
-    jQuery(window).trigger('caos_track_ad_blockers');
+    var event = new Event('caos_track_ad_blockers');
+    document.dispatchEvent(event);
     <?php endif; ?>
 </script>
