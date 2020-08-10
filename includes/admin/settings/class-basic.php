@@ -169,18 +169,16 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     * Tracking-code
+     * Render Tracking-code when 'Add Manually' is selected.
      */
     public function do_add_manually()
     {
-        $frontend = new CAOS_Frontend_Tracking();
-
         ?>
         <tr class="caos_add_manually" valign="top" <?= CAOS_OPT_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Tracking-code', $this->plugin_text_domain); ?></th>
             <td>
                 <label>
-                    <textarea style="display: block; width: 100%; height: 250px;"><?php $frontend->render_tracking_code(); ?></textarea>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?= $this->render_tracking_code(); ?></textarea>
                 </label>
                 <p class="description">
                     <?php _e('Copy this to the theme or plugin which should handle displaying the snippet.', $this->plugin_text_domain); ?>
@@ -188,5 +186,57 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             </td>
         </tr>
         <?php
+    }
+
+    /**
+     * Render Tracking Code for Manual placement.
+     *
+     * @return string
+     */
+    private function render_tracking_code()
+    {
+        $tracking_code = "\n";
+
+        if (!CAOS_OPT_TRACKING_ID) {
+            return $tracking_code;
+        }
+
+        $tracking_code .= "<!-- " . __('This site is running CAOS for Wordpress.', 'host-analyticsjs-local') . " -->\n";
+
+        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
+            $urlId        = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
+            $snippetType  = CAOS_OPT_SNIPPET_TYPE;
+            $localFileUrl = CAOS_LOCAL_FILE_URL . $urlId;
+
+            $tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
+        }
+
+        if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
+             $tracking_code .= $this->get_tracking_code_template('cookie-value');
+        }
+
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            return $tracking_code . $this->get_tracking_code_template('minimal');
+        }
+
+        if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
+            return $tracking_code . $this->get_tracking_code_template('gtag');
+        } else {
+            return $tracking_code . $this->get_tracking_code_template('analytics');
+        }
+    }
+
+    /**
+     * @param $name
+     *
+     * @return false|string
+     */
+    private function get_tracking_code_template($name)
+    {
+        ob_start();
+
+        include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
+
+        return ob_get_clean();
     }
 }
