@@ -30,7 +30,7 @@ class CAOS_Frontend_Tracking
      */
     public function __construct()
     {
-        $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.', '-', CAOS_OPT_REMOTE_JS_FILE);
+        $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
         add_action('init', [$this, 'insert_tracking_code']);
