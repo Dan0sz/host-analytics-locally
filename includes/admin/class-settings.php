@@ -115,7 +115,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_action('admin_menu', array($this, 'create_menu'));
         add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), array($this, 'settings_link'));
 
-        if (!$this->page == 'host_analyticsjs_local') {
+        if ($this->page !== 'host_analyticsjs_local') {
             return;
         }
 
