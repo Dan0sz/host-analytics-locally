@@ -105,7 +105,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function __construct()
     {
-        $this->active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'caos-basic-settings';
+        $this->active_tab = isset($_GET['tab']) ? $_GET['tab'] : self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
         $this->page       = isset($_GET['page']) ? $_GET['page'] : '';
 
         parent::__construct();
