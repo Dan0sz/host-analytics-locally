@@ -12,8 +12,10 @@
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
+$custom_attributes = apply_filters('caos_gtag_script_element_attributes', '');
 ?>
-<script>
+<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     window.dataLayer = window.dataLayer || [];
 </script>
 
@@ -34,7 +36,7 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
 ), CAOS_OPT_TRACKING_ID);
 ?>
 
-<script>
+<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
