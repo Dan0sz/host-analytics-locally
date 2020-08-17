@@ -31,7 +31,7 @@ $template->get_tracking_code_template('ga-disable');
 $caosGtagConfig = apply_filters('caos_gtag_config', array(
     'cookie_prefix'  => 'CaosGtag',
     'cookie_domain'  => $_SERVER['SERVER_NAME'],
-    'cookie_expires' => CAOS_COOKIE_EXPIRY_DAYS,
+    'cookie_expires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookie_flags'   => 'samesite=none;secure'
 ), CAOS_OPT_TRACKING_ID);
 ?>

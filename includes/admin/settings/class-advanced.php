@@ -134,7 +134,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         $this->do_number(
             __('Cookie expiry period (days)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS,
-            CAOS_OPT_COOKIE_EXPIRY,
+            CAOS_OPT_COOKIE_EXPIRY_DAYS,
             __('The number of days when the cookie will automatically expire.', $this->plugin_text_domain)
         );
     }
