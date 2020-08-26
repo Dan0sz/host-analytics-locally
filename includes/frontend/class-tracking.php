@@ -78,10 +78,15 @@ class CAOS_Frontend_Tracking
              * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
              */
             if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
-                if ($this->in_footer) {
-                    add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
-                } else {
-                    add_action('wp_head', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                switch (CAOS_OPT_SCRIPT_POSITION) {
+                    case "footer":
+                        add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                        break;
+                    case "manual":
+                        break;
+                    default:
+                        add_action('wp_head', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                        break;
                 }
 
                 return;
