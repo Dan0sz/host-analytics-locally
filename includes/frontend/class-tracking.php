@@ -22,7 +22,7 @@ class CAOS_Frontend_Tracking
     /** @var string $handle */
     public $handle = '';
 
-    /** @var bool $in_footer */
+    /** @var bool $in_footer For use in wp_enqueue_scripts() etc. */
     private $in_footer = false;
 
     /**
