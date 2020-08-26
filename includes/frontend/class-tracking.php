@@ -33,13 +33,15 @@ class CAOS_Frontend_Tracking
         $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
+        // @formatter:off
         add_action('init', [$this, 'insert_tracking_code']);
-        add_filter('script_loader_tag', [$this, 'add_async_attribute'], 10, 2);
+        add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_filter('caos_minimal_analytics_endpoint', [$this, 'set_minimal_analytics_endpoint'], 10, 1);
         add_action('caos_process_settings', [$this, 'disable_display_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'linkid']);
         add_action('caos_process_settings', [$this, 'google_optimize']);
+        // @formatter:on
     }
 
     /**
@@ -110,7 +112,7 @@ class CAOS_Frontend_Tracking
      *
      * @return string
      */
-    public function add_async_attribute($tag, $handle)
+    public function add_attributes($tag, $handle)
     {
         if ((CAOS_OPT_SNIPPET_TYPE == 'async' && $handle == $this->handle)) {
             return str_replace('script src', 'script async src', $tag);
@@ -118,6 +120,10 @@ class CAOS_Frontend_Tracking
 
         if ($handle == self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS) {
             return str_replace('script src', 'script defer src', $tag);
+        }
+
+        if ($handle == $this->handle && $custom_attributes = apply_filters('caos_script_custom_attributes', '')) {
+            return str_replace('script id', "script $custom_attributes id", $tag);
         }
 
         return $tag;

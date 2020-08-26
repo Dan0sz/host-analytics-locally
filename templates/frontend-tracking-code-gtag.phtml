@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-$custom_attributes = apply_filters('caos_gtag_script_element_attributes', '');
-
 /**
  * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
  *
@@ -28,7 +26,7 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
 ), CAOS_OPT_TRACKING_ID);
 ?>
 
-<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
+<script>
     window.dataLayer = window.dataLayer || [];
 
     function gtag() { dataLayer.push(arguments); }

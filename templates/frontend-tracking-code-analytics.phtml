@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-$custom_attributes = apply_filters('caos_analytics_script_element_attributes', '');
-
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieName'    => 'caosLocalGa',
     'cookieDomain'  => $_SERVER['SERVER_NAME'],
@@ -23,7 +21,7 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
 ));
 ?>
 
-<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
+<script>
     window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
     ga.l = +new Date;
 
