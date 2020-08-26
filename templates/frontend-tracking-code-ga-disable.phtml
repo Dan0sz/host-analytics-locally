@@ -26,7 +26,5 @@
     if (cookieValue !== '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
         window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
     }
-    <?php else: ?>
-    // You're always allowing cookies. No additional script is needed.
     <?php endif; ?>
 </script>
