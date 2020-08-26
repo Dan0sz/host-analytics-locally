@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.5
-Stable tag: 3.7.5
+Stable tag: 3.7.6
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -128,6 +128,12 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.7.6 =
+* Slowly recovering from extreme sleep deprivation. ;)
+* Updated custom script attributes filter to work with re-factored templating methods.
+* Minor code optimizations in templates.
+* Fixed bug where in some situations the Google Analytics disable script (When cookie is (not) set, etc.) wouldn't load.
 
 = 3.7.5 =
 * Set default value of Cookie Expiry to 30 days to prevent multiple sessions from the same IP.
