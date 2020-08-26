@@ -14,14 +14,6 @@
  * * * * * * * * * * * * * * * * * * * */
 
 $custom_attributes = apply_filters('caos_gtag_script_element_attributes', '');
-?>
-<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
-    window.dataLayer = window.dataLayer || [];
-</script>
-
-<?php
-$template = new CAOS_Frontend_Tracking();
-$template->get_tracking_code_template('ga-disable');
 
 /**
  * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
@@ -37,6 +29,8 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
 ?>
 
 <script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
+    window.dataLayer = window.dataLayer || [];
+
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);

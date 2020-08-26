@@ -297,6 +297,8 @@ class CAOS_Frontend_Tracking
             wp_add_inline_script($this->handle, $this->get_tracking_code_template('cookie-value'));
         }
 
+        wp_add_inline_script($this->handle, $this->get_tracking_code_template('ga-disable'));
+
         switch (CAOS_OPT_REMOTE_JS_FILE) {
             case 'gtag.js':
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('gtag'));

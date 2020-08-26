@@ -14,15 +14,6 @@
  * * * * * * * * * * * * * * * * * * * */
 
 $custom_attributes = apply_filters('caos_analytics_script_element_attributes', '');
-?>
-<script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
-    window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
-    ga.l = +new Date;
-</script>
-
-<?php
-$template = new CAOS_Frontend_Tracking();
-$template->get_tracking_code_template('ga-disable');
 
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieName'    => 'caosLocalGa',
@@ -33,6 +24,9 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
 ?>
 
 <script<?= $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
+    window.ga = window.ga || function () {(ga.q = ga.q || []).push(arguments);};
+    ga.l = +new Date;
+
     ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
     <?php
     /**
