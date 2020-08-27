@@ -129,7 +129,10 @@ N/A
 
 == Changelog ==
 
-= 3.7.6 =
+= 3.7.7 =
+* Last update broke Minimal Analytics. Sorry, guys. This fixes it.
+
+= 3.7.6 | August 26th, 2020 =
 * Slowly recovering from extreme sleep deprivation. ;)
 * Updated custom script attributes filter to work with re-factored templating methods.
 * Minor code optimizations in templates.
