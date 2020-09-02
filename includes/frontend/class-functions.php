@@ -30,8 +30,6 @@ class CAOS_Frontend_Functions
         if (!CAOS_OPT_EXT_STEALTH_MODE) {
             add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
         }
-
-        add_action('rest_api_init', [$this, 'register_routes']);
         // @formatter:on
     }
 
@@ -62,23 +60,6 @@ class CAOS_Frontend_Functions
         include CAOS_PLUGIN_DIR . 'templates/frontend-' . $name . '.phtml';
 
         return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
-    }
-
-    /**
-     * Register CAOS Proxy so endpoint can be used.
-     * For using Stealth mode, SSL is required.
-     */
-    public function register_routes()
-    {
-        if (CAOS_OPT_EXT_STEALTH_MODE) {
-            $proxy = new CAOS_API_Proxy();
-            $proxy->register_routes();
-        }
-
-        if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS) {
-            $proxy = new CAOS_API_AdBlockDetect();
-            $proxy->register_routes();
-        }
     }
 
     /**

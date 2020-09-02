@@ -34,6 +34,8 @@ class CAOS
             $this->do_frontend();
             $this->do_tracking_code();
         }
+
+        add_action('rest_api_init', [$this, 'register_routes']);
     }
 
     /**
@@ -118,6 +120,23 @@ class CAOS
     private function do_tracking_code()
     {
         return new CAOS_Frontend_Tracking();
+    }
+
+    /**
+     * Register CAOS Proxy so endpoint can be used.
+     * For using Stealth mode, SSL is required.
+     */
+    public function register_routes()
+    {
+        if (CAOS_OPT_EXT_STEALTH_MODE) {
+            $proxy = new CAOS_API_Proxy();
+            $proxy->register_routes();
+        }
+
+        if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS) {
+            $proxy = new CAOS_API_AdBlockDetect();
+            $proxy->register_routes();
+        }
     }
 
     /**
