@@ -39,7 +39,7 @@ class FFWP_Autoloader
             if (ctype_upper($path[0])) {
                 $this->file = 'class-' . strtolower(str_replace('_', '-', $this->class)) . '.php';
             } else {
-                $parts = preg_split('/(?=[A-Z])/', lcfirst($path[0]));
+                $parts      = preg_split('/(?=[A-Z])/', lcfirst($path[0]));
                 $this->file = 'class-' . strtolower(implode('-', $parts)) . '.php';
             }
         } else {
@@ -48,7 +48,8 @@ class FFWP_Autoloader
             $i = 0;
 
             while ($i < key($path)) {
-                $this->file .= strtolower($path[$i]) . '/';
+                $parts      = preg_split('/(?=[A-Z])/', lcfirst($path[$i]));
+                $this->file .= strtolower(implode('-', $parts)) . '/';
                 $i++;
             }
 
