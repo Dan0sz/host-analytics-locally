@@ -36,11 +36,11 @@ function caos_autoload($class)
         return;
     }
 
-    if (!class_exists('Woosh_Autoloader')) {
-        require_once(CAOS_PLUGIN_DIR . 'woosh-autoload.php');
+    if (!class_exists('FFWP_Autoloader')) {
+        require_once(CAOS_PLUGIN_DIR . 'ffwp-autoload.php');
     }
 
-    $autoload = new Woosh_Autoloader($class);
+    $autoload = new FFWP_Autoloader($class);
 
     return include CAOS_PLUGIN_DIR . 'includes/' . $autoload->load();
 }

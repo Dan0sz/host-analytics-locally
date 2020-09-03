@@ -59,7 +59,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             <?= sprintf(__("Plugins are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Super Stealth, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
         </p>
         <p>
-            <?= sprintf(__("For a list of available plugins, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://woosh.dev/wordpress-plugins/'); ?>
+            <?= sprintf(__("For a list of available plugins, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffwp.dev/wordpress-plugins/'); ?>
         </p>
         <p>
             <sub><em><strong><?= sprintf(__('* Manual update required after saving changes.', $this->plugin_text_domain)); ?></strong></em></sub>
@@ -91,7 +91,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Stealth Mode Lite', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
             CAOS_OPT_EXT_STEALTH_MODE,
-            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/'),
+            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/'),
             true
         );
     }
@@ -152,7 +152,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Google Optimize integration', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE,
             CAOS_OPT_EXT_OPTIMIZE,
-            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode and Minimal Analytics. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH)
+            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode and Minimal Analytics. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH)
         );
     }
 

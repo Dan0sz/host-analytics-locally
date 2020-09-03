@@ -20,7 +20,7 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
 
-Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration of this plugin. Or [hire me to do it for you](https://woosh.dev/wordpress-services/caos-expert-configuration/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration of this plugin. Or [hire me to do it for you](https://ffwp.dev/wordpress-services/caos-expert-configuration/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
@@ -30,7 +30,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[CAOS Super Stealth Upgrade](https://woosh.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
+  - *[CAOS Super Stealth Upgrade](https://ffwp.dev/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
 - Preconnect to google-analytics.com to reduce latency and speed up requests,
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
@@ -61,7 +61,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [WoOSH!](https://woosh.dev)
+Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [FFWP](https://ffwp.dev)
 
 = Why am I getting an Unused JS notice on Google PageSpeed Insights for analytics.js/gtag.js? =
 
@@ -171,7 +171,7 @@ N/A
 * Outbound Link Tracking script is now loaded in line, to prevent blocking by Ad Blockers.
 * Dropped Stealth Mode support for gtag.js, because it has become unusable after an update of Global Site Tag. Will research the possibility of re-adding it.
   * gtag.js will load analytics.js from google-analytics.com from now on.
-* CAOS now uses the same autoloader as OMGF (or other WoOSH! plugins -- if installed) removing overhead and effectively increasing performance.
+* CAOS now uses the same autoloader as OMGF (or other FFWP plugins -- if installed) removing overhead and effectively increasing performance.
 * Added release dates to the changelog. :)
 
 = 3.6.0 | June 27th, 2020 =

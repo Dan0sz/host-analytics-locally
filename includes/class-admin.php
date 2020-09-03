@@ -140,7 +140,7 @@ class CAOS_Admin
         if ($new_filename !== $old_filename && !empty($new_filename)) {
             if (CAOS_OPT_EXT_STEALTH_MODE) {
                 if ($new_filename == 'gtag.js' && !$this->is_super_stealth_active()) {
-                    CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
+                    CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
 
                     return $old_filename;
                 }
@@ -237,12 +237,12 @@ class CAOS_Admin
             }
 
             if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
-                CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> to use Stealth Mode.'), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
+                CAOS_Admin_Notice::set_notice(sprintf(__('Stealth Mode couldn\'t be enabled, because <strong>gtag.js</strong> is set as <em>file to download</em>. Set it to <em>analytics.js</em> to use Stealth Mode.'), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
 
                 return $old_value;
             }
 
-            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::WOOSH_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
+            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
             CAOS_Admin_Notice::set_notice($message, false);
 

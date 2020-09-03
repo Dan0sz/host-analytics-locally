@@ -7,12 +7,12 @@
  *  |__/|__/\____/\____//____/_/ /_(_)
  *
  * @author   : Daan van den Bergh
- * @url      : https://woosh.dev/wordpress-plugins/
+ * @url      : https://ffwp.dev/wordpress-plugins/
  * @copyright: (c) 2020 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * * * */
 
-class Woosh_Autoloader
+class FFWP_Autoloader
 {
     /** @var string $class */
     private $class;
@@ -21,7 +21,7 @@ class Woosh_Autoloader
     private $file;
 
     /**
-     * Woosh_Autoloader constructor.
+     * FFWP_Autoloader constructor.
      *
      * @param $class
      */
