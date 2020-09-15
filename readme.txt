@@ -129,7 +129,7 @@ N/A
 
 == Changelog ==
 
-= 3.7.8 =
+= 3.7.8 | September 15h, 2020 =
 * API endpoints are now registered in front- and backend.
 * Performance improvements for class-loader.
 
