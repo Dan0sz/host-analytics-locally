@@ -52,6 +52,15 @@
 #caos-welcome-panel .super-stealth-graph {
   width: 100%;
 }
+#caos-welcome-panel .dashicons.ffwp-heart:before {
+  color: #FF4136;
+}
+#caos-welcome-panel .signature {
+  text-align: center;
+}
+#caos-welcome-panel .signature-image {
+  max-width: 90%;
+}
 /**
  * Responsiveness
  */
