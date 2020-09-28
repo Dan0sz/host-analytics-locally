@@ -54,6 +54,11 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
             <p>
                 <?= sprintf(__('Visit the %sFAQ%s and %sSupport Forum%s to see if your question has already been answered. If not, either %scontact%s me or ask a question on the Support Forum.', 'host-analyticsjs-local'), '<a href="' . CAOS_SITE_URL . '/wordpress-plugins/caos/' . $utmTags . '" target="_blank">', '</a>', '<a href="https://wordpress.org/plugins/host-analyticsjs-local/#description" target="_blank">', '</a>', '<a href="https://wordpress.org/support/plugin/host-analyticsjs-local">', '</a>', '<a href="' . CAOS_SITE_URL . '/contact' . $utmTags . '" target="_blank">', '</a>'); ?>
             </p>
+            <hr />
+            <h4 class="signature"><?= sprintf(__('Coded with %s in The Netherlands.', $plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>'); ?></h4>
+            <p class="signature">
+                <a target="_blank" title="<?= __('Visit FFWP.dev', $plugin_text_domain); ?>" href="https://ffwp.dev/wordpress-plugins/"><img class="signature-image" alt="<?= __('Visit FFWP.dev', $plugin_text_domain); ?>" src="https://ffwp.dev/wp-content/uploads/2020/09/logo-color-full@05x.png" /></a>
+            </p>
         </div>
     </div>
 </div>
