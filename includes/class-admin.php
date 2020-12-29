@@ -101,8 +101,28 @@ class CAOS_Admin
     public function add_tracking_code_notice($old_tracking_id, $new_tracking_id)
     {
         if ($new_tracking_id !== $old_tracking_id && !empty($new_tracking_id)) {
-            CAOS_Admin_Notice::set_notice(__("CAOS has connected WordPress to Google Analytics using Tracking ID: $new_tracking_id.", $this->plugin_text_domain), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__("CAOS has connected WordPress to Google Analytics using Tracking ID: %s.", $this->plugin_text_domain), $new_tracking_id), false);
         }
+
+        if (empty($new_tracking_id)) {
+            return $new_tracking_id;
+        }
+
+        $title = 'Universal Analytics';
+        $version = 'V3';
+        $remote_file = 'analytics.js';
+
+        if (substr($new_tracking_id, 0, 2) == 'G-') {
+            $title = 'Google Analytics 4';
+            $version = 'V4';
+            $remote_file = 'gtag.js';
+        }
+
+        CAOS_Admin_Notice::set_notice(
+            sprintf(__('You\'ve entered a %s ID which is only supported by Google Analytics\' %s API. Please change the <strong>file to download</strong> setting to <code>%s</code> under <em>Advanced Settings</em> if you haven\'t done so already.', $this->plugin_text_domain), $title, $version, $remote_file), 
+            false,
+            'warning'
+        );
 
         return $new_tracking_id;
     }
