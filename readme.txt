@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.5
-Stable tag: 3.7.8
+Stable tag: 3.8.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -128,6 +128,10 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.8.0 | January 2nd, 2021 =
+* Added support for Google Analytics V4 API (Stealth Mode not (yet) supported).
+* Gtag.js (v3 API) is now deprecated in favor of gtag.js (v4 API).
 
 = 3.7.8 | September 15h, 2020 =
 * API endpoints are now registered in front- and backend.
