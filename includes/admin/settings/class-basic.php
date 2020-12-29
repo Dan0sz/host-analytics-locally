@@ -56,7 +56,8 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('Google Analytics Tracking ID', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
             __('e.g. UA-1234567-12', $this->plugin_text_domain),
-            CAOS_OPT_TRACKING_ID
+            CAOS_OPT_TRACKING_ID,
+            __('Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API)', $this->plugin_text_domain)
         );
     }
 
