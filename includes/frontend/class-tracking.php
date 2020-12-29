@@ -312,6 +312,7 @@ class CAOS_Frontend_Tracking
 
         switch (CAOS_OPT_REMOTE_JS_FILE) {
             case 'gtag.js':
+            case 'gtag-v4.js':
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('gtag'));
                 break;
             default:

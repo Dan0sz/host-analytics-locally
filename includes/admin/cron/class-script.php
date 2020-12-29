@@ -21,7 +21,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     private $files;
 
     /** @var string $tweet */
-    private $tweet = "https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/";
+    private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
 
     /** @var string $review */
     private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
@@ -51,14 +51,14 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     {
         $key = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
 
-        if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
+        if (strpos(CAOS_OPT_REMOTE_JS_FILE, 'gtag') !== false) {
             return [
                 'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
                     'local'  => CAOS_LOCAL_DIR . 'analytics.js'
-                ],
+                ],  
                 $key => [
-                    'remote' => CAOS_GTM_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
+                    'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
                     'local'  => CAOS_LOCAL_FILE_DIR
                 ]
             ];
@@ -66,7 +66,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 
         return [
             $key => [
-                'remote' => CAOS_GA_URL . '/' .  CAOS_OPT_REMOTE_JS_FILE,
+                'remote' => CAOS_GA_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
                 'local'  => CAOS_LOCAL_FILE_DIR
             ]
         ];
