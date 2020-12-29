@@ -45,7 +45,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Close
         add_filter('caos_advanced_settings_content', [$this, 'do_after'], 250);
-
     }
 
     /**
@@ -76,6 +75,8 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
     /**
      * Which file to download?
+     *
+     * TODO: Update Blog article with v4 information.
      */
     public function do_remote_js_file()
     {
@@ -84,7 +85,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
-            sprintf(__('<code>analytics.js</code> is recommended in most situations. When using <code>gtag.js</code>, <code>analytics.js</code> is not hosted locally and updated. Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
+            sprintf(__('<code>gtag.js (v4 API)</code> is recommended in most situations. <code>gtag.js</code> is deprecated and will be removed in a next release. <code>analytics.js</code> can only be used with the v3 API. Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
             true
         );
     }

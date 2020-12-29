@@ -43,8 +43,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'manual' => 'Add manually',
     ];
     const CAOS_ADMIN_JS_FILE_OPTIONS         = [
-        "analytics.js" => "Analytics.js (default)",
-        "gtag.js"      => "Gtag.js"
+        'analytics.js'  => 'Analytics.js (default)',
+        'gtag-v4.js'    => 'Gtag.js (v4 API)',
+        'gtag.js'       => 'Gtag.js (deprecated)'
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
@@ -60,11 +61,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * CAOS Basic/Advanced Settings
      */
-    const CAOS_BASIC_SETTING_TRACKING_ID        = 'sgal_tracking_id';
-    const CAOS_BASIC_SETTING_TRACK_ADMIN        = 'sgal_track_admin';
-    const CAOS_BASIC_SETTING_ALLOW_TRACKING     = 'caos_allow_tracking';
-    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'sgal_cookie_notice_name';
-    const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'caos_cookie_value';
+    const CAOS_BASIC_SETTING_TRACKING_ID            = 'sgal_tracking_id';
+    const CAOS_BASIC_SETTING_TRACK_ADMIN            = 'sgal_track_admin';
+    const CAOS_BASIC_SETTING_ALLOW_TRACKING         = 'caos_allow_tracking';
+    const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';
+    const CAOS_BASIC_SETTING_COOKIE_VALUE           = 'caos_cookie_value';
     const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
     const CAOS_BASIC_SETTING_ANONYMIZE_IP           = 'sgal_anonymize_ip';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
@@ -87,7 +88,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH = 'https://ffwp.dev/wordpress-plugins/caos-super-stealth-upgrade/';
+    const FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffwp.dev/wordpress-plugins/caos-super-stealth-upgrade/';
     const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI    = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
     const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB      = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
@@ -112,15 +113,15 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         // @formatter:off
         // Global
-        add_action('admin_menu', array($this, 'create_menu'));
-        add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), array($this, 'settings_link'));
+        add_action('admin_menu', [$this, 'create_menu']);
+        add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), [$this, 'settings_link']);
 
         if ($this->page !== 'host_analyticsjs_local') {
             return;
         }
 
         // Scripts
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_js_scripts'));
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_js_scripts']);
 
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
@@ -148,10 +149,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
             'Optimize Google Analytics',
             'manage_options',
             'host_analyticsjs_local',
-            array($this, 'settings_page')
+            [$this, 'settings_page']
         );
 
-        add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_init', [$this, 'register_settings']);
         // @formatter:on
     }
 
@@ -162,8 +163,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     {
         if (!current_user_can('manage_options')) {
             wp_die(__("You're not cool enough to access this page.", $this->plugin_text_domain));
-        }
-        ?>
+        } ?>
 
         <div class="wrap">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
@@ -180,15 +180,13 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 <form method="post" action="options.php?tab=<?= $this->active_tab; ?>">
                     <?php
                     settings_fields($this->active_tab);
-                    do_settings_sections($this->active_tab);
-                    ?>
+        do_settings_sections($this->active_tab); ?>
 
                     <?php do_action('caos_settings_content'); ?>
 
                     <?php
                     $current_section = str_replace('-', '_', $this->active_tab);
-                    do_action( "after_$current_section");
-                    ?>
+        do_action("after_$current_section"); ?>
 
                     <?php submit_button(null, 'primary', 'submit', false); ?>
 
@@ -289,7 +287,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     private function generate_tab($id, $icon = null, $label = null)
     {
         ?>
-        <a class="nav-tab dashicons-before <?= $icon; ?> <?= $this->active_tab == $id ? 'nav-tab-active' : ''; ?>" href="<?= $this->generate_tab_link($id);?>">
+        <a class="nav-tab dashicons-before <?= $icon; ?> <?= $this->active_tab == $id ? 'nav-tab-active' : ''; ?>" href="<?= $this->generate_tab_link($id); ?>">
             <?= $label; ?>
         </a>
         <?php
@@ -323,7 +321,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function settings_link($links)
     {
         $adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
-        $settingsLink = "<a href='$adminUrl'>" . __('Settings', $this->plugin_text_domain) . "</a>";
+        $settingsLink = "<a href='$adminUrl'>" . __('Settings', $this->plugin_text_domain) . '</a>';
         array_push($links, $settingsLink);
 
         return $links;
@@ -351,8 +349,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     private function is_ad_blocker_active()
     {
         $warning = sprintf(__("Your Ad Blocker is enabled. If 'Update %s' doesn't work, please disable your Ad Blocker.", $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE);
-        ob_start();
-        ?>
+        ob_start(); ?>
         <script>
             jQuery(document).ready(function ($) {
                 var caos_detect_ad_blocker = 1;
