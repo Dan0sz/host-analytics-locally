@@ -145,7 +145,7 @@ class CAOS_Frontend_Tracking
     public function set_minimal_analytics_endpoint($endpoint)
     {
         if (CAOS_OPT_EXT_STEALTH_MODE == 'on') {
-            return apply_filters('caos_minimal_analytics_stealth_mode_endpoint', site_url('wp-json/caos/v1/proxy/collect'));
+            return apply_filters('caos_minimal_analytics_stealth_mode_endpoint', home_url('wp-json/caos/v1/proxy/collect'));
         }
 
         return $endpoint;
@@ -161,12 +161,12 @@ class CAOS_Frontend_Tracking
         }
 
         if ($this->is_gtag()) {
-            add_filter('caos_gtag_config', function($config, $trackingId) {
+            add_filter('caos_gtag_config', function ($config, $trackingId) {
                 return $config + array('displayFeaturesTask' => null);
             }, 10, 2);
         }
 
-        add_filter('caos_analytics_before_send', function($config) {
+        add_filter('caos_analytics_before_send', function ($config) {
             $option = array(
                 'display_features' => "ga('set', 'displayFeaturesTask', null);"
             );
@@ -185,12 +185,12 @@ class CAOS_Frontend_Tracking
         }
 
         if ($this->is_gtag()) {
-            add_filter('caos_gtag_config', function($config, $trackingId) {
+            add_filter('caos_gtag_config', function ($config, $trackingId) {
                 return $config + array('anonymize_ip' => true);
             }, 10, 2);
         }
 
-        add_filter('caos_analytics_before_send', function($config) {
+        add_filter('caos_analytics_before_send', function ($config) {
             $option = array(
                 'anonymize' => "ga('set', 'anonymizeIp', true);"
             );
@@ -212,7 +212,8 @@ class CAOS_Frontend_Tracking
 
         if ($this->is_gtag()) {
             add_filter('caos_gtag_config', function ($config, $tracking_id) {
-                return $config + ['linkid', [
+                return $config + [
+                    'linkid', [
                         'cookie_name'  => 'caos_linkid',
                         'cookie_flags' => 'samesite=none;secure'
                     ]
@@ -220,7 +221,7 @@ class CAOS_Frontend_Tracking
             }, 10, 2);
         }
 
-        add_filter('caos_analytics_before_send', function($config) {
+        add_filter('caos_analytics_before_send', function ($config) {
             $option = [
                 'linkid' => "ga('require', 'linkid', { 'cookieName':'caosLinkid', 'cookieFlags':'samesite=none;secure' });"
             ];
@@ -246,7 +247,7 @@ class CAOS_Frontend_Tracking
 
         if ($this->is_gtag()) {
             add_filter('caos_gtag_config', function ($config, $tracking_id) use ($optimize_id) {
-                return $config + [ 'optimize_id' => $optimize_id ];
+                return $config + ['optimize_id' => $optimize_id];
             }, 10, 2);
         }
 
@@ -296,7 +297,7 @@ class CAOS_Frontend_Tracking
 
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
-        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [ self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [];
+        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
 
         if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
             $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
@@ -333,7 +334,7 @@ class CAOS_Frontend_Tracking
         include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
 
         if (!$strip) {
-            return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
+            return str_replace(['<script>', '</script>'], '', ob_get_clean());
         } else {
             return ob_get_clean();
         }
@@ -364,26 +365,28 @@ class CAOS_Frontend_Tracking
      */
     private function send_ad_blocker_result()
     {
-        $url = site_url('wp-json/caos/v1/block/detect');
+        $url = home_url('wp-json/caos/v1/block/detect');
 
         ob_start();
-        ?>
+?>
         <script>
-            document.addEventListener('caos_track_ad_blockers', function (e) {
-                document.addEventListener('DOMContentLoaded', function (e) {
+            document.addEventListener('caos_track_ad_blockers', function(e) {
+                document.addEventListener('DOMContentLoaded', function(e) {
                     var caos_detect_ad_blocker = 1;
-                    if (document.getElementById('caos-detect-ad-block')) { caos_detect_ad_blocker = 0; }
+                    if (document.getElementById('caos-detect-ad-block')) {
+                        caos_detect_ad_blocker = 0;
+                    }
                     var ajax = new XMLHttpRequest();
                     ajax.open('POST', '<?= $url; ?>');
-                    ajax.onreadystatechange = function () {
+                    ajax.onreadystatechange = function() {
                         if (ajax.readyState !== 4 || ajax.readyState !== 200) return;
                     };
                     ajax.send("result=" + caos_detect_ad_blocker);
                 });
             });
         </script>
-        <?php
+<?php
 
-        return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
+        return str_replace(['<script>', '</script>'], '', ob_get_clean());
     }
 }

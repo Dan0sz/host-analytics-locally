@@ -2,7 +2,7 @@
 Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 3.8.0
 Requires PHP: 7.0
 License: GPLv2 or later
