@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -88,7 +88,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffwp.dev/wordpress-plugins/caos-super-stealth-upgrade/';
+    const FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/';
     const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI    = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
     const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB      = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
@@ -180,17 +180,17 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 <form method="post" action="options.php?tab=<?= $this->active_tab; ?>">
                     <?php
                     settings_fields($this->active_tab);
-        do_settings_sections($this->active_tab); ?>
+                    do_settings_sections($this->active_tab); ?>
 
                     <?php do_action('caos_settings_content'); ?>
 
                     <?php
                     $current_section = str_replace('-', '_', $this->active_tab);
-        do_action("after_$current_section"); ?>
+                    do_action("after_$current_section"); ?>
 
                     <?php submit_button(null, 'primary', 'submit', false); ?>
 
-                    <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal'): ?>
+                    <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
                         <a href="#" id="manual-download" class="button button-secondary"><?= __('Update', $this->plugin_text_domain); ?> <?= CAOS_OPT_REMOTE_JS_FILE; ?></a>
                     <?php endif; ?>
                 </form>
@@ -202,7 +202,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 </div>
             </div>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -212,9 +212,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function register_settings()
     {
-        if ($this->active_tab !== self::CAOS_ADMIN_SECTION_BASIC_SETTINGS
+        if (
+            $this->active_tab !== self::CAOS_ADMIN_SECTION_BASIC_SETTINGS
             && $this->active_tab !== self::CAOS_ADMIN_SECTION_ADV_SETTINGS
-            && $this->active_tab !== self::CAOS_ADMIN_SECTION_EXT_SETTINGS) {
+            && $this->active_tab !== self::CAOS_ADMIN_SECTION_EXT_SETTINGS
+        ) {
             $this->active_tab = self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
         }
 
@@ -286,11 +288,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     private function generate_tab($id, $icon = null, $label = null)
     {
-        ?>
+    ?>
         <a class="nav-tab dashicons-before <?= $icon; ?> <?= $this->active_tab == $id ? 'nav-tab-active' : ''; ?>" href="<?= $this->generate_tab_link($id); ?>">
             <?= $label; ?>
         </a>
-        <?php
+    <?php
     }
 
     /**
@@ -336,7 +338,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     {
         if ($hook == 'settings_page_host_analyticsjs_local') {
             wp_enqueue_script('caos_admin_script', plugins_url('assets/js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
-            wp_enqueue_script('caos_track_ad_blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), [ 'jquery' ], CAOS_STATIC_VERSION, true);
+            wp_enqueue_script('caos_track_ad_blockers', plugins_url('assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
             wp_add_inline_script('caos_track_ad_blockers', $this->is_ad_blocker_active());
         }
     }
@@ -351,7 +353,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         $warning = sprintf(__("Your Ad Blocker is enabled. If 'Update %s' doesn't work, please disable your Ad Blocker.", $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE);
         ob_start(); ?>
         <script>
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
                 var caos_detect_ad_blocker = 1;
                 if (document.getElementById('caos-detect-ad-block')) {
                     caos_detect_ad_blocker = 0;
@@ -361,7 +363,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 }
             });
         </script>
-        <?php
+<?php
         return str_replace(['<script>', '</script>'], '', ob_get_clean());
     }
 

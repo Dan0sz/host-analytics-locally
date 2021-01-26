@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -119,7 +119,7 @@ class CAOS_Admin
         }
 
         CAOS_Admin_Notice::set_notice(
-            sprintf(__('You\'ve entered a %s ID which is only supported by Google Analytics\' %s API. Please change the <strong>file to download</strong> setting to <code>%s</code> under <em>Advanced Settings</em> if you haven\'t done so already.', $this->plugin_text_domain), $title, $version, $remote_file), 
+            sprintf(__('You\'ve entered a %s ID which is only supported by Google Analytics\' %s API. Please change the <strong>file to download</strong> setting to <code>%s</code> under <em>Advanced Settings</em> if you haven\'t done so already.', $this->plugin_text_domain), $title, $version, $remote_file),
             false,
             'warning'
         );

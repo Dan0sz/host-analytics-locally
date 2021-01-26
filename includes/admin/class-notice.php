@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -65,13 +65,13 @@ class CAOS_Admin_Notice
                 }
 
                 foreach ($notice as $type => $message) {
-                    ?>
+?>
                     <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
-                        <?php foreach ($message as $line): ?>
+                        <?php foreach ($message as $line) : ?>
                             <p><?= $line; ?></p>
                         <?php endforeach; ?>
                     </div>
-                    <?php
+<?php
                 }
             }
         }
@@ -79,4 +79,3 @@ class CAOS_Admin_Notice
         delete_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT);
     }
 }
-

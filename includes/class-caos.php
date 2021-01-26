@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -26,11 +26,11 @@ class CAOS
         $this->do_ajax();
         $this->do_setup();
 
-        if(is_admin()) {
+        if (is_admin()) {
             $this->do_settings();
         }
 
-        if(!is_admin()) {
+        if (!is_admin()) {
             $this->do_frontend();
             $this->do_tracking_code();
         }
@@ -171,7 +171,7 @@ class CAOS
     {
         global $wp_filesystem;
 
-        if ( is_null( $wp_filesystem ) ) {
+        if (is_null($wp_filesystem)) {
             require_once ABSPATH . '/wp-admin/includes/file.php';
             WP_Filesystem();
         }

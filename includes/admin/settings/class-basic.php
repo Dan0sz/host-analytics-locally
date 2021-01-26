@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -174,7 +174,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_add_manually()
     {
-        ?>
+?>
         <tr class="caos_add_manually" valign="top" <?= CAOS_OPT_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e('Tracking-code', $this->plugin_text_domain); ?></th>
             <td>
@@ -186,7 +186,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
                 </p>
             </td>
         </tr>
-        <?php
+<?php
     }
 
     /**
@@ -213,7 +213,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         }
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
-             $tracking_code .= $this->get_tracking_code_template('cookie-value');
+            $tracking_code .= $this->get_tracking_code_template('cookie-value');
         }
 
         if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {

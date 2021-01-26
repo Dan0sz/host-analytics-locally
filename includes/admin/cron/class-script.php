@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -56,7 +56,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
                     'local'  => CAOS_LOCAL_DIR . 'analytics.js'
-                ],  
+                ],
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
                     'local'  => CAOS_LOCAL_FILE_DIR

@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -58,7 +58,7 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
             <hr />
             <h4 class="signature"><?= sprintf(__('Coded with %s in The Netherlands.', $plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>'); ?></h4>
             <p class="signature">
-                <a target="_blank" title="<?= __('Visit FFWP.dev', $plugin_text_domain); ?>" href="https://ffwp.dev/wordpress-plugins/"><img class="signature-image" alt="<?= __('Visit FFWP.dev', $plugin_text_domain); ?>" src="https://ffwp.dev/wp-content/uploads/2020/09/logo-color-full@05x.png" /></a>
+                <a target="_blank" title="<?= __('Visit FFW Press', $plugin_text_domain); ?>" href="https://ffw.press/wordpress-plugins/"><img class="signature-image" alt="<?= __('Visit FFW Press', $plugin_text_domain); ?>" src="https://ffw.press/wp-content/uploads/2020/09/logo-color-full@05x.png" /></a>
             </p>
         </div>
     </div>

@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -59,7 +59,7 @@ class CAOS_Frontend_Functions
 
         include CAOS_PLUGIN_DIR . 'templates/frontend-' . $name . '.phtml';
 
-        return str_replace([ '<script>', '</script>' ], '', ob_get_clean());
+        return str_replace(['<script>', '</script>'], '', ob_get_clean());
     }
 
     /**

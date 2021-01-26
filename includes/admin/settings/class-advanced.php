@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
- * @copyright: (c) 2020 Daan van den Bergh
+ * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
@@ -52,11 +52,11 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_description()
     {
-        ?>
+?>
         <p>
             <strong>*</strong> <?php _e('Manual update required after saving changes.', $this->plugin_text_domain); ?>
         </p>
-        <?php
+<?php
     }
 
     /**
