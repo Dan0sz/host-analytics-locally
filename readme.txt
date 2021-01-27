@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.6
-Stable tag: 3.8.0
+Stable tag: 3.8.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -128,6 +128,9 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.8.1 | January 27th, 2021 =
+* Improved compatiblity with WordPress in Subdirectory installs.
 
 = 3.8.0 | January 2nd, 2021 =
 * Added support for Google Analytics V4 API (Stealth Mode not (yet) supported).
