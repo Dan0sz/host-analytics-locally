@@ -94,6 +94,14 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }
 
+            if ($file == 'gtag-v4' && CAOS_OPT_EXT_STEALTH_MODE) {
+                add_filter('caos_stealth_mode_proxy_uri', function ($proxy_url) {
+                    return $proxy_url . '/g/collect';
+                });
+
+                $this->insert_proxy($location['local'], true, 'https://www.google-analytics.com/g/collect');
+            }
+
             if ($file == 'analytics' && CAOS_OPT_EXT_STEALTH_MODE) {
                 do_action('before_caos_stealth_mode_enable');
 

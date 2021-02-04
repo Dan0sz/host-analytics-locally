@@ -21,6 +21,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	const CAOS_PROXY_COLLECT_ENDPOINTS = [
 		'/r/collect',
 		'/j/collect',
+		'/g/collect', // v4 API
 		'/collect'
 	];
 
@@ -121,7 +122,8 @@ class CAOS_API_Proxy extends WP_REST_Controller
 			'ua'  => $request->get_header('user_agent')
 		);
 		$query          = '?' . http_build_query($params + $passThruParams);
-		$url            = CAOS_GA_URL . '/r/collect' . $query;
+		$route          = str_replace('/caos/v1/proxy', CAOS_GA_URL, $request->get_route());
+		$url            = $route . $query;
 
 		try {
 			$response = wp_remote_get(
