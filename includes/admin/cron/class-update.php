@@ -30,7 +30,7 @@ class CAOS_Admin_Cron_Update
      *
      * @return void|string
      */
-    protected function update_file($localFile, $remoteFile)
+    protected function download_file($localFile, $remoteFile)
     {
         do_action('caos_admin_update_before');
 
@@ -61,12 +61,12 @@ class CAOS_Admin_Cron_Update
      * Update Gtag.js
      *
      * @param $file
-     * @param $gaUrl
-     * @param $caosGaUrl
+     * @param $find
+     * @param $replace
      */
-    protected function update_gtag_js($file, $gaUrl, $caosGaUrl)
+    protected function update_gtag_js($file, $find, $replace)
     {
-        return file_put_contents($file, str_replace($gaUrl, $caosGaUrl, file_get_contents($file)));
+        return file_put_contents($file, str_replace($find, $replace, file_get_contents($file)));
     }
 
     /**

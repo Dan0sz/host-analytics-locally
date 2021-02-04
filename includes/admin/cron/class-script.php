@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
 {
-    /** @var string $files */
+    /** @var [] $files */
     private $files;
 
     /** @var string $tweet */
@@ -82,12 +82,14 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
         $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
 
         foreach ($this->files as $file => $location) {
-            $this->update_file($location['local'], $location['remote']);
+            $this->download_file($location['local'], $location['remote']);
 
             if ($file == 'gtag') {
                 $caosGaUrl = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
                 $gaUrl     = CAOS_GA_URL . '/analytics.js';
                 $this->update_gtag_js($location['local'], $gaUrl, $caosGaUrl);
+                $this->update_gtag_js($location['local'], '/gtag/js?id=', '/gtag.js?id=');
+                $this->update_gtag_js($location['local'], '"//www.googletagmanager.com"', '"//dev.local/wp-content/uploads/caos"');
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }
@@ -107,7 +109,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 foreach ($plugins as $plugin) {
                     $plugin_file        = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
                     $plugin_remote_file = CAOS_GA_URL . $plugin;
-                    $this->update_file($plugin_file, $plugin_remote_file);
+                    $this->download_file($plugin_file, $plugin_remote_file);
                 }
 
                 do_action('after_caos_stealth_mode_enable');

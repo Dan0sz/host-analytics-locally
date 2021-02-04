@@ -53,6 +53,7 @@ class CAOS_Frontend_Tracking
             add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
             add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
+            add_filter('monsterinsights_frontend_output_gtag_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'analytify') {
             add_filter('analytify_output_ga_js_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'exact_metrics') {
@@ -283,11 +284,17 @@ class CAOS_Frontend_Tracking
      */
     public function return_analytics_js_url()
     {
-        return CAOS_LOCAL_FILE_URL;
+        $id = '';
+
+        if (strpos(CAOS_OPT_REMOTE_JS_FILE, 'gtag') !== false) {
+            $id = "?id=" . CAOS_OPT_TRACKING_ID;
+        }
+
+        return CAOS_LOCAL_FILE_URL . $id;
     }
 
     /**
-     * Generate tracking code and add to header/footer (default is header)
+     * Generate tracking code and add to header (default) or footer.
      */
     public function render_tracking_code()
     {
@@ -300,9 +307,7 @@ class CAOS_Frontend_Tracking
         $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
 
         if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
-            $url_id         = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
-            $local_file_url = CAOS_LOCAL_FILE_URL . $url_id;
-            wp_enqueue_script($this->handle, $local_file_url, $deps, null, $this->in_footer);
+            wp_enqueue_script($this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer);
         }
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {

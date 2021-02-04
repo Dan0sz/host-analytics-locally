@@ -54,9 +54,9 @@ jQuery(document).ready(function ($) {
         /**
          * Toggle Allow tracking options.
          */
-        toggle_allow_tracking: function() {
-            option        = this.className.replace('caos-allow-tracking-', '');
-            $cookie_name  = $('.sgal-cookie-notice-name-row');
+        toggle_allow_tracking: function () {
+            option = this.className.replace('caos-allow-tracking-', '');
+            $cookie_name = $('.sgal-cookie-notice-name-row');
             $cookie_value = $('.caos-cookie-value-row');
 
             switch (option) {
@@ -79,27 +79,14 @@ jQuery(document).ready(function ($) {
         /**
          * Toggle 'Add Manual' window.
          */
-        toggle_script_position: function() {
-            option        = this.className.replace('sgal-script-position-', '');
+        toggle_script_position: function () {
+            option = this.className.replace('sgal-script-position-', '');
             $add_manually = $('.caos_add_manually');
 
             if (option === 'manual') {
                 $add_manually.show();
             } else {
                 $add_manually.hide();
-            }
-        },
-
-        /**
-         * Toggle Compatibility Mode options
-         */
-        toggle_compatibility_mode: function () {
-            settings = '.caos_advanced_settings, .caos_basic_settings';
-            if (this.value !== '') {
-                $(settings).hide();
-                $('.caos-analytics-js-file').val('analytics.js');
-            } else {
-                $(settings).show();
             }
         },
 
@@ -117,23 +104,9 @@ jQuery(document).ready(function ($) {
         },
 
         /**
-         * Toggle JS File Input options
-         */
-        toggle_js_file_input: function () {
-            outbound = $('.caos-capture-outbound-links');
-            compatibility = $('.caos-analytics-compatibility-mode');
-            if (this.value !== 'analytics.js') {
-                outbound.attr('checked', false);
-                compatibility.val(null);
-                // We need to trigger a click to show applicable options again.
-                compatibility.click();
-            }
-        },
-
-        /**
          * Toggle Optimize ID field.
          */
-        toggle_optimize_id: function() {
+        toggle_optimize_id: function () {
             $optimize_id = $('.caos-extension-optimize-id-row');
 
             if (this.checked) {
