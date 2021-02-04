@@ -69,7 +69,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
             CAOS_Admin_Settings::CAOS_ADMIN_COMPATIBILITY_OPTIONS,
             CAOS_OPT_COMPATIBILITY_MODE,
-            sprintf(__('Allow another Google Analytics plugin to use <code>%s</code> and manage Google Analytics entirely within the other plugin.', $this->plugin_text_domain), CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE)
+            sprintf(__('Allow another Google Analytics plugin to use <code>%s</code> and manage Google Analytics entirely within the other plugin. After changing this setting, review the <strong>Which File to Download?</strong> setting, and make sure %s is compatible with the plugin of your choice.', $this->plugin_text_domain), CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE, CAOS_OPT_REMOTE_JS_FILE)
         );
     }
 
@@ -85,7 +85,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
-            sprintf(__('<code>gtag.js (v4 API)</code> is recommended in most situations. <code>gtag.js</code> is deprecated and will be removed in a next release. <code>analytics.js</code> can only be used with the v3 API. Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
+            sprintf(__('<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and is deprecated. Both are hosted locally when this option is selected. <code>gtag.js</code> and <code>analytics.js</code> can only be used with the v3 API. Are you using the V4 API? Then choose <code>gtag.js</code> (V4 API). Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
             true
         );
     }

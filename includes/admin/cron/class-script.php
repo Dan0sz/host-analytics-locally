@@ -73,7 +73,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     }
 
     /**
-     * Download file.
+     * Download files.
      */
     private function download()
     {
@@ -87,9 +87,9 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             if ($file == 'gtag') {
                 $caosGaUrl = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
                 $gaUrl     = CAOS_GA_URL . '/analytics.js';
-                $this->update_gtag_js($location['local'], $gaUrl, $caosGaUrl);
-                $this->update_gtag_js($location['local'], '/gtag/js?id=', '/gtag.js?id=');
-                $this->update_gtag_js($location['local'], '"//www.googletagmanager.com"', '"//dev.local/wp-content/uploads/caos"');
+                $this->find_replace_in($location['local'], $gaUrl, $caosGaUrl);
+                $this->find_replace_in($location['local'], '/gtag/js?id=', '/gtag.js?id=');
+                $this->find_replace_in($location['local'], '"//www.googletagmanager.com"', '"//dev.local/wp-content/uploads/caos"');
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }

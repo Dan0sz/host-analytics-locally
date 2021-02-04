@@ -58,13 +58,13 @@ class CAOS_Admin_Cron_Update
     }
 
     /**
-     * Update Gtag.js
+     * Find $find in $file and replace with $replace.
      *
-     * @param $file
-     * @param $find
-     * @param $replace
+     * @param $file string
+     * @param $find string
+     * @param $replace string
      */
-    protected function update_gtag_js($file, $find, $replace)
+    protected function find_replace_in($file, $find, $replace)
     {
         return file_put_contents($file, str_replace($find, $replace, file_get_contents($file)));
     }
