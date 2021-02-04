@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.6
-Stable tag: 3.8.1
+Stable tag: 3.9.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,6 +27,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 == Features ==
 - Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Minimal Analytics support,
+- Google Analytics V4 API support,
 - Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
@@ -61,7 +62,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 
 = I have another file I want to host locally. Could you make a plugin? =
 
-Maintaining three plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).. To host other 3rd party scripts and styles locally, try [HELL](https://wordpress.org/plugins/host-everything-local/). For WordPress Speed Optimization, check out [FFWP](https://ffw.press)
+Maintaining multiple plugins besides my daily 9-to-5 job is a handful, so no. If you're looking for a way to host Google Webfonts locally; please install [OMGF](https://wordpress.org/plugins/host-webfonts-local/).
 
 = Why am I getting an Unused JS notice on Google PageSpeed Insights for analytics.js/gtag.js? =
 
@@ -117,7 +118,7 @@ Try enabling the option called "Disable all display features functionality?" Wit
 
 = I've installed your plugin but analytics.js/gtag.js is still showing up as an external request in Pingdom e.a.? =
 
-CAOS adds a local file called gtag.js/analytics.js/gtag.js (depending on your choice), which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
+CAOS adds a local file called gtag.js/analytics.js (depending on your choice), which enables you to use Analytics, while hosting the necessary files locally. This doesn't mean that it scans your entire plugins or themes directory for other manually/programatically added Analytics tracking-code. I.e. If analytics.js is still showing up in the list of requests, this mean that something else (probably the theme you're using or another plugin) is adding this tracking code to your Wordpress Install. Find it. Remove it. And let CAOS take care of sending your needed data to Google Analytics.
 
 = I use a CDN. Can I use CAOS in combination with my CDN? =
 
@@ -128,6 +129,13 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.9.0 | February 4th, 2021 =
+* Re-introduced Stealth Mode compatibility for gtag.js for Google Analytics V3 API.
+* Reviewed plugins in Compatibility Mode:
+  * Updated MonsterInsights compatibility to also include gtag.js.
+  * Updated WooCommerce Google Analytics Integration to also include Google Analytics' V4 API (Global Site Tag) option.
+* Added Stealth Mode Lite support for Google Analytics V4 API.
 
 = 3.8.1 | January 27th, 2021 =
 * Improved compatiblity with WordPress in Subdirectory installs.
