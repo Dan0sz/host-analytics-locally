@@ -50,6 +50,7 @@ class CAOS_Frontend_Tracking
     public function insert_tracking_code()
     {
         if (CAOS_OPT_COMPATIBILITY_MODE == 'woocommerce') {
+            add_filter('woocommerce_gtag_snippet', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
             add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
             add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
@@ -275,6 +276,11 @@ class CAOS_Frontend_Tracking
     public function show_admin_message()
     {
         echo "<!-- " . __('This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.', 'host-analyticsjs-local') . " -->\n";
+    }
+
+    public function modify_gtag_js_snippet($snippet)
+    {
+        return str_replace('https://www.googletagmanager.com/gtag/js', CAOS_LOCAL_FILE_URL, $snippet);
     }
 
     /**
