@@ -51,12 +51,21 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     {
         $key = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
 
-        if (strpos(CAOS_OPT_REMOTE_JS_FILE, 'gtag') !== false) {
+        if ($key == 'gtag') {
             return [
                 'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
                     'local'  => CAOS_LOCAL_DIR . 'analytics.js'
                 ],
+                $key => [
+                    'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
+                    'local'  => CAOS_LOCAL_FILE_DIR
+                ]
+            ];
+        }
+
+        if ($key == 'gtag-v4') {
+            return [
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
                     'local'  => CAOS_LOCAL_FILE_DIR
@@ -95,11 +104,10 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             }
 
             if ($file == 'gtag-v4' && CAOS_OPT_EXT_STEALTH_MODE) {
-                add_filter('caos_stealth_mode_proxy_uri', function ($proxy_url) {
-                    return $proxy_url . '/g/collect';
-                });
+                $v4_collect_endpoint   = 'https://www.google-analytics.com/g/collect';
+                $stealth_mode_endpoint = apply_filters('caos_gtag_v4_stealth_mode_endpoint', home_url('wp-json/caos/v1/proxy/g/collect'));
 
-                $this->insert_proxy($location['local'], true, 'https://www.google-analytics.com/g/collect');
+                $this->find_replace_in($location['local'], $v4_collect_endpoint, $stealth_mode_endpoint);
             }
 
             if ($file == 'analytics' && CAOS_OPT_EXT_STEALTH_MODE) {

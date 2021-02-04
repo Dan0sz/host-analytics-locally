@@ -122,8 +122,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
 			'ua'  => $request->get_header('user_agent')
 		);
 		$query          = '?' . http_build_query($params + $passThruParams);
-		$route          = str_replace('/caos/v1/proxy', CAOS_GA_URL, $request->get_route());
-		$url            = $route . $query;
+		$url            = $this->get_route() . $query;
 
 		try {
 			$response = wp_remote_get(
@@ -218,5 +217,23 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	private function anonymize_ip($ip)
 	{
 		return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
+	}
+
+	/**
+	 * Get route for Google's Measurement Protocol API.
+	 * 
+	 * @return string 
+	 */
+	private function get_route()
+	{
+		switch (CAOS_OPT_REMOTE_JS_FILE) {
+			case 'gtag-v4.js':
+				$endpoint = '/g/collect';
+				break;
+			default:
+				$endpoint = '/r/collect';
+		}
+
+		return CAOS_GA_URL . $endpoint;
 	}
 }
