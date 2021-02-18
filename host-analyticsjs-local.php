@@ -5,8 +5,8 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress-plugins/caos/
  * Description: Completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js locally or use Minimal Analytics, bypass Ad Blockers in Stealth Mode, capture outbound links, and much more!
- * Version: 3.9.1
- * Author: Daan van den Bergh
+ * Version: 3.9.2
+ * Author: Daan from FFW.Press
  * Author URI: https://daan.dev
  * License: GPL2v2 or later
  * Text Domain: host-analyticsjs-local
