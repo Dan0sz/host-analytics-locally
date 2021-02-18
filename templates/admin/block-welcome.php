@@ -38,9 +38,9 @@ $tweetUrl = "https://twitter.com/intent/tweet?text=I+am+using+CAOS+to+speed+up+G
             </h3>
             <ul>
                 <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_quick_start', 'https://ffw.press/docs/caos/quick-start/'); ?>"><?= __('Quick Start Guide', $plugin_text_domain); ?></a></li>
-                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_user_manual', 'https://ffw.press/docs/omgf-pro/user-manual/'); ?>"><?= __('User Manual', $plugin_text_domain); ?></a></li>
-                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_faq_link', 'https://wordpress.org/plugins/host-webfonts-local/#description'); ?>"><?= __('FAQ', $plugin_text_domain); ?></a></li>
-                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_get_support_link', 'https://wordpress.org/support/plugin/host-webfonts-local/#new-post'); ?>"><?= __('Get Support', $plugin_text_domain); ?></a></li>
+                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_user_manual', 'https://ffw.press/docs/caos/user-manual/'); ?>"><?= __('User Manual', $plugin_text_domain); ?></a></li>
+                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_faq_link', 'https://wordpress.org/plugins/host-analyticjs-local/#description'); ?>"><?= __('FAQ', $plugin_text_domain); ?></a></li>
+                <li><a target="_blank" href="<?= apply_filters('caos_settings_sidebar_get_support_link', 'https://wordpress.org/support/plugin/host-analyticsjs-local/#new-post'); ?>"><?= __('Get Support', $plugin_text_domain); ?></a></li>
             </ul>
             <hr />
             <h4 class="signature"><?= sprintf(__('Coded with %s in The Netherlands.', $plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>'); ?></h4>
