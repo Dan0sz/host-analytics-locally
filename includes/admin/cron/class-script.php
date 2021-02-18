@@ -98,8 +98,8 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
                 $gaUrl     = CAOS_GA_URL . '/analytics.js';
                 $this->find_replace_in($location['local'], $gaUrl, $caosGaUrl);
                 $this->find_replace_in($location['local'], '/gtag/js?id=', '/gtag.js?id=');
-                $home_url = str_replace(['https:', 'http:'], '', home_url());
-                $this->find_replace_in($location['local'], '"//www.googletagmanager.com"', '"' . $home_url . '/wp-content/uploads/caos"');
+                $home_url = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
+                $this->find_replace_in($location['local'], '"//www.googletagmanager.com"', "\"$home_url\"");
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }
