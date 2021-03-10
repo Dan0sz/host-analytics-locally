@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 3.9.3
+Stable tag: 3.9.4
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,11 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 3.9.4 | Martch 10th, 2021 =
+* Minor code optimizations.
+* Increased compatibility for WP Bedrock configurations.
+* Removed notice stating that gtag.js isn't compatible with Stealth Mode (because it is since 3.9.0.)
 
 = 3.9.3 | March 9th, 2021 =
 * Tested with WP 5.7.
