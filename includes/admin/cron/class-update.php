@@ -61,8 +61,8 @@ class CAOS_Admin_Cron_Update
      * Find $find in $file and replace with $replace.
      *
      * @param $file string
-     * @param $find string
-     * @param $replace string
+     * @param $find array|string
+     * @param $replace array|string
      */
     protected function find_replace_in($file, $find, $replace)
     {
@@ -89,8 +89,9 @@ class CAOS_Admin_Cron_Update
         $proxy_url        = apply_filters('caos_stealth_mode_proxy_uri', $site_url . CAOS_PROXY_URI);
         $google_endpoints = apply_filters('caos_stealth_mode_google_endpoints', []);
         $caos_endpoint    = apply_filters('caos_stealth_mode_endpoint', '');
-        $new_file         = $this->find_replace_in($file, $google_endpoints, $caos_endpoint);
-        $new_file         = $this->find_replace_in($file, $replace_url, $proxy_url);
+        $finds            = ['$google_endpoints', $replace_url];
+        $replaces         = [$caos_endpoint, $proxy_url];
+        $new_file         = $this->find_replace_in($file, $finds, $replaces);
 
         return $new_file;
     }
