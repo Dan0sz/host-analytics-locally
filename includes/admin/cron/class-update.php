@@ -78,20 +78,23 @@ class CAOS_Admin_Cron_Update
      */
     protected function insert_proxy($file, $add_protocol = false, $replace_url = 'www.google-analytics.com')
     {
-        $site_url = get_site_url(CAOS_BLOG_ID);
+        $site_url = get_home_url(CAOS_BLOG_ID);
 
         if (!$add_protocol) {
             $find             = ['http://', 'https://'];
             $replace          = '';
-            $site_url         = str_replace($find, $replace, get_site_url(CAOS_BLOG_ID));
+            $site_url         = str_replace($find, $replace, $site_url);
         }
 
         $proxy_url        = apply_filters('caos_stealth_mode_proxy_uri', $site_url . CAOS_PROXY_URI);
         $google_endpoints = apply_filters('caos_stealth_mode_google_endpoints', []);
         $caos_endpoint    = apply_filters('caos_stealth_mode_endpoint', '');
-        $finds            = ['$google_endpoints', $replace_url];
-        $replaces         = [$caos_endpoint, $proxy_url];
-        $new_file         = $this->find_replace_in($file, $finds, $replaces);
+
+        /**
+         * Needs to be triggered twice, because $google_endpoints is an array and would otherwise become a multi-dimensional array.
+         */
+        $new_file         = $this->find_replace_in($file, $google_endpoints, $caos_endpoint);
+        $new_file         = $this->find_replace_in($file, $replace_url, $proxy_url);
 
         return $new_file;
     }

@@ -147,7 +147,7 @@ class CAOS
         $url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 
         if (CAOS_OPT_CDN_URL) {
-            $url = str_replace(get_site_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
+            $url = str_replace(get_home_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
         }
 
         return $url;

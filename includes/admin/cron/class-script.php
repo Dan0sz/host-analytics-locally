@@ -96,10 +96,11 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
             if ($file == 'gtag') {
                 $caosGaUrl = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
                 $gaUrl     = CAOS_GA_URL . '/analytics.js';
-                $this->find_replace_in($location['local'], $gaUrl, $caosGaUrl);
-                $this->find_replace_in($location['local'], '/gtag/js?id=', '/gtag.js?id=');
-                $home_url = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
-                $this->find_replace_in($location['local'], '"//www.googletagmanager.com"', "\"$home_url\"");
+                $home_url  = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
+                $finds     = [$gaUrl, 'gtag/js?id=', '"//www.googletagmanager.com"'];
+                $replaces  = [$caosGaUrl, '/gtag.js?id=', "\"$home_url\""];
+
+                $this->find_replace_in($location['local'], $finds, $replaces);
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }
