@@ -158,14 +158,6 @@ class CAOS_Admin
     public function add_js_file_notice($new_filename, $old_filename)
     {
         if ($new_filename !== $old_filename && !empty($new_filename)) {
-            if (CAOS_OPT_EXT_STEALTH_MODE) {
-                if ($new_filename == 'gtag.js' && !$this->is_super_stealth_active()) {
-                    CAOS_Admin_Notice::set_notice(sprintf(__('Gtag.js is not compatible with Stealth Mode Lite. Disable it or get the <a href="%s" target="_blank">Super Stealth Upgrade</a> to start using gtag.js.'), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES), false, 'warning');
-
-                    return $old_filename;
-                }
-            }
-
             CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', $this->plugin_text_domain), ucfirst($new_filename)), false);
         }
 
