@@ -58,6 +58,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'set_redirect' => 'Safe Mode (default)',
         'send_file'    => 'Experimental (faster)'
     ];
+
     /**
      * CAOS Basic/Advanced Settings
      */
@@ -74,6 +75,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
     const CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
+    const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE   = 'caos_site_speed_sample_rate';
     const CAOS_ADV_SETTING_ENQUEUE_ORDER            = 'sgal_enqueue_order';
     const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
@@ -85,6 +87,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
     const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
     const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
+
     /**
      * Info URLs
      */
@@ -111,7 +114,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         parent::__construct();
 
-        // @formatter:off
         // Global
         add_action('admin_menu', [$this, 'create_menu']);
         add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), [$this, 'settings_link']);
@@ -132,8 +134,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
 
+        // Settings Screen Content
         add_action('caos_settings_content', [$this, 'do_content'], 1);
-        // @formatter:on
 
         $this->do_cron_check();
     }

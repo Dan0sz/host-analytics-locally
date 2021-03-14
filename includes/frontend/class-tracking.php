@@ -39,6 +39,7 @@ class CAOS_Frontend_Tracking
         add_filter('caos_minimal_analytics_endpoint', [$this, 'set_minimal_analytics_endpoint'], 10, 1);
         add_action('caos_process_settings', [$this, 'disable_display_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
+        add_action('caos_process_settings', [$this, 'site_speed_sample_rate']);
         add_action('caos_process_settings', [$this, 'linkid']);
         add_action('caos_process_settings', [$this, 'google_optimize']);
         // @formatter:on
@@ -194,8 +195,30 @@ class CAOS_Frontend_Tracking
 
         add_filter('caos_analytics_before_send', function ($config) {
             $option = array(
-                'anonymize' => "ga('set', 'anonymizeIp', true);"
+                'anonymizeIp' => "ga('set', 'anonymizeIp', true);"
             );
+
+            return $config + $option;
+        });
+    }
+
+    /**
+     * Process Site Speed Sample Rate setting (defaults to 1)
+     * 
+     * @return void 
+     */
+    public function site_speed_sample_rate()
+    {
+        if ($this->is_gtag()) {
+            add_filter('caos_gtag_config', function ($config, $trackingId) {
+                return $config + ['site_speed_sample_rate' => CAOS_OPT_SITE_SPEED_SAMPLE_RATE];
+            }, 10, 2);
+        }
+
+        add_filter('caos_analytics_ga_create_config', function ($config) {
+            $option = [
+                'siteSpeedSampleRate' => CAOS_OPT_SITE_SPEED_SAMPLE_RATE
+            ];
 
             return $config + $option;
         });
@@ -263,11 +286,13 @@ class CAOS_Frontend_Tracking
     }
 
     /**
+     * Check if Global Site Tag is used.
+     * 
      * @return bool
      */
     private function is_gtag()
     {
-        return CAOS_OPT_REMOTE_JS_FILE == 'gtag.js';
+        return CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' || CAOS_OPT_REMOTE_JS_FILE == 'gtag-v4.js';
     }
 
     /**
@@ -278,6 +303,10 @@ class CAOS_Frontend_Tracking
         echo "<!-- " . __('This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.', 'host-analyticsjs-local') . " -->\n";
     }
 
+    /**
+     * @param mixed $snippet 
+     * @return mixed 
+     */
     public function modify_gtag_js_snippet($snippet)
     {
         return str_replace('https://www.googletagmanager.com/gtag/js', CAOS_LOCAL_FILE_URL, $snippet);

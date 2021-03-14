@@ -36,9 +36,10 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
         add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 160);
         add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 180);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 240);
+        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 250);
@@ -137,6 +138,21 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS,
             CAOS_OPT_COOKIE_EXPIRY_DAYS,
             __('The number of days when the cookie will automatically expire. Defaults to 30 days.', $this->plugin_text_domain)
+        );
+    }
+
+    /**
+     * Site Speed Sample Rate (%)
+     * 
+     * @return void 
+     */
+    public function do_site_speed_sample_rate()
+    {
+        $this->do_number(
+            __('Site Speed Sample Rate (%)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE,
+            CAOS_OPT_SITE_SPEED_SAMPLE_RATE,
+            __('This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', $this->plugin_text_domain)
         );
     }
 
