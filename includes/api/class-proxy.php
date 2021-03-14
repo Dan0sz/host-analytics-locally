@@ -138,7 +138,11 @@ class CAOS_API_Proxy extends WP_REST_Controller
 			throw new Exception($error->getMessage());
 		}
 
-		return $response;
+		if (!is_wp_error($response)) {
+			return wp_send_json_success(wp_remote_retrieve_body($response));
+		}
+
+		return wp_send_json_error(wp_remote_retrieve_response_message($response), wp_remote_retrieve_response_code($response));
 	}
 
 	/**
