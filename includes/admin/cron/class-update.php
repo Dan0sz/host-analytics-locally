@@ -23,7 +23,7 @@ class CAOS_Admin_Cron_Update
     private $file;
 
     /**
-     * Downloads $remoteFile and writes it to $localFile
+     * Downloads $remoteFile, check if $localFile exists and if so deletes it, then writes it to $localFile
      *
      * @param $localFile
      * @param $remoteFile
@@ -38,6 +38,13 @@ class CAOS_Admin_Cron_Update
 
         if (is_wp_error($this->file)) {
             return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
+        }
+
+        /**
+         * Some servers don't do a full overwrite if file already exists, so we delete it first.
+         */
+        if (file_exists($localFile)) {
+            unlink($localFile);
         }
 
         CAOS::filesystem()->put_contents($localFile, $this->file['body']);
