@@ -233,8 +233,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	 * Builds an array with additional data for Google Analytics' Measurement Protocol:
 	 * - (Anonymized) User IP
 	 * - User Agent
-	 * - GeoID (if CloudFlare's HTTP_CF_IPCOUNTRY header is present)
+	 * - GeoID (if CloudFlare's HTTP_CF_IPCOUNTRY header is present, i.e. IP GeoLocation is enabled)
 	 * 
+	 * @see https://support.cloudflare.com/hc/en-us/articles/200168236-What-does-Cloudflare-IP-Geolocation-do-
 	 * @see https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 	 * 
 	 * @param string $user_agent
