@@ -42,6 +42,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
+        add_filter('caos_advanced_settings_content', [$this, 'do_debug_mode'], 220);
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 250);
 
         // Close
@@ -179,6 +180,21 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES,
             CAOS_OPT_DISABLE_DISPLAY_FEAT,
             sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features')
+        );
+    }
+
+    /**
+     * Debug Mode
+     * 
+     * @return void 
+     */
+    public function do_debug_mode()
+    {
+        $this->do_checkbox(
+            __('Enable Debug Mode', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_DEBUG_MODE,
+            CAOS_OPT_DEBUG_MODE,
+            __('Only use this for debugging purposes! When enabled, debug information is logged to <code>wp-content/caos-debug.log</code>', $this->plugin_text_domain)
         );
     }
 

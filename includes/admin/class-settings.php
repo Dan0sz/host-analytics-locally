@@ -78,6 +78,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE   = 'caos_site_speed_sample_rate';
     const CAOS_ADV_SETTING_ENQUEUE_ORDER            = 'sgal_enqueue_order';
     const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
+    const CAOS_ADV_SETTING_DEBUG_MODE               = 'caos_debug_mode';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
     const CAOS_EXT_SETTING_PLUGIN_HANDLING          = 'caos_extension_plugin_handling';
     const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';

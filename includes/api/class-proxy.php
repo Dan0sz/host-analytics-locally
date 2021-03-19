@@ -55,6 +55,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	/** @var string $rest_base */
 	protected $rest_base;
 
+	/** @var string $plugin_text_domain */
+	private $plugin_text_domain = 'host-analyticsjs-local';
+
 	/**
 	 * CAOS_Proxy constructor.
 	 */
@@ -123,11 +126,15 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	 */
 	public function send_data($request)
 	{
+		CAOS::debug(__('CAOS API request started.', $this->plugin_text_domain));
+
 		$params = $request->get_params();
 
 		if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
 			parse_str($request->get_body(), $params);
 		}
+
+		CAOS::debug(sprintf(__('Parameters: %s', $this->plugin_text_domain), print_r($params, true)));
 
 		$ip                = $this->get_user_ip_address();
 		$user_agent        = $request->get_header('user_agent');
@@ -144,6 +151,8 @@ class CAOS_API_Proxy extends WP_REST_Controller
 				]
 			]
 		);
+
+		CAOS::debug(sprintf(__('CAOS API request finished: %s - %s', $this->plugin_text_domain), wp_remote_retrieve_response_code($response), wp_remote_retrieve_response_message($response)));
 
 		if (!is_wp_error($response)) {
 			return wp_send_json_success(wp_remote_retrieve_body($response));
@@ -204,7 +213,9 @@ class CAOS_API_Proxy extends WP_REST_Controller
 		$ip = '';
 
 		foreach (self::CAOS_PROXY_IP_HEADERS as $header) {
-			if ($this->exists($header)) {
+			if ($this->header_exists($header)) {
+				CAOS::debug(sprintf(__('HTTP header %s found.', $this->plugin_text_domain), $header));
+
 				$ip = $_SERVER[$header];
 
 				if (is_array(explode(',', $ip))) {
@@ -219,12 +230,12 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	}
 
 	/**
-	 * Checks if a $_SERVER global isset and is not empty.
+	 * Checks if a HTTP header is set and is not empty.
 	 * 
 	 * @param mixed $global 
 	 * @return bool 
 	 */
-	private function exists($global)
+	private function header_exists($global)
 	{
 		return isset($_SERVER[$global]) && !empty($_SERVER[$global]);
 	}
@@ -254,9 +265,11 @@ class CAOS_API_Proxy extends WP_REST_Controller
 			'ua'  => $user_agent
 		];
 
-		if ($this->exists['HTTP_CF_IPCOUNTRY']) {
+		if ($this->header_exists('HTTP_CF_IPCOUNTRY')) {
 			$additional_params['geoid'] = $_SERVER['HTTP_CF_IPCOUNTRY'];
 		}
+
+		CAOS::debug(sprintf(__('Additional Parameters: %s', $this->plugin_text_domain), print_r($additional_params, true)));
 
 		return $additional_params;
 	}
