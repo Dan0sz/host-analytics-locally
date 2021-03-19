@@ -30,6 +30,22 @@ class CAOS_API_Proxy extends WP_REST_Controller
 		'/plugins/ua/linkid.js'
 	];
 
+	/** 
+	 * Proxy IP Headers used to detect the visitors IP prior to sending the data to Google's Measurement Protocol.
+	 * 
+	 * @var array 
+	 * 
+	 * For CloudFlare compatibility HTTP_CF_CONNECTING_IP has been added.
+	 * 
+	 * @see https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers- 
+	 */
+	const CAOS_PROXY_IP_HEADERS = [
+		'HTTP_CF_CONNECTING_IP',
+		'HTTP_X_FORWARDER_FOR',
+		'HTTP_CLIENT_IP',
+		'REMOTE_ADDR'
+	];
+
 	/** @var array $plugin_endpoints */
 	private $plugin_endpoints = [];
 
@@ -108,35 +124,26 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	public function send_data($request)
 	{
 		$params = $request->get_params();
+
 		if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
 			parse_str($request->get_body(), $params);
 		}
-		$ip = $this->get_user_ip_address();
 
-		if (CAOS_OPT_ANONYMIZE_IP) {
-			$ip = $this->anonymize_ip($ip);
-		}
+		$ip                = $this->get_user_ip_address();
+		$user_agent        = $request->get_header('user_agent');
+		$additional_params = $this->build_additional_params($user_agent, $ip);
+		$query             = '?' . http_build_query($params + $additional_params);
+		$url               = $this->get_route() . $query;
 
-		$passThruParams = array(
-			'uip' => $ip,
-			'ua'  => $request->get_header('user_agent')
+		$response = wp_remote_get(
+			$url,
+			[
+				'user-agent' => $request->get_header('user_agent'),
+				'headers'    => [
+					'X-Forwarded-For:' => $ip
+				]
+			]
 		);
-		$query          = '?' . http_build_query($params + $passThruParams);
-		$url            = $this->get_route() . $query;
-
-		try {
-			$response = wp_remote_get(
-				$url,
-				array(
-					'user-agent' => $request->get_header('user_agent'),
-					'headers'    => array(
-						'X-Forwarded-For:' => $ip
-					)
-				)
-			);
-		} catch (\Exception $error) {
-			throw new Exception($error->getMessage());
-		}
 
 		if (!is_wp_error($response)) {
 			return wp_send_json_success(wp_remote_retrieve_body($response));
@@ -194,33 +201,63 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	 */
 	private function get_user_ip_address()
 	{
-		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else {
-			$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = '';
+
+		foreach (self::CAOS_PROXY_IP_HEADERS as $header) {
+			if ($this->exists($header)) {
+				$ip = $_SERVER[$header];
+
+				if (is_array(explode(',', $ip))) {
+					$ip = explode(',', $ip);
+
+					return $ip[0];
+				}
+
+				return $ip;
+			}
 		}
-
-		if (is_array(explode(',', $ip))) {
-			$ip = explode(',', $ip);
-
-			return $ip[0];
-		}
-
-		return $ip;
 	}
 
 	/**
-	 * Anonymize current IP, before sending it to Google to respect the Anonymize IP advanced setting.
-	 *
-	 * @param $ip
-	 *
-	 * @return string|string[]|null
+	 * Checks if a $_SERVER global isset and is not empty.
+	 * 
+	 * @param mixed $global 
+	 * @return bool 
 	 */
-	private function anonymize_ip($ip)
+	private function exists($global)
 	{
-		return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
+		return isset($_SERVER[$global]) && !empty($_SERVER[$global]);
+	}
+
+	/**
+	 * Builds an array with additional data for Google Analytics' Measurement Protocol:
+	 * - (Anonymized) User IP
+	 * - User Agent
+	 * - GeoID (if CloudFlare's HTTP_CF_IPCOUNTRY header is present)
+	 * 
+	 * @see https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
+	 * 
+	 * @param string $user_agent
+	 * @param string $ip 
+	 * 
+	 * @return array 
+	 */
+	private function build_additional_params($user_agent, $ip)
+	{
+		if (CAOS_OPT_ANONYMIZE_IP) {
+			$ip = $this->anonymize_ip($ip);
+		}
+
+		$additional_params = [
+			'uip' => $ip,
+			'ua'  => $user_agent
+		];
+
+		if ($this->exists['HTTP_CF_IPCOUNTRY']) {
+			$additional_params['geoid'] = $_SERVER['HTTP_CF_IPCOUNTRY'];
+		}
+
+		return $additional_params;
 	}
 
 	/**
@@ -239,5 +276,17 @@ class CAOS_API_Proxy extends WP_REST_Controller
 		}
 
 		return CAOS_GA_URL . $endpoint;
+	}
+
+	/**
+	 * Anonymize current IP, before sending it to Google to respect the Anonymize IP advanced setting.
+	 *
+	 * @param $ip
+	 *
+	 * @return string|string[]|null
+	 */
+	private function anonymize_ip($ip)
+	{
+		return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
 	}
 }
