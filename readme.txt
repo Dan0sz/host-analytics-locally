@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 3.10.1
+Stable tag: 3.11.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -131,10 +131,14 @@ N/A
 
 == Changelog ==
 
+= 3.11.0 | March 19th, 2021 =
+* Added Debug Mode in Advanced Settings
+* Fixed bug in CloudFlare IP Geolocation detection
+
 = 3.10.1 | March 19th, 2021 =
 * Re-factored CAOS_API_Proxy class to make it more readable and logical.
 * Increased CloudFlare compatibility for Stealth Mode (Lite) and Super Stealth:
-  - If CloudFlare's GeoIP Location option is enabled, this will used to overwrite the location derived from the user's IP address.
+  - If CloudFlare's GeoIP Location option is enabled, this will be used to overwrite the location derived from the user's IP address.
 
 = 3.10.0 | March 14th, 2021 =
 * Added Advanced Setting: Site Speed Sample Rate.
