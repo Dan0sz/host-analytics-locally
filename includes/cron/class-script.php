@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || exit;
 
-class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
+class CAOS_Cron_Script extends CAOS_Cron
 {
     /** @var [] $files */
     private $files;
@@ -27,7 +27,7 @@ class CAOS_Admin_Cron_Script extends CAOS_Admin_Cron_Update
     private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
 
     /**
-     * CAOS_Admin_Cron_Script constructor.
+     * CAOS_Cron_Script constructor.
      */
     public function __construct()
     {

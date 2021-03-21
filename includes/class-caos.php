@@ -35,6 +35,7 @@ class CAOS
             $this->do_tracking_code();
         }
 
+        add_action('admin_init', [$this, 'do_update_after_save']);
         add_action('rest_api_init', [$this, 'register_routes']);
     }
 
@@ -137,6 +138,14 @@ class CAOS
     private function do_tracking_code()
     {
         return new CAOS_Frontend_Tracking();
+    }
+
+    /**
+     * @return CAOS_Admin_UpdateFiles 
+     */
+    public function do_update_after_save()
+    {
+        return new CAOS_Admin_UpdateFiles();
     }
 
     /**

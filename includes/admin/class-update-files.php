@@ -15,23 +15,21 @@
 
 defined('ABSPATH') || exit;
 
-class CAOS_AJAX
+class CAOS_Admin_UpdateFiles extends CAOS_Cron_Script
 {
-    /**
-     * CAOS_AJAX constructor.
-     */
     public function __construct()
     {
-        // @formatter:off
-        add_action('wp_ajax_caos_analytics_ajax_manual_download', [$this, 'manual_download']);
-        // @formatter:on
-    }
+        $option_page             = $_POST['option_page'] ?? '';
+        $this->optimization_mode = $_POST[OMGF_Admin_Settings::OMGF_OPTIMIZE_SETTING_OPTIMIZATION_MODE] ?? '';
 
-    /**
-     * @return CAOS_Cron_Script
-     */
-    public function manual_download()
-    {
-        return new CAOS_Cron_Script();
+        if (
+            CAOS_Admin_Settings::CAOS_ADMIN_SECTION_BASIC_SETTINGS != $option_page
+            && CAOS_Admin_Settings::CAOS_ADMIN_SECTION_ADV_SETTINGS != $option_page
+            && CAOS_Admin_Settings::CAOS_ADMIN_SECTION_EXT_SETTINGS != $option_page
+        ) {
+            return;
+        }
+
+        parent::__construct();
     }
 }

@@ -82,6 +82,6 @@ class CAOS_Setup
      */
     public function load_cron_script()
     {
-        new CAOS_Admin_Cron_Script();
+        new CAOS_Cron_Script();
     }
 }

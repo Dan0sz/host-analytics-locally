@@ -23,6 +23,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_SECTION_BASIC_SETTINGS = 'caos-basic-settings';
     const CAOS_ADMIN_SECTION_ADV_SETTINGS   = 'caos-advanced-settings';
     const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
+
     /**
      * Option Values
      */
@@ -88,6 +89,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
     const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
     const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
+    const CAOS_CRON_RUN_UPDATE                      = 'caos_cron_run_update';
+    const CAOS_CRON_FILE_ALIASES                    = 'caos_cron_file_aliases';
 
     /**
      * Info URLs
@@ -146,7 +149,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function create_menu()
     {
-        // @formatter:off
         add_options_page(
             'CAOS',
             'Optimize Google Analytics',
@@ -156,7 +158,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
         );
 
         add_action('admin_init', [$this, 'register_settings']);
-        // @formatter:on
     }
 
     /**
