@@ -41,7 +41,6 @@ class CAOS_Admin
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
         add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
-        add_action('update_option_caos_analytics_js_file', [$this, 'add_update_js_file_notice']);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
         add_action('pre_update_option_caos_capture_outbound_links', [$this, 'add_outbound_links_notice'], 10, 2);
@@ -208,14 +207,6 @@ class CAOS_Admin
     }
 
     /**
-     * Throw an update file notice after Remote JS file option is changed.
-     */
-    public function add_update_js_file_notice()
-    {
-        $this->add_update_file_reminder();
-    }
-
-    /**
      * @param $old_dir
      * @param $new_dir
      *
@@ -225,8 +216,6 @@ class CAOS_Admin
     {
         if ($new_dir !== $old_dir && !empty($new_dir)) {
             CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir), false);
-
-            $this->add_update_file_reminder();
         }
 
 
@@ -251,14 +240,10 @@ class CAOS_Admin
             $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
             CAOS_Admin_Notice::set_notice($message, false);
-
-            $this->add_update_file_reminder();
         } elseif (empty($new_value)) {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', $this->plugin_text_domain));
 
             CAOS_Admin_Notice::set_notice($message, false);
-
-            $this->add_update_file_reminder();
         }
 
         return $new_value;
@@ -281,13 +266,5 @@ class CAOS_Admin
         }
 
         return $new_value;
-    }
-
-    /**
-     * Set reminder to update the selected file.
-     */
-    private function add_update_file_reminder()
-    {
-        CAOS_Admin_Notice::set_notice('<a href="#" id="notice-manual-download">' . __('Click here', $this->plugin_text_domain) . '</a> ' . sprintf(__('to download/update %s.', $this->plugin_text_domain), get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)), false, 'info', 200, 'all', 'update_file');
     }
 }

@@ -23,7 +23,6 @@ class CAOS
     public function __construct()
     {
         $this->define_constants();
-        $this->do_ajax();
         $this->do_setup();
 
         if (is_admin()) {
@@ -96,14 +95,6 @@ class CAOS
         }
 
         error_log(current_time('Y-m-d H:i:s') . ": $message\n", 3, trailingslashit(WP_CONTENT_DIR) . 'caos-debug.log');
-    }
-
-    /**
-     * @return CAOS_AJAX
-     */
-    private function do_ajax()
-    {
-        return new CAOS_AJAX();
     }
 
     /**

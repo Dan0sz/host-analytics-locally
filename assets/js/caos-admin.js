@@ -21,34 +21,11 @@ jQuery(document).ready(function ($) {
          * Initialize CAOS Admin Functions.
          */
         init: function () {
-            // Buttons
-            $('#manual-download, #notice-manual-download').on('click', this.manual_download);
-
             // Radio's
             $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
             $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
-
-            // Options
-            $('.caos-analytics-compatibility-mode').on('click', this.toggle_compatibility_mode);
             $('.caos-stealth-mode, .caos-extension-optimize').on('click', this.toggle_stealth_mode);
-            $('.caos-analytics-js-file').on('click', this.toggle_js_file_input);
             $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
-        },
-
-        /**
-         * Triggered when 'Update' button is clicked.
-         */
-        manual_download: function () {
-            $.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                data: {
-                    action: 'caos_analytics_ajax_manual_download'
-                },
-                complete: function () {
-                    location.reload();
-                }
-            });
         },
 
         /**
