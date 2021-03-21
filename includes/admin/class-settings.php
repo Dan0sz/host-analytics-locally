@@ -17,6 +17,8 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Settings extends CAOS_Admin
 {
+    const CAOS_ADMIN_PAGE = 'host_analyticsjs_local';
+
     /**
      * Admin Sections
      */
@@ -122,7 +124,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_action('admin_menu', [$this, 'create_menu']);
         add_filter('plugin_action_links_' . plugin_basename(CAOS_PLUGIN_FILE), [$this, 'settings_link']);
 
-        if ($this->page !== 'host_analyticsjs_local') {
+        if ($this->page !== self::CAOS_ADMIN_PAGE) {
             return;
         }
 
@@ -153,7 +155,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             'CAOS',
             'Optimize Google Analytics',
             'manage_options',
-            'host_analyticsjs_local',
+            self::CAOS_ADMIN_PAGE,
             [$this, 'settings_page']
         );
 

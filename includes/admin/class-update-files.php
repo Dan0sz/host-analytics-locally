@@ -17,15 +17,17 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_UpdateFiles extends CAOS_Cron_Script
 {
+    /**
+     * This class is triggered after settings are saved on one of CAOS' settings screens.
+     */
     public function __construct()
     {
-        $option_page             = $_POST['option_page'] ?? '';
-        $this->optimization_mode = $_POST[OMGF_Admin_Settings::OMGF_OPTIMIZE_SETTING_OPTIMIZATION_MODE] ?? '';
+        $settings_page    = $_GET['page'] ?? '';
+        $settings_updated = $_GET['settings-updated'] ?? '';
 
         if (
-            CAOS_Admin_Settings::CAOS_ADMIN_SECTION_BASIC_SETTINGS != $option_page
-            && CAOS_Admin_Settings::CAOS_ADMIN_SECTION_ADV_SETTINGS != $option_page
-            && CAOS_Admin_Settings::CAOS_ADMIN_SECTION_EXT_SETTINGS != $option_page
+            CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page
+            && !$settings_updated
         ) {
             return;
         }
