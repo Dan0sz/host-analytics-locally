@@ -165,48 +165,6 @@ class CAOS_Admin
     }
 
     /**
-     * @return bool
-     */
-    public function is_super_stealth_active()
-    {
-        $super_stealth = array_filter($this->get_plugins(), function ($basename) {
-            return strpos($basename, 'caos-super-stealth') !== false;
-        });
-
-        $is_plugin_active = false;
-
-        if (!empty($super_stealth)) {
-            $is_plugin_active = $this->is_plugin_active(reset($super_stealth));
-        }
-
-        return $is_plugin_active;
-    }
-
-    /**
-     * @return array[]
-     */
-    private function get_plugins()
-    {
-        return (array) get_option('active_plugins', array());
-    }
-
-    /**
-     * Polyfill for is_plugin_active()
-     *
-     * @param $plugin
-     *
-     * @return bool
-     */
-    private function is_plugin_active($plugin)
-    {
-        if (!function_exists('is_plugin_active')) {
-            return in_array($plugin, $this->get_plugins());
-        }
-
-        return is_plugin_active($plugin);
-    }
-
-    /**
      * @param $old_dir
      * @param $new_dir
      *

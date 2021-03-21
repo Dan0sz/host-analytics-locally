@@ -31,6 +31,10 @@ class CAOS_Cron_Script extends CAOS_Cron
      */
     public function __construct()
     {
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            return;
+        }
+
         $this->files = $this->queue_files();
 
         // Check if directory exists, otherwise create it.

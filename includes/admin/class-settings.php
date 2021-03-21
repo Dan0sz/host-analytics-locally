@@ -195,10 +195,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
                     do_action("after_$current_section"); ?>
 
                     <?php submit_button(null, 'primary', 'submit', false); ?>
-
-                    <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
-                        <a href="#" id="manual-download" class="button button-secondary"><?= __('Update', $this->plugin_text_domain); ?> <?= CAOS_OPT_REMOTE_JS_FILE; ?></a>
-                    <?php endif; ?>
                 </form>
             </div>
 
