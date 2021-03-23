@@ -73,6 +73,7 @@ class CAOS
         define('CAOS_OPT_EXT_OPTIMIZE_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE_ID)));
         define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_COOKIE_EXPIRY_DAYS ? CAOS_OPT_COOKIE_EXPIRY_DAYS * 86400 : 2592000);
         define('CAOS_CRON', 'caos_update_analytics_js');
+        define('CAOS_CRON_FILE_ALIASES', get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES));
         define('CAOS_GA_URL', 'https://www.google-analytics.com');
         define('CAOS_GTM_URL', 'https://www.googletagmanager.com');
         define('CAOS_REMOTE_URL', CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? CAOS_GTM_URL : CAOS_GA_URL);
@@ -157,6 +158,10 @@ class CAOS
     }
 
     /**
+     * Returns early if File Aliases option doesn't exist for Backwards Compatibility.
+     * 
+     * @since 3.11.0
+     *  
      * @return string
      */
     public static function get_url()
@@ -166,6 +171,19 @@ class CAOS
         if (CAOS_OPT_CDN_URL) {
             $url = str_replace(get_home_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
         }
+
+        if (!CAOS_CRON_FILE_ALIASES) {
+            return $url;
+        }
+
+        $filehandle = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+        $file_alias = CAOS_CRON_FILE_ALIASES[$filehandle] ?? false;
+
+        if (!$file_alias) {
+            return $url;
+        }
+
+        $url = str_replace(CAOS_OPT_REMOTE_JS_FILE, $file_alias, $url);
 
         return $url;
     }
