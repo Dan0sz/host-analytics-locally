@@ -27,41 +27,60 @@ class CAOS_Cron
      *
      * @param $localFile
      * @param $remoteFile
+     * @param $file string
+     * @param $is_plugin bool
      *
      * @return void|string
      */
-    protected function download_file($localFile, $remoteFile)
+    protected function download_file($localFile, $remoteFile, $file = '', $is_plugin = false)
     {
         do_action('caos_admin_update_before');
 
-        $this->file = wp_remote_get($remoteFile, $localFile);
+        $this->file = wp_remote_get($remoteFile);
 
         if (is_wp_error($this->file)) {
             return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
         }
 
-        $pathinfo       = pathinfo($localFile);
-        $base           = $pathinfo['basename'];
-        $file           = $pathinfo['filename'];
-        $dir            = $pathinfo['dirname'];
-        $file_aliases   = get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES);
+        /**
+         * If $file is not set, extract it from $remoteFile.
+         * 
+         * @since 3.11.0
+         */
+        $file           = $file ?: pathinfo($remoteFile)['filename'];
+        $file_aliases   = CAOS::get_file_aliases();
         $file_alias     = $file_aliases[$file] ?? '';
         $new_file_alias = bin2hex(random_bytes(4)) . '.js';
+        $local_dir      = CAOS_LOCAL_DIR;
+
+        /**
+         * If file is a plugin, we use the same subdirectory structure Google uses.
+         */
+        if ($is_plugin) {
+            $local_dir = untrailingslashit(CAOS_LOCAL_DIR) . str_replace(CAOS_GA_URL, '', $remoteFile);
+            $local_dir = trailingslashit(pathinfo($local_dir)['dirname']) ?? CAOS_LOCAL_DIR;
+        }
 
         /**
          * Some servers don't do a full overwrite if file already exists, so we delete it first.
          */
-        if ($file_alias && file_exists($dir . '/' . $file_alias)) {
-            unlink($dir . '/' . $file_alias);
+        if ($file_alias && file_exists($local_dir . $file_alias)) {
+            unlink($local_dir . $file_alias);
         }
 
-        CAOS::filesystem()->put_contents($dir . '/' . $new_file_alias, $this->file['body']);
+        CAOS::filesystem()->put_contents($local_dir . $new_file_alias, $this->file['body']);
 
-        $file_aliases[$file] = $new_file_alias;
-
-        update_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES, $file_aliases);
+        /**
+         * Update the file alias in temporary storage, for later use. The child download() method writes the values
+         * to the database.
+         * 
+         * @see CAOS_Cron_Script::download()
+         */
+        CAOS::set_file_alias($file, $new_file_alias);
 
         do_action('caos_admin_update_after');
+
+        return $local_dir . $new_file_alias;
     }
 
     /**

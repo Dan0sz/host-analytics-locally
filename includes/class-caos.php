@@ -43,6 +43,10 @@ class CAOS
      */
     public function define_constants()
     {
+        global $caos_file_aliases;
+
+        $caos_file_aliases = get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES);
+
         define('CAOS_SITE_URL', 'https://daan.dev');
         define('CAOS_BLOG_ID', get_current_blog_id());
         define('CAOS_OPT_TRACKING_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
@@ -81,6 +85,86 @@ class CAOS
         define('CAOS_LOCAL_FILE_DIR', CAOS_LOCAL_DIR . CAOS_OPT_REMOTE_JS_FILE);
         define('CAOS_LOCAL_FILE_URL', self::get_url());
         define('CAOS_PROXY_URI', '/wp-json/caos/v1/proxy');
+    }
+
+    /**
+     * @return false|array 
+     */
+    public static function get_file_aliases()
+    {
+        global $caos_file_aliases;
+
+        return $caos_file_aliases;
+    }
+
+    /**
+     * @param string $key 
+     * @return string 
+     */
+    public static function get_file_alias($key = '')
+    {
+        $file_aliases = self::get_file_aliases();
+
+        if (!$file_aliases) {
+            return '';
+        }
+
+        return $file_aliases[$key] ?? '';
+    }
+
+    /**
+     * 
+     */
+    public static function set_file_aliases($file_aliases, $write = false)
+    {
+        global $caos_file_aliases;
+
+        $caos_file_aliases = $file_aliases;
+
+        if ($write) {
+            update_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES, $file_aliases);
+        }
+    }
+
+    /**
+     * @param string $key 
+     * @param string $alias 
+     * @return true 
+     */
+    public static function set_file_alias($key, $alias)
+    {
+        $file_aliases = self::get_file_aliases();
+
+        $file_aliases[$key] = $alias;
+
+        self::set_file_aliases($file_aliases);
+    }
+
+    /**
+     * Includes backwards compatibility for pre 3.11.0
+     * 
+     * @since 3.11.0
+     * 
+     * @param mixed $key 
+     * @return string|void 
+     */
+    public static function get_file_path($key)
+    {
+        $file_path = CAOS_LOCAL_DIR . $key . '.js';
+
+        // Backwards compatibility
+        if (!self::get_file_aliases()) {
+            return $file_path;
+        }
+
+        $file_alias = self::get_file_alias($key) ?? '';
+
+        // Backwards compatibility
+        if (!$file_alias) {
+            return $file_path;
+        }
+
+        return CAOS_LOCAL_DIR . $file_alias;
     }
 
     /**
@@ -172,12 +256,12 @@ class CAOS
             $url = str_replace(get_home_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
         }
 
-        if (!CAOS_CRON_FILE_ALIASES) {
+        if (!self::get_file_aliases()) {
             return $url;
         }
 
         $filehandle = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
-        $file_alias = CAOS_CRON_FILE_ALIASES[$filehandle] ?? false;
+        $file_alias = self::get_file_alias($filehandle);
 
         if (!$file_alias) {
             return $url;

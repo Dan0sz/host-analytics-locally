@@ -51,6 +51,11 @@ class CAOS_Cron_Script extends CAOS_Cron
         }
     }
 
+    /**
+     * Enqueues the files that need to be downloaded.
+     * 
+     * @return array
+     */
     private function queue_files()
     {
         $key = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
@@ -59,11 +64,11 @@ class CAOS_Cron_Script extends CAOS_Cron
             return [
                 'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
-                    'local'  => CAOS_LOCAL_DIR . 'analytics.js'
+                    'local'  => CAOS::get_file_path('analytics')
                 ],
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
-                    'local'  => CAOS_LOCAL_FILE_DIR
+                    'local'  => CAOS::get_file_path($key)
                 ]
             ];
         }
@@ -72,7 +77,7 @@ class CAOS_Cron_Script extends CAOS_Cron
             return [
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
-                    'local'  => CAOS_LOCAL_FILE_DIR
+                    'local'  => CAOS::get_file_path($key)
                 ]
             ];
         }
@@ -80,7 +85,7 @@ class CAOS_Cron_Script extends CAOS_Cron
         return [
             $key => [
                 'remote' => CAOS_GA_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
-                'local'  => CAOS_LOCAL_FILE_DIR
+                'local'  => CAOS::get_file_path($key)
             ]
         ];
     }
@@ -95,16 +100,26 @@ class CAOS_Cron_Script extends CAOS_Cron
         $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
 
         foreach ($this->files as $file => $location) {
-            $this->download_file($location['local'], $location['remote']);
+            $downloaded_file = $this->download_file($location['local'], $location['remote'], $file);
 
             if ($file == 'gtag') {
-                $caosGaUrl = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
-                $gaUrl     = CAOS_GA_URL . '/analytics.js';
-                $home_url  = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
-                $finds     = [$gaUrl, 'gtag/js?id=', '"//www.googletagmanager.com"'];
-                $replaces  = [$caosGaUrl, '/gtag.js?id=', "\"$home_url\""];
+                /**
+                 * Backwards compatibility
+                 * 
+                 * @since 3.11.0
+                 */
+                if (!CAOS::get_file_aliases()) {
+                    $local_ga_url = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
+                } else {
+                    $local_ga_url = str_replace(CAOS::get_file_alias($file), CAOS::get_file_alias('analytics'), CAOS::get_url());
+                }
 
-                $this->find_replace_in($location['local'], $finds, $replaces);
+                $ext_ga_url = CAOS_GA_URL . '/analytics.js';
+                $home_url   = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
+                $finds      = [$ext_ga_url, 'gtag/js?id=', '"//www.googletagmanager.com"'];
+                $replaces   = [$local_ga_url, '/gtag.js?id=', "\"$home_url\""];
+
+                $this->find_replace_in($downloaded_file, $finds, $replaces);
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
             }
@@ -113,13 +128,13 @@ class CAOS_Cron_Script extends CAOS_Cron
                 $v4_collect_endpoint   = 'https://www.google-analytics.com/g/collect';
                 $stealth_mode_endpoint = apply_filters('caos_gtag_v4_stealth_mode_endpoint', home_url('wp-json/caos/v1/proxy/g/collect'));
 
-                $this->find_replace_in($location['local'], $v4_collect_endpoint, $stealth_mode_endpoint);
+                $this->find_replace_in($downloaded_file, $v4_collect_endpoint, $stealth_mode_endpoint);
             }
 
             if ($file == 'analytics' && CAOS_OPT_EXT_STEALTH_MODE) {
                 do_action('before_caos_stealth_mode_enable');
 
-                $this->insert_proxy($location['local']);
+                $this->insert_proxy($downloaded_file);
 
                 $pluginDir = CAOS_LOCAL_DIR . '/plugins/ua';
                 $this->create_dir_recursive($pluginDir);
@@ -131,12 +146,17 @@ class CAOS_Cron_Script extends CAOS_Cron
                 foreach ($plugins as $plugin) {
                     $plugin_file        = rtrim(CAOS_LOCAL_DIR, '/') . $plugin;
                     $plugin_remote_file = CAOS_GA_URL . $plugin;
-                    $this->download_file($plugin_file, $plugin_remote_file);
+                    $this->download_file($plugin_file, $plugin_remote_file, '', true);
                 }
 
                 do_action('after_caos_stealth_mode_enable');
             }
         }
+
+        /**
+         * Writes all currently stored file aliases to the database.
+         */
+        CAOS::set_file_aliases(CAOS::get_file_aliases(), true);
 
         return sprintf(__('%s downloaded successfully and', 'host-analyticsjs-local'), ucfirst(CAOS_OPT_REMOTE_JS_FILE)) . ' ' . $added;
     }
