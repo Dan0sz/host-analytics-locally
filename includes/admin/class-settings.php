@@ -195,7 +195,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
                     $current_section = str_replace('-', '_', $this->active_tab);
                     do_action("after_$current_section"); ?>
 
-                    <?php submit_button(null, 'primary', 'submit', false); ?>
+                    <?php submit_button(__('Save Changes & Update', $this->plugin_text_domain), 'primary', 'submit', false); ?>
+                    <span><em><?= sprintf(__('%s is updated automatically after settings are saved.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE)); ?></em></span>
                 </form>
             </div>
 
