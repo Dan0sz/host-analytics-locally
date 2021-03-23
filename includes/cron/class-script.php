@@ -35,7 +35,7 @@ class CAOS_Cron_Script extends CAOS_Cron
             return;
         }
 
-        $this->files = $this->queue_files();
+        $this->files = $this->build_download_queue();
 
         // Check if directory exists, otherwise create it.
         $this->create_dir_recursive(CAOS_LOCAL_DIR);
@@ -56,7 +56,7 @@ class CAOS_Cron_Script extends CAOS_Cron
      * 
      * @return array
      */
-    private function queue_files()
+    private function build_download_queue()
     {
         $key = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
 
@@ -125,7 +125,12 @@ class CAOS_Cron_Script extends CAOS_Cron
             }
 
             if ($file == 'gtag-v4' && CAOS_OPT_EXT_STEALTH_MODE) {
-                $v4_collect_endpoint   = 'https://www.google-analytics.com/g/collect';
+                /**
+                 * Since V4 is still in beta, the endpoints are bound to change. This filters the used endpoints.
+                 * 
+                 * @since 3.9.0
+                 */
+                $v4_collect_endpoint   = apply_filters('caos_gtag_v4_collect_endpoint', 'https://www.google-analytics.com/g/collect');
                 $stealth_mode_endpoint = apply_filters('caos_gtag_v4_stealth_mode_endpoint', home_url('wp-json/caos/v1/proxy/g/collect'));
 
                 $this->find_replace_in($downloaded_file, $v4_collect_endpoint, $stealth_mode_endpoint);
