@@ -114,7 +114,7 @@ class CAOS_Admin
         if (substr($new_tracking_id, 0, 2) == 'G-') {
             $title = 'Google Analytics 4';
             $version = 'V4';
-            $remote_file = 'gtag.js';
+            $remote_file = 'gtag.js (V4 API)';
         }
 
         CAOS_Admin_Notice::set_notice(
