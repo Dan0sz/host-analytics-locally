@@ -47,8 +47,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
     ];
     const CAOS_ADMIN_JS_FILE_OPTIONS         = [
         'analytics.js'  => 'Analytics.js (default)',
-        'gtag-v4.js'    => 'Gtag.js (v4 API)',
-        'gtag.js'       => 'Gtag.js (deprecated)'
+        'gtag-v4.js'    => 'Gtag.js (v4 API - Beta)',
+        'gtag.js'       => 'Gtag.js'
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
