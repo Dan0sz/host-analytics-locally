@@ -113,7 +113,9 @@ class CAOS
     }
 
     /**
-     * 
+     * @param array $file_aliases 
+     * @param bool $write 
+     * @return bool 
      */
     public static function set_file_aliases($file_aliases, $write = false)
     {
@@ -122,22 +124,28 @@ class CAOS
         $caos_file_aliases = $file_aliases;
 
         if ($write) {
-            update_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES, $file_aliases);
+            return update_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES, $file_aliases);
         }
+
+        /**
+         * There's no reason to assume that updating a global variable would fail. Always return true at this point.
+         */
+        return true;
     }
 
     /**
      * @param string $key 
      * @param string $alias 
-     * @return true 
+     * @param bool $write 
+     * @return bool 
      */
-    public static function set_file_alias($key, $alias)
+    public static function set_file_alias($key, $alias, $write = false)
     {
         $file_aliases = self::get_file_aliases();
 
         $file_aliases[$key] = $alias;
 
-        self::set_file_aliases($file_aliases);
+        return self::set_file_aliases($file_aliases, $write);
     }
 
     /**

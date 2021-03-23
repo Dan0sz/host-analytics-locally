@@ -37,8 +37,16 @@ class CAOS_Cron_Script extends CAOS_Cron
 
         $this->files = $this->build_download_queue();
 
+        CAOS::debug(sprintf(__('Built file queue: %s', $this->plugin_text_domain), print_r($this->files, true)));
+
         // Check if directory exists, otherwise create it.
-        $this->create_dir_recursive(CAOS_LOCAL_DIR);
+        $create_dir = $this->create_dir_recursive(CAOS_LOCAL_DIR);
+
+        if ($create_dir) {
+            CAOS::debug(sprintf(__('%s created successfully.', $this->plugin_text_domain), CAOS_LOCAL_DIR));
+        } else {
+            CAOS::debug(sprintf(__('%s already exists.', $this->plugin_text_domain), CAOS_LOCAL_DIR));
+        }
 
         $file_downloaded = $this->download();
 

@@ -23,6 +23,11 @@ class CAOS_Cron
     private $file;
 
     /**
+     * @var string
+     */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
+    /**
      * Downloads $remoteFile, check if $localFile exists and if so deletes it, then writes it to $localFile
      *
      * @param $localFile
@@ -39,6 +44,8 @@ class CAOS_Cron
         $this->file = wp_remote_get($remoteFile);
 
         if (is_wp_error($this->file)) {
+            CAOS::debug(sprintf(__('An error occurred: %s - %s', $this->plugin_text_domain), $this->file->get_error_code(), $this->file->get_error_message()));
+
             return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
         }
 
@@ -53,6 +60,8 @@ class CAOS_Cron
         $new_file_alias = bin2hex(random_bytes(4)) . '.js';
         $local_dir      = CAOS_LOCAL_DIR;
 
+        CAOS::debug(sprintf(__('Alias for %s changed from %s to %s.', $this->plugin_text_domain), $file, $file_alias, $new_file_alias));
+
         /**
          * If file is a plugin, we use the same subdirectory structure Google uses.
          */
@@ -61,14 +70,40 @@ class CAOS_Cron
             $local_dir = trailingslashit(pathinfo($local_dir)['dirname']) ?? CAOS_LOCAL_DIR;
         }
 
+        if ($is_plugin) {
+            CAOS::debug(__('File is a plugin.', $this->plugin_text_domain));
+        }
+
+        CAOS::debug(sprintf(__('Saving to %s.', $this->plugin_text_domain), $local_dir));
+
         /**
          * Some servers don't do a full overwrite if file already exists, so we delete it first.
          */
         if ($file_alias && file_exists($local_dir . $file_alias)) {
-            unlink($local_dir . $file_alias);
+            $deleted = unlink($local_dir . $file_alias);
+
+            if ($deleted) {
+                CAOS::debug(sprintf(__('Old file %s successfully deleted.', $this->plugin_text_domain), $file_alias));
+            } else {
+                if ($error = error_get_last()) {
+                    CAOS::debug(sprintf(__('Old file %s could not be deleted. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
+                } else {
+                    CAOS::debug(sprintf(__('Old file %s could not be deleted. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
+                }
+            }
         }
 
-        CAOS::filesystem()->put_contents($local_dir . $new_file_alias, $this->file['body']);
+        $write = CAOS::filesystem()->put_contents($local_dir . $new_file_alias, $this->file['body']);
+
+        if ($write) {
+            CAOS::debug(sprintf(__('New file %s successfully saved.', $this->plugin_text_domain), $new_file_alias));
+        } else {
+            if ($error = error_get_last()) {
+                CAOS::debug(sprintf(__('New file %s could not be saved. Something went wrong: %s', $this->plugin_text_domain), $new_file_alias, $error['message']));
+            } else {
+                CAOS::debug(sprintf(__('New file %s could not be saved. An unknown error occurred.', $this->plugin_text_domain), $new_file_alias));
+            }
+        }
 
         /**
          * Update the file alias in temporary storage, for later use. The child download() method writes the values
@@ -84,15 +119,18 @@ class CAOS_Cron
     }
 
     /**
-     * Create directories recursive
-     *
-     * @param $path
+     * Returns false if path already exists.
+     * 
+     * @param mixed $path 
+     * @return bool 
      */
     protected function create_dir_recursive($path)
     {
         if (!file_exists($path)) {
-            wp_mkdir_p($path);
+            return wp_mkdir_p($path);
         }
+
+        return false;
     }
 
     /**
@@ -104,6 +142,8 @@ class CAOS_Cron
      */
     protected function find_replace_in($file, $find, $replace)
     {
+        CAOS::debug(sprintf(__('Replacing %s with %s in %s.', $this->plugin_text_domain), print_r($find, true), print_r($replace, true), $file));
+
         return file_put_contents($file, str_replace($find, $replace, file_get_contents($file)));
     }
 
