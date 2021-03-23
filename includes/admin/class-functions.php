@@ -71,7 +71,7 @@ class CAOS_Admin_Functions
      */
     public function cron_status()
     {
-        $fileModTime = @filemtime(CAOS_LOCAL_FILE_DIR);
+        $fileModTime = @filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
 
         if (!$fileModTime) {
             return false;

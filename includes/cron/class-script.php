@@ -64,11 +64,11 @@ class CAOS_Cron_Script extends CAOS_Cron
             return [
                 'analytics' => [
                     'remote' => CAOS_GA_URL . '/analytics.js',
-                    'local'  => CAOS::get_file_path('analytics')
+                    'local'  => CAOS::get_file_alias_path('analytics')
                 ],
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
-                    'local'  => CAOS::get_file_path($key)
+                    'local'  => CAOS::get_file_alias_path($key)
                 ]
             ];
         }
@@ -77,7 +77,7 @@ class CAOS_Cron_Script extends CAOS_Cron
             return [
                 $key => [
                     'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
-                    'local'  => CAOS::get_file_path($key)
+                    'local'  => CAOS::get_file_alias_path($key)
                 ]
             ];
         }
@@ -85,7 +85,7 @@ class CAOS_Cron_Script extends CAOS_Cron
         return [
             $key => [
                 'remote' => CAOS_GA_URL . '/' . CAOS_OPT_REMOTE_JS_FILE,
-                'local'  => CAOS::get_file_path($key)
+                'local'  => CAOS::get_file_alias_path($key)
             ]
         ];
     }

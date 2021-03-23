@@ -148,7 +148,7 @@ class CAOS
      * @param mixed $key 
      * @return string|void 
      */
-    public static function get_file_path($key)
+    public static function get_file_alias_path($key)
     {
         $file_path = CAOS_LOCAL_DIR . $key . '.js';
 
