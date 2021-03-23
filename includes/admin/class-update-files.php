@@ -27,7 +27,7 @@ class CAOS_Admin_UpdateFiles extends CAOS_Cron_Script
 
         if (
             CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page
-            && !$settings_updated
+            || !$settings_updated
         ) {
             return;
         }
