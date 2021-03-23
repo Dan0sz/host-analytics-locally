@@ -92,7 +92,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
             CAOS_OPT_ALLOW_TRACKING,
-            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', $this->plugin_text_domain) . sprintf(__('<a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL .  '/wordpress/gdpr-compliance-google-analytics/' . $this->utm_tags)
+            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . ' ' . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', $this->plugin_text_domain) . ' ' . sprintf(__('<a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL .  '/wordpress/gdpr-compliance-google-analytics/' . $this->utm_tags)
         );
     }
 
