@@ -33,7 +33,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
         ''                  => 'Always (default)',
         'cookie_is_set'     => 'When cookie is set',
         'cookie_is_not_set' => 'When cookie is NOT set',
-        'cookie_has_value'  => 'When cookie has a value',
+        'cookie_has_value'  => 'When cookie has a value (exact match)',
+        'cookie_value_contains' => 'When cookie value contains (loose comparison)'
     ];
     const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = [
         ''        => 'Default',

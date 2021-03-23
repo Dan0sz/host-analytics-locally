@@ -26,5 +26,9 @@
         if (cookieValue !== '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
             window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
         }
+    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_value_contains' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) : ?>
+        if (cookieValue !== null && !cookieValue.includes('<?= CAOS_OPT_COOKIE_VALUE; ?>')) {
+            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+        }
     <?php endif; ?>
 </script>

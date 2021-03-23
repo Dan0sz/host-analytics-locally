@@ -43,6 +43,7 @@ jQuery(document).ready(function ($) {
                     $cookie_value.hide();
                     break;
                 case 'cookie-has-value':
+                case 'cookie-value-contains':
                     $cookie_name.show();
                     $cookie_value.show();
                     break;

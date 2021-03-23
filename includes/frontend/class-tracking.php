@@ -345,7 +345,7 @@ class CAOS_Frontend_Tracking
             wp_enqueue_script($this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer);
         }
 
-        if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
+        if ((CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' || CAOS_OPT_ALLOW_TRACKING == 'cookie_value_contains') && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
             wp_add_inline_script($this->handle, $this->get_tracking_code_template('cookie-value'));
         }
 
