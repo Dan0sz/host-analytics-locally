@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 3.11.0
+Stable tag: 4.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -130,6 +130,16 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.0.0 | March 24th, 2021 =
+* Added 'Cookie value contains' option to Allow Tracking setting, to increase compatibility with plugins like Borlabs Cookie.
+* All downloaded files (e.g. analytics.js or gtag.js) are now renamed to random strings, to avoid being blocked by Ad Blockers.
+* Fixed some console errors, like when CookieValue is null and when document.body doesn't exist (yet)
+* Update analytics.js/gtag.js is now ran directly after Saving Changes in settings screen.
+* GA V4 endpoints are now filterable.
+* GA V4 is marked as beta and Gtag V3 is no longer marked as deprecated.
+* Added extra debug information to Update Script when Debug Mode is enabled.
+* Allround performance improvements and tweaks.
 
 = 3.11.0 | March 19th, 2021 =
 * Added Debug Mode in Advanced Settings

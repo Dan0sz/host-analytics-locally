@@ -98,7 +98,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/';
+    const FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/';
     const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI    = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
     const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB      = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
