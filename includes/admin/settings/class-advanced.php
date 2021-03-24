@@ -56,7 +56,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     {
 ?>
         <p>
-            <strong>*</strong> <?php _e('Manual update required after saving changes.', $this->plugin_text_domain); ?>
         </p>
 <?php
     }
@@ -87,8 +86,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
-            sprintf(__('<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and is deprecated. Both are hosted locally when this option is selected. <code>gtag.js</code> and <code>analytics.js</code> can only be used with the v3 API. Are you using the Beta V4 API? Then choose <code>gtag.js</code> (V4 API). Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>'),
-            true
+            sprintf(__('<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and should only be used if you\'re using other Google services. Both are hosted locally when this option is selected. <code>gtag.js</code> and <code>analytics.js</code> can only be used with the v3 API. Are you using the Beta V4 API? Then choose <code>gtag.js</code> (V4 API). Need help choosing? %sRead this%s', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>')
         );
     }
 
@@ -102,8 +100,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
             __('e.g. /uploads/caos/', $this->plugin_text_domain),
             CAOS_OPT_CACHE_DIR,
-            __("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", $this->plugin_text_domain),
-            true
+            __("Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", $this->plugin_text_domain)
         );
     }
 

@@ -107,7 +107,6 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('e.g. cookie_accepted', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_NAME,
             __('The cookie name set by your Cookie Notice plugin when user accepts.', $this->plugin_text_domain),
-            false,
             CAOS_OPT_ALLOW_TRACKING
         );
     }
@@ -123,7 +122,6 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('e.g. true', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_VALUE,
             __('The value of the above specified cookie set by your Cookie Notice when user accepts.', $this->plugin_text_domain),
-            false,
             CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value'
         );
     }

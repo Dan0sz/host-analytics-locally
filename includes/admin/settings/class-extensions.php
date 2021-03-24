@@ -61,9 +61,6 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         <p>
             <?= sprintf(__("For a list of available plugins, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffw.press/wordpress-plugins/'); ?>
         </p>
-        <p>
-            <sub><em><strong><?= sprintf(__('* Manual update required after saving changes.', $this->plugin_text_domain)); ?></strong></em></sub>
-        </p>
 <?php
     }
 
@@ -77,8 +74,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING,
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
             CAOS_OPT_EXT_PLUGIN_HANDLING,
-            __('Safe Mode works on all environments, because it creates two requests to get the plugin file: one 302 redirect and the plugin file (e.g. linkid.js). Experimental Mode returns the plugin file immediately. If Google Analytics doesn\'t collect any data when in Experimental Mode, switch back to Safe Mode.', $this->plugin_text_domain),
-            true
+            __('Safe Mode works on all environments, because it creates two requests to get the plugin file: one 302 redirect and the plugin file (e.g. linkid.js). Experimental Mode returns the plugin file immediately. If Google Analytics doesn\'t collect any data when in Experimental Mode, switch back to Safe Mode.', $this->plugin_text_domain)
         );
     }
 
@@ -91,8 +87,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Stealth Mode Lite', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
             CAOS_OPT_EXT_STEALTH_MODE,
-            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/'),
-            true
+            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
         );
     }
 
@@ -167,7 +162,6 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('e.g. GTM-123ABCD', $this->plugin_text_domain),
             CAOS_OPT_EXT_OPTIMIZE_ID,
             __('Enter your Optimize container ID.', $this->plugin_text_domain),
-            false,
             CAOS_OPT_EXT_OPTIMIZE == 'on'
         );
     }
