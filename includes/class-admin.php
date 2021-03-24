@@ -43,7 +43,6 @@ class CAOS_Admin
         add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
-        add_action('pre_update_option_caos_capture_outbound_links', [$this, 'add_outbound_links_notice'], 10, 2);
     }
 
     /**
@@ -189,38 +188,13 @@ class CAOS_Admin
     public function add_stealth_mode_notice($new_value, $old_value)
     {
         if ($new_value !== $old_value && $new_value == 'on') {
-            if (CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS) {
-                CAOS_Admin_Notice::set_notice(__('Stealth Mode couldn\'t be enabled, because <strong>Outbound Link Capturing</strong> is enabled. Disable it to use Stealth Mode.', $this->plugin_text_domain), false, 'warning');
-
-                return $old_value;
-            }
-
-            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFWP_DEV_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
+            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
             CAOS_Admin_Notice::set_notice($message, false);
         } elseif (empty($new_value)) {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', $this->plugin_text_domain));
 
             CAOS_Admin_Notice::set_notice($message, false);
-        }
-
-        return $new_value;
-    }
-
-    /**
-     * @param $new_value
-     * @param $old_value
-     *
-     * @return mixed
-     */
-    public function add_outbound_links_notice($new_value, $old_value)
-    {
-        if ($new_value !== $old_value && $new_value == 'on') {
-            if (CAOS_OPT_EXT_STEALTH_MODE) {
-                CAOS_Admin_Notice::set_notice(__('Outbound Link Capturing couldn\'t be enabled, because <strong>Stealth Mode</strong> is enabled. Disable it to use Outbound Link Capturing.', $this->plugin_text_domain), false, 'warning');
-
-                return $old_value;
-            }
         }
 
         return $new_value;
