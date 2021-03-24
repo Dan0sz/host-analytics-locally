@@ -175,6 +175,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <div class="wrap">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
+            <div class="notice notice-info">
+                <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and will be automatically updated after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE))); ?></p>
+            </div>
+
             <p>
                 <?= get_plugin_data(CAOS_PLUGIN_FILE)['Description']; ?>
             </p>
@@ -196,14 +200,13 @@ class CAOS_Admin_Settings extends CAOS_Admin
                     do_action("after_$current_section"); ?>
 
                     <?php submit_button(__('Save Changes & Update', $this->plugin_text_domain), 'primary', 'submit', false); ?>
-                    <span><em><?= sprintf(__('%s is updated automatically after settings are saved.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE)); ?></em></span>
                 </form>
             </div>
+        </div>
 
-            <div class="settings-column right">
-                <div id="caos-welcome-panel" class="welcome-panel">
-                    <?php $this->get_template('welcome'); ?>
-                </div>
+        <div class="settings-column right">
+            <div id="caos-welcome-panel" class="welcome-panel">
+                <?php $this->get_template('welcome'); ?>
             </div>
         </div>
     <?php
