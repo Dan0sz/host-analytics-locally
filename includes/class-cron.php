@@ -25,7 +25,7 @@ class CAOS_Cron
     /**
      * @var string
      */
-    private $plugin_text_domain = 'host-analyticsjs-local';
+    protected $plugin_text_domain = 'host-analyticsjs-local';
 
     /**
      * Downloads $remoteFile, check if $localFile exists and if so deletes it, then writes it to $localFile
