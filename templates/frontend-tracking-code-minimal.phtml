@@ -81,7 +81,7 @@ $endpoint = apply_filters('caos_minimal_analytics_endpoint', 'https://www.google
             }
         }
     })(window, "<?= CAOS_OPT_TRACKING_ID; ?>", {
-        anonymizeIp: <?= CAOS_OPT_ANONYMIZE_IP == 'on' ? true : false; ?>,
+        anonymizeIp: <?= CAOS_OPT_ANONYMIZE_IP == 'on' ? 'true' : 'false'; ?>,
         siteSpeedSampleRate: <?= CAOS_OPT_SITE_SPEED_SAMPLE_RATE; ?>,
         colorDepth: true,
         characterSet: true,
