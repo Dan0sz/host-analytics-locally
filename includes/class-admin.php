@@ -29,13 +29,13 @@ class CAOS_Admin
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('admin_notices', [$this, 'add_notice']);
 
         // Settings
         $this->do_basic_settings();
         $this->do_advanced_settings();
-        $this->do_connect_settings();
+        $this->do_extensions_settings();
+        $this->do_help_section();
 
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
@@ -43,19 +43,6 @@ class CAOS_Admin
         add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
-    }
-
-    /**
-     * Enqueues the necessary JS and CSS and passes options as a JS object.
-     *
-     * @param $hook
-     */
-    public function enqueue_admin_scripts($hook)
-    {
-        if ($hook == 'settings_page_host_analyticsjs_local') {
-            wp_enqueue_script(self::CAOS_ADMIN_JS_HANDLE, plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/js/caos-admin.js', array('jquery'), CAOS_STATIC_VERSION, true);
-            wp_enqueue_style(self::CAOS_ADMIN_CSS_HANDLE, plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/css/caos-admin.css', array(), CAOS_STATIC_VERSION);
-        }
     }
 
     /**
@@ -85,9 +72,17 @@ class CAOS_Admin
     /**
      * @return CAOS_Admin_Settings_Extensions
      */
-    private function do_connect_settings()
+    private function do_extensions_settings()
     {
         return new CAOS_Admin_Settings_Extensions();
+    }
+
+    /**
+     * @return CAOS_Admin_Settings_Help 
+     */
+    private function do_help_section()
+    {
+        return new CAOS_Admin_Settings_Help();
     }
 
     /**

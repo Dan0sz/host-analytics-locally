@@ -14,9 +14,6 @@
 
 jQuery(document).ready(function ($) {
     var caos_admin = {
-        // Buttons
-        $manual_download: $('#manual-download'),
-
         /**
          * Initialize CAOS Admin Functions.
          */

@@ -25,6 +25,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_SECTION_BASIC_SETTINGS = 'caos-basic-settings';
     const CAOS_ADMIN_SECTION_ADV_SETTINGS   = 'caos-advanced-settings';
     const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
+    const CAOS_ADMIN_SECTION_HELP           = 'caos-help';
 
     /**
      * Option Values
@@ -130,7 +131,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
         }
 
         // Scripts
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_js_scripts']);
+        add_action('admin_head', [$this, 'enqueue_admin_assets']);
+
+        // Footer Text
+        add_filter('admin_footer_text', [$this, 'footer_text_left']);
 
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
@@ -140,6 +144,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         }
 
         add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
+        add_action('caos_settings_tab', [$this, 'do_help_tab'], 4);
 
         // Settings Screen Content
         add_action('caos_settings_content', [$this, 'do_content'], 1);
@@ -179,35 +184,25 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and will be automatically updated after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE))); ?></p>
             </div>
 
-            <p>
-                <?= get_plugin_data(CAOS_PLUGIN_FILE)['Description']; ?>
-            </p>
+            <h2 class="caos-nav nav-tab-wrapper">
+                <?php do_action('caos_settings_tab'); ?>
+            </h2>
 
-            <div class="settings-column left">
-                <h2 class="caos-nav nav-tab-wrapper">
-                    <?php do_action('caos_settings_tab'); ?>
-                </h2>
+            <form method="post" action="options.php?tab=<?= $this->active_tab; ?>">
+                <?php
+                settings_fields($this->active_tab);
+                do_settings_sections($this->active_tab); ?>
 
-                <form method="post" action="options.php?tab=<?= $this->active_tab; ?>">
-                    <?php
-                    settings_fields($this->active_tab);
-                    do_settings_sections($this->active_tab); ?>
+                <?php do_action('caos_settings_content'); ?>
 
-                    <?php do_action('caos_settings_content'); ?>
+                <?php
+                $current_section = str_replace('-', '_', $this->active_tab);
+                do_action("after_$current_section"); ?>
 
-                    <?php
-                    $current_section = str_replace('-', '_', $this->active_tab);
-                    do_action("after_$current_section"); ?>
-
+                <?php if ($this->active_tab !== CAOS_Admin_Settings::CAOS_ADMIN_SECTION_HELP) : ?>
                     <?php submit_button(__('Save Changes & Update', $this->plugin_text_domain), 'primary', 'submit', false); ?>
-                </form>
-            </div>
-        </div>
-
-        <div class="settings-column right">
-            <div id="caos-welcome-panel" class="welcome-panel">
-                <?php $this->get_template('welcome'); ?>
-            </div>
+                <?php endif; ?>
+            </form>
         </div>
     <?php
     }
@@ -223,6 +218,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             $this->active_tab !== self::CAOS_ADMIN_SECTION_BASIC_SETTINGS
             && $this->active_tab !== self::CAOS_ADMIN_SECTION_ADV_SETTINGS
             && $this->active_tab !== self::CAOS_ADMIN_SECTION_EXT_SETTINGS
+            && $this->active_tab !== self::CAOS_ADMIN_SECTION_HELP
         ) {
             $this->active_tab = self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
         }
@@ -255,6 +251,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
             $needle = 'CAOS_EXT_SETTING';
         }
 
+        if ($this->active_tab == self::CAOS_ADMIN_SECTION_HELP) {
+            $needle = 'CAOS_HELP_SETTING';
+        }
+
         return array_filter(
             $constants,
             function ($key) use ($needle) {
@@ -262,6 +262,21 @@ class CAOS_Admin_Settings extends CAOS_Admin
             },
             ARRAY_FILTER_USE_KEY
         );
+    }
+
+    /**
+     * We add the assets directly to the head to avoid ad blockers blocking the URLs cause they include 'analytics'.
+     * 
+     * @return void 
+     */
+    public function enqueue_admin_assets()
+    {
+        if ($this->page !== self::CAOS_ADMIN_PAGE) {
+            return;
+        }
+
+        echo '<script>' . file_get_contents(plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/js/caos-admin.js') . '</script>';
+        echo '<style>' . file_get_contents(plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/css/caos-admin.css') . '</style>';
     }
 
     /**
@@ -286,6 +301,16 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function do_extensions_tab()
     {
         $this->generate_tab(self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __('Extensions', $this->plugin_text_domain));
+    }
+
+    /**
+     * Add Help tab to Settings Screen.
+     * 
+     * @return void 
+     */
+    public function do_help_tab()
+    {
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_HELP, 'dashicons-editor-help', __('Help', $this->plugin_text_domain));
     }
 
     /**
@@ -337,15 +362,16 @@ class CAOS_Admin_Settings extends CAOS_Admin
     }
 
     /**
-     * Enqueue JS scripts for Administrator Area.
-     *
-     * @param $hook
+     * Changes footer text.
+     * 
+     * @return string 
      */
-    public function enqueue_admin_js_scripts($hook)
+    public function footer_text_left()
     {
-        if ($hook == 'settings_page_host_analyticsjs_local') {
-            wp_enqueue_script('caos_admin_script', plugins_url('assets/js/caos-admin.js', CAOS_PLUGIN_FILE), ['jquery'], CAOS_STATIC_VERSION, true);
-        }
+        $logo = '<a target="_blank" title="Visit FFW Press" href="https://ffw.press/wordpress-plugins/"><img class="signature-image" alt="Visit FFW Press" src="https://ffw.press/wp-content/uploads/2021/01/logo-color-full@025x.png"></a>';
+        $text = sprintf(__('Coded with %s in The Netherlands.', $this->plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>');
+
+        return '<span id="footer-thankyou">' . $logo . ' ' . $text . '</span>';
     }
 
     /**
