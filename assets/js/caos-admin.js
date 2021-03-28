@@ -1,11 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * *
- *  ██████╗ █████╗  ██████╗ ███████╗
- * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
- * ██║     ███████║██║   ██║███████╗
- * ██║     ██╔══██║██║   ██║╚════██║
- * ╚██████╗██║  ██║╚██████╔╝███████║
- *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
- *
+ * This file is loaded inline to avoid ad blockers while maintaining the least amount of overhead. 
+ * 
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/caos/
  * @copyright: (c) 2021 Daan van den Bergh
