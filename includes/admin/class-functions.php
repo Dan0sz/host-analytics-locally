@@ -17,6 +17,7 @@ defined('ABSPATH') || exit;
 
 class CAOS_Admin_Functions
 {
+    // Transients
     const CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN   = 'caos_admin_update_error_shown';
     const CAOS_ADMIN_UPDATE_SUCCESS_MESSAGE_SHOWN = 'caos_admin_update_success_shown';
     const CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN   = 'caos_admin_blocked_pages_notice_shown';
@@ -34,17 +35,11 @@ class CAOS_Admin_Functions
     {
         clearstatcache();
 
-        $fileStatus  = $this->cron_status();
+        $file_updated = $this->file_recently_updated();
 
-        if ($fileStatus) {
-            if (!get_transient(self::CAOS_ADMIN_UPDATE_SUCCESS_MESSAGE_SHOWN)) {
-                CAOS_Admin_Notice::set_notice(__('CAOS is running healthy.', $this->plugin_text_domain) . ' <strong>' . CAOS_OPT_REMOTE_JS_FILE . '</strong> ' . __('was last updated on', $this->plugin_text_domain) . ' <em>' . $this->file_last_updated() . '</em> ' . __('and the next update is scheduled on', $this->plugin_text_domain) . ' <em>' . $this->cron_next_scheduled() . '</em>.', false);
-
-                set_transient(self::CAOS_ADMIN_UPDATE_SUCCESS_MESSAGE_SHOWN, true, WEEK_IN_SECONDS);
-            }
-        } else {
+        if (!$file_updated) {
             if (!get_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN)) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE, CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/wordpress-plugins/caos/#not-updated-for-more-than-two-days'), false, 'error');
+                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/wordpress-plugins/caos/#not-updated-for-more-than-two-days'), false, 'error');
 
                 set_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN, true, HOUR_IN_SECONDS * 4);
             }
@@ -69,74 +64,18 @@ class CAOS_Admin_Functions
      *
      * @return bool
      */
-    public function cron_status()
+    public function file_recently_updated()
     {
-        $fileModTime = @filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
+        $file_mod_time = @filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
 
-        if (!$fileModTime) {
+        if (!$file_mod_time) {
             return false;
         }
 
-        if (time() - $fileModTime >= 48 * 3600) {
+        if (time() - $file_mod_time >= 2 * DAY_IN_SECONDS) {
             return false;
         } else {
             return true;
         }
-    }
-
-    /**
-     * Format timestamp of analytics.js last updated.
-     *
-     * @return string
-     */
-    public function file_last_updated()
-    {
-        $fileMtime = filemtime(CAOS_LOCAL_FILE_DIR);
-
-        return $this->format_time_by_locale($fileMtime, get_locale());
-    }
-
-    /**
-     * Get formatted timestamp of next scheduled cronjob.
-     *
-     * @return string
-     */
-    public function cron_next_scheduled()
-    {
-        $nextScheduled = wp_next_scheduled(CAOS_CRON);
-
-        return $this->format_time_by_locale($nextScheduled, get_locale());
-    }
-
-    /**
-     * Format any UNIX timestamp to a date/time in WP's chosen locale.
-     *
-     * @param null   $dateTime
-     * @param string $locale
-     *
-     * @return string
-     */
-    public function format_time_by_locale($dateTime = null, $locale = 'en_US')
-    {
-        try {
-            $dateObj = new DateTime;
-            $dateObj->setTimestamp($dateTime);
-        } catch (\Exception $e) {
-            return __('Date/Time cannot be set', $this->plugin_text_domain) . ': ' . $e->getMessage();
-        }
-
-        $intlLoaded = extension_loaded('intl');
-
-        if (!$intlLoaded) {
-            return $dateObj->format('Y-m-d H:i:s');
-        }
-
-        try {
-            $format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
-        } catch (\Exception $e) {
-            return __('Date/Time cannot be formatted to locale', $this->plugin_text_domain) . ': ' . $e->getMessage();
-        }
-
-        return $format->format($dateTime);
     }
 }

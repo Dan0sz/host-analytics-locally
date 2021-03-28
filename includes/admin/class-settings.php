@@ -99,9 +99,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/';
-    const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI    = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
-    const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB      = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
+    const FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress/caos-super-stealth-upgrade/';
+    const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI     = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
+    const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB       = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
     /** @var string $active_tab */
     private $active_tab;
@@ -181,7 +181,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
             <div class="notice notice-info">
-                <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and will be automatically updated after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE))); ?></p>
+                <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled on <em>%s</em>. The filename will change after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?></p>
             </div>
 
             <h2 class="caos-nav nav-tab-wrapper">
@@ -229,6 +229,62 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 $value
             );
         }
+    }
+
+    /**
+     * Format timestamp of analytics.js last updated.
+     *
+     * @return string
+     */
+    private function file_last_updated()
+    {
+        $file_mod_time = filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
+
+        return $this->format_time_by_locale($file_mod_time, get_locale());
+    }
+
+    /**
+     * Get formatted timestamp of next scheduled cronjob.
+     *
+     * @return string
+     */
+    private function cron_next_scheduled()
+    {
+        $next_scheduled = wp_next_scheduled(CAOS_CRON);
+
+        return $this->format_time_by_locale($next_scheduled, get_locale());
+    }
+
+    /**
+     * Format any UNIX timestamp to a date/time in WP's chosen locale.
+     *
+     * @param null   $date_time
+     * @param string $locale
+     *
+     * @return string
+     */
+    private function format_time_by_locale($date_time = null, $locale = 'en_US')
+    {
+        try {
+            $date_object = new DateTime;
+            $date_object->setTimestamp($date_time);
+        } catch (\Exception $e) {
+            return __('Date/Time cannot be set', $this->plugin_text_domain) . ': ' . $e->getMessage();
+        }
+
+        $intl_loaded = extension_loaded('intl');
+
+        if (!$intl_loaded) {
+            return $date_object->format('Y-m-d H:i:s');
+        }
+
+        try {
+            $format = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
+        } catch (\Exception $e) {
+            return __('Date/Time cannot be formatted to locale', $this->plugin_text_domain) . ': ' . $e->getMessage();
+        }
+
+        return $format->format($date_time);
     }
 
     /**
