@@ -91,8 +91,8 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             'ua'  => $request->get_header('user_agent')
         ];
 
-        $query          = '?' . http_build_query($params);
-        $url            = CAOS_GA_URL . '/collect' . $query;
+        $query = '?' . http_build_query($params);
+        $url   = CAOS_GA_URL . '/collect' . $query;
 
         try {
             $response = wp_remote_get(
@@ -126,6 +126,11 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
     {
         $data = $data ?? random_bytes(16);
 
+        /**
+         * TODO: Maybe the output of this should be a stored to a cookie or session, so ad blocker usage could be bound to client IDs i.e. sessions.
+         * 
+         * How to achieve this and maintain privacy?
+         */
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }
