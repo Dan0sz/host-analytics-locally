@@ -180,9 +180,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <div class="wrap">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
-            <div class="notice notice-info">
-                <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled on <em>%s</em>. The filename will change after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?></p>
-            </div>
+            <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
+                <div class="notice notice-info">
+                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled on <em>%s</em>. The filename will change after saving changes.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?></p>
+                </div>
+            <?php endif; ?>
 
             <h2 class="caos-nav nav-tab-wrapper">
                 <?php do_action('caos_settings_tab'); ?>
