@@ -252,7 +252,7 @@ class CAOS
     }
 
     /**
-     * 
+     * Check if (de)activated plugin is Super Stealth and if so, update or notify.
      */
     public function maybe_do_update($plugin, $action = 'activate')
     {
@@ -260,22 +260,24 @@ class CAOS
             return;
         }
 
-        add_action('init', function () use ($action) {
-            $this->do_update_for_super_stealth($action);
-        });
+        $this->update_or_notify($action);
     }
 
     /**
+     * Run automatic update when Super Stealth is activated.
+     * 
+     * TODO: Why doesn't automatic update work when Super Stealth is deactivated?
+     * 
      * @param string $action 
      * @return CAOS_Cron_Script 
      */
-    private function do_update_for_super_stealth($action)
+    private function update_or_notify($action)
     {
-        if ($action == 'deactivate') {
-            CAOS_Admin_Notice::set_notice(__('Super Stealth was deactivated and all locally hosted files were updated accordingly.', $this->plugin_text_domain), 'info');
+        if ($action == 'activate') {
+            return $this->trigger_cron_script();
         }
 
-        return $this->trigger_cron_script();
+        CAOS_Admin_Notice::set_notice(sprintf(__('Super Stealth was deactivated. Please <a href="%s">review CAOS\' Extensions Settings</a> and Save Changes to update all locally hosted files.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')), 'info');
     }
 
     /**
