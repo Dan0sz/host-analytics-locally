@@ -18,6 +18,14 @@ defined('ABSPATH') || exit;
 class CAOS
 {
     /**
+     * Used to check if Super Stealth is (de)activated and update files (e.g. analytics.js) accordingly.
+     */
+    const CAOS_SUPER_STEALTH_UPGRADE_PLUGIN_SLUG = 'caos-super-stealth-upgrade';
+
+    /** @var string $plugin_text_domain */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
+    /**
      * CAOS constructor.
      */
     public function __construct()
@@ -34,8 +42,17 @@ class CAOS
             $this->do_tracking_code();
         }
 
-        add_action('admin_init', [$this, 'do_update_after_save']);
+        // API Routes
         add_action('rest_api_init', [$this, 'register_routes']);
+
+        // Automatic File Updates
+        add_action('activated_plugin', function ($plugin) {
+            $this->maybe_do_update($plugin, 'activate');
+        });
+        add_action('deactivated_plugin', function ($plugin) {
+            $this->maybe_do_update($plugin, 'deactivate');
+        });
+        add_action('admin_init', [$this, 'do_update_after_save']);
     }
 
     /**
@@ -225,11 +242,58 @@ class CAOS
     }
 
     /**
+     * Triggers when Super Stealth Upgrade is (de)activated.
+     * 
+     * @return CAOS_Cron_Script 
+     */
+    public function trigger_cron_script()
+    {
+        return new CAOS_Cron_Script();
+    }
+
+    /**
+     * 
+     */
+    public function maybe_do_update($plugin, $action = 'activate')
+    {
+        if (strpos($plugin, self::CAOS_SUPER_STEALTH_UPGRADE_PLUGIN_SLUG) === false) {
+            return;
+        }
+
+        add_action('init', function () use ($action) {
+            $this->do_update_for_super_stealth($action);
+        });
+    }
+
+    /**
+     * @param string $action 
+     * @return CAOS_Cron_Script 
+     */
+    private function do_update_for_super_stealth($action)
+    {
+        if ($action == 'deactivate') {
+            CAOS_Admin_Notice::set_notice(__('Super Stealth was deactivated and all locally hosted files were updated accordingly.', $this->plugin_text_domain), 'info');
+        }
+
+        return $this->trigger_cron_script();
+    }
+
+    /**
      * @return CAOS_Admin_UpdateFiles 
      */
     public function do_update_after_save()
     {
-        return new CAOS_Admin_UpdateFiles();
+        $settings_page    = $_GET['page'] ?? '';
+        $settings_updated = $_GET['settings-updated'] ?? '';
+
+        if (
+            CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page
+            || !$settings_updated
+        ) {
+            return;
+        }
+
+        return $this->trigger_cron_script();
     }
 
     /**

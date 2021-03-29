@@ -94,7 +94,7 @@ class CAOS_Admin
     public function add_tracking_code_notice($old_tracking_id, $new_tracking_id)
     {
         if ($new_tracking_id !== $old_tracking_id && !empty($new_tracking_id)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__("CAOS has connected WordPress to Google Analytics using Tracking ID: %s.", $this->plugin_text_domain), $new_tracking_id), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__("CAOS has connected WordPress to Google Analytics using Tracking ID: %s.", $this->plugin_text_domain), $new_tracking_id));
         }
 
         if (empty($new_tracking_id)) {
@@ -113,7 +113,6 @@ class CAOS_Admin
 
         CAOS_Admin_Notice::set_notice(
             sprintf(__('You\'ve entered a %s ID which is only supported by Google Analytics\' %s API. Please change the <strong>file to download</strong> setting to <code>%s</code> under <em>Advanced Settings</em> if you haven\'t done so already.', $this->plugin_text_domain), $title, $version, $remote_file),
-            false,
             'warning'
         );
 
@@ -131,10 +130,10 @@ class CAOS_Admin
         if ($new_position !== $old_position && !empty($new_position)) {
             switch ($new_position) {
                 case 'manual':
-                    CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', $this->plugin_text_domain), false, 'info');
+                    CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', $this->plugin_text_domain), 'info');
                     break;
                 default:
-                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", $this->plugin_text_domain), false, 'success');
+                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", $this->plugin_text_domain), 'success');
                     break;
             }
         }
@@ -151,7 +150,7 @@ class CAOS_Admin
     public function add_js_file_notice($new_filename, $old_filename)
     {
         if ($new_filename !== $old_filename && !empty($new_filename)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', $this->plugin_text_domain), ucfirst($new_filename)), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', $this->plugin_text_domain), ucfirst($new_filename)));
         }
 
 
@@ -167,7 +166,7 @@ class CAOS_Admin
     public function add_cache_dir_notice($old_dir, $new_dir)
     {
         if ($new_dir !== $old_dir && !empty($new_dir)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir), false);
+            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir));
         }
 
 
@@ -185,11 +184,11 @@ class CAOS_Admin
         if ($new_value !== $old_value && $new_value == 'on') {
             $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get the <a href="%s" target="_blank">Super Stealth Upgrade</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
 
-            CAOS_Admin_Notice::set_notice($message, false);
+            CAOS_Admin_Notice::set_notice($message);
         } elseif (empty($new_value)) {
             $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', $this->plugin_text_domain));
 
-            CAOS_Admin_Notice::set_notice($message, false);
+            CAOS_Admin_Notice::set_notice($message);
         }
 
         return $new_value;

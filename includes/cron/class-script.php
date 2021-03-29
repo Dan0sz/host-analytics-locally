@@ -48,15 +48,43 @@ class CAOS_Cron_Script extends CAOS_Cron
             CAOS::debug(sprintf(__('%s already exists.', $this->plugin_text_domain), CAOS_LOCAL_DIR));
         }
 
-        $file_downloaded = $this->download();
+        $downloaded_files = $this->download();
 
         // Only sent a success message if this is a AJAX request.
-        if (wp_doing_ajax()) {
+        if (!wp_doing_cron()) {
             $review_link = apply_filters('caos_manual_download_review_link', $this->review);
             $tweet_link  = apply_filters('caos_manual_download_tweet_link', $this->tweet);
 
-            CAOS_Admin_Notice::set_notice(__('Congratulations!', 'host-analyticsjs-local') . ' ' . $file_downloaded . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">leave a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), true, 'success', 200, 'all', 'file_downloaded');
+            $notice = $this->build_natural_sentence($downloaded_files);
+
+            CAOS_Admin_Notice::set_notice($notice . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">write a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), 'success', 200, 'all', 'file_downloaded');
         }
+    }
+
+    private function build_natural_sentence(array $list)
+    {
+        $i        = 0;
+        $last     = count($list) - 1;
+        $sentence = '';
+
+        foreach ($list as $filename => $alias) {
+            if (count($list) > 1 && $i == $last) {
+                $sentence = __('and ', $this->plugin_text_domain);
+            }
+
+            $sentence .= sprintf(__("%s"), $filename, $alias) . ' ';
+
+            $i++;
+        }
+
+        $sentence .= _n(
+            'is downloaded successfully and updated accordingly.',
+            'are downloaded successfully and updated accordingly.',
+            count($list),
+            $this->plugin_text_domain
+        );
+
+        return $sentence;
     }
 
     /**
@@ -103,9 +131,9 @@ class CAOS_Cron_Script extends CAOS_Cron
      */
     private function download()
     {
-        $added = __('added to your Google Analytics tracking code.', 'host-analyticsjs-local');
-
-        $this->tweet = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
+        $i                = 0;
+        $downloaded_files = [];
+        $this->tweet      = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
 
         foreach ($this->files as $file => $location) {
             $downloaded_file = $this->download_file($location['local'], $location['remote'], $file);
@@ -164,6 +192,17 @@ class CAOS_Cron_Script extends CAOS_Cron
 
                 do_action('after_caos_stealth_mode_enable');
             }
+
+            /**
+             * Make first entry uppercase.
+             */
+            if ($i == 0) {
+                $file = ucfirst($file);
+            }
+
+            $i++;
+
+            $downloaded_files[$file . '.js'] = CAOS::get_file_alias($file);
         }
 
         /**
@@ -171,6 +210,6 @@ class CAOS_Cron_Script extends CAOS_Cron
          */
         CAOS::set_file_aliases(CAOS::get_file_aliases(), true);
 
-        return sprintf(__('%s downloaded successfully and', 'host-analyticsjs-local'), ucfirst(CAOS_OPT_REMOTE_JS_FILE)) . ' ' . $added;
+        return $downloaded_files;
     }
 }

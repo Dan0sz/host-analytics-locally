@@ -31,22 +31,12 @@ class CAOS_Admin_Notice
      * @param string $screen_id
      * @param string $id
      */
-    public static function set_notice($message, $die = true, $type = 'success', $code = 200, $screen_id = 'all', $id = '')
+    public static function set_notice($message, $type = 'success', $screen_id = 'all', $id = '')
     {
         self::$notices                         = get_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT);
         self::$notices[$screen_id][$type][$id] = $message;
 
         set_transient(self::CAOS_ADMIN_NOTICE_TRANSIENT, self::$notices, self::CAOS_ADMIN_NOTICE_EXPIRATION);
-
-        if ($die) {
-            switch ($type) {
-                case 'error':
-                    wp_send_json_error($message, $code);
-                    break;
-                default:
-                    wp_send_json_success($message, $code);
-            }
-        }
     }
 
     /**

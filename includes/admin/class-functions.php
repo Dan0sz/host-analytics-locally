@@ -39,7 +39,7 @@ class CAOS_Admin_Functions
 
         if (!$file_updated) {
             if (!get_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN)) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/wordpress-plugins/caos/#not-updated-for-more-than-two-days'), false, 'error');
+                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/wordpress-plugins/caos/#not-updated-for-more-than-two-days'), 'error');
 
                 set_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN, true, HOUR_IN_SECONDS * 4);
             }
@@ -49,9 +49,9 @@ class CAOS_Admin_Functions
 
         // $blocked pages > 1, because the sentence is written in plural form.
         if (!get_transient(self::CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN) && $blocked_pages > 1) {
-            CAOS_Admin_Notice::set_notice(sprintf(__("During the past 7 days, CAOS detected <strong>%s pageviews</strong> on <em>%s</em> with an ad blocker active. CAOS' <strong>Super Stealth Upgrade</strong> <em>(starting at € 24,-)</em> bypasses Ad Blockers so you'll no longer miss out on data in Google Analytics. <a href='%s'>Upgrade now</a>!", $this->plugin_text_domain), number_format_i18n(get_option(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE)), get_bloginfo('name'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH), false, 'warning');
+            CAOS_Admin_Notice::set_notice(sprintf(__("During the past 7 days, CAOS detected <strong>%s pageviews</strong> on <em>%s</em> with an ad blocker active. CAOS' <strong>Super Stealth Upgrade</strong> <em>(starting at € 24,-)</em> bypasses Ad Blockers so you'll no longer miss out on data in Google Analytics. <a href='%s'>Upgrade now</a>!", $this->plugin_text_domain), number_format_i18n(get_option(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE)), get_bloginfo('name'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH), 'warning');
 
-            CAOS_Admin_Notice::set_notice(sprintf(__('To disable these messages, disable <em>Track Ad Blockers</em> in <em>Settings > Optimize Google Analytics > <a href="%s">Extensions</a></em>.', $this->plugin_text_domain), admin_url(CAOS_Admin_Settings::CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI)), false, 'info');
+            CAOS_Admin_Notice::set_notice(sprintf(__('To disable these messages, disable <em>Track Ad Blockers</em> in <em>Settings > Optimize Google Analytics > <a href="%s">Extensions</a></em>.', $this->plugin_text_domain), admin_url(CAOS_Admin_Settings::CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI)), 'info');
 
             // Does not expire, but can be safely cleaned by db clean up plugins.
             set_transient(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE, 0);
