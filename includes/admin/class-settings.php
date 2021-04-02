@@ -333,8 +333,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
             return;
         }
 
-        echo '<script>' . file_get_contents(plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/js/caos-admin.js') . '</script>';
-        echo '<style>' . file_get_contents(plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/css/caos-admin.css') . '</style>';
+        echo '<script>' . file_get_contents(plugin_dir_path(CAOS_PLUGIN_FILE) . 'assets/js/caos-admin.js') . '</script>';
+        echo '<style>' . file_get_contents(plugin_dir_path(CAOS_PLUGIN_FILE) . 'assets/css/caos-admin.css') . '</style>';
     }
 
     /**
