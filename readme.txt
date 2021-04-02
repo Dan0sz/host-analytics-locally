@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,10 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.0.1 | April 2nd, 2021 =
+* Don't show notice when Minimal Analytics is used.
+* Use local path to load JS/CSS assets, instead of URL (what was I thinking?)
 
 = 4.0.0 | March 29th, 2021 =
 * Added 'Cookie value contains' option to Allow Tracking setting, to increase compatibility with plugins like Borlabs Cookie.
