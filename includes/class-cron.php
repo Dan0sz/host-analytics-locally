@@ -54,13 +54,20 @@ class CAOS_Cron
          * 
          * @since 3.11.0
          */
-        $file           = $file ?: pathinfo($remoteFile)['filename'];
-        $file_aliases   = CAOS::get_file_aliases();
-        $file_alias     = $file_aliases[$file] ?? '';
-        $new_file_alias = bin2hex(random_bytes(4)) . '.js';
-        $local_dir      = CAOS_LOCAL_DIR;
+        $file         = $file ?: pathinfo($remoteFile)['filename'];
+        $file_aliases = CAOS::get_file_aliases();
+        $file_alias   = $file_aliases[$file] ?? '';
 
-        CAOS::debug(sprintf(__('Alias for %s changed from %s to %s.', $this->plugin_text_domain), $file, $file_alias, $new_file_alias));
+        /**
+         * If no file alias has been set yet, generate a new one.
+         * 
+         * @since 4.0.2
+         */
+        if (!$file_alias) {
+            $file_alias = bin2hex(random_bytes(4)) . '.js';
+        }
+
+        $local_dir = CAOS_LOCAL_DIR;
 
         /**
          * If file is a plugin, we use the same subdirectory structure Google uses.
@@ -68,9 +75,7 @@ class CAOS_Cron
         if ($is_plugin) {
             $local_dir = untrailingslashit(CAOS_LOCAL_DIR) . str_replace(CAOS_GA_URL, '', $remoteFile);
             $local_dir = trailingslashit(pathinfo($local_dir)['dirname']) ?? CAOS_LOCAL_DIR;
-        }
 
-        if ($is_plugin) {
             CAOS::debug(__('File is a plugin.', $this->plugin_text_domain));
         }
 
@@ -83,25 +88,25 @@ class CAOS_Cron
             $deleted = unlink($local_dir . $file_alias);
 
             if ($deleted) {
-                CAOS::debug(sprintf(__('Old file %s successfully deleted.', $this->plugin_text_domain), $file_alias));
+                CAOS::debug(sprintf(__('File %s successfully deleted.', $this->plugin_text_domain), $file_alias));
             } else {
                 if ($error = error_get_last()) {
-                    CAOS::debug(sprintf(__('Old file %s could not be deleted. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
+                    CAOS::debug(sprintf(__('File %s could not be deleted. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
                 } else {
-                    CAOS::debug(sprintf(__('Old file %s could not be deleted. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
+                    CAOS::debug(sprintf(__('File %s could not be deleted. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
                 }
             }
         }
 
-        $write = CAOS::filesystem()->put_contents($local_dir . $new_file_alias, $this->file['body']);
+        $write = CAOS::filesystem()->put_contents($local_dir . $file_alias, $this->file['body']);
 
         if ($write) {
-            CAOS::debug(sprintf(__('New file %s successfully saved.', $this->plugin_text_domain), $new_file_alias));
+            CAOS::debug(sprintf(__('File %s successfully saved.', $this->plugin_text_domain), $file_alias));
         } else {
             if ($error = error_get_last()) {
-                CAOS::debug(sprintf(__('New file %s could not be saved. Something went wrong: %s', $this->plugin_text_domain), $new_file_alias, $error['message']));
+                CAOS::debug(sprintf(__('File %s could not be saved. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
             } else {
-                CAOS::debug(sprintf(__('New file %s could not be saved. An unknown error occurred.', $this->plugin_text_domain), $new_file_alias));
+                CAOS::debug(sprintf(__('File %s could not be saved. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
             }
         }
 
@@ -111,11 +116,11 @@ class CAOS_Cron
          * 
          * @see CAOS_Cron_Script::download()
          */
-        CAOS::set_file_alias($file, $new_file_alias);
+        CAOS::set_file_alias($file, $file_alias);
 
         do_action('caos_admin_update_after');
 
-        return $local_dir . $new_file_alias;
+        return $local_dir . $file_alias;
     }
 
     /**
