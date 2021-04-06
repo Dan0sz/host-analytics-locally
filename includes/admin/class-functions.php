@@ -35,6 +35,18 @@ class CAOS_Admin_Functions
     {
         clearstatcache();
 
+        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
+            $this->do_update_notice();
+        }
+
+        $this->do_adblock_notice();
+    }
+
+    /**
+     * @return void 
+     */
+    private function do_update_notice()
+    {
         $file_updated = $this->file_recently_updated();
 
         if (!$file_updated) {
@@ -44,7 +56,13 @@ class CAOS_Admin_Functions
                 set_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN, true, HOUR_IN_SECONDS * 4);
             }
         }
+    }
 
+    /**
+     * 
+     */
+    private function do_adblock_notice()
+    {
         $blocked_pages = get_transient(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE);
 
         // $blocked pages > 1, because the sentence is written in plural form.
@@ -66,7 +84,13 @@ class CAOS_Admin_Functions
      */
     public function file_recently_updated()
     {
-        $file_mod_time = @filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
+        $file_path = CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE));
+
+        if (!file_exists($file_path)) {
+            return false;
+        }
+
+        $file_mod_time = @filemtime($file_path);
 
         if (!$file_mod_time) {
             return false;
