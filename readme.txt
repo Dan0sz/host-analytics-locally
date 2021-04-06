@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,12 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.0.2 | April 6th, 2021 =
+* File alias will now only be generated once, and will not change afterwards.
+* Fixed the confirmation notice after saving changes.
+* Don't show file last updated notice if Minimal Analytics is used.
+* Fixed some PHP warnings and notices.
 
 = 4.0.1 | April 2nd, 2021 =
 * Don't show notice when Minimal Analytics is used.
