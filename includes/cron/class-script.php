@@ -57,10 +57,15 @@ class CAOS_Cron_Script extends CAOS_Cron
 
             $notice = $this->build_natural_sentence($downloaded_files);
 
-            CAOS_Admin_Notice::set_notice($notice . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">write a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), 'success', 200, 'all', 'file_downloaded');
+            CAOS_Admin_Notice::set_notice($notice . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">write a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), 'success', 'all', 'file_downloaded');
         }
     }
 
+    /**
+     * 
+     * @param array $list 
+     * @return string 
+     */
     private function build_natural_sentence(array $list)
     {
         $i        = 0;
@@ -69,7 +74,7 @@ class CAOS_Cron_Script extends CAOS_Cron
 
         foreach ($list as $filename => $alias) {
             if (count($list) > 1 && $i == $last) {
-                $sentence = __('and ', $this->plugin_text_domain);
+                $sentence .= __('and ', $this->plugin_text_domain);
             }
 
             $sentence .= sprintf(__("%s"), $filename, $alias) . ' ';
