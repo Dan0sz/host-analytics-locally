@@ -54,7 +54,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
-        'woocommerce'      => 'WooCommerce Google Analytics Integration',
+        'woocommerce'      => 'WooCommerce GA Integration',
         'analytify'        => 'GADP for WP by Analytify',
         'exact_metrics'    => 'GAD for WP by ExactMetrics',
         'monster_insights' => 'GA for WP by Monster Insights'
