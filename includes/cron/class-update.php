@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || exit;
 
-class CAOS_Cron_Script extends CAOS_Cron
+class CAOS_Cron_Update extends CAOS_Cron
 {
     /** @var [] $files */
     private $files;

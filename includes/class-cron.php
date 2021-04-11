@@ -20,7 +20,7 @@ class CAOS_Cron
     /**
      * @var $file
      */
-    private $file;
+    private $file_contents;
 
     /**
      * @var string
@@ -41,29 +41,37 @@ class CAOS_Cron
     {
         do_action('caos_admin_update_before');
 
-        $this->file = wp_remote_get($remoteFile);
+        $this->file_contents = wp_remote_get($remoteFile);
 
-        if (is_wp_error($this->file)) {
-            CAOS::debug(sprintf(__('An error occurred: %s - %s', $this->plugin_text_domain), $this->file->get_error_code(), $this->file->get_error_message()));
+        if (is_wp_error($this->file_contents)) {
+            CAOS::debug(sprintf(__('An error occurred: %s - %s', $this->plugin_text_domain), $this->file_contents->get_error_code(), $this->file_contents->get_error_message()));
 
-            return $this->file->get_error_code() . ': ' . $this->file->get_error_message();
+            return $this->file_contents->get_error_code() . ': ' . $this->file_contents->get_error_message();
         }
 
         /**
-         * If $file is not set, extract it from $remoteFile.
+         * If $file is not set, extract it from $remoteFile, unless we're downloading a plugin.
          * 
          * @since 3.11.0
+         * @since 4.0.3 Don't rename plugins.
          */
-        $file         = $file ?: pathinfo($remoteFile)['filename'];
-        $file_aliases = CAOS::get_file_aliases();
-        $file_alias   = $file_aliases[$file] ?? '';
+        $file = $file ?: pathinfo($remoteFile)['filename'];
+
+        if (!$is_plugin) {
+            $file_aliases = CAOS::get_file_aliases();
+            $file_alias   = $file_aliases[$file] ?? '';
+        } else {
+            $file_alias = $file . '.js';
+        }
 
         /**
-         * If no file alias has been set yet, generate a new one.
+         * If no file alias has been set (yet) and we're not downloading a plugin, generate a new alias.
          * 
          * @since 4.0.2
+         * @since 4.0.3 Don't rename plugins
+         * 
          */
-        if (!$file_alias) {
+        if (!$file_alias && !$is_plugin) {
             $file_alias = bin2hex(random_bytes(4)) . '.js';
         }
 
@@ -98,7 +106,7 @@ class CAOS_Cron
             }
         }
 
-        $write = CAOS::filesystem()->put_contents($local_dir . $file_alias, $this->file['body']);
+        $write = CAOS::filesystem()->put_contents($local_dir . $file_alias, $this->file_contents['body']);
 
         if ($write) {
             CAOS::debug(sprintf(__('File %s successfully saved.', $this->plugin_text_domain), $file_alias));

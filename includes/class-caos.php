@@ -244,11 +244,11 @@ class CAOS
     /**
      * Triggers when Super Stealth Upgrade is (de)activated.
      * 
-     * @return CAOS_Cron_Script 
+     * @return CAOS_Cron_Update 
      */
     public function trigger_cron_script()
     {
-        return new CAOS_Cron_Script();
+        return new CAOS_Cron_Update();
     }
 
     /**
@@ -269,7 +269,7 @@ class CAOS
      * TODO: Why doesn't automatic update work when Super Stealth is deactivated?
      * 
      * @param string $action 
-     * @return CAOS_Cron_Script 
+     * @return CAOS_Cron_Update 
      */
     private function update_or_notify($action)
     {
