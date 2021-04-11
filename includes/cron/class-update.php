@@ -150,9 +150,9 @@ class CAOS_Cron_Update extends CAOS_Cron
                  * @since 3.11.0
                  */
                 if (!CAOS::get_file_aliases()) {
-                    $local_ga_url = str_replace('gtag.js', 'analytics.js', CAOS::get_url());
+                    $local_ga_url = str_replace('gtag.js', 'analytics.js', CAOS::get_local_file_url());
                 } else {
-                    $local_ga_url = str_replace(CAOS::get_file_alias($file), CAOS::get_file_alias('analytics'), CAOS::get_url());
+                    $local_ga_url = str_replace(CAOS::get_file_alias($file), CAOS::get_file_alias('analytics'), CAOS::get_local_file_url());
                 }
 
                 $ext_ga_url = CAOS_GA_URL . '/analytics.js';

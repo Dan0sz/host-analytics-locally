@@ -94,13 +94,9 @@ class CAOS
         define('CAOS_OPT_EXT_OPTIMIZE_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE_ID)));
         define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_COOKIE_EXPIRY_DAYS ? CAOS_OPT_COOKIE_EXPIRY_DAYS * 86400 : 2592000);
         define('CAOS_CRON', 'caos_update_analytics_js');
-        define('CAOS_CRON_FILE_ALIASES', get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES));
         define('CAOS_GA_URL', 'https://www.google-analytics.com');
         define('CAOS_GTM_URL', 'https://www.googletagmanager.com');
-        define('CAOS_REMOTE_URL', CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? CAOS_GTM_URL : CAOS_GA_URL);
         define('CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR);
-        define('CAOS_LOCAL_FILE_DIR', CAOS_LOCAL_DIR . CAOS_OPT_REMOTE_JS_FILE);
-        define('CAOS_LOCAL_FILE_URL', self::get_url());
         define('CAOS_PROXY_URI', '/wp-json/caos/v1/proxy');
     }
 
@@ -322,7 +318,7 @@ class CAOS
      *  
      * @return string
      */
-    public static function get_url()
+    public static function get_local_file_url()
     {
         $url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 

@@ -309,7 +309,7 @@ class CAOS_Frontend_Tracking
      */
     public function modify_gtag_js_snippet($snippet)
     {
-        return str_replace('https://www.googletagmanager.com/gtag/js', CAOS_LOCAL_FILE_URL, $snippet);
+        return str_replace('https://www.googletagmanager.com/gtag/js', CAOS::get_local_file_url(), $snippet);
     }
 
     /**
@@ -325,7 +325,7 @@ class CAOS_Frontend_Tracking
             $id = "?id=" . CAOS_OPT_TRACKING_ID;
         }
 
-        return CAOS_LOCAL_FILE_URL . $id;
+        return CAOS::get_local_file_url() . $id;
     }
 
     /**

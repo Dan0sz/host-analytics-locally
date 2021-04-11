@@ -205,7 +205,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
             $urlId        = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
             $snippetType  = CAOS_OPT_SNIPPET_TYPE;
-            $localFileUrl = CAOS_LOCAL_FILE_URL . $urlId;
+            $localFileUrl = CAOS::get_local_file_url() . $urlId;
 
             $tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
         }
