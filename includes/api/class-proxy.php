@@ -219,6 +219,8 @@ class CAOS_API_Proxy extends WP_REST_Controller
 				$ip = $_SERVER[$header];
 
 				if (is_array(explode(',', $ip))) {
+					CAOS::debug(sprintf(__('Multiple IPs detected, using the first one: %s', $this->plugin_text_domain), print_r($ip, true)));
+
 					$ip = explode(',', $ip);
 
 					return $ip[0];
