@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,9 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.0.5 | May 5th, 2021 =
+* Added extra debug points for Stealth Mode users using Analytics plugins (ec.js, linkid.js, etc.)
 
 = 4.0.4 | April 27th, 2021 =
 * Footer logo in settings screen is now loaded from local src,  instead of external src.
