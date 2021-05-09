@@ -284,10 +284,11 @@ class CAOS
         $settings_page    = $_GET['page'] ?? '';
         $settings_updated = $_GET['settings-updated'] ?? '';
 
-        if (
-            CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page
-            || !$settings_updated
-        ) {
+        if (CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page) {
+            return;
+        }
+
+        if (!$settings_updated) {
             return;
         }
 
