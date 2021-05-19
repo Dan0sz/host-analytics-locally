@@ -54,10 +54,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
     ];
     const CAOS_ADMIN_COMPATIBILITY_OPTIONS   = [
         ''                 => 'None (default)',
-        'woocommerce'      => 'WooCommerce GA Integration',
         'analytify'        => 'GADP for WP by Analytify',
         'exact_metrics'    => 'GAD for WP by ExactMetrics',
-        'monster_insights' => 'GA for WP by Monster Insights'
+        'monster_insights' => 'GA for WP by Monster Insights',
+        'seopress'         => 'SEOPress',
+        'woocommerce'      => 'WooCommerce GA Integration'
     ];
     const CAOS_ADMIN_EXT_PLUGIN_HANDLING     = [
         'set_redirect' => 'Safe Mode (default)',

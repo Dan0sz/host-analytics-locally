@@ -13,6 +13,8 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdsInsightsBreakdownsValues;
+
 defined('ABSPATH') || exit;
 
 class CAOS_Frontend_Tracking
@@ -53,6 +55,8 @@ class CAOS_Frontend_Tracking
         if (CAOS_OPT_COMPATIBILITY_MODE == 'woocommerce') {
             add_filter('woocommerce_gtag_snippet', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
             add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
+        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'seopress') {
+            add_action('seopress_gtag_html', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
             add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
             add_filter('monsterinsights_frontend_output_gtag_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
