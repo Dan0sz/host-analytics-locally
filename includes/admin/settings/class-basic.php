@@ -67,7 +67,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_track_admin()
     {
         $this->do_checkbox(
-            __('Track logged in Administrators?', $this->plugin_text_domain),
+            __('Track logged in Administrators', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
             CAOS_OPT_TRACK_ADMIN,
             '<strong>' . __('Warning!', $this->plugin_text_domain) . '</strong> ' . __('This will track all your traffic as a logged in user. (For testing/development purposes.)', $this->plugin_text_domain)
@@ -102,7 +102,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_cookie_name()
     {
         $this->do_text(
-            __('Cookie name', $this->plugin_text_domain),
+            __('Cookie Name', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
             __('e.g. cookie_accepted', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_NAME,
@@ -117,7 +117,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_cookie_value()
     {
         $this->do_text(
-            __('Cookie value', $this->plugin_text_domain),
+            __('Cookie Value', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE,
             __('e.g. true', $this->plugin_text_domain),
             CAOS_OPT_COOKIE_VALUE,
@@ -132,7 +132,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_snippet_type()
     {
         $this->do_select(
-            __('Snippet type', $this->plugin_text_domain),
+            __('Snippet Type', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
@@ -146,10 +146,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_anonymize_ip()
     {
         $this->do_checkbox(
-            __('Anonymize IP?', $this->plugin_text_domain),
+            __('Anonymize IP', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP,
             CAOS_OPT_ANONYMIZE_IP,
-            __('Required by law in some countries. Replaces the last digits of a visitor\'s IP-address with \'000\'.', $this->plugin_text_domain)
+            __('Increase GDPR compliance by enabling this setting. Required by law in some countries. Replaces the last digits of a visitor\'s IP-address with \'000\'.', $this->plugin_text_domain)
         );
     }
 
@@ -159,7 +159,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     public function do_script_position()
     {
         $this->do_radio(
-            __('Position of tracking-code', $this->plugin_text_domain),
+            __('Tracking Code Position', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
             CAOS_OPT_SCRIPT_POSITION,
