@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 4.0.5
+Stable tag: 4.1.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -39,7 +39,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
-- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
+- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify, RankMath SEO, SEOPress and Google Analytics Dashboard for WP by ExactMetrics,
 - Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
@@ -55,8 +55,8 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/host-analyticsjs-local` directory, or install the plugin through the WordPress plugins repository directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings -> Optimize Google Analytics screen to configure the plugin
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Use the Settings -> Optimize Google Analytics screen to configure the plugin
 
 == Frequently Asked Questions ==
 
@@ -129,6 +129,10 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.1.0 | June 1st, 2021 =
+- Tracking ID can now be translated with plugins like WPML, so you can set different tracking IDs per language.
+- Added compatibility modes for SEOPress and RankMath SEO.
 
 = 4.0.5 | May 5th, 2021 =
 * Added extra debug points for Stealth Mode users using Analytics plugins (ec.js, linkid.js, etc.)
