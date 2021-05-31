@@ -57,6 +57,8 @@ class CAOS_Frontend_Tracking
             add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'seopress') {
             add_action('seopress_gtag_html', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
+        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'rankmath') {
+            add_filter('rank_math/analytics/gtag', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
         } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
             add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
             add_filter('monsterinsights_frontend_output_gtag_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
