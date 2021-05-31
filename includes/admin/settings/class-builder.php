@@ -211,15 +211,15 @@ class CAOS_Admin_Settings_Builder
      * @param $checked
      * @param $description
      */
-    public function do_checkbox($label, $name, $checked, $description)
+    public function do_checkbox($label, $name, $checked, $description, $disabled = false)
     {
     ?>
         <tr>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                <input <?= $disabled && apply_filters($name . '_setting_disabled', true) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description); ?>
+                    <?= apply_filters($name . '_setting_description', $description); ?> <?= apply_filters('caos_super_stealth_upgrade_active', false) ? '' : sprintf(__('<a href="%s" target="_blank">Get Super Stealth Upgrade</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags); ?>
                 </p>
             </td>
         </tr>

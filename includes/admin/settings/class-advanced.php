@@ -35,6 +35,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
         add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 160);
@@ -66,7 +67,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_compatibility_mode()
     {
         $this->do_select(
-            __('Enable Compatibility Mode', $this->plugin_text_domain),
+            __('Compatibility Mode', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
             CAOS_Admin_Settings::CAOS_ADMIN_COMPATIBILITY_OPTIONS,
             CAOS_OPT_COMPATIBILITY_MODE,
@@ -76,13 +77,11 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
     /**
      * Which file to download?
-     *
-     * TODO: Update Blog article with v4 information.
      */
     public function do_remote_js_file()
     {
         $this->do_select(
-            __('Which file to download?', $this->plugin_text_domain),
+            __('Download File', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
@@ -96,7 +95,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_cache_dir()
     {
         $this->do_text(
-            sprintf(__('Save %s to...', $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE),
+            sprintf(__('Cache directory for %s', $this->plugin_text_domain), CAOS_OPT_REMOTE_JS_FILE),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
             __('e.g. /uploads/caos/', $this->plugin_text_domain),
             CAOS_OPT_CACHE_DIR,
@@ -110,7 +109,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_cdn_url()
     {
         $this->do_text(
-            __('Serve from a CDN?', $this->plugin_text_domain),
+            __('Serve from CDN', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL,
             __('e.g. cdn.mydomain.com', $this->plugin_text_domain),
             CAOS_OPT_CDN_URL,
@@ -124,6 +123,28 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_tbody_advanced_settings_open()
     {
         $this->do_tbody_open('caos_advanced_settings');
+    }
+
+    /**
+     * Add Cookieless Analytics option.
+     * 
+     * @return void 
+     */
+    public function do_cookieless_analytics()
+    {
+        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain);
+
+        if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
+            $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
+        }
+
+        $this->do_checkbox(
+            __('Enable Cookieless Analytics', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_COOKIELESS_ANALYTICS,
+            CAOS_OPT_COOKIELESS_ANALYTICS,
+            $description,
+            true
+        );
     }
 
     /**
@@ -160,7 +181,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_change_enqueue_order()
     {
         $this->do_number(
-            __('Change enqueue order?', $this->plugin_text_domain),
+            __('Enqueue order', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER,
             CAOS_OPT_ENQUEUE_ORDER,
             __('Do not change this unless you know, what you\'re doing. Defaults to 10.', $this->plugin_text_domain)
@@ -173,7 +194,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_disable_display_feat()
     {
         $this->do_checkbox(
-            __('Disable all display features functionality?', $this->plugin_text_domain),
+            __('Disable Display Features', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES,
             CAOS_OPT_DISABLE_DISPLAY_FEAT,
             sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features')
@@ -201,7 +222,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_uninstall_settings()
     {
         $this->do_checkbox(
-            __('Remove settings at uninstall?', $this->plugin_text_domain),
+            __('Remove settings at Uninstall', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS,
             CAOS_OPT_UNINSTALL_SETTINGS,
             '<strong>' . __('Warning!', 'host-analytics-local') . '</strong> ' . __('This will remove the settings from the database upon plugin deletion!', $this->plugin_text_domain)
