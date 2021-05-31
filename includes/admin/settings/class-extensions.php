@@ -97,7 +97,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_adjusted_bounce_rate()
     {
         $this->do_number(
-            __('Use adjusted bounce rate? (seconds)', $this->plugin_text_domain),
+            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE,
             CAOS_OPT_ADJUSTED_BOUNCE_RATE,
             sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
@@ -131,7 +131,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_linkid()
     {
         $this->do_checkbox(
-            __('Enable Enhanced Link Attribution?', $this->plugin_text_domain),
+            __('Enable Enhanced Link Attribution', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
             CAOS_OPT_EXT_LINKID,
             sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
@@ -172,7 +172,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_capture_outbound_links()
     {
         $this->do_checkbox(
-            __('Capture outbound links?', $this->plugin_text_domain),
+            __('Capture Outbound Links', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
             CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
             sprintf(__('Sends an event to Google Analytics, containing the link information your users used to leave your site. Might not work properly with Stealth Mode enabled. %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
