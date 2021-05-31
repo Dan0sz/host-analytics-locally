@@ -35,7 +35,6 @@ class CAOS_Frontend_Tracking
         $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
-        // @formatter:off
         add_action('init', [$this, 'insert_tracking_code']);
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_filter('caos_minimal_analytics_endpoint', [$this, 'set_minimal_analytics_endpoint'], 10, 1);
@@ -44,7 +43,6 @@ class CAOS_Frontend_Tracking
         add_action('caos_process_settings', [$this, 'site_speed_sample_rate']);
         add_action('caos_process_settings', [$this, 'linkid']);
         add_action('caos_process_settings', [$this, 'google_optimize']);
-        // @formatter:on
     }
 
     /**
@@ -357,6 +355,13 @@ class CAOS_Frontend_Tracking
 
         wp_add_inline_script($this->handle, $this->get_tracking_code_template('ga-disable'));
 
+        /**
+         * Allow WP DEVs to add additional JS before Analytics/Gtag tracking code.
+         * 
+         * @since v4.2.0
+         */
+        do_action('caos_inline_scripts_before_tracking_code', $this->handle, CAOS_OPT_TRACKING_ID);
+
         switch (CAOS_OPT_REMOTE_JS_FILE) {
             case 'gtag.js':
             case 'gtag-v4.js':
@@ -366,6 +371,13 @@ class CAOS_Frontend_Tracking
                 wp_add_inline_script($this->handle, $this->get_tracking_code_template('analytics'));
                 break;
         }
+
+        /**
+         * Allow WP DEVs to add additional JS after Analytics/Gtag tracking code.
+         * 
+         * @since v4.2.0
+         */
+        do_action('caos_add_script_after_tracking_code', $this->handle, CAOS_OPT_TRACKING_ID);
     }
 
     /**
