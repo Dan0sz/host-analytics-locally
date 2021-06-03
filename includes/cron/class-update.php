@@ -144,6 +144,7 @@ class CAOS_Cron_Update extends CAOS_Cron
             $downloaded_file = $this->download_file($location['local'], $location['remote'], $file);
 
             if ($file == 'gtag') {
+                $file_alias = CAOS::get_file_alias($file);
                 /**
                  * Backwards compatibility
                  * 
@@ -152,13 +153,13 @@ class CAOS_Cron_Update extends CAOS_Cron
                 if (!CAOS::get_file_aliases()) {
                     $local_ga_url = str_replace('gtag.js', 'analytics.js', CAOS::get_local_file_url());
                 } else {
-                    $local_ga_url = str_replace(CAOS::get_file_alias($file), CAOS::get_file_alias('analytics'), CAOS::get_local_file_url());
+                    $local_ga_url = str_replace($file_alias, CAOS::get_file_alias('analytics'), CAOS::get_local_file_url());
                 }
 
                 $ext_ga_url = CAOS_GA_URL . '/analytics.js';
                 $home_url   = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
-                $finds      = [$ext_ga_url, 'gtag/js?id=', '"//www.googletagmanager.com"'];
-                $replaces   = [$local_ga_url, '/gtag.js?id=', "\"$home_url\""];
+                $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"'];
+                $replaces   = [$local_ga_url, $file_alias . '?id=', "\"$home_url\""];
 
                 $this->find_replace_in($downloaded_file, $finds, $replaces);
 
