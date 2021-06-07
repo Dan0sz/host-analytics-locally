@@ -63,11 +63,11 @@ class CAOS
         global $caos_file_aliases;
 
         $caos_file_aliases      = get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES);
-        $translated_tracking_id = _x('', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
+        $translated_tracking_id = _x('UA-123456789', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
 
         define('CAOS_SITE_URL', 'https://daan.dev');
         define('CAOS_BLOG_ID', get_current_blog_id());
-        define('CAOS_OPT_TRACKING_ID', $translated_tracking_id ?: esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
+        define('CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
         define('CAOS_OPT_ALLOW_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING)));
         define('CAOS_OPT_COOKIE_NAME', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME)));
         define('CAOS_OPT_COOKIE_VALUE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE)));
