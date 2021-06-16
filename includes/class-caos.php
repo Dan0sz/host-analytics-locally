@@ -325,6 +325,14 @@ class CAOS
     {
         $url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
 
+        /**
+         * is_ssl() fails when behind a load balancer or reverse proxy. That's why we double check here if 
+         * SSL is enabled and rewrite accordingly.
+         */
+        if (strpos(home_url(), 'https://') !== false && !is_ssl()) {
+            $url = str_replace('http://', 'https://', $url);
+        }
+
         if (CAOS_OPT_CDN_URL) {
             $url = str_replace(get_home_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
         }
