@@ -20,6 +20,8 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->title = __('Advanced Settings', $this->plugin_text_domain);
 
         // Open
@@ -132,7 +134,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_cookieless_analytics()
     {
-        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain);
+        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
 
         if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
             $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;

@@ -24,6 +24,31 @@ class CAOS_Admin_Settings_Builder
     /** @var $title */
     protected $title;
 
+    /** @var $promo string */
+    protected $promo;
+
+    /**
+     * Only sets the promo string on settings load.
+     *
+     * CAOS_Admin_Settings_Builder constructor.
+     */
+    public function __construct()
+    {
+        add_filter('caos_basic_settings_content', [$this, 'do_promo']);
+        add_filter('caos_advanced_settings_content', [$this, 'do_promo']);
+        add_filter('caos_extensions_settings_content', [$this, 'do_promo']);
+    }
+
+    /**
+     *
+     */
+    public function do_promo()
+    {
+        if (apply_filters('caos_super_stealth_upgrade_active', false) == false) {
+            $this->promo = sprintf(__('<a href="%s" target="_blank">Get Super Stealth Upgrade</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags);
+        }
+    }
+
     /**
      *
      */
@@ -219,7 +244,7 @@ class CAOS_Admin_Settings_Builder
             <td>
                 <input <?= $disabled && apply_filters($name . '_setting_disabled', true) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description); ?> <?= apply_filters('caos_super_stealth_upgrade_active', false) ? '' : sprintf(__('<a href="%s" target="_blank">Get Super Stealth Upgrade</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags); ?>
+                    <?= apply_filters($name . '_setting_description', $description); ?>
                 </p>
             </td>
         </tr>
