@@ -9,6 +9,9 @@
 
 jQuery(document).ready(function ($) {
     var caos_admin = {
+        ticker_items: document.querySelectorAll('.ticker-item'),
+        ticker_index: 0,
+
         /**
          * Initialize CAOS Admin Functions.
          */
@@ -18,6 +21,28 @@ jQuery(document).ready(function ($) {
             $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
             $('.caos-stealth-mode, .caos-extension-optimize').on('click', this.toggle_stealth_mode);
             $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
+
+            // Ticker
+            setInterval(this.loop_ticker_items, 4000);
+        },
+
+        /**
+         * 
+         */
+        loop_ticker_items: function () {
+            caos_admin.ticker_items.forEach(function (item, index) {
+                if (index == caos_admin.ticker_index) {
+                    $(item).fadeIn(500);
+                } else {
+                    $(item).hide(0);
+                }
+            });
+
+            caos_admin.ticker_index++;
+
+            if (caos_admin.ticker_index == caos_admin.ticker_items.length) {
+                caos_admin.ticker_index = 0;
+            }
         },
 
         /**

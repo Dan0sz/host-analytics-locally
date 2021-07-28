@@ -18,6 +18,7 @@ defined('ABSPATH') || exit;
 class CAOS_Admin_Settings extends CAOS_Admin
 {
     const CAOS_ADMIN_PAGE = 'host_analyticsjs_local';
+    const CAOS_NEWS_REEL  = 'caos_news_reel';
 
     /**
      * Admin Sections
@@ -138,6 +139,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         // Footer Text
         add_filter('admin_footer_text', [$this, 'footer_text_left']);
+        add_filter('update_footer', [$this, 'footer_text_right'], 11);
 
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
@@ -429,11 +431,76 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function footer_text_left()
     {
-        $logo_url = plugin_dir_url(CAOS_PLUGIN_BASENAME) . 'assets/images/ffw-press-logo.png';
-        $logo = "<a target='_blank' title='Visit FFW Press' href='https://ffw.press/wordpress-plugins/'><img class='signature-image' alt='Visit FFW Press' src='$logo_url' /></a>";
-        $text = sprintf(__('Coded with %s in The Netherlands.', $this->plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>');
+        $text = sprintf(__('Coded with %s in The Netherlands @ <strong>FFW.Press</strong>.', $this->plugin_text_domain), '<span class="dashicons dashicons-heart ffwp-heart"></span>');
 
-        return '<span id="footer-thankyou">' . $logo . ' ' . $text . '</span>';
+        return '<span id="footer-thankyou">' . $text . '</span>';
+    }
+
+
+    /**
+     * All logic to generate the news reel in the bottom right of the footer on all of OMGF's settings pages.
+     * 
+     * Includes multiple checks to make sure the reel is only shown if a recent post is available.
+     * 
+     * @param mixed $text 
+     * @return mixed 
+     */
+    public function footer_text_right($text)
+    {
+        if (!extension_loaded('simplexml')) {
+            return $text;
+        }
+
+        /**
+         * If a WordPress update is available, show the original text.
+         */
+        if (strpos($text, 'Get Version') !== false) {
+            return $text;
+        }
+
+        // Prevents bashing the API.
+        $xml = get_transient(self::CAOS_NEWS_REEL);
+
+        if (!$xml) {
+            $response = wp_remote_get('https://daan.dev/tag/caos/feed');
+
+            if (!is_wp_error($response)) {
+                $xml = wp_remote_retrieve_body($response);
+
+                // Refresh the feed once a day to prevent bashing of the API.
+                set_transient(self::CAOS_NEWS_REEL, $xml, DAY_IN_SECONDS);
+            }
+        }
+
+        if (!$xml) {
+            return $text;
+        }
+
+        $xml = simplexml_load_string($xml);
+
+        if (!$xml) {
+            return $text;
+        }
+
+        $items = $xml->channel->item ?? [];
+
+        if (empty($items)) {
+            return $text;
+        }
+
+        $text = sprintf(__('Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain), 'https://daan.dev/tag/caos') . ' ';
+        $text .= '<span id="caos-ticker-wrap">';
+        $i    = 0;
+
+        foreach ($items as $item) {
+            $hide = $i > 0 ? 'style="display: none;"' : '';
+            $text .= "<span class='ticker-item' $hide>" . sprintf('<a target="_blank" href="%s"><em>%s</em></a>', $item->link, $item->title) . '</span>';
+            $i++;
+        }
+
+        $text .= "</span>";
+
+        return $text;
     }
 
     /**
