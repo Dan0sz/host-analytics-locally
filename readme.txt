@@ -2,8 +2,8 @@
 Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
-Tested up to: 5.7
-Stable tag: 4.1.2
+Tested up to: 5.8
+Stable tag: 4.1.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,11 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.1.3 | July 28th, 2021 =
+* Enhancement: Added news real for CAOS relevant blog posts in footer of CAOS' settings screen.
+* Fix: Super Stealth Upgrade promotion material is removed from options that're free.
+* Tested with WP 5.8.
 
 = 4.1.2 | June 16th, 2021 =
 * Fix: When gtag.js was used, SSL was enabled and your site was behind a load balancer/reverse proxy, CAOS attempted to load analytics.js thru a non-SSL link, which would break Analytics.
