@@ -41,7 +41,7 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
      */
     ?>
     <?= implode("\n", apply_filters('caos_analytics_before_send', array(), CAOS_OPT_TRACKING_ID)); ?>
-    ga('send', <?= apply_filters('caos_analytics_hit_type', 'pageview'); ?>);
+    ga('send', '<?= apply_filters('caos_analytics_hit_type', 'pageview'); ?>');
     <?php
     /**
      * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.
