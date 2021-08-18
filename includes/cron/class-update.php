@@ -158,8 +158,9 @@ class CAOS_Cron_Update extends CAOS_Cron
 
                 $ext_ga_url = CAOS_GA_URL . '/analytics.js';
                 $home_url   = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
-                $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"'];
-                $replaces   = [$local_ga_url, $file_alias . '?id=', "\"$home_url\""];
+                $hit_type   = apply_filters('caos_gtag_hit_type', '"pageview"');
+                $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', "\"pageview\""];
+                $replaces   = [$local_ga_url, $file_alias . '?id=', "\"$home_url\"", $hit_type];
 
                 $this->find_replace_in($downloaded_file, $finds, $replaces);
 
