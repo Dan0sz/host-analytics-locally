@@ -146,7 +146,7 @@ class CAOS_Cron_Update extends CAOS_Cron
             if ($file == 'gtag') {
                 $file_alias = CAOS::get_file_alias($file);
                 /**
-                 * Backwards compatibility
+                 * Backwards compatibility with pre-file alias era.
                  * 
                  * @since 3.11.0
                  */
