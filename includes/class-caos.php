@@ -34,10 +34,14 @@ class CAOS
         $this->do_setup();
 
         if (is_admin()) {
+            do_action('caos_before_admin');
+
             $this->do_settings();
         }
 
         if (!is_admin()) {
+            do_action('caos_before_frontend');
+
             $this->do_frontend();
             $this->do_tracking_code();
         }
