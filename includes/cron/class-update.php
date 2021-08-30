@@ -35,6 +35,8 @@ class CAOS_Cron_Update extends CAOS_Cron
             return;
         }
 
+        do_action('caos_cron_update');
+
         $this->files = $this->build_download_queue();
 
         CAOS::debug(sprintf(__('Built file queue: %s', $this->plugin_text_domain), print_r($this->files, true)));
