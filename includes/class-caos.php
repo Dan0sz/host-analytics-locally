@@ -57,6 +57,7 @@ class CAOS
             $this->maybe_do_update($plugin, 'deactivate');
         });
         add_action('admin_init', [$this, 'do_update_after_save']);
+        add_action('in_plugin_update_message-' . CAOS_PLUGIN_BASENAME, [$this, 'render_update_notice'], 11, 2);
     }
 
     /**
@@ -299,6 +300,38 @@ class CAOS
         }
 
         return $this->trigger_cron_script();
+    }
+
+    /**
+     * Render update notices if available.
+     * 
+     * @param mixed $plugin 
+     * @param mixed $response 
+     * @return void 
+     */
+    public function render_update_notice($plugin, $response)
+    {
+        $current_version = $plugin['Version'];
+        $new_version     = $plugin['new_version'];
+
+        if (version_compare($current_version, $new_version, '<')) {
+            $response = wp_remote_get('https://daan.dev/caos-update-notices.json');
+
+            if (is_wp_error($response)) {
+                return;
+            }
+
+            $update_notices = (array) json_decode(wp_remote_retrieve_body($response));
+
+            if (!isset($update_notices[$new_version])) {
+                return;
+            }
+
+            printf(
+                ' <strong>' . __('This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.') . '</strong>',
+                $update_notices[$new_version]->url
+            );
+        }
     }
 
     /**
