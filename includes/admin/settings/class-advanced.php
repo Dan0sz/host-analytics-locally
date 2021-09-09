@@ -39,10 +39,11 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 130);
         add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 180);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 160);
+        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 170);
 
         // Uninstall Setting
         add_filter('caos_advanced_settings_content', [$this, 'do_debug_mode'], 220);
@@ -161,6 +162,20 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('The number of days when the cookie will automatically expire. Defaults to 30 days.', $this->plugin_text_domain)
         );
     }
+
+    /**
+     * Use adjusted bounce rate?
+     */
+    public function do_adjusted_bounce_rate()
+    {
+        $this->do_number(
+            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+            sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
+        );
+    }
+
 
     /**
      * Site Speed Sample Rate (%)

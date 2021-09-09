@@ -34,7 +34,6 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         // Non-compatibility mode settings
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 110);
-        add_filter('caos_extensions_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
         add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 130);
         add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 140);
         add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 150);
@@ -84,23 +83,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_stealth_mode()
     {
         $this->do_checkbox(
-            __('Enable Stealth Mode Lite', $this->plugin_text_domain),
+            __('Enable Stealth Mode Lite (deprecated)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
             CAOS_OPT_EXT_STEALTH_MODE,
-            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
-        );
-    }
-
-    /**
-     * Use adjusted bounce rate?
-     */
-    public function do_adjusted_bounce_rate()
-    {
-        $this->do_number(
-            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE,
-            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
-            sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
+            sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a> <strong>This option will be removed from CAOS in a next release.</strong>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
         );
     }
 
@@ -144,10 +130,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_optimize()
     {
         $this->do_checkbox(
-            __('Enable Google Optimize integration', $this->plugin_text_domain),
+            __('Enable Google Optimize integration (deprecated)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE,
             CAOS_OPT_EXT_OPTIMIZE,
-            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode and Minimal Analytics. <a href="%s" target="_blank">How does it work?</a>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH)
+            sprintf(__('Use A/B testing to test different versions of your web pages to see how they perform against an objective you’ve specified. Not compatible with Stealth Mode and Minimal Analytics. <a href="%s" target="_blank">How does it work?</a> <strong>This feature will be moved to a separate (free) plugin in a next release.</strong>', $this->plugin_text_domain), 'https://support.google.com/optimize/answer/6262084/', CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH)
         );
     }
 
