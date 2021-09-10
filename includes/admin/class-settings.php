@@ -303,19 +303,20 @@ class CAOS_Admin_Settings extends CAOS_Admin
     public function get_settings()
     {
         $reflection = new ReflectionClass($this);
-        $constants  = $reflection->getConstants();
-        $needle     = 'CAOS_BASIC_SETTING';
+        $constants  = apply_filters('caos_register_settings', $reflection->getConstants());
 
-        if ($this->active_tab == self::CAOS_ADMIN_SECTION_ADV_SETTINGS) {
-            $needle = 'CAOS_ADV_SETTING';
-        }
-
-        if ($this->active_tab == self::CAOS_ADMIN_SECTION_EXT_SETTINGS) {
-            $needle = 'CAOS_EXT_SETTING';
-        }
-
-        if ($this->active_tab == self::CAOS_ADMIN_SECTION_HELP) {
-            $needle = 'CAOS_HELP_SETTING';
+        switch ($this->active_tab) {
+            case self::CAOS_ADMIN_SECTION_ADV_SETTINGS:
+                $needle = 'CAOS_ADV_SETTING';
+                break;
+            case self::CAOS_ADMIN_SECTION_EXT_SETTINGS:
+                $needle = 'CAOS_EXT_SETTING';
+                break;
+            case self::CAOS_ADMIN_SECTION_HELP:
+                $needle = 'CAOS_HELP_SETTING';
+                break;
+            default:
+                $needle = apply_filters('caos_register_settings_needle', 'CAOS_BASIC_SETTING');
         }
 
         return array_filter(

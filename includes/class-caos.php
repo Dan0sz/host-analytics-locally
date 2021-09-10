@@ -87,7 +87,6 @@ class CAOS
         define('CAOS_OPT_TRACK_ADMIN', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN)));
         define('CAOS_OPT_DISABLE_DISPLAY_FEAT', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES)));
         define('CAOS_OPT_REMOTE_JS_FILE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)) ?: 'analytics.js');
-        define('CAOS_OPT_COOKIELESS_ANALYTICS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COOKIELESS_ANALYTICS)));
         define('CAOS_OPT_CACHE_DIR', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR)) ?: '/uploads/caos/');
         define('CAOS_OPT_CDN_URL', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL)));
         define('CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS)));

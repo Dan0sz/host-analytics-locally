@@ -34,6 +34,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         // Non-compatibility mode settings
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 110);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 120);
         add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 130);
         add_filter('caos_extensions_settings_content', [$this, 'do_optimize'], 140);
         add_filter('caos_extensions_settings_content', [$this, 'do_optimize_id'], 150);
@@ -87,6 +88,28 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
             CAOS_OPT_EXT_STEALTH_MODE,
             sprintf(__('Bypass some Ad Blockers and uncover ⅓ of data normally blocked by Ad Blockers. Upgrade to <a target="_blank" href="%s">Super Stealth</a> to <strong>bypass all Ad Blockers</strong> and for <strong>Enhanced Ecommerce</strong> (ec.js) support. <a target="_blank" href="%s">How does it work?</a> <strong>This option will be removed from CAOS in a next release.</strong>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/')
+        );
+    }
+
+    /**
+     * Add Cookieless Analytics option.
+     * 
+     * @return void 
+     */
+    public function do_cookieless_analytics_promo()
+    {
+        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
+
+        if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
+            $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
+        }
+
+        $this->do_checkbox(
+            __('Enable Cookieless Analytics', $this->plugin_text_domain),
+            'super_stealth_cookieless_analytics',
+            defined('SUPER_STEALTH_COOKIELESS_ANALYTICS') && SUPER_STEALTH_COOKIELESS_ANALYTICS,
+            $description,
+            true
         );
     }
 

@@ -242,7 +242,7 @@ class CAOS_Admin_Settings_Builder
         <tr>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input <?= $disabled && apply_filters($name . '_setting_disabled', true) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
                 <p class="description">
                     <?= apply_filters($name . '_setting_description', $description); ?>
                 </p>

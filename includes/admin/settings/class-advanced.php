@@ -37,17 +37,16 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics'], 110);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 120);
-        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 130);
-        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 170);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 110);
+        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 130);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 140);
+        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
-        add_filter('caos_advanced_settings_content', [$this, 'do_debug_mode'], 220);
-        add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 250);
+        add_filter('caos_advanced_settings_content', [$this, 'do_debug_mode'], 210);
+        add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 220);
 
         // Close
         add_filter('caos_advanced_settings_content', [$this, 'do_after'], 250);
@@ -126,28 +125,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     public function do_tbody_advanced_settings_open()
     {
         $this->do_tbody_open('caos_advanced_settings');
-    }
-
-    /**
-     * Add Cookieless Analytics option.
-     * 
-     * @return void 
-     */
-    public function do_cookieless_analytics()
-    {
-        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
-
-        if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
-            $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
-        }
-
-        $this->do_checkbox(
-            __('Enable Cookieless Analytics', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_COOKIELESS_ANALYTICS,
-            CAOS_OPT_COOKIELESS_ANALYTICS,
-            $description,
-            true
-        );
     }
 
     /**
