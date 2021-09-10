@@ -134,6 +134,7 @@ N/A
 = 4.1.5 | September 10th, 2021 =
 * Dev: 3rd party plugins can now easily modify CAOS' admin screen (e.g. adding/saving/modifying settings).
 * Enhancement: Minimal Analytics code is now minified.
+* Fix: Explicitly enabling Display Features (if not disabled within the settings) should fix missing Demographics reporting.
 * Moved Adjusted Bounce Rate setting to Advanced Settings tab.
 
 = 4.1.4 | August 18th, 2021 =
