@@ -147,7 +147,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     {
         $this->do_number(
             __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
             CAOS_OPT_ADJUSTED_BOUNCE_RATE,
             sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
         );
