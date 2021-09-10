@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.1.4
+Stable tag: 4.1.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
   - *[CAOS Super Stealth Upgrade](https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
+- Enable Cookieless Analytics (Super Stealth Upgrade required),
 - Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
@@ -129,6 +130,11 @@ Yes, you can! Simply add the URL of your CDN within the advanced options and ana
 N/A
 
 == Changelog ==
+
+= 4.1.5 | September 10th, 2021 =
+* Dev: 3rd party plugins can now easily modify CAOS' admin screen (e.g. adding/saving/modifying settings).
+* Enhancement: Minimal Analytics code is now minified.
+* Moved Adjusted Bounce Rate setting to Advanced Settings tab.
 
 = 4.1.4 | August 18th, 2021 =
 * Enhancement: The hit type parameter can now be filtered to allow more flexibility when ad blocker lists are updated. (hint: Super Stealth)
