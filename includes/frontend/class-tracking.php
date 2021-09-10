@@ -163,23 +163,29 @@ class CAOS_Frontend_Tracking
      */
     public function disable_display_features()
     {
-        if (CAOS_OPT_DISABLE_DISPLAY_FEAT !== 'on') {
-            return;
+        $display_features_disabled = CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on';
+
+        add_filter('caos_gtag_config', function ($config, $trackingId) use ($display_features_disabled) {
+            return $config + array('allow_google_signals' => "$display_features_disabled");
+        }, 10, 2);
+
+        if ($display_features_disabled) {
+            add_filter('caos_analytics_before_send', function ($config) {
+                $option = array(
+                    'display_features' => "ga('set', 'displayFeaturesTask', null);"
+                );
+
+                return $config + $option;
+            });
+        } else {
+            add_filter('caos_analytics_before_send', function ($config) {
+                $option = array(
+                    'display_features' => "ga('require', 'displayfeatures');"
+                );
+
+                return $config + $option;
+            });
         }
-
-        if ($this->is_gtag()) {
-            add_filter('caos_gtag_config', function ($config, $trackingId) {
-                return $config + array('displayFeaturesTask' => null);
-            }, 10, 2);
-        }
-
-        add_filter('caos_analytics_before_send', function ($config) {
-            $option = array(
-                'display_features' => "ga('set', 'displayFeaturesTask', null);"
-            );
-
-            return $config + $option;
-        });
     }
 
     /**
