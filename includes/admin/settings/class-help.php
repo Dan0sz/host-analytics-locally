@@ -47,16 +47,16 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder
                             <?php _e('Need Help?', $plugin_text_domain); ?>
                         </h3>
                         <ul>
-                            <li><a class="welcome-icon dashicons-controls-play" target="_blank" href="<?= apply_filters('caos_settings_sidebar_quick_start', 'https://ffw.press/docs/caos/quick-start/'); ?>"><?= __('Quick Start Guide', $plugin_text_domain); ?></a></li>
-                            <li><a class="welcome-icon dashicons-text-page" target="_blank" href="<?= apply_filters('caos_settings_sidebar_user_manual', 'https://ffw.press/docs/caos/user-manual/'); ?>"><?= __('User Manual', $plugin_text_domain); ?></a></li>
-                            <li><a class="welcome-icon dashicons-editor-help" target="_blank" href="<?= apply_filters('caos_settings_sidebar_faq_link', 'https://wordpress.org/plugins/host-analyticjs-local/#description'); ?>"><?= __('FAQ', $plugin_text_domain); ?></a></li>
-                            <li><a class="welcome-icon dashicons-bell" target="_blank" href="<?= apply_filters('caos_settings_sidebar_get_support_link', 'https://wordpress.org/support/plugin/host-analyticsjs-local/#new-post'); ?>"><?= __('Get Support', $plugin_text_domain); ?></a></li>
+                            <li><a class="welcome-icon dashicons-controls-play" target="_blank" href="<?= apply_filters('caos_settings_help_quick_start', 'https://docs.ffw.press/article/63-quick-start-caos'); ?>"><?= __('Quick Start Guide', $plugin_text_domain); ?></a></li>
+                            <li><a class="welcome-icon dashicons-text-page" target="_blank" href="<?= apply_filters('caos_settings_help_user_manual', 'https://docs.ffw.press/category/17-caos'); ?>"><?= __('User Manual', $plugin_text_domain); ?></a></li>
+                            <li><a class="welcome-icon dashicons-editor-help" target="_blank" href="<?= apply_filters('caos_settings_help_faq_link', 'https://docs.ffw.press/category/33-caos---troubleshooting'); ?>"><?= __('FAQ & Troubleshooting', $plugin_text_domain); ?></a></li>
+                            <li><a class="welcome-icon dashicons-bell" target="_blank" href="<?= apply_filters('caos_settings_help_support_link', 'https://docs.ffw.press/'); ?>"><?= __('Get Support', $plugin_text_domain); ?></a></li>
                         </ul>
                     </div>
                     <div class="welcome-panel-column">
                         <h3><?= __('Support CAOS & Spread the Word!', $plugin_text_domain); ?></h3>
                         <ul>
-                            <li><a class="welcome-icon dashicons-star-filled" target="_blank" href="https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post"><?= __('Write a 5-star Review or,', $plugin_text_domain); ?></a></li>
+                            <li><a class="welcome-icon dashicons-star-filled" target="_blank" href="<?= apply_filters('caos_settings_help_review_link', 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post'); ?>"><?= __('Write a 5-star Review or,', $plugin_text_domain); ?></a></li>
                             <li><a class="welcome-icon dashicons-twitter" target="_blank" href="<?= $tweetUrl; ?>"><?= __('Tweet about it!', $plugin_text_domain); ?></a></li>
                         </ul>
                     </div>

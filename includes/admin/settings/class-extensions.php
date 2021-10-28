@@ -122,7 +122,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Track Ad Blockers', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
             CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), CAOS_SITE_URL . '/wordpress-plugins/caos#extensions-settings')
+            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://docs.ffw.press/article/32-extensions')
         );
     }
 
