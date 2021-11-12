@@ -463,7 +463,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         $xml = get_transient(self::CAOS_NEWS_REEL);
 
         if (!$xml) {
-            $response = wp_remote_get('https://ffw.press/tag/caos/feed');
+            $response = wp_remote_get('https://ffw.press/blog/tag/caos/feed');
 
             if (!is_wp_error($response)) {
                 $xml = wp_remote_retrieve_body($response);
