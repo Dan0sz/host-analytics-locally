@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.1.6
+Stable tag: 4.1.7
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,10 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.1.7 | November 12th, 2021 =
+* Fix: Updated RSS feed URL, because daan.dev moved to ffw.press/blog
+* Fix: Updated documentation links.
 
 = 4.1.6 =
 * Fix: Adjusted Bounce Rate setting was broken after moving it to the Advanced Tab.
