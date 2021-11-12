@@ -138,7 +138,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         add_action('admin_head', [$this, 'enqueue_admin_assets']);
 
         // Footer Text
-        add_filter('admin_footer_text', [$this, 'footer_text_left']);
+        add_filter('admin_footer_text', [$this, 'footer_text_left'], 99);
         add_filter('update_footer', [$this, 'footer_text_right'], 11);
 
         // Tabs
@@ -463,7 +463,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         $xml = get_transient(self::CAOS_NEWS_REEL);
 
         if (!$xml) {
-            $response = wp_remote_get('https://daan.dev/tag/caos/feed');
+            $response = wp_remote_get('https://ffw.press/tag/caos/feed');
 
             if (!is_wp_error($response)) {
                 $xml = wp_remote_retrieve_body($response);
