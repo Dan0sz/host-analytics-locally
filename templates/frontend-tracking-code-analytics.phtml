@@ -15,7 +15,7 @@
 
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieName'    => 'caosLocalGa',
-    'cookieDomain'  => apply_filters('caos_analytics_cookie_domain', $_SERVER['SERVER_NAME']),
+    'cookieDomain'  => $_SERVER['SERVER_NAME'],
     'cookieExpires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookieFlags'   => 'samesite=none;secure'
 ));
