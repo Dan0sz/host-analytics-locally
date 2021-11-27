@@ -41,7 +41,8 @@ class CAOS_Admin
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
         add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
-        add_action('update_option_caos_analytics_cache_dir', [$this, 'add_cache_dir_notice'], 10, 2);
+        add_action('pre_update_option_caos_analytics_cache_dir', [$this, 'validate_cache_dir'], 10, 2);
+        add_action('update_option_caos_analytics_cache_dir', [$this, 'set_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
     }
 
@@ -158,12 +159,48 @@ class CAOS_Admin
     }
 
     /**
+     * Perform a few checks before saving the Cache Directory value to the database.
+     * 
+     * @param mixed $new_dir 
+     * @param mixed $old_dir 
+     * @return mixed 
+     */
+    public function validate_cache_dir($new_dir, $old_dir)
+    {
+        $allowed_path = WP_CONTENT_DIR . $new_dir;
+        $mkdir        = true;
+
+        if (!file_exists($allowed_path)) {
+            /**
+             * wp_mkdir_p() already does some simple checks for path traversal, but we check it again using realpath() later on anyway.
+             */
+            $mkdir = wp_mkdir_p($allowed_path);
+        }
+
+        if (!$mkdir) {
+            CAOS_Admin_Notice::set_notice(sprintf(__('Something went wrong while trying to create CAOS\' Cache Directory: %s. Setting wasn\'t updated.', $this->plugin_text_domain), $new_dir), 'error');
+
+            return $old_dir;
+        }
+
+        $real_path = realpath($allowed_path);
+
+        if ($real_path != rtrim($allowed_path, '/')) {
+            CAOS_Admin_Notice::set_notice(__('CAOS\' Cache Directory wasn\'t changed. Attempted path traversal.', $this->plugin_text_domain), 'error');
+
+            return $old_dir;
+        }
+
+        return $new_dir;
+    }
+
+    /**
      * @param $old_dir
      * @param $new_dir
      *
      * @return string
      */
-    public function add_cache_dir_notice($old_dir, $new_dir)
+    public function set_cache_dir_notice($old_dir, $new_dir)
     {
         if ($new_dir !== $old_dir && !empty($new_dir)) {
             CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir));
