@@ -69,6 +69,9 @@ N/A
 
 == Changelog ==
 
+= 4.1.9 | November 27th, 2021 =
+* Sec: prevent path traversal when cache dir is changed (thnx, @jsgm!)
+
 = 4.1.8 | November 17th, 2021 =
 * Fix: Properly encode XML to prevent parse error in simplexml_load_string().
 
