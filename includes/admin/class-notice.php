@@ -58,7 +58,7 @@ class CAOS_Admin_Notice
 ?>
                     <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
                         <?php foreach ($message as $line) : ?>
-                            <p><?= $line; ?></p>
+                            <p><strong><?= $line; ?></strong></p>
                         <?php endforeach; ?>
                     </div>
 <?php
