@@ -95,7 +95,9 @@ class CAOS_Cron_Update extends CAOS_Cron
     }
 
     /**
-     * Enqueues the files that need to be downloaded.
+     * Enqueues the files that need to be downloaded, depending on the settings.
+     * 
+     * @since v4.2.0 Added Dual Tracking compatibility.
      * 
      * @return array
      */
