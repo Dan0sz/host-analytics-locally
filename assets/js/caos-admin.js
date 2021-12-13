@@ -37,14 +37,19 @@ jQuery(document).ready(function ($) {
          */
         toggle_dual_tracking_visibility: function () {
             current_value = this.value;
-            $option = $('.caos-dual-tracking-row');
-            $2nd_option = $('.caos-ga4-measurement-id-row');
+            $option = $('.caos-dual-tracking');
+            $option_row = $('.caos-dual-tracking-row');
+            $2nd_option_row = $('.caos-ga4-measurement-id-row');
 
             if (current_value.startsWith('UA-')) {
-                $option.show();
+                $option_row.show();
+
+                if ($option.is(':checked')) {
+                    $2nd_option_row.show();
+                }
             } else {
-                $option.hide();
-                $2nd_option.hide();
+                $option_row.hide();
+                $2nd_option_row.hide();
             }
         },
 
