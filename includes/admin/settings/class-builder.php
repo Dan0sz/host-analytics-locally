@@ -236,16 +236,16 @@ class CAOS_Admin_Settings_Builder
      * @param $checked
      * @param $description
      */
-    public function do_checkbox($label, $name, $checked, $description, $disabled = false)
+    public function do_checkbox($label, $name, $checked, $description, $disabled = false, $visible = true)
     {
     ?>
         <tr>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                <p class="description">
+                <label for="<?= $name; ?>">
+                    <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
                     <?= apply_filters($name . '_setting_description', $description); ?>
-                </p>
+                </label>
             </td>
         </tr>
 <?php
