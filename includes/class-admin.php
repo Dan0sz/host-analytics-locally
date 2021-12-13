@@ -104,6 +104,7 @@ class CAOS_Admin
 
         if (substr($new_tracking_id, 0, 2) == 'G-') {
             $title = 'Google Analytics 4';
+            delete_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING);
             update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'gtag-v4.js');
         } else {
             $title = 'Universal Analytics';
