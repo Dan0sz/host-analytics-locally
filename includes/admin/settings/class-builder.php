@@ -239,7 +239,7 @@ class CAOS_Admin_Settings_Builder
     public function do_checkbox($label, $name, $checked, $description, $disabled = false, $visible = true)
     {
     ?>
-        <tr>
+        <tr class='<?= str_replace('_', '-', $name); ?>-row' <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
                 <label for="<?= $name; ?>">

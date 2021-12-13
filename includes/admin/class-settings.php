@@ -71,6 +71,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
      * CAOS Basic/Advanced Settings
      */
     const CAOS_BASIC_SETTING_TRACKING_ID            = 'sgal_tracking_id';
+    const CAOS_BASIC_SETTING_DUAL_TRACKING          = 'caos_dual_tracking';
+    const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID     = 'caos_ga4_measurement_id';
     const CAOS_BASIC_SETTING_TRACK_ADMIN            = 'sgal_track_admin';
     const CAOS_BASIC_SETTING_ALLOW_TRACKING         = 'caos_allow_tracking';
     const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';

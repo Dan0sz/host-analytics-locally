@@ -43,6 +43,7 @@ class CAOS_Frontend_Tracking
         add_action('caos_process_settings', [$this, 'site_speed_sample_rate']);
         add_action('caos_process_settings', [$this, 'linkid']);
         add_action('caos_process_settings', [$this, 'google_optimize']);
+        add_action('caos_process_settings', [$this, 'dual_tracking']);
     }
 
     /**
@@ -237,7 +238,8 @@ class CAOS_Frontend_Tracking
     /**
      * Enhanced Link Attribution
      *
-     * TODO: Set samesite flag as soon as it's available. (https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution)
+     * TODO: Set samesite flag as soon as it's available.
+     *       @see https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution
      */
     public function linkid()
     {
@@ -292,6 +294,29 @@ class CAOS_Frontend_Tracking
             ];
 
             return $config + $option;
+        });
+    }
+
+    /**
+     * Add GA4 Measurement ID to Gtag tracking code.
+     *
+     * @return void 
+     */
+    public function dual_tracking()
+    {
+        if (CAOS_OPT_DUAL_TRACKING !== 'on' || !$this->is_gtag()) {
+            return;
+        }
+
+        $measurement_id = CAOS_OPT_GA4_MEASUREMENT_ID;
+
+        if (!$measurement_id) {
+            return;
+        }
+
+        add_filter('caos_gtag_additional_config', function () use ($measurement_id) { ?>
+            gtag('config', '<?= $measurement_id; ?>');
+        <?php
         });
     }
 
@@ -432,7 +457,7 @@ class CAOS_Frontend_Tracking
         $url = home_url('wp-json/caos/v1/block/detect');
 
         ob_start();
-?>
+        ?>
         <script>
             document.addEventListener('caos_track_ad_blockers', function(e) {
                 document.addEventListener('DOMContentLoaded', function(e) {

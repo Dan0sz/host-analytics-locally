@@ -39,8 +39,8 @@ class CAOS_Admin
 
         // Notices
         add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
+        add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID, [$this, 'update_remote_js_file'], 10, 2);
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
-        add_action('pre_update_option_caos_analytics_js_file', [$this, 'add_js_file_notice'], 10, 2);
         add_action('pre_update_option_caos_analytics_cache_dir', [$this, 'validate_cache_dir'], 10, 2);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'set_cache_dir_notice'], 10, 2);
         add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
@@ -102,22 +102,58 @@ class CAOS_Admin
             return $new_tracking_id;
         }
 
-        $title = 'Universal Analytics';
-        $version = 'V3';
-        $remote_file = 'analytics.js';
-
         if (substr($new_tracking_id, 0, 2) == 'G-') {
             $title = 'Google Analytics 4';
-            $version = 'V4';
-            $remote_file = 'gtag.js (V4 API)';
+            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'gtag-v4.js');
+        } else {
+            $title = 'Universal Analytics';
+            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js');
         }
 
         CAOS_Admin_Notice::set_notice(
-            sprintf(__('You\'ve entered a %s ID which is only supported by Google Analytics\' %s API. Please change the <strong>file to download</strong> setting to <code>%s</code> under <em>Advanced Settings</em> if you haven\'t done so already.', $this->plugin_text_domain), $title, $version, $remote_file),
+            sprintf(__('Since you\'ve entered a %s ID, the <em>file to download</em> was changed to %s.', $this->plugin_text_domain), $title, CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS[CAOS_OPT_REMOTE_JS_FILE]),
             'warning'
         );
 
+        if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') {
+            CAOS_Admin_Notice::set_notice(
+                __('You can change the <em>file to download</em> manually to gtag.js in <em>Advanced Settings</em> if you wish to do so.', $this->plugin_text_domain),
+                'info'
+            );
+        }
+
         return $new_tracking_id;
+    }
+
+    /**
+     * Throw appropriate notices for enabling Dual Tracking.
+     * 
+     * @param mixed $old_id 
+     * @param mixed $new_id 
+     * @return mixed 
+     */
+    public function update_remote_js_file($old_id, $new_id)
+    {
+        if (strpos($new_id, 'G-') !== 0) {
+            CAOS_Admin_Notice::set_notice(
+                __('The entered Measurement ID isn\'t correct. Fix it to avoid breaking your Analytics.', $this->plugin_text_domain),
+                'error'
+            );
+        } elseif (CAOS_OPT_REMOTE_JS_FILE != 'gtag.js') {
+            CAOS_Admin_Notice::set_notice(
+                __('Dual Tracking is enabled and the <em>file to download</em> was changed to <em>gtag.js</em>.', $this->plugin_text_domain),
+                'info'
+            );
+
+            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'gtag.js');
+        } else {
+            CAOS_Admin_Notice::set_notice(
+                __('Dual Tracking is enabled.', $this->plugin_text_domain),
+                'info'
+            );
+        }
+
+        return $new_id;
     }
 
     /**
@@ -140,22 +176,6 @@ class CAOS_Admin
         }
 
         return $new_position;
-    }
-
-    /**
-     * @param $old_filename
-     * @param $new_filename
-     *
-     * @return string
-     */
-    public function add_js_file_notice($new_filename, $old_filename)
-    {
-        if ($new_filename !== $old_filename && !empty($new_filename)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be used to track visitors on your website.', $this->plugin_text_domain), ucfirst($new_filename)));
-        }
-
-
-        return $new_filename;
     }
 
     /**

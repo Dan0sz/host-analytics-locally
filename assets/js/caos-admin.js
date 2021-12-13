@@ -16,6 +16,12 @@ jQuery(document).ready(function ($) {
          * Initialize CAOS Admin Functions.
          */
         init: function () {
+            // Text Fields
+            $('.sgal-tracking-id').on('input', this.toggle_dual_tracking_visibility);
+
+            // Checkboxes
+            $('.caos-dual-tracking',).on('change', this.toggle_ga4_measurement_id);
+
             // Radio's
             $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
             $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
@@ -24,6 +30,32 @@ jQuery(document).ready(function ($) {
 
             // Ticker
             setInterval(this.loop_ticker_items, 4000);
+        },
+
+        /**
+         * 
+         */
+        toggle_dual_tracking_visibility: function () {
+            current_value = this.value;
+            $option = $('.caos-dual-tracking-row');
+            $2nd_option = $('.caos-ga4-measurement-id-row');
+
+            if (current_value.startsWith('UA-')) {
+                $option.show();
+            } else {
+                $option.hide();
+                $2nd_option.hide();
+            }
+        },
+
+        toggle_ga4_measurement_id: function () {
+            $option = $('.caos-ga4-measurement-id-row');
+
+            if (this.checked) {
+                $option.show();
+            } else {
+                $option.hide();
+            }
         },
 
         /**

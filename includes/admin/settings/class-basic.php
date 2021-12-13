@@ -28,23 +28,24 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
 
         // Settings
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 30);
-
-        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 40);
+        add_filter('caos_basic_settings_content', [$this, 'do_dual_tracking'], 40);
+        add_filter('caos_basic_settings_content', [$this, 'do_ga4_measurement_id'], 50);
+        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 60);
 
         // Non-compatibility mode settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);
-        add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 60);
-        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 70);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 80);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 90);
-        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 100);
-        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip'], 110);
-        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 120);
-        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 130);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 140);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 70);
+        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 80);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 90);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 100);
+        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 110);
+        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip'], 120);
+        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 130);
+        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 140);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 150);
 
         // Close
-        add_filter('caos_basic_settings_content', [$this, 'do_after'], 150);
+        add_filter('caos_basic_settings_content', [$this, 'do_after'], 200);
     }
 
     /**
@@ -57,7 +58,41 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
             __('e.g. UA-1234567-12', $this->plugin_text_domain),
             CAOS_OPT_TRACKING_ID,
-            __('Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API)', $this->plugin_text_domain)
+            __('Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API). Enter a V3 Tracking ID if you\'d like to enable Dual Tracking with GA V4.', $this->plugin_text_domain)
+        );
+    }
+
+    /**
+     * Enable Dual Tracking 
+     * 
+     * @return void 
+     */
+    public function do_dual_tracking()
+    {
+        $this->do_checkbox(
+            __('Enable Dual Tracking', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING,
+            CAOS_OPT_DUAL_TRACKING,
+            'Enable dual tracking to send hits and events to both your UA and GA4 properties.',
+            false,
+            strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0
+        );
+    }
+
+    /**
+     * Google Analytics Dual Tracking ID
+     * 
+     * @return void 
+     */
+    public function do_ga4_measurement_id()
+    {
+        $this->do_text(
+            __('GA4 Measurement ID', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID,
+            __('e.g. G-123ABC456', $this->plugin_text_domain),
+            CAOS_OPT_GA4_MEASUREMENT_ID,
+            __('Enter a GA4 Measurement ID to enable dual tracking, e.g. G-123ABC789.', $this->plugin_text_domain),
+            strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0
         );
     }
 
