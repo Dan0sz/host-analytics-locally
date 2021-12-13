@@ -53,6 +53,9 @@ jQuery(document).ready(function ($) {
             }
         },
 
+        /**
+         * 
+         */
         toggle_ga4_measurement_id: function () {
             $option = $('.caos-ga4-measurement-id-row');
 
