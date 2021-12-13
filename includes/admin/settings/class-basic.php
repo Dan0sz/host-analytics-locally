@@ -92,7 +92,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('e.g. G-123ABC456', $this->plugin_text_domain),
             CAOS_OPT_GA4_MEASUREMENT_ID,
             __('Enter a GA4 Measurement ID to enable dual tracking, e.g. G-123ABC789.', $this->plugin_text_domain),
-            strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0
+            CAOS_OPT_DUAL_TRACKING == 'on' && strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0
         );
     }
 
