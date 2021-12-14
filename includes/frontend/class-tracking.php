@@ -249,9 +249,8 @@ class CAOS_Frontend_Tracking
         if ($this->is_gtag()) {
             add_filter('caos_gtag_config', function ($config, $tracking_id) {
                 return $config + [
-                    'linkid', [
+                    'link_attribution', [
                         'cookie_name'  => 'caos_linkid',
-                        'cookie_flags' => 'samesite=none;secure'
                     ]
                 ];
             }, 10, 2);
