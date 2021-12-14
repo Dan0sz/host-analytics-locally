@@ -25,8 +25,8 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 20);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling'], 50);
-        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
 
+        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
         add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 110);
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 120);
 
@@ -38,7 +38,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         add_filter('caos_extensions_settings_content', [$this, 'do_capture_outbound_links'], 123);
 
         /**
-         * Can't be used when compatibility mode is on.
+         * Priorities 150 and up can't be used when compatibility mode is on. A proper notice will be shown when it's enabled.
          */
         add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 150);
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 151);
@@ -95,10 +95,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     {
         $this->do_checkbox(
             __('Enable Super Stealth Mode', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE,
-            CAOS_OPT_EXT_STEALTH_MODE,
+            'super_stealth_mode',
+            defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : false,
             sprintf(__('Bypass Ad Blockers and uncover data normally blocked by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
-            defined('SUPER_STEALTH_ENABLED') ? SUPER_STEALTH_ENABLED : true
+            defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : true
         );
     }
 
