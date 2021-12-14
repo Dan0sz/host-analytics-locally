@@ -217,6 +217,8 @@ class CAOS_Cron_Update extends CAOS_Cron
                 do_action('after_caos_stealth_mode_enable');
             }
 
+            $downloaded_file = apply_filters("caos_cron_update_${file}", $downloaded_file);
+
             /**
              * Make first entry uppercase.
              */
