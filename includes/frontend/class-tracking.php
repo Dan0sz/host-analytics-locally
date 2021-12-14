@@ -272,7 +272,7 @@ class CAOS_Frontend_Tracking
      */
     public function dual_tracking()
     {
-        if (CAOS_OPT_DUAL_TRACKING !== 'on' || !$this->is_gtag()) {
+        if (CAOS_OPT_DUAL_TRACKING !== 'on' || CAOS_OPT_DUAL_TRACKING !== 'on' && !$this->is_gtag()) {
             return;
         }
 
