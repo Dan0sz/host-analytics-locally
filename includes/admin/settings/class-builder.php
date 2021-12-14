@@ -140,7 +140,7 @@ class CAOS_Admin_Settings_Builder
                     <br />
                 <?php endforeach; ?>
                 <p class="description">
-                    <?= $description; ?>
+                    <?= apply_filters($name . '_setting_description', $description); ?>
                 </p>
             </td>
         </tr>

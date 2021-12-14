@@ -98,7 +98,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'super_stealth_mode',
             defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : false,
             sprintf(__('Bypass Ad Blockers and uncover data normally blocked by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
-            defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : true
+            true
         );
     }
 
