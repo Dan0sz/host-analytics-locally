@@ -162,48 +162,7 @@ class CAOS_API_Proxy extends WP_REST_Controller
 	}
 
 	/**
-	 * If plugins are used and set_redirect is set, we need to capture these requests and
-	 * redirect them to the locally hosted versions, so these requests will also bypass Ad
-	 * Blockers.
-	 *
-	 * @param $request
-	 */
-	public function set_redirect($request)
-	{
-		$endpoint = array_filter($this->plugin_endpoints, function ($value) use ($request) {
-			return strpos($request->get_route(), $value) !== false;
-		});
-
-		$endpoint     = reset($endpoint);
-		CAOS::debug(sprintf(__('Endpoint hit: %s', $this->plugin_text_domain), $endpoint));
-
-		$localFileUrl = content_url() . rtrim(CAOS_OPT_CACHE_DIR, '/') . $endpoint;
-		CAOS::debug(sprintf(__('Polling %s before redirect.', $this->plugin_text_domain), $localFileUrl));
-
-		if ($this->url_exists($localFileUrl)) {
-			CAOS::debug(sprintf(__('%s was found. Redirecting...'), $localFileUrl));
-		} else {
-			CAOS::debug(sprintf(__('%s was not found on the server.'), $localFileUrl));
-		}
-
-		// Set Redirect and die() to force redirect on some servers.
-		header("Location: $localFileUrl");
-		die();
-	}
-
-	/**
-	 * @param mixed $url 
-	 * @return bool 
-	 */
-	private function url_exists($url)
-	{
-		$headers = get_headers($url);
-
-		return stripos($headers[0], '200 OK') !== false;
-	}
-
-	/**
-	 * If plugins are used and get_file is set, we need to capture these requests and return the
+	 * If plugins are used and send_file is set, we need to capture these requests and return the
 	 * locally hosted versions, so these requests will also bypass Ad Blockers.
 	 *
 	 * @param $request
