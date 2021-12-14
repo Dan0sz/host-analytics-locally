@@ -94,12 +94,10 @@ class CAOS
         define('CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS)));
         define('CAOS_OPT_DEBUG_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_DEBUG_MODE)));
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
-        define('CAOS_OPT_EXT_PLUGIN_HANDLING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING)) ?: 'set_redirect');
+        define('CAOS_OPT_EXT_PLUGIN_HANDLING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING)) ?: 'send_file');
         define('CAOS_OPT_EXT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE)));
         define('CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
-        define('CAOS_OPT_EXT_OPTIMIZE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE)));
-        define('CAOS_OPT_EXT_OPTIMIZE_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_OPTIMIZE_ID)));
         define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_COOKIE_EXPIRY_DAYS ? CAOS_OPT_COOKIE_EXPIRY_DAYS * 86400 : 2592000);
         define('CAOS_CRON', 'caos_update_analytics_js');
         define('CAOS_GA_URL', 'https://www.google-analytics.com');

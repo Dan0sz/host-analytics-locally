@@ -63,8 +63,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'woocommerce'      => 'WooCommerce GA Integration'
     ];
     const CAOS_ADMIN_EXT_PLUGIN_HANDLING     = [
-        'set_redirect' => 'Safe Mode (default)',
-        'send_file'    => 'Experimental (faster)'
+        'send_file'     => 'Default',
+        'super_stealth' => 'Fast (Super Stealth Upgrade required)'
     ];
 
     /**
@@ -96,8 +96,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_EXT_SETTING_STEALTH_MODE             = 'caos_stealth_mode';
     const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS        = 'caos_extension_track_ad_blockers';
     const CAOS_EXT_SETTING_LINKID                   = 'caos_extension_linkid';
-    const CAOS_EXT_SETTING_OPTIMIZE                 = 'caos_extension_optimize';
-    const CAOS_EXT_SETTING_OPTIMIZE_ID              = 'caos_extension_optimize_id';
     const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS   = 'caos_capture_outbound_links';
     const CAOS_CRON_RUN_UPDATE                      = 'caos_cron_run_update';
     const CAOS_CRON_FILE_ALIASES                    = 'caos_cron_file_aliases';

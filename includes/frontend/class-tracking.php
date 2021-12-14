@@ -42,7 +42,6 @@ class CAOS_Frontend_Tracking
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'site_speed_sample_rate']);
         add_action('caos_process_settings', [$this, 'linkid']);
-        add_action('caos_process_settings', [$this, 'google_optimize']);
         add_action('caos_process_settings', [$this, 'dual_tracking']);
     }
 
@@ -261,36 +260,6 @@ class CAOS_Frontend_Tracking
         add_filter('caos_analytics_before_send', function ($config) {
             $option = [
                 'linkid' => "ga('require', 'linkid', { 'cookieName':'caosLinkid', 'cookieFlags':'samesite=none;secure' });"
-            ];
-
-            return $config + $option;
-        });
-    }
-
-    /**
-     * Google Optimize
-     */
-    public function google_optimize()
-    {
-        if (CAOS_OPT_EXT_OPTIMIZE !== 'on') {
-            return;
-        }
-
-        $optimize_id = CAOS_OPT_EXT_OPTIMIZE_ID;
-
-        if (!$optimize_id) {
-            return;
-        }
-
-        if ($this->is_gtag()) {
-            add_filter('caos_gtag_config', function ($config, $tracking_id) use ($optimize_id) {
-                return $config + ['optimize_id' => $optimize_id];
-            }, 10, 2);
-        }
-
-        add_filter('caos_analytics_before_send', function ($config) use ($optimize_id) {
-            $option = [
-                'optimize' => "ga('require', '$optimize_id');"
             ];
 
             return $config + $option;
