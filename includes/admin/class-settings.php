@@ -63,8 +63,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'woocommerce'      => 'WooCommerce GA Integration'
     ];
     const CAOS_ADMIN_EXT_PLUGIN_HANDLING     = [
-        'send_file'     => 'Default',
-        'super_stealth' => 'Fast (Super Stealth Upgrade required)'
+        'send_file'     => 'Default (WordPress API)',
+        'super_stealth' => 'Fast (Super Stealth API)'
     ];
 
     /**
