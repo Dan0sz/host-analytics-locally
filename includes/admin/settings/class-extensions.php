@@ -24,7 +24,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         add_filter('caos_extensions_settings_content', [$this, 'do_title'], 10);
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 20);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling'], 50);
+        add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling_promo'], 50);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
         add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 110);
@@ -56,14 +56,14 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     /**
      * Plugin Handling
      */
-    public function do_plugin_handling()
+    public function do_plugin_handling_promo()
     {
         $this->do_radio(
             __('File Handling', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
             CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING,
             CAOS_OPT_EXT_PLUGIN_HANDLING,
-            __('By default requests to plugin files (e.g. <code>linkid.js</code> or <code>ec.js</code>) are sent to WordPress\' API. In turn, the API sends the locally hosted version of the file to the browser. Using the Super Stealth API, users are able to request files almost instantly; closely mimicking Google Analytics\' own methods, without the GDPR mess.', $this->plugin_text_domain) . ' ' . $this->promo
+            __('In Stealth Mode, all requests to plugin files (e.g. <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' API by default. In turn, the API sends the locally hosted version of the file to the browser. Using the Super Stealth API, users are able to request files almost instantly; closely mimicking Google Analytics\' own methods, without the GDPR mess.', $this->plugin_text_domain) . ' ' . $this->promo
         );
     }
 
@@ -94,7 +94,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_super_stealth_promo()
     {
         $this->do_checkbox(
-            __('Enable Super Stealth Mode', $this->plugin_text_domain),
+            __('Enable Stealth Mode', $this->plugin_text_domain),
             'super_stealth_mode',
             defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : false,
             sprintf(__('Bypass Ad Blockers and uncover data normally blocked by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
