@@ -67,7 +67,6 @@ class CAOS
         $translated_tracking_id = _x('UA-123456789', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
 
         define('CAOS_SITE_URL', 'https://ffw.press/blog');
-        define('CAOS_BLOG_ID', get_current_blog_id());
         define('CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
         define('CAOS_OPT_DUAL_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING)));
         define('CAOS_OPT_GA4_MEASUREMENT_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID)));
@@ -341,7 +340,7 @@ class CAOS
         }
 
         if (CAOS_OPT_CDN_URL) {
-            $url = str_replace(get_home_url(CAOS_BLOG_ID), '//' . CAOS_OPT_CDN_URL, $url);
+            $url = str_replace(get_home_url(get_current_blog_id()), '//' . CAOS_OPT_CDN_URL, $url);
         }
 
         if (!self::get_file_aliases()) {
