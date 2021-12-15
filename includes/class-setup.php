@@ -80,6 +80,6 @@ class CAOS_Setup
      */
     public function load_cron_script()
     {
-        new CAOS_Cron_Update();
+        new CAOS_Cron();
     }
 }

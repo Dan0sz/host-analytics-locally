@@ -50,12 +50,8 @@ class CAOS
         add_action('rest_api_init', [$this, 'register_routes']);
 
         // Automatic File Updates
-        add_action('activated_plugin', function ($plugin) {
-            $this->maybe_do_update($plugin, 'activate');
-        });
-        add_action('deactivated_plugin', function ($plugin) {
-            $this->maybe_do_update($plugin, 'deactivate');
-        });
+        add_action('activated_plugin', [$this, 'maybe_do_update']);
+        add_action('deactivated_plugin', [$this, 'maybe_do_update']);
         add_action('admin_init', [$this, 'do_update_after_save']);
         add_action('in_plugin_update_message-' . CAOS_PLUGIN_BASENAME, [$this, 'render_update_notice'], 11, 2);
     }
@@ -70,7 +66,7 @@ class CAOS
         $caos_file_aliases      = get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES);
         $translated_tracking_id = _x('UA-123456789', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
 
-        define('CAOS_SITE_URL', 'https://daan.dev');
+        define('CAOS_SITE_URL', 'https://ffw.press/blog');
         define('CAOS_BLOG_ID', get_current_blog_id());
         define('CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
         define('CAOS_OPT_DUAL_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING)));
@@ -94,8 +90,6 @@ class CAOS
         define('CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS)));
         define('CAOS_OPT_DEBUG_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_DEBUG_MODE)));
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
-        define('CAOS_OPT_EXT_PLUGIN_HANDLING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING)) ?: 'send_file');
-        define('CAOS_OPT_EXT_STEALTH_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_STEALTH_MODE)));
         define('CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
         define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_COOKIE_EXPIRY_DAYS ? CAOS_OPT_COOKIE_EXPIRY_DAYS * 86400 : 2592000);
@@ -103,7 +97,6 @@ class CAOS
         define('CAOS_GA_URL', 'https://www.google-analytics.com');
         define('CAOS_GTM_URL', 'https://www.googletagmanager.com');
         define('CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR);
-        define('CAOS_PROXY_URI', '/wp-json/caos/v1/proxy');
     }
 
     /**
@@ -246,40 +239,23 @@ class CAOS
     /**
      * Triggers when Super Stealth Upgrade is (de)activated.
      * 
-     * @return CAOS_Cron_Update 
+     * @return CAOS_Cron 
      */
     public function trigger_cron_script()
     {
-        return new CAOS_Cron_Update();
+        return new CAOS_Cron();
     }
 
     /**
      * Check if (de)activated plugin is Super Stealth and if so, update or notify.
      */
-    public function maybe_do_update($plugin, $action = 'activate')
+    public function maybe_do_update($plugin)
     {
         if (strpos($plugin, self::CAOS_SUPER_STEALTH_UPGRADE_PLUGIN_SLUG) === false) {
             return;
         }
 
-        $this->update_or_notify($action);
-    }
-
-    /**
-     * Run automatic update when Super Stealth is activated.
-     * 
-     * TODO: Why doesn't automatic update work when Super Stealth is deactivated?
-     * 
-     * @param string $action 
-     * @return CAOS_Cron_Update 
-     */
-    private function update_or_notify($action)
-    {
-        if ($action == 'activate') {
-            return $this->trigger_cron_script();
-        }
-
-        CAOS_Admin_Notice::set_notice(sprintf(__('Super Stealth was deactivated. Please <a href="%s">review CAOS\' Extensions Settings</a> and Save Changes to update all locally hosted files.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')), 'info');
+        $this->trigger_cron_script();
     }
 
     /**
@@ -339,11 +315,6 @@ class CAOS
      */
     public function register_routes()
     {
-        if (CAOS_OPT_EXT_STEALTH_MODE) {
-            $proxy = new CAOS_API_Proxy();
-            $proxy->register_routes();
-        }
-
         if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS) {
             $proxy = new CAOS_API_AdBlockDetect();
             $proxy->register_routes();
@@ -396,6 +367,53 @@ class CAOS
     public static function do_uninstall()
     {
         return new CAOS_Uninstall();
+    }
+
+    /**
+     * File downloader
+     * 
+     * @param mixed $local_file 
+     * @param mixed $remote_file 
+     * @param string $file 
+     * @param bool $is_plugin 
+     * 
+     * @return string
+     */
+    public static function download_file(
+        $local_file,
+        $remote_file,
+        $file = '',
+        $is_plugin = false
+    ) {
+        $download = new CAOS_FileManager();
+
+        return $download->download_file($local_file, $remote_file, $file, $is_plugin);
+    }
+
+    /**
+     * @param string $path 
+     * 
+     * @return bool 
+     */
+    public static function create_dir_r($path)
+    {
+        $file_manager = new CAOS_FileManager();
+
+        return $file_manager->create_dir_recursive($path);
+    }
+
+    /**
+     * @param string $file 
+     * @param string $find 
+     * @param string $replace
+     *  
+     * @return int|false 
+     */
+    public static function find_replace_in($file, $find, $replace)
+    {
+        $file_manager = new CAOS_FileManager();
+
+        return $file_manager->find_replace_in($file, $find, $replace);
     }
 
     /**

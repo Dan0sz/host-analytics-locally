@@ -24,11 +24,7 @@ class CAOS_Frontend_Functions
     {
         // Needs to be added after Google Analytics library is requested.
         add_action('wp_enqueue_scripts', [$this, 'enqueue_js_scripts'], CAOS_OPT_ENQUEUE_ORDER + 1);
-
-        // If Stealth Mode is disabled, add DNS Prefetch for google-analytics.com
-        if (!CAOS_OPT_EXT_STEALTH_MODE) {
-            add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
-        }
+        add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
     }
 
     /**

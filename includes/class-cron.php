@@ -17,176 +17,192 @@ defined('ABSPATH') || exit;
 
 class CAOS_Cron
 {
-    /**
-     * @var $file
-     */
-    private $file_contents;
+    /** @var [] $files */
+    private $files;
+
+    /** @var string $tweet */
+    private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
+
+    /** @var string $review */
+    private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
 
     /**
-     * @var string
+     * CAOS_Cron_Script constructor.
      */
-    protected $plugin_text_domain = 'host-analyticsjs-local';
-
-    /**
-     * Downloads $remoteFile, check if $localFile exists and if so deletes it, then writes it to $localFile
-     *
-     * @param $localFile
-     * @param $remoteFile
-     * @param $file string
-     * @param $is_plugin bool
-     *
-     * @return void|string
-     */
-    protected function download_file($localFile, $remoteFile, $file = '', $is_plugin = false)
+    public function __construct()
     {
-        do_action('caos_admin_update_before');
-
-        $this->file_contents = wp_remote_get($remoteFile);
-
-        if (is_wp_error($this->file_contents)) {
-            CAOS::debug(sprintf(__('An error occurred: %s - %s', $this->plugin_text_domain), $this->file_contents->get_error_code(), $this->file_contents->get_error_message()));
-
-            return $this->file_contents->get_error_code() . ': ' . $this->file_contents->get_error_message();
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            return;
         }
 
-        /**
-         * If $file is not set, extract it from $remoteFile, unless we're downloading a plugin.
-         * 
-         * @since 3.11.0
-         * @since 4.0.3 Don't rename plugins.
-         */
-        $file = $file ?: pathinfo($remoteFile)['filename'];
+        do_action('caos_cron_update');
 
-        if (!$is_plugin) {
-            $file_aliases = CAOS::get_file_aliases();
-            $file_alias   = $file_aliases[$file] ?? '';
+        $this->files = $this->build_download_queue();
+
+        CAOS::debug(sprintf(__('Built file queue: %s', $this->plugin_text_domain), print_r($this->files, true)));
+
+        // Check if directory exists, otherwise create it.
+        $create_dir = CAOS::create_dir_r(CAOS_LOCAL_DIR);
+
+        if ($create_dir) {
+            CAOS::debug(sprintf(__('%s created successfully.', $this->plugin_text_domain), CAOS_LOCAL_DIR));
         } else {
-            $file_alias = $file . '.js';
+            CAOS::debug(sprintf(__('%s already exists.', $this->plugin_text_domain), CAOS_LOCAL_DIR));
         }
 
-        /**
-         * If no file alias has been set (yet) and we're not downloading a plugin, generate a new alias.
-         * 
-         * @since 4.0.2
-         * @since 4.0.3 Don't rename plugins
-         * 
-         */
-        if (!$file_alias && !$is_plugin) {
-            $file_alias = bin2hex(random_bytes(4)) . '.js';
+        $downloaded_files = $this->download();
+
+        // Only sent a success message if this is a AJAX request.
+        if (!wp_doing_cron()) {
+            $review_link = apply_filters('caos_manual_download_review_link', $this->review);
+            $tweet_link  = apply_filters('caos_manual_download_tweet_link', $this->tweet);
+
+            $notice = $this->build_natural_sentence($downloaded_files);
+
+            CAOS_Admin_Notice::set_notice($notice . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">write a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), 'success', 'all', 'file_downloaded');
         }
-
-        $local_dir = CAOS_LOCAL_DIR;
-
-        /**
-         * If file is a plugin, we use the same subdirectory structure Google uses.
-         */
-        if ($is_plugin) {
-            $local_dir = untrailingslashit(CAOS_LOCAL_DIR) . str_replace(CAOS_GA_URL, '', $remoteFile);
-            $local_dir = trailingslashit(pathinfo($local_dir)['dirname']) ?? CAOS_LOCAL_DIR;
-
-            CAOS::debug(__('File is a plugin.', $this->plugin_text_domain));
-        }
-
-        CAOS::debug(sprintf(__('Saving to %s.', $this->plugin_text_domain), $local_dir));
-
-        /**
-         * Some servers don't do a full overwrite if file already exists, so we delete it first.
-         */
-        if ($file_alias && file_exists($local_dir . $file_alias)) {
-            $deleted = unlink($local_dir . $file_alias);
-
-            if ($deleted) {
-                CAOS::debug(sprintf(__('File %s successfully deleted.', $this->plugin_text_domain), $file_alias));
-            } else {
-                if ($error = error_get_last()) {
-                    CAOS::debug(sprintf(__('File %s could not be deleted. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
-                } else {
-                    CAOS::debug(sprintf(__('File %s could not be deleted. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
-                }
-            }
-        }
-
-        $write = CAOS::filesystem()->put_contents($local_dir . $file_alias, $this->file_contents['body']);
-
-        if ($write) {
-            CAOS::debug(sprintf(__('File %s successfully saved.', $this->plugin_text_domain), $file_alias));
-        } else {
-            if ($error = error_get_last()) {
-                CAOS::debug(sprintf(__('File %s could not be saved. Something went wrong: %s', $this->plugin_text_domain), $file_alias, $error['message']));
-            } else {
-                CAOS::debug(sprintf(__('File %s could not be saved. An unknown error occurred.', $this->plugin_text_domain), $file_alias));
-            }
-        }
-
-        /**
-         * Update the file alias in temporary storage, for later use. The child download() method writes the values
-         * to the database.
-         * 
-         * @see CAOS_Cron_Script::download()
-         */
-        CAOS::set_file_alias($file, $file_alias);
-
-        do_action('caos_admin_update_after');
-
-        return $local_dir . $file_alias;
     }
 
     /**
-     * Returns false if path already exists.
      * 
-     * @param mixed $path 
-     * @return bool 
+     * @param array $list 
+     * @return string 
      */
-    protected function create_dir_recursive($path)
+    private function build_natural_sentence(array $list)
     {
-        if (!file_exists($path)) {
-            return wp_mkdir_p($path);
+        $i        = 0;
+        $last     = count($list) - 1;
+        $sentence = '';
+
+        foreach ($list as $filename => $alias) {
+            if (count($list) > 1 && $i == $last) {
+                $sentence .= __('and ', $this->plugin_text_domain);
+            }
+
+            $sentence .= sprintf(__("%s"), $filename, $alias) . ' ';
+
+            $i++;
         }
 
-        return false;
+        $sentence .= _n(
+            'is downloaded successfully and updated accordingly.',
+            'are downloaded successfully and updated accordingly.',
+            count($list),
+            $this->plugin_text_domain
+        );
+
+        return $sentence;
     }
 
     /**
-     * Find $find in $file and replace with $replace.
-     *
-     * @param $file string
-     * @param $find array|string
-     * @param $replace array|string
+     * Enqueues the files that need to be downloaded, depending on the settings.
+     * 
+     * @since v4.2.0 Added Dual Tracking compatibility.
+     * 
+     * @return array
      */
-    protected function find_replace_in($file, $find, $replace)
+    private function build_download_queue()
     {
-        CAOS::debug(sprintf(__('Replacing %s with %s in %s.', $this->plugin_text_domain), print_r($find, true), print_r($replace, true), $file));
-
-        return file_put_contents($file, str_replace($find, $replace, file_get_contents($file)));
-    }
-
-    /**
-     * Opens file and replaces every instance of google-analytics.com with CAOS' proxy endpoint
-     * inside $file.
-     * Used only when Stealth Mode is enabled.
-     *
-     * @param $file
-     */
-    protected function insert_proxy($file, $add_protocol = false, $replace_url = 'www.google-analytics.com')
-    {
-        $site_url = get_home_url(CAOS_BLOG_ID);
-
-        if (!$add_protocol) {
-            $find             = ['http://', 'https://'];
-            $replace          = '';
-            $site_url         = str_replace($find, $replace, $site_url);
-        }
-
-        $proxy_url        = apply_filters('caos_stealth_mode_proxy_uri', $site_url . CAOS_PROXY_URI);
-        $google_endpoints = apply_filters('caos_stealth_mode_google_endpoints', []);
-        $caos_endpoint    = apply_filters('caos_stealth_mode_endpoint', '');
+        $key   = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+        $queue = [];
 
         /**
-         * Needs to be triggered twice, because $google_endpoints is an array and would otherwise become a multi-dimensional array.
+         * Gtag V3 is a wrapper for analytics.js, so add it to the queue.
          */
-        $new_file         = $this->find_replace_in($file, $google_endpoints, $caos_endpoint);
-        $new_file         = $this->find_replace_in($file, $replace_url, $proxy_url);
+        if ($key == 'analytics' || $key == 'gtag') {
+            $queue = array_merge($queue, [
+                'analytics' => [
+                    'remote' => CAOS_GA_URL . '/analytics.js',
+                    'local'  => CAOS::get_file_alias_path('analytics')
+                ]
+            ]);
+        }
 
-        return $new_file;
+        /**
+         * Gtag V3
+         */
+        if ($key == 'gtag') {
+            $queue = array_merge($queue, [
+                $key => [
+                    'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS_OPT_TRACKING_ID,
+                    'local'  => CAOS::get_file_alias_path($key)
+                ]
+            ]);
+        }
+
+        /**
+         * If Dual Tracking is enabled, then add Gtag V4 to the download queue.
+         */
+        if (CAOS_OPT_DUAL_TRACKING == 'on' || $key == 'gtag-v4') {
+            $tracking_id = CAOS_OPT_DUAL_TRACKING == 'on' ? CAOS_OPT_GA4_MEASUREMENT_ID : CAOS_OPT_TRACKING_ID;
+
+            $queue = array_merge($queue, [
+                'gtag-v4' => [
+                    'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . $tracking_id,
+                    'local'  => CAOS::get_file_alias_path('gtag-v4')
+                ]
+            ]);
+        }
+
+        return $queue;
+    }
+
+    /**
+     * Download files.
+     */
+    private function download()
+    {
+        $i                = 0;
+        $downloaded_files = [];
+        $this->tweet      = sprintf($this->tweet, CAOS_OPT_REMOTE_JS_FILE);
+
+        foreach ($this->files as $file => $location) {
+            $downloaded_file = CAOS::download_file($location['local'], $location['remote'], $file);
+
+            if ($file == 'gtag') {
+                $file_alias = CAOS::get_file_alias($file);
+                /**
+                 * Backwards compatibility with pre-file alias era.
+                 * 
+                 * @since 3.11.0
+                 */
+                if (!CAOS::get_file_aliases()) {
+                    $local_ga_url = str_replace('gtag.js', 'analytics.js', CAOS::get_local_file_url());
+                } else {
+                    $local_ga_url = str_replace($file_alias, CAOS::get_file_alias('analytics'), CAOS::get_local_file_url());
+                }
+
+                $ext_ga_url = CAOS_GA_URL . '/analytics.js';
+                $home_url   = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
+                $hit_type   = apply_filters('caos_gtag_hit_type', '"pageview"');
+                $file_alias = CAOS_OPT_DUAL_TRACKING == 'on' ? CAOS::get_file_alias('gtag-v4') : CAOS::get_file_alias($file);
+                $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', "\"pageview\""];
+                $replaces   = [$local_ga_url, $file_alias . '?id=', "\"$home_url\"", $hit_type];
+
+                CAOS::find_replace_in($downloaded_file, $finds, $replaces);
+
+                $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
+            }
+
+            $downloaded_file = apply_filters("caos_cron_update_${file}", $downloaded_file);
+
+            /**
+             * Make first entry uppercase.
+             */
+            if ($i == 0) {
+                $file = ucfirst($file);
+            }
+
+            $i++;
+
+            $downloaded_files[$file . '.js'] = CAOS::get_file_alias($file);
+        }
+
+        /**
+         * Writes all currently stored file aliases to the database.
+         */
+        CAOS::set_file_aliases(CAOS::get_file_aliases(), true);
+
+        return $downloaded_files;
     }
 }

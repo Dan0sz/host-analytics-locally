@@ -61,8 +61,8 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $this->do_radio(
             __('File Handling', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_PLUGIN_HANDLING,
-            CAOS_OPT_EXT_PLUGIN_HANDLING,
+            'super_stealth_plugin_handling',
+            defined('SUPER_STEALTH_PLUGIN_HANDLING') ? SUPER_STEALTH_PLUGIN_HANDLING : false,
             __('In Stealth Mode, all requests to plugin files (e.g. <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' API by default. In turn, the API sends the locally hosted version of the file to the browser. Using the Super Stealth API, users are able to request files almost instantly; closely mimicking Google Analytics\' own methods, without the GDPR mess.', $this->plugin_text_domain) . ' ' . $this->promo
         );
     }
