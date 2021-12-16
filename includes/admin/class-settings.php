@@ -62,7 +62,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'seopress'         => 'SEOPress',
         'woocommerce'      => 'WooCommerce GA Integration'
     ];
-    const CAOS_ADMIN_EXT_PLUGIN_HANDLING     = [
+    const CAOS_ADMIN_EXT_REQUEST_HANDLING     = [
         'send_file'     => 'Default (WordPress API)',
         'super_stealth' => 'Fast (Super Stealth API)'
     ];

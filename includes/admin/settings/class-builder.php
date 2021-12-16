@@ -45,7 +45,7 @@ class CAOS_Admin_Settings_Builder
     public function do_promo()
     {
         if (apply_filters('caos_super_stealth_upgrade_active', false) == false) {
-            $this->promo = sprintf(__('<a href="%s" target="_blank">Get Super Stealth Upgrade</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags);
+            $this->promo = sprintf(__('<a href="%s" target="_blank">Get Super Stealth</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags);
         }
     }
 
@@ -75,7 +75,7 @@ class CAOS_Admin_Settings_Builder
     public function do_title()
     {
     ?>
-        <h3><?= $this->title ?></h3>
+        <h2><?= $this->title ?></h2>
     <?php
     }
 

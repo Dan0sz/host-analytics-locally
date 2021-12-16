@@ -22,19 +22,24 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $this->title = __('Extensions', $this->plugin_text_domain);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_title'], 10);
-        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 20);
-
-        add_filter('caos_extensions_settings_content', [$this, 'do_plugin_handling_promo'], 50);
-
-        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
-        add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 110);
-        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 120);
+        add_filter('caos_extensions_settings_content', [$this, 'do_description'], 11);
 
         /**
          * Super Stealth Promo "settings"
          */
-        add_filter('caos_extensions_settings_content', [$this, 'do_super_stealth_promo'], 121);
-        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 122);
+        add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 12);
+        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 13);
+
+        add_filter('caos_extensions_settings_content', [$this, 'do_super_stealth_promo'], 20);
+        add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 30);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 40);
+
+        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 49);
+        add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 50);
+
+        add_filter('caos_extensions_settings_content', [$this, 'do_sub_title'], 100);
+        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 101);
+
         add_filter('caos_extensions_settings_content', [$this, 'do_capture_outbound_links'], 123);
 
         /**
@@ -48,24 +53,20 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 198);
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 199);
-        add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 200);
 
         parent::__construct();
     }
 
-    /**
-     * Plugin Handling
-     */
-    public function do_plugin_handling_promo()
+    public function do_description()
     {
-        $this->do_radio(
-            __('Request Handling', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
-            'super_stealth_plugin_handling',
-            defined('SUPER_STEALTH_PLUGIN_HANDLING') ? SUPER_STEALTH_PLUGIN_HANDLING : false,
-            __('In Stealth Mode, all Google Analytics related requests (e.g. <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are served almost instantly; closely mimicking Google Analytics\' own methods, but without the GDPR mess!', $this->plugin_text_domain) . ' ' . $this->promo,
-            true
-        );
+?>
+        <p>
+            <?= sprintf(__("Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Super Stealth, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
+        </p>
+        <p>
+            <?= sprintf(__("For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffw.press/wordpress-plugins/'); ?>
+        </p>
+    <?php
     }
 
     /**
@@ -76,14 +77,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function open_extensions_panel()
     {
         $file = CAOS_OPT_REMOTE_JS_FILE;
-?>
+    ?>
         <div class="caos-extensions welcome-panel" style="padding: 0 15px 5px;">
-            <h3><?= __('Installed Extensions', $this->plugin_text_domain); ?></h3>
+            <h3><?= __('Super Stealth', $this->plugin_text_domain); ?></h3>
             <p>
-                <?= sprintf(__("Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Super Stealth, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
-            </p>
-            <p>
-                <?= sprintf(__("For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffw.press/wordpress-plugins/'); ?>
+                <?= __('Super Stealth offers several, unique ways to increase the value and quality of your Google Analytics data.', $this->plugin_text_domain) . $this->promo; ?>
             </p>
         <?php
     }
@@ -98,7 +96,22 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enable Stealth Mode', $this->plugin_text_domain),
             'super_stealth_mode',
             defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : false,
-            sprintf(__('Bypass Ad Blockers and uncover data normally blocked by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
+            sprintf(__('Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers. It enables WordPress to route all Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code> or <code>googletagmanager.com/gtag/js</code>) through a custom-built API, making it undetectable by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
+            true
+        );
+    }
+
+    /**
+     * Plugin Handling
+     */
+    public function do_request_handling_promo()
+    {
+        $this->do_radio(
+            __('Request Handling', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
+            'super_stealth_request_handling',
+            defined('SUPER_STEALTH_REQUEST_HANDLING') ? SUPER_STEALTH_REQUEST_HANDLING : false,
+            __('In Stealth Mode, all Google Analytics related requests (e.g. <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are served almost instantly; closely mimicking Google Analytics\' own methods.', $this->plugin_text_domain) . ' ' . $this->promo,
             true
         );
     }
@@ -110,7 +123,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
      */
     public function do_cookieless_analytics_promo()
     {
-        $description = __('When enabled Google Analytics will not create any cookies. This increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
+        $description = __('When enabled Google Analytics will not create any cookies. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
 
         if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
             $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
@@ -160,6 +173,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     {
         ?>
         </div>
+    <?php
+    }
+
+    public function do_sub_title()
+    {
+    ?>
+        <h3><?= __('Installed Extensions', $this->plugin_text_domain); ?></h3>
 <?php
     }
 
