@@ -16,6 +16,20 @@
   margin-right: 0.25em;
   line-height: 1.2;
 }
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links {
+  width: 100%;
+}
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links th,
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links td {
+  padding: 0 15px;
+}
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links th:first-child,
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links td:first-child {
+  padding: 0;
+}
+.caos-extensions.welcome-panel .track-cloaked-affiliate-links td input[type="text"] {
+  width: 100%;
+}
 /**
  * Welcome Block
  */

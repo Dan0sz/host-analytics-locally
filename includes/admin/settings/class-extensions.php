@@ -30,29 +30,30 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 12);
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 13);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_super_stealth_promo'], 20);
-        add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 30);
-        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 40);
+        add_filter('caos_extensions_settings_content', [$this, 'do_super_stealth_promo'], 14);
+        add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 15);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 16);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cloaked_affiliate_links_tracking'], 17);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 49);
-        add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 50);
+        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 18);
+        add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 19);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_sub_title'], 100);
-        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 101);
+        add_filter('caos_extensions_settings_content', [$this, 'do_sub_title'], 20);
+        add_filter('caos_extensions_settings_content', [$this, 'do_before'], 21);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_capture_outbound_links'], 123);
+        add_filter('caos_extensions_settings_content', [$this, 'do_capture_outbound_links'], 30);
 
         /**
          * Priorities 150 and up can't be used when compatibility mode is on. A proper notice will be shown when it's enabled.
          */
-        add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 150);
-        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 151);
+        add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 40);
+        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 50);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_track_ad_blockers'], 160);
-        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 170);
+        add_filter('caos_extensions_settings_content', [$this, 'do_track_ad_blockers'], 60);
+        add_filter('caos_extensions_settings_content', [$this, 'do_linkid'], 70);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 198);
-        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 199);
+        add_filter('caos_extensions_settings_content', [$this, 'do_tbody_close'], 99);
+        add_filter('caos_extensions_settings_content', [$this, 'do_after'], 100);
 
         parent::__construct();
     }
@@ -136,6 +137,47 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             $description,
             true
         );
+    }
+
+    public function do_cloaked_affiliate_links_tracking()
+    {
+        ?>
+            <tr>
+                <th><?= __('Track Cloaked Affiliate Links', $this->plugin_text_domain); ?></th>
+                <td>
+                    <p class="description">
+                        <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked.', $this->plugin_text_domain); ?>
+                    </p>
+                    <table class="track-cloaked-affiliate-links">
+                        <tr>
+                            <th><?= __('Path', $this->plugin_text_domain); ?></th>
+                            <th><?= __('Label', $this->plugin_text_domain); ?></th>
+                            <th><?= __('Remove', $this->plugin_text_domain); ?></th>
+                        </tr>
+                        <?php
+                        $affiliate_links = defined('SUPER_STEALTH_AFFILIATE_LINKS') ? SUPER_STEALTH_AFFILIATE_LINKS : [0 => ['path' => '', 'label' => '']];
+                        $disabled        = apply_filters('super_stealth_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
+
+                        foreach ($affiliate_links as $key => $properties) :
+                        ?>
+                            <tr id="affiliate-link-row-<?= $key; ?>">
+                                <?php foreach ($properties as $prop_key => $prop_value) : ?>
+                                    <td id="affiliate-link-<?= $prop_key; ?>-<?= $key; ?>">
+                                        <input type="text" <?= $disabled; ?> class="affiliate-link-<?= $prop_key; ?>" name="super_stealth_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
+                                    </td>
+                                <?php endforeach; ?>
+                                <td>
+                                    <span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?= $key; ?>" <?= $disabled ? 'style="opacity: 15%;"' : ''; ?>></span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <p>
+                        <input type="button" <?= $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?= __('Add Link Path', $this->plugin_text_domain); ?>" />
+                    </p>
+                </td>
+            </tr>
+        <?php
     }
 
     /**
