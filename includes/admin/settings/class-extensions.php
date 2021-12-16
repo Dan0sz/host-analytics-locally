@@ -63,7 +63,8 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_PLUGIN_HANDLING,
             'super_stealth_plugin_handling',
             defined('SUPER_STEALTH_PLUGIN_HANDLING') ? SUPER_STEALTH_PLUGIN_HANDLING : false,
-            __('In Stealth Mode, all Google Analytics related requests (e.g. <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are served almost instantly; closely mimicking Google Analytics\' own methods, but without the GDPR mess!', $this->plugin_text_domain) . ' ' . $this->promo
+            __('In Stealth Mode, all Google Analytics related requests (e.g. <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are served almost instantly; closely mimicking Google Analytics\' own methods, but without the GDPR mess!', $this->plugin_text_domain) . ' ' . $this->promo,
+            true
         );
     }
 
