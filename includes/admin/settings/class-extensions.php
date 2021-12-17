@@ -82,7 +82,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         <div class="caos-extensions welcome-panel" style="padding: 0 15px 5px;">
             <h3><?= __('Super Stealth', $this->plugin_text_domain); ?></h3>
             <p>
-                <?= __('Super Stealth offers several, unique ways to increase the value and quality of your Google Analytics data.', $this->plugin_text_domain) . $this->promo; ?>
+                <?= __('Super Stealth offers several, unique ways to increase the value and quality of your Google Analytics data.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
             </p>
         <?php
     }
@@ -146,7 +146,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
                 <th><?= __('Track Cloaked Affiliate Links', $this->plugin_text_domain); ?></th>
                 <td>
                     <p class="description">
-                        <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked.', $this->plugin_text_domain); ?>
+                        <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
                     </p>
                     <table class="track-cloaked-affiliate-links">
                         <tr>
