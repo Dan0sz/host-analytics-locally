@@ -18,9 +18,9 @@ defined('ABSPATH') || exit;
 class CAOS
 {
     /**
-     * Used to check if Super Stealth is (de)activated and update files (e.g. analytics.js) accordingly.
+     * Used to check if CAOS Pro is (de)activated and update files (e.g. analytics.js) accordingly.
      */
-    const CAOS_SUPER_STEALTH_UPGRADE_PLUGIN_SLUG = 'caos-super-stealth-upgrade';
+    const CAOS_PRO_PLUGIN_SLUG = 'caos-pro';
 
     /** @var string $plugin_text_domain */
     private $plugin_text_domain = 'host-analyticsjs-local';
@@ -236,7 +236,7 @@ class CAOS
     }
 
     /**
-     * Triggers when Super Stealth is (de)activated.
+     * Triggers when CAOS Pro is (de)activated.
      * 
      * @return CAOS_Cron 
      */
@@ -246,11 +246,11 @@ class CAOS
     }
 
     /**
-     * Check if (de)activated plugin is Super Stealth and if so, update or notify.
+     * Check if (de)activated plugin is CAOS Pro and if so, update or notify.
      */
     public function maybe_do_update($plugin)
     {
-        if (strpos($plugin, self::CAOS_SUPER_STEALTH_UPGRADE_PLUGIN_SLUG) === false) {
+        if (strpos($plugin, self::CAOS_PRO_PLUGIN_SLUG) === false) {
             return;
         }
 

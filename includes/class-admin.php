@@ -43,7 +43,6 @@ class CAOS_Admin
         add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
         add_action('pre_update_option_caos_analytics_cache_dir', [$this, 'validate_cache_dir'], 10, 2);
         add_action('update_option_caos_analytics_cache_dir', [$this, 'set_cache_dir_notice'], 10, 2);
-        add_action('pre_update_option_caos_stealth_mode', [$this, 'add_stealth_mode_notice'], 10, 2);
     }
 
     /**
@@ -229,26 +228,5 @@ class CAOS_Admin
 
 
         return $new_dir;
-    }
-
-    /**
-     * @param $old_value
-     * @param $new_value
-     *
-     * @return bool
-     */
-    public function add_stealth_mode_notice($new_value, $old_value)
-    {
-        if ($new_value !== $old_value && $new_value == 'on') {
-            $message = apply_filters('caos_stealth_mode_setting_on_notice', sprintf(__('Stealth Mode enabled. CAOS will now attempt to bypass Ad Blockers! To bypass <u>all</u> Ad Blockers and <em>track Incognito Browser Sessions</em>, get <a href="%s" target="_blank">Super Stealth</a>.', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . self::CAOS_ADMIN_UTM_PARAMS_NOTICES));
-
-            CAOS_Admin_Notice::set_notice($message);
-        } elseif (empty($new_value)) {
-            $message = apply_filters('caos_stealth_mode_setting_off_notice', __('Stealth Mode disabled.', $this->plugin_text_domain));
-
-            CAOS_Admin_Notice::set_notice($message);
-        }
-
-        return $new_value;
     }
 }

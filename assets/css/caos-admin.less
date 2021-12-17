@@ -19,23 +19,23 @@
   }
 }
 
-.caos-extensions {
-  &.welcome-panel {
-    .track-cloaked-affiliate-links {
+.track-cloaked-affiliate-links {
+  width: 100%;
+
+  th, td {
+    padding: 0 15px;
+
+    &:first-child, &:last-child {
+      padding: 0;
+    }
+  }
+  td {
+    input[type="text"] {
       width: 100%;
+    }
 
-      th, td {
-        padding: 0 15px;
-
-        &:first-child, &:last-child {
-          padding: 0;
-        }
-      }
-      td {
-        input[type="text"] {
-          width: 100%;
-        }
-      }
+    .affiliate-link-remove {
+      cursor: pointer;
     }
   }
 }

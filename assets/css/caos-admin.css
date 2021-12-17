@@ -16,21 +16,24 @@
   margin-right: 0.25em;
   line-height: 1.2;
 }
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links {
+.track-cloaked-affiliate-links {
   width: 100%;
 }
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links th,
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links td {
+.track-cloaked-affiliate-links th,
+.track-cloaked-affiliate-links td {
   padding: 0 15px;
 }
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links th:first-child,
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links td:first-child,
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links th:last-child,
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links td:last-child {
+.track-cloaked-affiliate-links th:first-child,
+.track-cloaked-affiliate-links td:first-child,
+.track-cloaked-affiliate-links th:last-child,
+.track-cloaked-affiliate-links td:last-child {
   padding: 0;
 }
-.caos-extensions.welcome-panel .track-cloaked-affiliate-links td input[type="text"] {
+.track-cloaked-affiliate-links td input[type="text"] {
   width: 100%;
+}
+.track-cloaked-affiliate-links td .affiliate-link-remove {
+  cursor: pointer;
 }
 /**
  * Welcome Block

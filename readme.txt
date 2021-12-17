@@ -30,7 +30,7 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Endlessly extensible for developers by using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[Super Stealth for CAOS](https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
+  - *[CAOS Pro](https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
 - Enable Cookieless Analytics (Super Stealth required),
 - Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
@@ -105,7 +105,7 @@ N/A
 * Fix: When Google Analytics and Google Ads are connected, this is now properly handled gtag.js is used.
 * Fix: Tracking code can now be properly translated by translating the string UA-123456789.
 * Fix: Capture Outbound Links is only triggered on left click (instead of all mousedown events).
-* Feature: Cookieless Analytics is now available under Advanced Settings when Super Stealth for CAOS is installed and active.
+* Feature: Cookieless Analytics is now available under Advanced Settings when CAOS Pro is installed and active.
 * UX: Re-worded some options and option descriptions.
 
 = 4.1.0 | June 1st, 2021 =

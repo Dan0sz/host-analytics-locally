@@ -25,15 +25,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         add_filter('caos_extensions_settings_content', [$this, 'do_description'], 11);
 
         /**
-         * Super Stealth Promo "settings"
+         * Stealth Mode Promo "settings"
          */
         add_filter('caos_extensions_settings_content', [$this, 'open_extensions_panel'], 12);
         add_filter('caos_extensions_settings_content', [$this, 'do_before'], 13);
 
-        add_filter('caos_extensions_settings_content', [$this, 'do_super_stealth_promo'], 14);
+        add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode_promo'], 14);
         add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 15);
-        add_filter('caos_extensions_settings_content', [$this, 'do_cookieless_analytics_promo'], 16);
-        add_filter('caos_extensions_settings_content', [$this, 'do_cloaked_affiliate_links_tracking'], 17);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 18);
         add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 19);
@@ -62,7 +60,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     {
 ?>
         <p>
-            <?= sprintf(__("Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Super Stealth, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
+            <?= sprintf(__("Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Stealth Mode, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS (and %s) by default.", $this->plugin_text_domain), $file); ?>
         </p>
         <p>
             <?= sprintf(__("For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffw.press/wordpress-plugins/'); ?>
@@ -80,9 +78,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $file = CAOS_OPT_REMOTE_JS_FILE;
     ?>
         <div class="caos-extensions welcome-panel" style="padding: 0 15px 5px;">
-            <h3><?= __('Super Stealth', $this->plugin_text_domain); ?></h3>
+            <h3><?= __('Stealth Mode', $this->plugin_text_domain); ?></h3>
             <p>
-                <?= __('Super Stealth offers several, unique ways to increase the value and quality of your Google Analytics data.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
+                <?= __('Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
             </p>
         <?php
     }
@@ -91,13 +89,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
      * 
      * @return void 
      */
-    public function do_super_stealth_promo()
+    public function do_stealth_mode_promo()
     {
         $this->do_checkbox(
             __('Enable Stealth Mode', $this->plugin_text_domain),
-            'super_stealth_mode',
-            defined('SUPER_STEALTH_MODE') ? SUPER_STEALTH_MODE : false,
-            sprintf(__('Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers. It enables WordPress to route all Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code> or <code>googletagmanager.com/gtag/js</code>) through a custom-built API, making it undetectable by Ad Blockers. <a target="_blank" href="%s">How does it work?</a>', $this->plugin_text_domain), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH . $this->utm_tags, CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/') . ' ' . $this->promo,
+            'caos_pro_stealth_mode',
+            defined('CAOS_PRO_STEALTH_MODE') ? CAOS_PRO_STEALTH_MODE : false,
+            sprintf(__('Stealth Mode enables WordPress to route all Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code> or <code>googletagmanager.com/gtag/js</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags) . ' ' . $this->promo,
             true
         );
     }
@@ -110,75 +108,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $this->do_radio(
             __('Request Handling', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
-            'super_stealth_request_handling',
-            defined('SUPER_STEALTH_REQUEST_HANDLING') ? SUPER_STEALTH_REQUEST_HANDLING : false,
+            'caos_pro_request_handling',
+            defined('CAOS_PRO_REQUEST_HANDLING') ? CAOS_PRO_REQUEST_HANDLING : false,
             __('In Stealth Mode, all Google Analytics related requests (e.g. <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are served almost instantly; closely mimicking Google Analytics\' own methods.', $this->plugin_text_domain) . ' ' . $this->promo,
             true
         );
-    }
-
-    /**
-     * Add Cookieless Analytics option.
-     * 
-     * @return void 
-     */
-    public function do_cookieless_analytics_promo()
-    {
-        $description = __('When enabled Google Analytics will not create any cookies. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
-
-        if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
-            $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
-        }
-
-        $this->do_checkbox(
-            __('Enable Cookieless Analytics', $this->plugin_text_domain),
-            'super_stealth_cookieless_analytics',
-            defined('SUPER_STEALTH_COOKIELESS_ANALYTICS') && SUPER_STEALTH_COOKIELESS_ANALYTICS,
-            $description,
-            true
-        );
-    }
-
-    public function do_cloaked_affiliate_links_tracking()
-    {
-        ?>
-            <tr>
-                <th><?= __('Track Cloaked Affiliate Links', $this->plugin_text_domain); ?></th>
-                <td>
-                    <table class="track-cloaked-affiliate-links">
-                        <tr>
-                            <th><?= __('Path', $this->plugin_text_domain); ?></th>
-                            <th><?= __('Event Category', $this->plugin_text_domain); ?></th>
-                            <th></th>
-                        </tr>
-                        <?php
-                        $affiliate_links = defined('SUPER_STEALTH_AFFILIATE_LINKS') && SUPER_STEALTH_AFFILIATE_LINKS ? SUPER_STEALTH_AFFILIATE_LINKS : [0 => ['path' => '', 'category' => '']];
-                        $disabled        = apply_filters('super_stealth_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
-
-                        foreach ($affiliate_links as $key => $properties) :
-                        ?>
-                            <tr id="affiliate-link-row-<?= $key; ?>">
-                                <?php foreach ($properties as $prop_key => $prop_value) : ?>
-                                    <td id="affiliate-link-<?= $prop_key; ?>-<?= $key; ?>">
-                                        <input type="text" <?= $disabled; ?> class="affiliate-link-<?= $prop_key; ?>" name="super_stealth_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
-                                    </td>
-                                <?php endforeach; ?>
-                                <td>
-                                    <span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?= $key; ?>" <?= $disabled ? 'style="opacity: 15%;"' : ''; ?>></span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                    <p>
-                        <input type="button" <?= $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?= __('Add Link Path', $this->plugin_text_domain); ?>" />
-                    </p>
-                    <p class="description">
-                        <?= defined('SUPER_STEALTH_MODE') && SUPER_STEALTH_MODE == 'on' ? __('If no events are registered in Google Analytics, please disable Stealth Mode.', $this->plugin_text_domain) : ''; ?>
-                        <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
-                    </p>
-                </td>
-            </tr>
-        <?php
     }
 
     /**

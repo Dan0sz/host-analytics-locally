@@ -67,7 +67,7 @@ class CAOS_Admin_Functions
 
         // $blocked pages > 1, because the sentence is written in plural form.
         if (!get_transient(self::CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN) && $blocked_pages > 1) {
-            CAOS_Admin_Notice::set_notice(sprintf(__("During the past 7 days, CAOS detected <strong>%s pageviews</strong> on <em>%s</em> with an ad blocker active. CAOS' <strong>Super Stealth</strong> <em>(starting at € 24,-)</em> bypasses Ad Blockers so you'll no longer miss out on data in Google Analytics. <a href='%s'>Upgrade now</a>!", $this->plugin_text_domain), number_format_i18n(get_option(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE)), get_bloginfo('name'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH), 'warning');
+            CAOS_Admin_Notice::set_notice(sprintf(__("During the past 7 days, CAOS detected <strong>%s pageviews</strong> on <em>%s</em> with an ad blocker active. CAOS Pro's <strong>Stealth Mode</strong> <em>(starting at € 24,-)</em> bypasses Ad Blockers so you'll no longer miss out on data in Google Analytics. <a href='%s'>Upgrade now</a>!", $this->plugin_text_domain), number_format_i18n(get_option(self::CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE)), get_bloginfo('name'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH), 'warning');
 
             CAOS_Admin_Notice::set_notice(sprintf(__('To disable these messages, disable <em>Track Ad Blockers</em> in <em>Settings > Optimize Google Analytics > <a href="%s">Extensions</a></em>.', $this->plugin_text_domain), admin_url(CAOS_Admin_Settings::CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI)), 'info');
 
