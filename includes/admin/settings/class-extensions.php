@@ -78,7 +78,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         $file = CAOS_OPT_REMOTE_JS_FILE;
     ?>
         <div class="caos-extensions welcome-panel" style="padding: 0 15px 5px;">
-            <h3><?= __('Stealth Mode', $this->plugin_text_domain); ?></h3>
+            <h3><?= __('Stealth Mode (Pro)', $this->plugin_text_domain); ?></h3>
             <p>
                 <?= __('Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
             </p>
@@ -92,7 +92,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_stealth_mode_promo()
     {
         $this->do_checkbox(
-            __('Enable Stealth Mode', $this->plugin_text_domain),
+            __('Enable Stealth Mode (Pro)', $this->plugin_text_domain),
             'caos_pro_stealth_mode',
             defined('CAOS_PRO_STEALTH_MODE') ? CAOS_PRO_STEALTH_MODE : false,
             sprintf(__('Stealth Mode enables WordPress to route all Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code> or <code>googletagmanager.com/gtag/js</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags) . ' ' . $this->promo,
@@ -106,7 +106,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_request_handling_promo()
     {
         $this->do_radio(
-            __('Request Handling', $this->plugin_text_domain),
+            __('Request Handling (Pro)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
             'caos_pro_request_handling',
             defined('CAOS_PRO_REQUEST_HANDLING') ? CAOS_PRO_REQUEST_HANDLING : false,
