@@ -30,8 +30,8 @@ For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/cao
 - Endlessly extensible for developers by using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[CAOS Super Stealth Upgrade](https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
-- Enable Cookieless Analytics (Super Stealth Upgrade required),
+  - *[Super Stealth for CAOS](https://ffw.press/wordpress-plugins/caos-super-stealth-upgrade/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
+- Enable Cookieless Analytics (Super Stealth required),
 - Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
@@ -93,7 +93,7 @@ N/A
 
 = 4.1.3 | July 28th, 2021 =
 * Enhancement: Added news real for CAOS relevant blog posts in footer of CAOS' settings screen.
-* Fix: Super Stealth Upgrade promotion material is removed from options that're free.
+* Fix: Super Stealth promotion material is removed from options that're free.
 * Tested with WP 5.8.
 
 = 4.1.2 | June 16th, 2021 =
@@ -105,7 +105,7 @@ N/A
 * Fix: When Google Analytics and Google Ads are connected, this is now properly handled gtag.js is used.
 * Fix: Tracking code can now be properly translated by translating the string UA-123456789.
 * Fix: Capture Outbound Links is only triggered on left click (instead of all mousedown events).
-* Feature: Cookieless Analytics is now available under Advanced Settings when CAOS Super Stealth Upgrade is installed and active.
+* Feature: Cookieless Analytics is now available under Advanced Settings when Super Stealth for CAOS is installed and active.
 * UX: Re-worded some options and option descriptions.
 
 = 4.1.0 | June 1st, 2021 =

@@ -103,7 +103,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     * Plugin Handling
+     * Request Handling
      */
     public function do_request_handling_promo()
     {

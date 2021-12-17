@@ -236,7 +236,7 @@ class CAOS
     }
 
     /**
-     * Triggers when Super Stealth Upgrade is (de)activated.
+     * Triggers when Super Stealth is (de)activated.
      * 
      * @return CAOS_Cron 
      */
