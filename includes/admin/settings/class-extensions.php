@@ -152,7 +152,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
                             <th></th>
                         </tr>
                         <?php
-                        $affiliate_links = defined('SUPER_STEALTH_AFFILIATE_LINKS') ? SUPER_STEALTH_AFFILIATE_LINKS : [0 => ['path' => '', 'label' => '']];
+                        $affiliate_links = defined('SUPER_STEALTH_AFFILIATE_LINKS') && SUPER_STEALTH_AFFILIATE_LINKS ? SUPER_STEALTH_AFFILIATE_LINKS : [0 => ['path' => '', 'category' => '']];
                         $disabled        = apply_filters('super_stealth_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
 
                         foreach ($affiliate_links as $key => $properties) :
@@ -173,6 +173,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
                         <input type="button" <?= $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?= __('Add Link Path', $this->plugin_text_domain); ?>" />
                     </p>
                     <p class="description">
+                        <?= defined('SUPER_STEALTH_MODE') && SUPER_STEALTH_MODE == 'on' ? __('If no events are registered in Google Analytics, please disable Stealth Mode.', $this->plugin_text_domain) : ''; ?>
                         <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
                     </p>
                 </td>
