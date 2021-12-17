@@ -185,7 +185,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
             <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
                 <div class="notice notice-info">
-                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled on <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?></p>
+                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?></p>
                 </div>
             <?php endif; ?>
 
@@ -256,6 +256,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
     private function cron_next_scheduled()
     {
         $next_scheduled = wp_next_scheduled(CAOS_CRON);
+
+        if (!$next_scheduled) {
+            return __('Never. Your WP cron might not be functioning properly', $this->plugin_text_domain);
+        }
 
         return $this->format_time_by_locale($next_scheduled, get_locale());
     }
