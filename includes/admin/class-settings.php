@@ -268,7 +268,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      *
      * @return string
      */
-    private function format_time_by_locale($date_time = null, $locale = 'en_US')
+    private function format_time_by_locale($date_time = 0, $locale = 'en_US')
     {
         try {
             $date_object = new DateTime;
