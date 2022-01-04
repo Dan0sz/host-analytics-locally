@@ -102,20 +102,26 @@ class CAOS_Admin
         }
 
         if (substr($new_tracking_id, 0, 2) == 'G-') {
-            $title = 'Google Analytics 4';
+            $title    = 'Google Analytics 4';
+            $filename = 'gtag-v4.js';
+
+            /**
+             * When a GA V4 measurement ID is used, the defined ID in Dual Tracking should be emptied, just to make sure it isn't used anywhere.
+             */
             delete_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING);
-            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'gtag-v4.js');
         } else {
-            $title = 'Universal Analytics';
-            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js');
+            $title    = 'Universal Analytics';
+            $filename = 'analytics.js';
         }
 
+        update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, $filename);
+
         CAOS_Admin_Notice::set_notice(
-            sprintf(__('Since you\'ve entered a %s ID, the <em>file to download</em> was changed to %s.', $this->plugin_text_domain), $title, CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS[CAOS_OPT_REMOTE_JS_FILE]),
+            sprintf(__('Since you\'ve entered a %s ID, the <em>file to download</em> was changed to %s.', $this->plugin_text_domain), $title, $filename),
             'warning'
         );
 
-        if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') {
+        if ($filename == 'analytics.js') {
             CAOS_Admin_Notice::set_notice(
                 __('You can change the <em>file to download</em> manually to gtag.js in <em>Advanced Settings</em> if you wish to do so.', $this->plugin_text_domain),
                 'info'
