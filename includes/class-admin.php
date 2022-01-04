@@ -39,6 +39,7 @@ class CAOS_Admin
 
         // Notices
         add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID, [$this, 'add_tracking_code_notice'], 10, 2);
+        add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING, [$this, 'maybe_remove_related_settings'], 10, 2);
         add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID, [$this, 'update_remote_js_file'], 10, 2);
         add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, [$this, 'add_script_position_notice'], 10, 2);
         add_action('update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [$this, 'set_cache_dir_notice'], 10, 2);
@@ -129,6 +130,36 @@ class CAOS_Admin
         }
 
         return $new_tracking_id;
+    }
+
+    /**
+     * Check if Dual Tracking is disabled and if so, remove GA4 Measurement ID.
+     * 
+     * @param mixed $old_value 
+     * @param mixed $new_value 
+     * @return mixed 
+     */
+    public function maybe_remove_related_settings($old_value, $new_value)
+    {
+        if ($new_value == $old_value) {
+            return $new_value;
+        }
+
+        // Dual tracking has been enabled. Let's delete related options.
+        if ($new_value != 'on') {
+            delete_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID);
+
+            /** 
+             * This prevents the option from being added after this action is done running.
+             * 
+             * @see /wp-admin/options.php:305-314
+             */
+            if (isset($_POST[CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID])) {
+                unset($_POST[CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID]);
+            }
+        }
+
+        return $new_value;
     }
 
     /**
