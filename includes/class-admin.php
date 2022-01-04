@@ -38,11 +38,11 @@ class CAOS_Admin
         $this->do_help_section();
 
         // Notices
-        add_action('update_option_sgal_tracking_id', [$this, 'add_tracking_code_notice'], 10, 2);
+        add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID, [$this, 'add_tracking_code_notice'], 10, 2);
         add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID, [$this, 'update_remote_js_file'], 10, 2);
-        add_action('update_option_sgal_script_position', [$this, 'add_script_position_notice'], 10, 2);
-        add_action('pre_update_option_caos_analytics_cache_dir', [$this, 'validate_cache_dir'], 10, 2);
-        add_action('update_option_caos_analytics_cache_dir', [$this, 'set_cache_dir_notice'], 10, 2);
+        add_action('update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, [$this, 'add_script_position_notice'], 10, 2);
+        add_action('update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [$this, 'set_cache_dir_notice'], 10, 2);
+        add_action('pre_update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [$this, 'validate_cache_dir'], 10, 2);
     }
 
     /**
