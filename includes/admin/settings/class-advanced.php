@@ -183,7 +183,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
                 </p>
                 <p class="description">
                     <?= defined('CAOS_PRO_STEALTH_MODE') && CAOS_PRO_STEALTH_MODE == 'on' ? __('If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', $this->plugin_text_domain) : ''; ?>
-                    <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
+                    <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
                 </p>
             </td>
         </tr>
