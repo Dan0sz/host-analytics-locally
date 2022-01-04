@@ -103,7 +103,7 @@ class CAOS_Cron
      */
     private function build_download_queue()
     {
-        $key   = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+        $key   = str_replace('.js', '', get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE));
         $queue = [];
 
         /**
