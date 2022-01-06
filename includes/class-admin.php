@@ -110,6 +110,7 @@ class CAOS_Admin
              * When a GA V4 measurement ID is used, the defined ID in Dual Tracking should be emptied, just to make sure it isn't used anywhere.
              */
             delete_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING);
+            delete_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID);
         } else {
             $title    = 'Universal Analytics';
             $filename = 'analytics.js';
