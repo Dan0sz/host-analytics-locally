@@ -32,6 +32,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode_promo'], 14);
         add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 15);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cloudflare_compatibility'], 16);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 18);
         add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 19);
@@ -86,13 +87,12 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     * 
      * @return void 
      */
     public function do_stealth_mode_promo()
     {
         $this->do_checkbox(
-            __('Enable Stealth Mode (Pro)', $this->plugin_text_domain),
+            __('Stealth Mode (Pro)', $this->plugin_text_domain),
             'caos_pro_stealth_mode',
             defined('CAOS_PRO_STEALTH_MODE') ? CAOS_PRO_STEALTH_MODE : false,
             sprintf(__('Stealth Mode enables WordPress to route all Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code> or <code>googletagmanager.com/gtag/js</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags) . ' ' . $this->promo,
@@ -116,28 +116,16 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     *
+     * @return void 
      */
-    public function do_track_ad_blockers()
+    public function do_cloudflare_compatibility()
     {
         $this->do_checkbox(
-            __('Track Ad Blockers', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
-            CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://docs.ffw.press/article/32-extensions')
-        );
-    }
-
-    /**
-     * Enable Enhanced Link Attribution
-     */
-    public function do_linkid()
-    {
-        $this->do_checkbox(
-            __('Enable Enhanced Link Attribution', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
-            CAOS_OPT_EXT_LINKID,
-            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
+            __('CloudFlare compatibility (Pro)', $this->plugin_text_domain),
+            'caos_pro_cf_compatibility',
+            defined('CAOS_PRO_CF_COMPATIBILITY') ? CAOS_PRO_CF_COMPATIBILITY : false,
+            __('When your site is proxied through CloudFlare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain),
+            true
         );
     }
 
@@ -178,6 +166,33 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
             CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
             sprintf(__('Sends an event to Google Analytics, containing the link information your users used to leave your site. Might not work properly with Stealth Mode enabled. %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
+        );
+    }
+
+    /**
+     *
+     */
+    public function do_track_ad_blockers()
+    {
+        $this->do_checkbox(
+            __('Track Ad Blockers', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
+            CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
+            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://docs.ffw.press/article/32-extensions')
+        );
+    }
+
+
+    /**
+     * Enable Enhanced Link Attribution
+     */
+    public function do_linkid()
+    {
+        $this->do_checkbox(
+            __('Enhanced Link Attribution', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
+            CAOS_OPT_EXT_LINKID,
+            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
         );
     }
 }
