@@ -101,7 +101,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
         $ip     = $this->anonymize_ip($ip);
         $result = isset($params['result']) && $params['result'] === 0 ? 'Disabled' : 'Enabled';
 
-        CAOS::debug(sprintf(__('User with IP %s has ad blockers %s.', $this->plugin_text_domain), $ip, $result));
+        CAOS::debug(sprintf(__('User with IP %s has Ad Blockers %s.', $this->plugin_text_domain), $ip, $result));
 
         /**
          * Using a clientId allows tracking Ad Blocker users in sessions (as opposed to pageviews)
