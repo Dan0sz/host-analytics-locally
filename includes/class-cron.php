@@ -26,6 +26,9 @@ class CAOS_Cron
     /** @var string $review */
     private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
 
+    /** @var string $plugin_text_domain */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
     /**
      * CAOS_Cron_Script constructor.
      */
