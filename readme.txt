@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.1.9
+Stable tag: 4.2.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,12 +26,12 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 - Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Downloaded files are renamed to random strings to avoid ad blockers,
 - Minimal Analytics support,
-- Google Analytics V4 API support,
+- Google Analytics V4 support (incl. Dual Tracking),
 - Endlessly extensible for developers by using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
 - **[Bypass Ad Blockers](https://ffw.press/blog/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
   - *[CAOS Pro](https://ffw.press/wordpress/caos-pro/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
-- Enable Cookieless Analytics (Super Stealth required),
+- Enable Cookieless Analytics (CAOS Pro required),
 - Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
@@ -69,6 +69,16 @@ N/A
 
 == Changelog ==
 
+= 4.2.0 | January 14th, 2022 =
+* Feat: Added Dual Tracking to track Google Analytics v3 and Google Analytics v4 simultaneously.
+* Del: Removed Stealth Mode Lite since its code was too outdated. To continue using Stealth Mode, upgrade to CAOS Pro. [Read more](https://ffw.press/blog/wordpress/major-changes-caos-pro/)
+* Del: Google Optimize was removed and moved to a separate free plugin, to be found [here](https://github.com/Dan0sz/caos-google-optimize).
+* Fix: Removed all references to Super Stealth, since it's been renamed to CAOS Pro.
+* Dev: Debug information is now logged when Track Ad Blockers is enabled.
+* Fix: Disable Display Features didn't work for gtag.js.
+* Several bug fixes and optimizations.
+* Several design and UX tweaks and enhancements in the settings screen.
+
 = 4.1.9 | November 27th, 2021 =
 * Sec: prevent path traversal when cache dir is changed (thnx, @jsgm!)
 
@@ -89,11 +99,11 @@ N/A
 * Moved Adjusted Bounce Rate setting to Advanced Settings tab.
 
 = 4.1.4 | August 18th, 2021 =
-* Enhancement: The hit type parameter can now be filtered to allow more flexibility when ad blocker lists are updated. (hint: Super Stealth)
+* Enhancement: The hit type parameter can now be filtered to allow more flexibility when ad blocker lists are updated. (hint: CAOS Pro)
 
 = 4.1.3 | July 28th, 2021 =
 * Enhancement: Added news real for CAOS relevant blog posts in footer of CAOS' settings screen.
-* Fix: Super Stealth promotion material is removed from options that're free.
+* Fix: CAOS Pro promotion material is removed from options that're free.
 * Tested with WP 5.8.
 
 = 4.1.2 | June 16th, 2021 =
