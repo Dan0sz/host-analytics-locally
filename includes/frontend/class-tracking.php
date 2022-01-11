@@ -404,7 +404,19 @@ class CAOS_Frontend_Tracking
      */
     private function send_ad_blocker_result()
     {
-        $url = home_url('wp-json/caos/v1/block/detect');
+        $url     = home_url('wp-json/caos/v1/block/detect');
+        /**
+         * DISCLAIMER: 
+         * 
+         * To developers who want to override this filter and insert clientIds themselves. 
+         * Please beware of privacy laws in your country and (more importantly) of your visitors. 
+         * Bypassing ad blockers AND sending unique client IDs to Google Analytics (which potentially 
+         * could identify an individual) is forbidden by GDPR EU laws and might also be forbidden 
+         * in your country.
+         * 
+         * You have been warned!
+         */
+        $use_cid = apply_filters('caos_track_ad_blockers_use_cid', false);
 
         ob_start();
         ?>
@@ -412,6 +424,11 @@ class CAOS_Frontend_Tracking
             document.addEventListener('caos_track_ad_blockers', function(e) {
                 document.addEventListener('DOMContentLoaded', function(e) {
                     var caos_detect_ad_blocker = 1;
+
+                    <?php if ($use_cid) : ?>
+                        var cid = clientIDHashed ?? '';
+                    <?php endif; ?>
+
                     if (document.getElementById('caos-detect-ad-block')) {
                         caos_detect_ad_blocker = 0;
                     }
@@ -420,7 +437,7 @@ class CAOS_Frontend_Tracking
                     ajax.onreadystatechange = function() {
                         if (ajax.readyState !== 4 || ajax.readyState !== 200) return;
                     };
-                    ajax.send("result=" + caos_detect_ad_blocker);
+                    ajax.send("result=" + caos_detect_ad_blocker + '&cid=' + cid);
                 });
             });
         </script>

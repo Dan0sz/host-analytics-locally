@@ -22,6 +22,22 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
         '/detect'
     ];
 
+    /** 
+     * Proxy IP Headers used to detect the visitors IP prior to sending the data to Google's Measurement Protocol.
+     * 
+     * @var array 
+     * 
+     * For CloudFlare compatibility HTTP_CF_CONNECTING_IP has been added.
+     * 
+     * @see https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers- 
+     */
+    const CAOS_PRO_IP_HEADERS = [
+        'HTTP_CF_CONNECTING_IP',
+        'HTTP_X_FORWARDER_FOR',
+        'HTTP_CLIENT_IP',
+        'REMOTE_ADDR'
+    ];
+
     /** @var string $namespace */
     protected $namespace;
 
@@ -75,18 +91,35 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
      */
     public function send_data($request)
     {
-        parse_str($request->get_body(), $label);
+        parse_str($request->get_body(), $params);
+
+        $ip = $this->get_user_ip_address();
+        /**
+         * Because tracking ad blockers will reveal the user's IP address, we always
+         * anonymize it (regardless of the setting) to make sure no privacy laws are violated.
+         */
+        $ip     = $this->anonymize_ip($ip);
+        $result = isset($params['result']) && $params['result'] === 0 ? 'Disabled' : 'Enabled';
+
+        CAOS::debug(sprintf(__('User with IP %s has ad blockers %s.', $this->plugin_text_domain), $ip, $result));
+
+        /**
+         * Using a clientId allows tracking Ad Blocker users in sessions (as opposed to pageviews)
+         * 
+         * @since v4.2.0
+         */
+        $cid = $params['cid'] ?? $this->generate_uuid();
 
         $params = [
             'v'   => (string) 1,
             't'   => 'event',
             'tid' => CAOS_OPT_TRACKING_ID,
-            'cid' => $this->generate_uuid(),
+            'cid' => $cid,
             // Set IP to 0 to guarantee GDPR compliance.
-            'uip' => 0,
+            'uip' => $ip,
             'ec'  => 'Tracking',
             'ea'  => 'Ad Blocker',
-            'el'  => isset($label['result']) && $label['result'] == 0 ? 'Disabled' : 'Enabled',
+            'el'  => $result,
             'ev'  => '1',
             'ua'  => $request->get_header('user_agent')
         ];
@@ -126,11 +159,55 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
     {
         $data = $data ?? random_bytes(16);
 
-        /**
-         * TODO: Maybe the output of this should be a stored to a cookie or session, so ad blocker usage could be bound to client IDs i.e. sessions.
-         * 
-         * How to achieve this and maintain privacy?
-         */
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    /**
+     * @return string
+     */
+    private function get_user_ip_address()
+    {
+        $ip = '';
+
+        foreach (self::CAOS_PRO_IP_HEADERS as $header) {
+            if ($this->header_exists($header)) {
+                CAOS::debug(sprintf(__('HTTP header %s found.', $this->plugin_text_domain), $header));
+
+                $ip = $_SERVER[$header];
+
+                if (is_array(explode(',', $ip))) {
+                    CAOS::debug(sprintf(__('Multiple IPs detected, using the first one: %s', $this->plugin_text_domain), print_r($ip, true)));
+
+                    $ip = explode(',', $ip);
+
+                    return $ip[0];
+                }
+
+                return $ip;
+            }
+        }
+    }
+
+    /**
+     * Checks if a HTTP header is set and is not empty.
+     * 
+     * @param mixed $global 
+     * @return bool 
+     */
+    private function header_exists($global)
+    {
+        return isset($_SERVER[$global]) && !empty($_SERVER[$global]);
+    }
+
+    /**
+     * Anonymize current IP, before sending it to Google to respect the Anonymize IP advanced setting.
+     *
+     * @param $ip
+     *
+     * @return string|string[]|null
+     */
+    private function anonymize_ip($ip)
+    {
+        return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
     }
 }
