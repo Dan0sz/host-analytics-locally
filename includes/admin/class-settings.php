@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/caos/
+ * @url      : https://ffw.press/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -495,7 +495,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             return $text;
         }
 
-        $text = sprintf(__('Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain), 'https://daan.dev/tag/caos') . ' ';
+        $text = sprintf(__('Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain), 'https://ffw.press/blog/tag/caos') . ' ';
         $text .= '<span id="caos-ticker-wrap">';
         $i    = 0;
 

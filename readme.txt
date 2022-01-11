@@ -20,32 +20,32 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
 
-For more information: [How to setup CAOS](https://daan.dev/wordpress-plugins/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://docs.ffw.press/category/17-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
-- Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Downloaded files are renamed to random strings to avoid ad blockers,
 - Minimal Analytics support,
 - Google Analytics V4 API support,
 - Endlessly extensible for developers by using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
-- **[Bypass Ad Blockers](https://daan.dev/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
+- **[Bypass Ad Blockers](https://ffw.press/blog/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
   - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[CAOS Pro](https://ffw.press/wordpress-plugins/caos-pro/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
+  - *[CAOS Pro](https://ffw.press/wordpress/caos-pro/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
 - Enable Cookieless Analytics (Super Stealth required),
 - Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
 - Integrate Google Optimize,
 - Enhanced link attribution,
-- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://daan.dev/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
+- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
-- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://daan.dev/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify, RankMath SEO, SEOPress and Google Analytics Dashboard for WP by ExactMetrics,
+- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://ffw.press/blog/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify, RankMath SEO, SEOPress and Google Analytics Dashboard for WP by ExactMetrics,
 - Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
 - Set Site Speed Sample Rate,
-- Set [Adjusted Bounce Rate](https://daan.dev/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
+- Set [Adjusted Bounce Rate](https://ffw.press/blog/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - Change enqueue order (prioritize order of loaded scripts),
 - Enable Enhanced Link Attribution (linkid.js),
 - Force disabling display features functionalities,

@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/caoss/
+ * @url      : https://ffw.press/wordpress/caoss/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */

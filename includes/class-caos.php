@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/caos/
+ * @url      : https://ffw.press/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -289,7 +289,7 @@ class CAOS
         $new_version     = $plugin['new_version'];
 
         if (version_compare($current_version, $new_version, '<')) {
-            $response = wp_remote_get('https://daan.dev/caos-update-notices.json');
+            $response = wp_remote_get('https://ffw.press/caos-update-notices.json');
 
             if (is_wp_error($response)) {
                 return;

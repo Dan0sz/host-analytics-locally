@@ -2,7 +2,7 @@
  * This file is loaded inline to avoid ad blockers and maintaining the least amount of overhead.
  * 
  * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress-plugins/caos/
+ * @url      : https://ffw.press/wordpress-plugins/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -12,42 +12,53 @@
 .caos-nav {
   padding: 1em 0 1.5em;
 }
+
 .caos-nav .dashicons-before:before {
   margin-right: 0.25em;
   line-height: 1.2;
 }
+
 .track-cloaked-affiliate-links {
   width: 100%;
 }
+
 .track-cloaked-affiliate-links th,
 .track-cloaked-affiliate-links td {
   padding: 0 15px;
 }
+
 .track-cloaked-affiliate-links th:first-child,
 .track-cloaked-affiliate-links td:first-child,
 .track-cloaked-affiliate-links th:last-child,
 .track-cloaked-affiliate-links td:last-child {
   padding: 0;
 }
+
 .track-cloaked-affiliate-links td input[type="text"] {
   width: 100%;
 }
+
 .track-cloaked-affiliate-links td .affiliate-link-remove {
   cursor: pointer;
 }
+
 /**
  * Welcome Block
  */
 #footer-thankyou a {
   vertical-align: -0.65em;
 }
+
 #footer-thankyou .dashicons.ffwp-heart {
   vertical-align: middle;
 }
+
 #footer-thankyou .dashicons.ffwp-heart:before {
   color: #FF4136;
 }
+
 #footer-thankyou .signature-image {
   width: 96px;
 }
+
 /*# sourceMappingURL=./caos-admin.css.map */
