@@ -145,10 +145,10 @@ class CAOS_Frontend_Tracking
      */
     public function disable_display_features()
     {
-        $display_features_disabled = CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on';
+        $display_features_disabled = CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on' ? false : true;
 
         add_filter('caos_gtag_config', function ($config, $trackingId) use ($display_features_disabled) {
-            return $config + array('allow_google_signals' => "$display_features_disabled");
+            return $config + array('allow_google_signals' => $display_features_disabled);
         }, 10, 2);
 
         if ($display_features_disabled) {
