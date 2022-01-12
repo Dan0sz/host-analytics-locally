@@ -257,7 +257,7 @@ class CAOS
     }
 
     /**
-     * Check if (de)activated plugin is CAOS Pro and if so, update or notify.
+     * Check if (de)activated plugin is CAOS Pro and if so, update.
      */
     public function maybe_do_update($plugin)
     {
