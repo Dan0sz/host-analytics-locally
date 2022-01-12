@@ -36,6 +36,7 @@ class CAOS
         if (is_admin()) {
             do_action('caos_before_admin');
 
+            $this->add_ajax_hooks();
             $this->do_settings();
         }
 
@@ -209,6 +210,16 @@ class CAOS
         register_uninstall_hook(CAOS_PLUGIN_FILE, 'CAOS::do_uninstall');
 
         return new CAOS_Setup();
+    }
+
+    /**
+     * Modify behavior of OMGF's AJAX hooks.
+     * 
+     * @return void 
+     */
+    private function add_ajax_hooks()
+    {
+        new CAOS_Ajax();
     }
 
     /**

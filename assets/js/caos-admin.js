@@ -11,11 +11,15 @@ jQuery(document).ready(function ($) {
     var caos_admin = {
         ticker_items: document.querySelectorAll('.ticker-item'),
         ticker_index: 0,
+        nonce: $('#caos-update-files').data('nonce'),
 
         /**
          * Initialize CAOS Admin Functions.
          */
         init: function () {
+            // Buttons
+            $('#caos-update-files').on('click', this.update_files);
+
             // Text Fields
             $('.sgal-tracking-id').on('input', this.toggle_dual_tracking_visibility);
 
@@ -30,6 +34,21 @@ jQuery(document).ready(function ($) {
 
             // Ticker
             setInterval(this.loop_ticker_items, 4000);
+        },
+
+        update_files: function () {
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'caos_update_files',
+                    nonce: caos_admin.nonce
+                },
+                complete: function () {
+                    // Submit the form, to force refresh the files.
+                    $('#submit').click();
+                }
+            });
         },
 
         /**
