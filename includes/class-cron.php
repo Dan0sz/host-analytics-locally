@@ -59,8 +59,7 @@ class CAOS_Cron
         if (!wp_doing_cron()) {
             $review_link = apply_filters('caos_manual_download_review_link', $this->review);
             $tweet_link  = apply_filters('caos_manual_download_tweet_link', $this->tweet);
-
-            $notice = $this->build_natural_sentence($downloaded_files);
+            $notice      = $this->build_natural_sentence($downloaded_files);
 
             CAOS_Admin_Notice::set_notice($notice . ' ' . sprintf(__('Would you be willing to <a href="%s" target="_blank">write a review</a> or <a href="%s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local'), $review_link, $tweet_link), 'success', 'all', 'file_downloaded');
         }
