@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.2.0
+Stable tag: 4.2.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.2.1 =
+* Fix: warning undefined property CAOS_Cron::$plugin_text_domain.
+* Fix: warning undefined variable $file.
+* Feat: Ability to force clean up and regeneration of file aliases.
 
 = 4.2.0 | January 14th, 2022 =
 * Feat: Added Dual Tracking to track Google Analytics v3 and Google Analytics v4 simultaneously.
