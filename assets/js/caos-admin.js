@@ -11,14 +11,14 @@ jQuery(document).ready(function ($) {
     var caos_admin = {
         ticker_items: document.querySelectorAll('.ticker-item'),
         ticker_index: 0,
-        nonce: $('#caos-update-files').data('nonce'),
+        nonce: $('#caos-regenerate-alias').data('nonce'),
 
         /**
          * Initialize CAOS Admin Functions.
          */
         init: function () {
             // Buttons
-            $('#caos-update-files').on('click', this.update_files);
+            $('#caos-regenerate-alias').on('click', this.regenerate_alias);
 
             // Text Fields
             $('.sgal-tracking-id').on('input', this.toggle_dual_tracking_visibility);
@@ -36,12 +36,12 @@ jQuery(document).ready(function ($) {
             setInterval(this.loop_ticker_items, 4000);
         },
 
-        update_files: function () {
+        regenerate_alias: function () {
             $.ajax({
                 url: ajaxurl,
                 type: 'POST',
                 data: {
-                    action: 'caos_update_files',
+                    action: 'caos_regenerate_alias',
                     nonce: caos_admin.nonce
                 },
                 complete: function () {

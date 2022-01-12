@@ -31,15 +31,17 @@ class CAOS_Ajax
      */
     private function init()
     {
-        add_action('wp_ajax_caos_update_files', [$this, 'update_files']);
+        add_action('wp_ajax_caos_regenerate_alias', [$this, 'regenerate_alias']);
     }
 
     /**
-     * Update aliases in database.
+     * Regenerate aliases and new files. Cleans up old files.
+     * 
+     * @since v4.2.1
      * 
      * @return void 
      */
-    public function update_files()
+    public function regenerate_alias()
     {
         check_ajax_referer(CAOS_Admin_Settings::CAOS_ADMIN_PAGE, 'nonce');
 
@@ -53,7 +55,11 @@ class CAOS_Ajax
             return;
         }
 
+        $filesystem = CAOS::filesystem();
+        $path       = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR;
+
         foreach ($caos_file_aliases as $file => $alias) {
+            $filesystem->delete($path . $alias);
             $caos_file_aliases[$file] = bin2hex(random_bytes(4)) . '.js';
         }
 
