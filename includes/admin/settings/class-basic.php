@@ -184,7 +184,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('Anonymize IP', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP,
             CAOS_OPT_ANONYMIZE_IP,
-            __('Increase GDPR compliance by enabling this setting. Required by law in some countries. Replaces the last digits of a visitor\'s IP-address with \'000\'.', $this->plugin_text_domain)
+            sprintf(__('Increase GDPR compliance by enabling the <code>aip</code>-parameter (Anonymize IP) in Google Analytics. Combining this option with <a href="%s">Stealth Mode</a> unlocks True IP Anonymization and truly protects your user\'s privacy.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings'))
         );
     }
 
