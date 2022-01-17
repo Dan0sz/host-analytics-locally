@@ -404,7 +404,7 @@ class CAOS_Frontend_Tracking
      */
     private function send_ad_blocker_result()
     {
-        $url     = home_url('wp-json/caos/v1/block/detect');
+        $url = home_url('wp-json/caos/v1/block/detect');
         /**
          * DISCLAIMER: 
          * 
@@ -413,6 +413,9 @@ class CAOS_Frontend_Tracking
          * Bypassing ad blockers AND sending unique client IDs to Google Analytics (which potentially 
          * could identify an individual) is forbidden by GDPR EU laws and might also be forbidden 
          * in your country.
+         * 
+         * Client ID's can be added by making sure the ClientIDHashed variable exists anywhere inside
+         * the document before this script is loaded.
          * 
          * You have been warned!
          */

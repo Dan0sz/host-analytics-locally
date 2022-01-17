@@ -108,7 +108,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
          * 
          * @since v4.2.0
          */
-        $cid = $params['cid'] ?? $this->generate_uuid();
+        $cid = $params['cid'] ?: $this->generate_uuid();
 
         $params = [
             'v'   => (string) 1,
