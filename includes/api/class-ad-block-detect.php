@@ -27,7 +27,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
      * 
      * @var array 
      * 
-     * For CloudFlare compatibility HTTP_CF_CONNECTING_IP has been added.
+     * For Cloudflare compatibility HTTP_CF_CONNECTING_IP has been added.
      * 
      * @see https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers- 
      */

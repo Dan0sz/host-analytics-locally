@@ -132,7 +132,7 @@ N/A
 
 = 4.0.4 | April 27th, 2021 =
 * Footer logo in settings screen is now loaded from local src,  instead of external src.
-* Added extra debug points for Stealth Mode users using CloudFlare.
+* Added extra debug points for Stealth Mode users using Cloudflare.
 
 = 4.0.3 | April 12th, 2021 =
 * Small performance increase by removing unused code and re-factoring code.

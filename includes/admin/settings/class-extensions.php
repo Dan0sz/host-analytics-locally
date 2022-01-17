@@ -121,10 +121,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_cloudflare_compatibility()
     {
         $this->do_checkbox(
-            __('CloudFlare Compatibility (Pro)', $this->plugin_text_domain),
+            __('Cloudflare Compatibility (Pro)', $this->plugin_text_domain),
             'caos_pro_cf_compatibility',
             defined('CAOS_PRO_CF_COMPATIBILITY') ? CAOS_PRO_CF_COMPATIBILITY : false,
-            __('When your site is proxied through CloudFlare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain),
+            __('When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain),
             true
         );
     }
