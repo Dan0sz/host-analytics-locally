@@ -427,6 +427,8 @@ class CAOS_Frontend_Tracking
 
                     <?php if ($use_cid) : ?>
                         var cid = clientIDHashed ?? '';
+                    <?php else : ?>
+                        var cid = '';
                     <?php endif; ?>
 
                     if (document.getElementById('caos-detect-ad-block')) {
