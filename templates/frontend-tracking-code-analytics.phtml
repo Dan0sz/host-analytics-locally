@@ -27,12 +27,12 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     };
     ga.l = +new Date;
 
-    <?php
-    /**
-     * Fix: ClientIDHashed is a JS variable generated when Cookieless Analytics is enabled.
-     */
-    ?>
-    ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"clientIDHashed"', 'clientIDHashed', json_encode($createConfig)); ?>);
+    <?php if (apply_filters('caos_analytics_use_local_storage', false)) : ?>
+        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
+    <?php else : ?>
+        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
+    <?php endif; ?>
+
     <?php
     /**
      * Allow WP DEVs to easily modify CAOS' analytics.js configuration with a plugin.

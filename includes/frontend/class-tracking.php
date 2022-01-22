@@ -429,7 +429,7 @@ class CAOS_Frontend_Tracking
                     var caos_detect_ad_blocker = 1;
 
                     <?php if ($use_cid) : ?>
-                        var cid = clientIDHashed ?? '';
+                        var cid = localStorage.getItem('GA_CLIENT_ID_HASHED') ?? '';
                     <?php else : ?>
                         var cid = '';
                     <?php endif; ?>
