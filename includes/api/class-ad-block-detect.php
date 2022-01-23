@@ -208,6 +208,36 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
      */
     private function anonymize_ip($ip)
     {
-        return preg_replace('/(?<=\.)[^.]*$/u', '0', $ip);
+        $octets = explode('.', $ip);
+
+        if (empty($octets)) {
+            return $ip;
+        }
+
+        /**
+         * @since v2.0.2
+         * 
+         * Instead of using Regex and str_replace, we're slicing the array parts
+         * and rebuilding the ip (implode) to make sure no duplicate values are
+         * replaced.
+         * 
+         * E.g. using str_replace or preg_replace; 192.168.1.1 would result in 092.068.0.0.
+         */
+        $second_to_last     = array_slice($octets, -2, 1, true);
+        $second_to_last_key = array_key_first($second_to_last);
+
+        $second_to_last[$second_to_last_key] = '0';
+
+        $last     = array_slice($octets, -1, 1, true);
+        $last_key = array_key_first($last);
+
+        $last[$last_key] = '0';
+
+        /**
+         * Replace each octet with the with the 
+         */
+        $octets = array_replace($octets, $second_to_last, $last);
+
+        return implode('.', $octets);
     }
 }
