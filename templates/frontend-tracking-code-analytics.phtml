@@ -15,7 +15,7 @@
 
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieName'    => 'caosLocalGa',
-    'cookieDomain'  => $_SERVER['SERVER_NAME'],
+    'cookieDomain'  => home_url(),
     'cookieExpires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookieFlags'   => 'samesite=none;secure'
 ));
@@ -28,7 +28,12 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     ga.l = +new Date;
 
     <?php if (apply_filters('caos_analytics_use_local_storage', false)) : ?>
-        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
+        if (window.localStorage) {
+            ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
+        } else {
+            <?php $createConfig['clientId'] = ''; ?>
+            ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>)
+        }
     <?php else : ?>
         ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
     <?php endif; ?>
