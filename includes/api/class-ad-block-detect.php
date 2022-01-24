@@ -99,7 +99,7 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
          * anonymize it (regardless of the setting) to make sure no privacy laws are violated.
          */
         $ip     = $this->anonymize_ip($ip);
-        $result = isset($params['result']) && $params['result'] === 0 ? 'Disabled' : 'Enabled';
+        $result = isset($params['result']) && $params['result'] === "0" ? 'Disabled' : 'Enabled';
 
         CAOS::debug(sprintf(__('User with IP %s has Ad Blockers %s.', $this->plugin_text_domain), $ip, $result));
 
@@ -115,7 +115,6 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
             't'   => 'event',
             'tid' => CAOS_OPT_TRACKING_ID,
             'cid' => $cid,
-            // Set IP to 0 to guarantee GDPR compliance.
             'uip' => $ip,
             'ec'  => 'Tracking',
             'ea'  => 'Ad Blocker',
