@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,13 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.2.2 =
+* Dev: added filter 'caos_analytics_use_local_storage'.
+* Fix: set cookie domain to Home URL instead of $_SERVER['SERVER_NAME'].
+* Fix: IPs weren't properly anonymized when Ad Block Detect and IP Anonymize were enabled.
+* Fix: Source mapping URL was invalid in minified stylesheets, which threw a notice in Chrome's DevTools.
+* Fix: Ad Block Detect returned false positives. 
 
 = 4.2.1 =
 * Fix: warning undefined property CAOS_Cron::$plugin_text_domain.
