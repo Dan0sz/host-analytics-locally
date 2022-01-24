@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -12,13 +14,11 @@
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-
-defined('ABSPATH') || exit;
-
 class CAOS_Admin_Settings extends CAOS_Admin
 {
     const CAOS_ADMIN_PAGE = 'host_analyticsjs_local';
     const CAOS_NEWS_REEL  = 'caos_news_reel';
+    const CAOS_DB_VERSION = 'caos_db_version';
 
     /**
      * Admin Sections
@@ -42,6 +42,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
         ''        => 'Default',
         'async'   => 'Asynchronous',
         'minimal' => 'Minimal Analytics (fastest)'
+    ];
+    const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
+        ''    => 'Off (default)',
+        'one' => 'One octet',
+        'two' => 'Two octets (Pro)'
     ];
     const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
         'header' => 'Header (default)',
@@ -78,7 +83,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';
     const CAOS_BASIC_SETTING_COOKIE_VALUE           = 'caos_cookie_value';
     const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
-    const CAOS_BASIC_SETTING_ANONYMIZE_IP           = 'sgal_anonymize_ip';
+    const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE      = 'caos_anonymize_ip_mode';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
     const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_analytics_compatibility_mode';
     const CAOS_ADV_SETTING_JS_FILE                  = 'caos_analytics_js_file';
@@ -101,9 +106,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFW_PRESS_WORDPRESS_PLUGINS_SUPER_STEALTH  = 'https://ffw.press/wordpress/caos-pro/';
-    const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI     = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
-    const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB       = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
+    const FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO   = 'https://ffw.press/wordpress/caos-pro/';
+    const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
+    const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB   = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
     /** @var string $active_tab */
     private $active_tab;

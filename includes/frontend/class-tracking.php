@@ -175,7 +175,7 @@ class CAOS_Frontend_Tracking
      */
     public function anonymize_ip()
     {
-        if (CAOS_OPT_ANONYMIZE_IP !== 'on') {
+        if (CAOS_OPT_ANONYMIZE_IP_MODE == '') {
             return;
         }
 

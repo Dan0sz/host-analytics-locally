@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -12,9 +14,6 @@
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-
-defined('ABSPATH') || exit;
-
 class CAOS
 {
     /**
@@ -32,6 +31,10 @@ class CAOS
     {
         $this->define_constants();
         $this->do_setup();
+
+        if (version_compare(CAOS_STORED_DB_VERSION, CAOS_DB_VERSION) < 0) {
+            $this->update_db();
+        }
 
         if (is_admin()) {
             do_action('caos_before_admin');
@@ -68,6 +71,7 @@ class CAOS
         $translated_tracking_id = _x('UA-123456789', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
 
         define('CAOS_SITE_URL', 'https://ffw.press/blog');
+        define('CAOS_STORED_DB_VERSION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1')));
         define('CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
         define('CAOS_OPT_DUAL_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING)));
         define('CAOS_OPT_GA4_MEASUREMENT_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID)));
@@ -81,7 +85,7 @@ class CAOS
         define('CAOS_OPT_SITE_SPEED_SAMPLE_RATE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1)));
         define('CAOS_OPT_ADJUSTED_BOUNCE_RATE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE)));
         define('CAOS_OPT_ENQUEUE_ORDER', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER)) ?: 10);
-        define('CAOS_OPT_ANONYMIZE_IP', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP)));
+        define('CAOS_OPT_ANONYMIZE_IP_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE, '')));
         define('CAOS_OPT_TRACK_ADMIN', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN)));
         define('CAOS_OPT_DISABLE_DISPLAY_FEAT', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES)));
         define('CAOS_OPT_REMOTE_JS_FILE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE)) ?: 'analytics.js');
@@ -210,6 +214,16 @@ class CAOS
         register_uninstall_hook(CAOS_PLUGIN_FILE, 'CAOS::do_uninstall');
 
         return new CAOS_Setup();
+    }
+
+    /**
+     * Triggers all required DB updates (if any).
+     * 
+     * @return void 
+     */
+    private function update_db()
+    {
+        new CAOS_DB();
     }
 
     /**

@@ -52,6 +52,8 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Close
         add_filter('caos_advanced_settings_content', [$this, 'do_after'], 250);
+
+        parent::__construct();
     }
 
     /**

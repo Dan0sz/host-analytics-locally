@@ -39,13 +39,15 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 90);
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 100);
         add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 110);
-        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip'], 120);
+        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 120);
         add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 130);
         add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 140);
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 150);
 
         // Close
         add_filter('caos_basic_settings_content', [$this, 'do_after'], 200);
+
+        parent::__construct();
     }
 
     /**
@@ -171,20 +173,22 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . '<a href="https://docs.ffw.press/article/30-basic-settings" target="_blank">' . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://docs.ffw.press/article/30-basic-settings' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
         );
     }
 
     /**
      * Anonymize IP
      */
-    public function do_anonymize_ip()
+    public function do_anonymize_ip_mode()
     {
-        $this->do_checkbox(
-            __('Anonymize IP', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP,
-            CAOS_OPT_ANONYMIZE_IP,
-            sprintf(__('Increase GDPR compliance by enabling the <code>aip</code>-parameter (Anonymize IP) in Google Analytics. Combining this option with <a href="%s">Stealth Mode</a> unlocks <strong>True IP Anonymization</strong> and guarantees protection of your user\'s privacy.', $this->plugin_text_domain), admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings'))
+        $this->do_radio(
+            __('Anonymize IP Mode', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS,
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
+            CAOS_OPT_ANONYMIZE_IP_MODE,
+            sprintf(__('Enables the <code>aip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data might still be stored on Google\'s servers. Combining the option \'two\' with <a href="%s">Stealth Mode</a> will properly anonymize IP addresses before sending the data over to Google, however location data might be inaccurate.', $this->plugin_text_domain), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')) . ' ' . $this->promo,
+            true
         );
     }
 
