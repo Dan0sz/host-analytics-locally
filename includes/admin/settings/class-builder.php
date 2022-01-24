@@ -131,7 +131,7 @@ class CAOS_Admin_Settings_Builder
         ?>
         <tr>
             <th scope="row"><?= $label; ?></th>
-            <td>
+            <td id="<?= $name . '_right_column'; ?>">
                 <?php foreach ($inputs as $option => $option_label) : ?>
                     <label>
                         <input type="radio" <?= strpos($option_label, '(Pro)') !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />

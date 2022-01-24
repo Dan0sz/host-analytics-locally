@@ -28,6 +28,7 @@ jQuery(document).ready(function ($) {
 
             // Radio's
             $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
+            $('input[class^="caos-anonymize-ip-mode"]').on('click', this.update_aip_example);
             $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
             $('.caos-stealth-mode, .caos-extension-optimize').on('click', this.toggle_stealth_mode);
             $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
@@ -126,6 +127,32 @@ jQuery(document).ready(function ($) {
                 default:
                     $cookie_name.hide();
                     $cookie_value.hide();
+                    break;
+            }
+        },
+
+        /**
+         * Update Anonymize IP mode example, based on selection.
+         */
+        update_aip_example: function () {
+            mask = '0';
+            default_3 = '178';
+            default_4 = '123';
+            $octet_3 = $('.caos-aip-example .third-octet');
+            $octet_4 = $('.caos-aip-example .fourth-octet');
+
+            switch (this.value) {
+                case '':
+                    $octet_3.text(default_3);
+                    $octet_4.text(default_4);
+                    break;
+                case 'one':
+                    $octet_3.text(default_3);
+                    $octet_4.text(mask);
+                    break;
+                case 'two':
+                    $octet_3.text(mask);
+                    $octet_4.text(mask);
                     break;
             }
         },
