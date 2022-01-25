@@ -20,7 +20,7 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
      *               since that superglobal relies heavily on server configuration, using
      *               a stripped home_url() is more user focussed and transparent.
      */
-    'cookieDomain'  => str_replace(['http://', 'https://'], '', home_url()),
+    'cookieDomain'  => parse_url(home_url())['host'],
     'cookieExpires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookieFlags'   => 'samesite=none;secure'
 ));
