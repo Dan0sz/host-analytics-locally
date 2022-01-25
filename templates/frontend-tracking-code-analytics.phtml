@@ -15,7 +15,12 @@
 
 $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieName'    => 'caosLocalGa',
-    'cookieDomain'  => home_url(),
+    /**
+     * @since v4.2.3 cookieDomain used to be set using $_SERVER['SERVER_NAME']. However,
+     *               since that superglobal relies heavily on server configuration, using
+     *               a stripped home_url() is more user focussed and transparent.
+     */
+    'cookieDomain'  => str_replace(['http://', 'https://'], '', home_url()),
     'cookieExpires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookieFlags'   => 'samesite=none;secure'
 ));
