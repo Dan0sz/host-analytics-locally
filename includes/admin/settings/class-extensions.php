@@ -78,7 +78,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     {
         $file = CAOS_OPT_REMOTE_JS_FILE;
     ?>
-        <div class="caos-extensions welcome-panel" style="padding: 0 15px 5px;">
+        <div class="caos-extensions postbox" style="padding: 0 15px 5px;">
             <h3><?= __('Stealth Mode (Pro)', $this->plugin_text_domain); ?></h3>
             <p>
                 <?= __('Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
