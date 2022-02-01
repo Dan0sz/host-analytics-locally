@@ -56,7 +56,7 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder
                         <h3><?= sprintf(__('Support %s & Spread the Word!', $this->plugin_text_domain), apply_filters('caos_settings_page_title', 'CAOS')); ?></h3>
                         <ul>
                             <li><a target="_blank" href="<?= apply_filters('caos_settings_help_review_link', 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post'); ?>"><i class="dashicons dashicons-star-filled"></i><?= __('Write a 5-star Review or,', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= $tweetUrl; ?>"><i class="welcome-icon dashicons-twitter"></i><?= __('Tweet about it!', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= $tweetUrl; ?>"><i class="dashicons dashicons-twitter"></i><?= __('Tweet about it!', $this->plugin_text_domain); ?></a></li>
                         </ul>
                     </div>
                     <div class="column last">
