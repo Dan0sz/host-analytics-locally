@@ -198,7 +198,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 <?php do_action('caos_settings_tab'); ?>
             </h2>
 
-            <form method="post" action="options.php?tab=<?= $this->active_tab; ?>">
+            <form id="<?= $this->active_tab; ?>-form" method="post" action="options.php?tab=<?= $this->active_tab; ?>">
                 <?php
                 settings_fields($this->active_tab);
                 do_settings_sections($this->active_tab); ?>

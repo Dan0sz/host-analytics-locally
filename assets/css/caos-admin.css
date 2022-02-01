@@ -35,6 +35,37 @@
   margin: 0 3px;
   border: dashed 1px #bbb;
 }
+#caos-help-form .postbox {
+  padding: 0 15px 5px;
+}
+#caos-help-form .postbox .column-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+#caos-help-form .postbox .column-container .column ul li {
+  margin-bottom: 10px;
+}
+#caos-help-form .postbox .column-container .column ul li:last-child {
+  margin-bottom: none;
+}
+#caos-help-form .postbox .column-container .column ul li a {
+  text-decoration: none;
+  line-height: 1.45;
+}
+#caos-help-form .postbox .column-container .column ul li a i.dashicons {
+  margin-right: 5px;
+  color: #646970;
+}
+#caos-help-form .postbox .column-container .column.last {
+  margin-right: 45px;
+}
+#caos-help-form .postbox .column-container .column.last .signature {
+  text-align: center;
+}
+#caos-help-form .postbox .column-container .column.last .signature .dashicons-heart {
+  color: #FF4136;
+}
 .track-cloaked-affiliate-links {
   width: 100%;
 }
