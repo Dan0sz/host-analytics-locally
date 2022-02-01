@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.9
-Stable tag: 4.2.4
+Stable tag: 4.2.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,10 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.2.5 =
+* Tested with WP 5.9
+  - Fixed: WP 5.9 welcome background was displayed in Help and Extensions section of Settings screen.
 
 = 4.2.4 =
 * Hotfix: subfolders (e.g. /en/) weren't properly stripped from the cookieDomain.
