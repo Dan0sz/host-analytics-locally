@@ -94,7 +94,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
     const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE   = 'caos_site_speed_sample_rate';
     const CAOS_ADV_SETTING_ENQUEUE_ORDER            = 'sgal_enqueue_order';
-    const CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES = 'caos_disable_display_features';
+    const CAOS_ADV_SETTING_DISABLE_ADS_FEATURES = 'caos_disable_display_features';
     const CAOS_ADV_SETTING_DEBUG_MODE               = 'caos_debug_mode';
     const CAOS_ADV_SETTING_UNINSTALL_SETTINGS       = 'caos_analytics_uninstall_settings';
     const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS        = 'caos_extension_track_ad_blockers';

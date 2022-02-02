@@ -37,7 +37,7 @@ class CAOS_Frontend_Tracking
 
         add_action('init', [$this, 'insert_tracking_code']);
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
-        add_action('caos_process_settings', [$this, 'disable_display_features']);
+        add_action('caos_process_settings', [$this, 'disable_advertising_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
         add_action('caos_process_settings', [$this, 'site_speed_sample_rate']);
         add_action('caos_process_settings', [$this, 'linkid']);
@@ -141,20 +141,20 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * Process disable display features setting.
+     * Process disable advertising features setting.
      */
-    public function disable_display_features()
+    public function disable_advertising_features()
     {
-        $display_features_disabled = CAOS_OPT_DISABLE_DISPLAY_FEAT == 'on' ? false : true;
+        $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true;
 
-        add_filter('caos_gtag_config', function ($config, $trackingId) use ($display_features_disabled) {
-            return $config + array('allow_google_signals' => $display_features_disabled);
+        add_filter('caos_gtag_config', function ($config, $trackingId) use ($ads_features_disabled) {
+            return $config + array('allow_google_signals' => $ads_features_disabled);
         }, 10, 2);
 
-        if ($display_features_disabled) {
+        if ($ads_features_disabled) {
             add_filter('caos_analytics_before_send', function ($config) {
                 $option = array(
-                    'display_features' => "ga('set', 'displayFeaturesTask', null);"
+                    'ads_features' => "ga('set', 'allowAdFeatures', false);"
                 );
 
                 return $config + $option;
@@ -162,7 +162,7 @@ class CAOS_Frontend_Tracking
         } else {
             add_filter('caos_analytics_before_send', function ($config) {
                 $option = array(
-                    'display_features' => "ga('require', 'displayfeatures');"
+                    'ad_features' => "ga('require', 'allowAdFeatures');"
                 );
 
                 return $config + $option;

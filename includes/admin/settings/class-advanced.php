@@ -43,7 +43,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 130);
         add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_disable_display_feat'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 150);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
@@ -257,15 +257,15 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     * Disable all display features functionality
+     * Disable all advertising features functionality
      */
-    public function do_disable_display_feat()
+    public function do_advertising_features()
     {
         $this->do_checkbox(
-            __('Disable Display Features', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_DISPLAY_FEATURES,
-            CAOS_OPT_DISABLE_DISPLAY_FEAT,
-            sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features')
+            __('Disable Advertising Features', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES,
+            CAOS_OPT_DISABLE_ADS_FEAT,
+            sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9050852?hl=en')
         );
     }
 
