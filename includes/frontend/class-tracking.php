@@ -148,9 +148,9 @@ class CAOS_Frontend_Tracking
         // When merging config array, gtag.js properly renders the boolean values.
         $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true;
 
-        add_filter('caos_gtag_config', function ($config, $trackingId) use ($ads_features_disabled) {
+        add_filter('caos_gtag_config', function ($config) use ($ads_features_disabled) {
             return $config + array('allow_google_signals' => $ads_features_disabled);
-        }, 10, 2);
+        });
 
         // Analytics.js requires a slightly different approach when merging the config.
         $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? 'false' : 'true';
