@@ -44,6 +44,9 @@ class CAOS_API_AdBlockDetect extends WP_REST_Controller
     /** @var string $rest_base */
     protected $rest_base;
 
+    /** @var string $plugin_text_domain */
+    private $plugin_text_domain = 'host-analyticsjs-local';
+
     /**
      * CAOS_Proxy constructor.
      */
