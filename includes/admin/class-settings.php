@@ -190,7 +190,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
             <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
                 <div class="notice notice-info">
-                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?> <a id="caos-regenerate-alias" data-nonce="<?= wp_create_nonce(CAOS_Admin_Settings::CAOS_ADMIN_PAGE); ?>" title="<?= __('This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', $this->plugin_text_domain); ?>" href="#"><?= __('Regenerate Alias(es)', $this->plugin_text_domain); ?></a>.</p>
+                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?> <a id="caos-regenerate-alias" data-nonce="<?= wp_create_nonce(self::CAOS_ADMIN_PAGE); ?>" title="<?= __('This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', $this->plugin_text_domain); ?>" href="#"><?= __('Regenerate Alias(es)', $this->plugin_text_domain); ?></a>.</p>
                 </div>
             <?php endif; ?>
 
@@ -209,7 +209,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
                 $current_section = str_replace('-', '_', $this->active_tab);
                 do_action("after_$current_section"); ?>
 
-                <?php if ($this->active_tab !== CAOS_Admin_Settings::CAOS_ADMIN_SECTION_HELP) : ?>
+                <?php if ($this->active_tab !== self::CAOS_ADMIN_SECTION_HELP) : ?>
                     <?php submit_button(__('Save Changes & Update', $this->plugin_text_domain), 'primary', 'submit', false); ?>
                 <?php endif; ?>
             </form>
@@ -443,7 +443,6 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         return '<span id="footer-thankyou">' . $text . '</span>';
     }
-
 
     /**
      * All logic to generate the news reel in the bottom right of the footer on all of OMGF's settings pages.
