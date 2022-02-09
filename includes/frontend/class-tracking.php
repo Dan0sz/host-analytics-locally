@@ -36,6 +36,13 @@ class CAOS_Frontend_Tracking
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
         add_action('init', [$this, 'insert_tracking_code']);
+
+        if (CAOS_OPT_COMPATIBILITY_MODE) {
+            // GDPRess runs at priority 0, CAOS needs to run before that.
+            add_action('shutdown', [$this, 'retrieve_html'], -1);
+            add_filter('caos_output', [$this, 'rewrite_urls']);
+        }
+
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_action('caos_process_settings', [$this, 'disable_advertising_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
@@ -49,20 +56,9 @@ class CAOS_Frontend_Tracking
      */
     public function insert_tracking_code()
     {
-        if (CAOS_OPT_COMPATIBILITY_MODE == 'woocommerce') {
-            add_filter('woocommerce_gtag_snippet', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
-            add_filter('woocommerce_google_analytics_script_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
-        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'seopress') {
-            add_action('seopress_gtag_html', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
-        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'rankmath') {
-            add_filter('rank_math/analytics/gtag', [$this, 'modify_gtag_js_snippet'], PHP_INT_MAX);
-        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'monster_insights') {
-            add_filter('monsterinsights_frontend_output_analytics_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
-            add_filter('monsterinsights_frontend_output_gtag_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
-        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'analytify') {
-            add_filter('analytify_output_ga_js_src', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
-        } elseif (CAOS_OPT_COMPATIBILITY_MODE == 'exact_metrics') {
-            add_filter('gadwp_analytics_script_path', [$this, 'return_analytics_js_url'], PHP_INT_MAX);
+        if (CAOS_OPT_COMPATIBILITY_MODE) {
+            // Start an output buffer to replace the externally loaded file later on.
+            ob_start();
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
@@ -113,6 +109,50 @@ class CAOS_Frontend_Tracking
                     break;
             }
         }
+    }
+
+    /**
+     * Fetches the entire buffer triggered at runtime.
+     * 
+     * @return void 
+     */
+    public function retrieve_html()
+    {
+        $output = '';
+        $level  = ob_get_level();
+
+        for ($i = 0; $i < $level; $i++) {
+            $output .= ob_get_clean();
+        }
+
+        echo apply_filters('caos_output', $output);
+    }
+
+    /**
+     * Rewrite all external URLs in $html.
+     * 
+     * @param mixed $html 
+     * @return mixed 
+     */
+    public function rewrite_urls($html)
+    {
+        $cache = content_url(CAOS_OPT_CACHE_DIR);
+
+        $search = [
+            '//www.googletagmanager.com/gtag/js',
+            'https://www.googletagmanager.com/gtag/js',
+            '//www.google-analytics.com/analytics.js',
+            'https://www.google-analytics.com/analytics.js'
+        ];
+
+        $replace = [
+            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('gtag')),
+            $cache . CAOS::get_file_alias('gtag'),
+            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('analytics')),
+            $cache . CAOS::get_file_alias('analytics')
+        ];
+
+        return str_replace($search, $replace, $html);
     }
 
     /**
