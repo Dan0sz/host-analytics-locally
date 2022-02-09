@@ -14,36 +14,29 @@ defined('ABSPATH') || exit;
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-
-class CAOS_DB
+class CAOS_DB_Migrate_V430 extends CAOS_DB_Migrate
 {
-    /** @var string */
-    private $current_version = '';
+    protected $migrate_option_names = [
+        'caos_analytics_compatibility_mode' => CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE
+    ];
+
+    protected $version = '4.3.0';
 
     /**
-     * DB Migration constructor.
+     * Build class
+     * 
+     * @return void 
      */
     public function __construct()
     {
-        $this->current_version = get_option(CAOS_Admin_Settings::CAOS_DB_VERSION);
+        $this->migrate_option_names();
 
-        if ($this->should_run_migration('4.2.2')) {
-            new CAOS_DB_Migrate_V422();
+        $compatibility_mode = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE);
+
+        if ($compatibility_mode) {
+            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, 'on');
         }
 
-        if ($this->should_run_migration('4.3.0')) {
-            new CAOS_DB_Migrate_V430();
-        }
-    }
-
-    /**
-     * Checks whether migration script has been run.
-     * 
-     * @param mixed $version 
-     * @return bool 
-     */
-    private function should_run_migration($version)
-    {
-        return version_compare($this->current_version, $version) < 0;
+        $this->update_db_version();
     }
 }
