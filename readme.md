@@ -3,42 +3,65 @@
 Automagically download and update analytics.js/gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
 
 ## Description
+
 CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
-Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com), which is basically Google Analytics Lite. An extremely lightweight alternative Google Analytics' default libraries (analytics.js/gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
+Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com), which is basically Google Analytics Lite. An extremely lightweight alternative to Google Analytics' default libraries (analytics.js/gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
-Please keep in mind that, although I try to make the configuration of this plugin as easy as possible, the concept of locally hosting a file or optimizing Google Analytics for *Pagespeed Insights* or *GT Metrix* has proven to be confusing for some people. If you're not sure of what your doing, please consult a SEO expert or Webdeveloper to help you with the configuration of this plugin. Or [hire me to do it for you](https://ffw.press/wordpress/caos-expert-configuration/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
-
-For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://docs.ffw.press/category/17-caos/?utm_source=github&utm_medium=description&utm_campaign=caos).
+For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://docs.ffw.press/category/17-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 ## Features
-- Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=github&utm_medium=description&utm_campaign=caos)),
-- Endlessly extensible using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
-- When using gtag.js, the underlying request to analytics.js is also hosted locally!
-- **[Bypass Ad Blockers](https://ffw.press/blog/how-to/bypass-ad-blockers-caos/?utm_source=github&utm_medium=description&utm_campaign=caos)** in Stealth Mode: Sneak past Security and protect your Google Analytics data,
-  - In Stealth Mode, requests to linkid.js and ec.js are also hosted locally,
-- Preconnect to google-analytics.com and CDN URL (if set) to reduce latency and speed up requests,
+- Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Downloaded files are renamed to random strings to avoid ad blockers,
+- Compatibility Mode allows you to use the locally hosted file with all Google Analytics plugins, e.g.
+  - MonsterInsights (Pro),
+  - ExactMetrics
+  - Site Kit by Google,
+  - WooCommerce Google Analytics Integration,
+  - WooCommerce Google Analytics Pro,
+  - Analytify,
+  - And many more!
+- Compatible with all Cookie Notice plugins, e.g.
+  - Complianz,
+  - CookieYes,
+  - WP Cookie Notice,
+  - Cookie Notice & Compliance,
+  - Cookie Notice & Consent Banner,
+  - And many more!
+- Minimal Analytics support,
+- Google Analytics V4 support (incl. Dual Tracking),
+- Preconnect to google-analytics.com to reduce latency and speed up requests,
+- Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
-- Integrate Google Optimize,
 - Enhanced link attribution,
-- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=github&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
-- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://ffw.press/blog/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=github&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify and Google Analytics Dashboard for WP by ExactMetrics,
 - Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
-- Set Adjusted Bounce Rate,
+- Set Site Speed Sample Rate,
+- Set [Adjusted Bounce Rate](https://ffw.press/blog/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - Change enqueue order (prioritize order of loaded scripts),
+- Enable Enhanced Link Attribution (linkid.js),
 - Force disabling display features functionalities,
-- Anonymize IP addresses,
+- Anonymize IP addresses (last octet),
 - Track logged in Administrators,
-- Remove script from wp-cron, so you can add it manually to your Crontab,
-- Manually update analytics.js/gtag.js with the click of a button!
+- Endlessly extensible for developers by using the integrated filters and available mini plugins.
+
+##  Features in CAOS Pro
+Use Google Analytics in [compliance with GDPR](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
+- Cookieless Analytics (which grants a fresh, untraceable UUID/ClientID to each visitor),
+- True IP anonymization (which anonymizes the last 2 octets of your user's IP address, e.g. 192.168.0.0 *before* sending it to Google Analytics),
+- Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it overseas, i.e. the US).
+
+# Other features
+- Cloaked Affiliate Link Tracking,
+- Support for Enhanced Ecommerce when in Stealth Mode,
+- Cloudflare Compatibility Mode.
 
 ## Installation
 

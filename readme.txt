@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.9
-Stable tag: 4.2.6
+Stable tag: 4.3.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,29 +18,36 @@ Not a big Google Analytics user and just curious about your pageviews? CAOS full
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). CAOS is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
 For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://docs.ffw.press/category/17-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
 - Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Downloaded files are renamed to random strings to avoid ad blockers,
+- Compatibility Mode allows you to use the locally hosted file with all Google Analytics plugins, e.g.
+  - MonsterInsights (Pro),
+  - ExactMetrics
+  - Site Kit by Google,
+  - WooCommerce Google Analytics Integration,
+  - WooCommerce Google Analytics Pro,
+  - Analytify,
+  - And many more!
+- Compatible with all Cookie Notice plugins, e.g.
+  - Complianz,
+  - CookieYes,
+  - WP Cookie Notice,
+  - Cookie Notice & Compliance,
+  - Cookie Notice & Consent Banner,
+  - And many more!
 - Minimal Analytics support,
 - Google Analytics V4 support (incl. Dual Tracking),
-- Endlessly extensible for developers by using the integrated filters and available mini plugins! E.g. [track Google Adwords conversions](https://github.com/Dan0sz/caos-google-adwords) and much, much more!
-- **[Bypass Ad Blockers](https://ffw.press/blog/how-to/bypass-ad-blockers-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)** in Stealth Mode,
-  - Plugins (e.g. linkid.js) are also served from a local source when in Stealth Mode!
-  - *[CAOS Pro](https://ffw.press/wordpress/caos-pro/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) adds compatibility with Enhanced Ecommerce (ec.js) and Analytics' Ecommerce Features (ecommerce.js).*
-- Enable Cookieless Analytics (CAOS Pro required),
-- Preconnect to google-analytics.com to reduce latency and speed up requests (if not using Stealth Mode),
+- Preconnect to google-analytics.com to reduce latency and speed up requests,
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - Capture outbound links,
-- Integrate Google Optimize,
 - Enhanced link attribution,
-- Allow tracking always or only when a certain cookie exists or has a value -- [Read more about GDPR Compliance](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - **Add tracking code** to header, **footer** or manually,
 - Load the tracking snippet Asynchronous or Default (Synchronous)
-- Fully compatible with [Google Analytics Dashboard Plugin for WP by MonsterInsights](https://ffw.press/blog/wordpress/leverage-browser-caching-host-analytics-local-monster-insights/?utm_source=wordpress&utm_medium=description&utm_campaign=caos), WooCommerce Google Analytics Integration, Google Analytics Dashboard Plugin for WP by Analytify, RankMath SEO, SEOPress and Google Analytics Dashboard for WP by ExactMetrics,
 - Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
@@ -49,9 +56,20 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 - Change enqueue order (prioritize order of loaded scripts),
 - Enable Enhanced Link Attribution (linkid.js),
 - Force disabling display features functionalities,
-- Anonymize IP addresses,
+- Anonymize IP addresses (last octet),
 - Track logged in Administrators,
-- Manually update analytics.js/gtag.js with the click of a button!
+- Endlessly extensible for developers by using the integrated filters and available mini plugins.
+
+== Features in CAOS Pro ==
+Use Google Analytics in [compliance with GDPR](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
+- Cookieless Analytics (which grants a fresh, untraceable UUID/ClientID to each visitor),
+- True IP anonymization (which anonymizes the last 2 octets of your user's IP address, e.g. 192.168.0.0 *before* sending it to Google Analytics),
+- Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it overseas, i.e. the US).
+
+Other features:
+- Cloaked Affiliate Link Tracking,
+- Support for Enhanced Ecommerce when in Stealth Mode,
+- Cloudflare Compatibility Mode.
 
 == Installation ==
 
@@ -68,6 +86,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.3.0 =
+* Added: CAOS is now compatible with **all** Google Analytics plugins! (I finally figured it out, yay! 🎉)
+         That's why Compatibility Mode is now merely a checkbox.
+* Fixed: Minor tweaks.
 
 = 4.2.6 =
 * Fixed: undefined constant.
