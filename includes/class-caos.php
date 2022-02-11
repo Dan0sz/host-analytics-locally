@@ -81,7 +81,7 @@ class CAOS
         define('CAOS_OPT_SNIPPET_TYPE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE)));
         define('CAOS_OPT_SCRIPT_POSITION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION)) ?: 'header');
         define('CAOS_OPT_COMPATIBILITY_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE)) ?: '');
-        define('CAOS_OPT_COOKIE_EXPIRY_DAYS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS, 30)));
+        define('CAOS_OPT_SESSION_EXPIRY_DAYS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30)));
         define('CAOS_OPT_SITE_SPEED_SAMPLE_RATE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1)));
         define('CAOS_OPT_ADJUSTED_BOUNCE_RATE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE)));
         define('CAOS_OPT_ENQUEUE_ORDER', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER)) ?: 10);
@@ -96,7 +96,7 @@ class CAOS
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
         define('CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
-        define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_COOKIE_EXPIRY_DAYS ? CAOS_OPT_COOKIE_EXPIRY_DAYS * 86400 : 2592000);
+        define('CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_SESSION_EXPIRY_DAYS ? CAOS_OPT_SESSION_EXPIRY_DAYS * 86400 : 2592000);
         define('CAOS_CRON', 'caos_update_analytics_js');
         define('CAOS_GA_URL', 'https://www.google-analytics.com');
         define('CAOS_GTM_URL', 'https://www.googletagmanager.com');

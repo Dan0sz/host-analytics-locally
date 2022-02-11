@@ -81,7 +81,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADV_SETTING_COOKIELESS_ANALYTICS     = 'caos_cookieless_analytics';
     const CAOS_ADV_SETTING_CACHE_DIR                = 'caos_analytics_cache_dir';
     const CAOS_ADV_SETTING_CDN_URL                  = 'caos_analytics_cdn_url';
-    const CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
+    const CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS    = 'sgal_ga_cookie_expiry_days';
     const CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE     = 'sgal_adjusted_bounce_rate';
     const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE   = 'caos_site_speed_sample_rate';
     const CAOS_ADV_SETTING_ENQUEUE_ORDER            = 'sgal_enqueue_order';

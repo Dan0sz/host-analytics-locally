@@ -31,19 +31,19 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Content
         add_filter('caos_advanced_settings_content', [$this, 'do_compatibility_mode'], 30);
-        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 50);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 60);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 70);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 80);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 90);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 40);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 50);
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookie_expiry'], 110);
-        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 120);
-        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 130);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 110);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 130);
+        add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 140);
+        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 160);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 170);
+        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 180);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
@@ -205,13 +205,13 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     /**
      * Cookie expiry period (days)
      */
-    public function do_cookie_expiry()
+    public function do_session_expiry()
     {
         $this->do_number(
-            __('Cookie expiry period (days)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_COOKIE_EXPIRY_DAYS,
-            CAOS_OPT_COOKIE_EXPIRY_DAYS,
-            __('The number of days when the cookie will automatically expire. Defaults to 30 days.', $this->plugin_text_domain)
+            __('Session expiry period (days)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS,
+            CAOS_OPT_SESSION_EXPIRY_DAYS,
+            __('The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', $this->plugin_text_domain)
         );
     }
 
