@@ -37,7 +37,7 @@ class CAOS_Frontend_Tracking
 
         add_action('init', [$this, 'insert_tracking_code']);
 
-        if (CAOS_OPT_COMPATIBILITY_MODE) {
+        if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             // GDPRess runs at priority 0, CAOS needs to run before that.
             add_action('shutdown', [$this, 'retrieve_html'], -1);
             add_filter('caos_output', [$this, 'rewrite_urls']);
@@ -56,7 +56,7 @@ class CAOS_Frontend_Tracking
      */
     public function insert_tracking_code()
     {
-        if (CAOS_OPT_COMPATIBILITY_MODE) {
+        if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             // Start an output buffer to replace the externally loaded file later on.
             ob_start();
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
