@@ -38,9 +38,21 @@ class CAOS_Frontend_Tracking
         add_action('init', [$this, 'insert_tracking_code']);
 
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
-            // GDPRess runs at priority 0, CAOS needs to run before that.
-            add_action('shutdown', [$this, 'retrieve_html'], -1);
-            add_filter('caos_output', [$this, 'rewrite_urls']);
+            /**
+             * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
+             *               so the output buffer should be returned instead of echo'd. We still
+             *               use the same filter, though.
+             */
+            add_filter('caos_output', [$this, 'insert_local_file']);
+
+            if ($this->page_cache_plugin_active()) {
+                add_action('template_redirect', function () {
+                    ob_start([$this, 'return_buffer']);
+                }, 1);
+            } else {
+                // GDPRess runs at priority 0, CAOS needs to run before that.
+                add_action('shutdown', [$this, 'echo_buffer'], -1);
+            }
         }
 
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
@@ -57,8 +69,13 @@ class CAOS_Frontend_Tracking
     public function insert_tracking_code()
     {
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
-            // Start an output buffer to replace the externally loaded file later on.
-            ob_start();
+            /**
+             * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
+             *               so the output buffer isn't needed.
+             */
+            if (!$this->page_cache_plugin_active()) {
+                ob_start();
+            }
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
@@ -112,20 +129,62 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * Fetches the entire buffer triggered at runtime.
+     * @since v4.3.1 Used to test if a Page Caching plugin is active, so the alternate return_buffer()
+     *               can be used.
+     * 
+     *               Currently tests:
+     *               - WP Rocket
+     * 
+     *               
+     * @todo         Not tested (yet):
+     *               - Asset Cleanup Pro
+     *               - Autoptimize
+     *               - WP Fastest Cache
+     *               - WP Super Cache
+     *               - Kinsta Cache
+     *               - Swift Performance
+     *               - W3 Total Cache
+     *               - WP Optimize
+     * 
+     * @return bool 
+     */
+    public function page_cache_plugin_active()
+    {
+        return defined('WP_ROCKET_CACHE_PATH');
+    }
+
+    /**
+     * Returns the buffer for filtering.
+     * 
+     * @since v4.3.1 Introduced as an alternative method for page caching plugins.
+     *               
+     *               Tested with:
+     *               - WP Rocket v3.8.8:
+     *                 - Page Cache: enabled (works)
+     *                 - JS/CSS minify/combine: enabled (works)
      * 
      * @return void 
      */
-    public function retrieve_html()
+    public function return_buffer($html)
     {
-        $output = '';
+        return apply_filters('caos_output', $html);
+    }
+
+    /**
+     * Gets every level of the buffer and outputs it for filtering.
+     * 
+     * @return void 
+     */
+    public function echo_buffer()
+    {
+        $buffer = '';
         $level  = ob_get_level();
 
         for ($i = 0; $i < $level; $i++) {
-            $output .= ob_get_clean();
+            $buffer .= ob_get_clean();
         }
 
-        echo apply_filters('caos_output', $output);
+        echo apply_filters('caos_output', $buffer);
     }
 
     /**
@@ -134,8 +193,12 @@ class CAOS_Frontend_Tracking
      * @param mixed $html 
      * @return mixed 
      */
-    public function rewrite_urls($html)
+    public function insert_local_file($html)
     {
+        if (!$html) {
+            return $html;
+        }
+
         $cache = content_url(CAOS_OPT_CACHE_DIR);
 
         $search = [
