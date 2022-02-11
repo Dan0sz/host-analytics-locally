@@ -36,25 +36,6 @@ class CAOS_Frontend_Tracking
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
         add_action('init', [$this, 'insert_tracking_code']);
-
-        if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
-            /**
-             * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
-             *               so the output buffer should be returned instead of echo'd. We still
-             *               use the same filter, though.
-             */
-            add_filter('caos_output', [$this, 'insert_local_file']);
-
-            if ($this->page_cache_plugin_active()) {
-                add_action('template_redirect', function () {
-                    ob_start([$this, 'return_buffer']);
-                }, 1);
-            } else {
-                // GDPRess runs at priority 0, CAOS needs to run before that.
-                add_action('shutdown', [$this, 'echo_buffer'], -1);
-            }
-        }
-
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_action('caos_process_settings', [$this, 'disable_advertising_features']);
         add_action('caos_process_settings', [$this, 'anonymize_ip']);
@@ -71,10 +52,19 @@ class CAOS_Frontend_Tracking
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             /**
              * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
-             *               so the output buffer isn't needed.
+             *               so the output buffer should be returned instead of echo'd. We still
+             *               use the same filter, though.
              */
-            if (!$this->page_cache_plugin_active()) {
+            add_filter('caos_output', [$this, 'insert_local_file']);
+
+            if ($this->page_cache_plugin_active()) {
+                add_action('template_redirect', function () {
+                    ob_start([$this, 'return_buffer']);
+                }, 1);
+            } else {
                 ob_start();
+                // GDPRess runs at priority 0, CAOS needs to run before that.
+                add_action('shutdown', [$this, 'echo_buffer'], -1);
             }
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
@@ -134,8 +124,8 @@ class CAOS_Frontend_Tracking
      * 
      *               Currently tests:
      *               - WP Rocket
-     * 
-     *               
+     *               - W3 Total Cache
+     *   
      * @todo         Not tested (yet):
      *               - Asset Cleanup Pro
      *               - Autoptimize
@@ -143,14 +133,13 @@ class CAOS_Frontend_Tracking
      *               - WP Super Cache
      *               - Kinsta Cache
      *               - Swift Performance
-     *               - W3 Total Cache
      *               - WP Optimize
      * 
      * @return bool 
      */
     public function page_cache_plugin_active()
     {
-        return defined('WP_ROCKET_CACHE_PATH');
+        return defined('WP_ROCKET_CACHE_PATH') || defined('W3TC');
     }
 
     /**
