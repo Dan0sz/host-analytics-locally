@@ -71,8 +71,8 @@ class CAOS_Frontend_Tracking
              *               though.
              */
             add_filter('caos_buffer_output', [$this, 'insert_local_file']);
-            // Autoptimize at 2. OMGF at 3. GDPRess at 5.
-            add_action('template_redirect', [$this, 'maybe_buffer_output'], 4);
+            // Autoptimize at 2. OMGF at 3. GDPRess at 4.
+            add_action('template_redirect', [$this, 'maybe_buffer_output'], 3);
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
