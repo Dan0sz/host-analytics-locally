@@ -128,6 +128,7 @@ class CAOS_Frontend_Tracking
     /**
      * Rewrite all external URLs in $html.
      * 
+     * @filter caos_buffer_output
      * @param mixed $html 
      * @return mixed 
      */
@@ -154,6 +155,8 @@ class CAOS_Frontend_Tracking
 
     /**
      * Start output buffer.
+     * 
+     * @action template_redirect
      * 
      * @return void 
      */
