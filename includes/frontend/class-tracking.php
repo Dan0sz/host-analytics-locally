@@ -21,6 +21,21 @@ class CAOS_Frontend_Tracking
 {
     const CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS = 'caos-track-ad-blockers';
 
+    /**
+     * @var array $page_builders Array of keys set by page builders when they're displaying their previews.
+     */
+    private $page_builders = [
+        'bt-beaverbuildertheme',
+        'ct_builder',
+        'elementor-preview',
+        'et_fb',
+        'fb-edit',
+        'fl_builder',
+        'siteorigin_panels_live_editor',
+        'tve',
+        'vc_action'
+    ];
+
     /** @var string $handle */
     public $handle = '';
 
@@ -55,17 +70,9 @@ class CAOS_Frontend_Tracking
              *               to prevent breaking the page cache. We still use the same filter, 
              *               though.
              */
-            add_filter('caos_output', [$this, 'insert_local_file']);
-
-            if ($this->page_cache_plugin_active()) {
-                add_action('template_redirect', function () {
-                    ob_start([$this, 'return_buffer']);
-                }, 1);
-            } else {
-                ob_start();
-                // GDPRess runs at priority 0, CAOS needs to run before that.
-                add_action('shutdown', [$this, 'echo_buffer'], -1);
-            }
+            add_filter('caos_buffer_output', [$this, 'insert_local_file']);
+            // Autoptimize at 2. OMGF at 3. CAOS Compatibility Mode runs at 4.
+            add_action('template_redirect', [$this, 'maybe_buffer_output'], 4);
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
@@ -119,35 +126,64 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * @since v4.3.1 Tests if a Page Caching plugin is active, so the alternate return_buffer()
-     *               can be used.
+     * Rewrite all external URLs in $html.
      * 
-     *               Currently tests: (in alphabetical order)
-     *               - Cache Enabler
-     *               - W3 Total Cache
-     *               - WP Fastest Cache
-     *               - WP Rocket
-     *               - WP Super Cache
-     * 
-     *               Tested but not needed: (subject to change)
-     *               - Autoptimize
-     *               - WP Optimize
-     *   
-     * @todo         Not tested (yet):
-     *               - Asset Cleanup Pro
-     *               - Kinsta Cache (Same as Cache Enabler?)
-     *               - Swift Performance
-     * 
-     * @return bool 
+     * @param mixed $html 
+     * @return mixed 
      */
-    public function page_cache_plugin_active()
+    public function insert_local_file($html)
     {
-        // In alphabetical order
-        return class_exists('Cache_Enabler')
-            || defined('W3TC')
-            || class_exists('WpFastestCache')
-            || defined('WP_ROCKET_CACHE_PATH')
-            || function_exists('wpsc_init');
+        $cache = content_url(CAOS_OPT_CACHE_DIR);
+
+        $search = [
+            '//www.googletagmanager.com/gtag/js',
+            'https://www.googletagmanager.com/gtag/js',
+            '//www.google-analytics.com/analytics.js',
+            'https://www.google-analytics.com/analytics.js'
+        ];
+
+        $replace = [
+            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('gtag')),
+            $cache . CAOS::get_file_alias('gtag'),
+            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('analytics')),
+            $cache . CAOS::get_file_alias('analytics')
+        ];
+
+        return str_replace($search, $replace, $html);
+    }
+
+    /**
+     * Start output buffer.
+     * 
+     * @return void 
+     */
+    public function maybe_buffer_output()
+    {
+        $start = true;
+
+        /**
+         * Make sure Page Builder previews don't get optimized content.
+         */
+        foreach ($this->page_builders as $page_builder) {
+            if (array_key_exists($page_builder, $_GET)) {
+                $start = false;
+                break;
+            }
+        }
+
+        /**
+         * Customizer previews shouldn't get optimized content.
+         */
+        if (function_exists('is_customize_preview')) {
+            $start = !is_customize_preview();
+        }
+
+        /**
+         * Let's GO!
+         */
+        if ($start) {
+            ob_start([$this, 'return_buffer']);
+        }
     }
 
     /**
@@ -168,60 +204,21 @@ class CAOS_Frontend_Tracking
      *                 - JS/CSS minify/combine: Enabled
      *               - WP Super Cache v1.7.4
      *                 - Page Cache: Enabled
+     * 
+     * @todo         Not tested (yet):
+     *               - Asset Cleanup Pro
+     *               - Kinsta Cache (Same as Cache Enabler?)
+     *               - Swift Performance
      *  
      * @return void 
      */
     public function return_buffer($html)
     {
-        return apply_filters('caos_output', $html);
-    }
-
-    /**
-     * Gets every level of the buffer and outputs it for filtering.
-     * 
-     * @return void 
-     */
-    public function echo_buffer()
-    {
-        $buffer = '';
-        $level  = ob_get_level();
-
-        for ($i = 0; $i < $level; $i++) {
-            $buffer .= ob_get_clean();
-        }
-
-        echo apply_filters('caos_output', $buffer);
-    }
-
-    /**
-     * Rewrite all external URLs in $html.
-     * 
-     * @param mixed $html 
-     * @return mixed 
-     */
-    public function insert_local_file($html)
-    {
         if (!$html) {
             return $html;
         }
 
-        $cache = content_url(CAOS_OPT_CACHE_DIR);
-
-        $search = [
-            '//www.googletagmanager.com/gtag/js',
-            'https://www.googletagmanager.com/gtag/js',
-            '//www.google-analytics.com/analytics.js',
-            'https://www.google-analytics.com/analytics.js'
-        ];
-
-        $replace = [
-            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('gtag')),
-            $cache . CAOS::get_file_alias('gtag'),
-            str_replace(['https:', 'http:'], '', $cache . CAOS::get_file_alias('analytics')),
-            $cache . CAOS::get_file_alias('analytics')
-        ];
-
-        return str_replace($search, $replace, $html);
+        return apply_filters('caos_buffer_output', $html);
     }
 
     /**
