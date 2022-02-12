@@ -52,8 +52,8 @@ class CAOS_Frontend_Tracking
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             /**
              * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
-             *               so the output buffer should be returned instead of echo'd. We still
-             *               use the same filter, though.
+             *               to prevent breaking the page cache. We still use the same filter, 
+             *               though.
              */
             add_filter('caos_output', [$this, 'insert_local_file']);
 
@@ -119,19 +119,22 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * @since v4.3.1 Used to test if a Page Caching plugin is active, so the alternate return_buffer()
+     * @since v4.3.1 Tests if a Page Caching plugin is active, so the alternate return_buffer()
      *               can be used.
      * 
-     *               Currently tests:
+     *               Currently tests: (in alphabetical order)
+     *               - Cache Enabler
      *               - W3 Total Cache
      *               - WP Fastest Cache
      *               - WP Rocket
+     *               - WP Super Cache
+     * 
+     *               Tested but not needed:
+     *               - Autoptimize
      *   
      * @todo         Not tested (yet):
      *               - Asset Cleanup Pro
-     *               - Autoptimize
-     *               - WP Super Cache
-     *               - Kinsta Cache
+     *               - Kinsta Cache (Same as Cache Enabler?)
      *               - Swift Performance
      *               - WP Optimize
      * 
@@ -139,15 +142,20 @@ class CAOS_Frontend_Tracking
      */
     public function page_cache_plugin_active()
     {
-        return defined('WP_ROCKET_CACHE_PATH')
+        // In alphabetical order
+        return class_exists('Cache_Enabler')
             || defined('W3TC')
-            || class_exists('WpFastestCache');
+            || class_exists('WpFastestCache')
+            || defined('WP_ROCKET_CACHE_PATH')
+            || function_exists('wpsc_init');
     }
 
     /**
      * Returns the buffer for filtering, so page cache doesn't break.
      * 
      * @since v4.3.1 Tested with:
+     *               - Cache Enabler v1.8.7
+     *                 - Default Settings
      *               - W3 Total Cache v2.2.1:
      *                 - Page Cache: Disk (basic)
      *                 - Database/Object Cache: Off
@@ -156,9 +164,11 @@ class CAOS_Frontend_Tracking
      *                 - JS/CSS minify/combine: On
      *                 - Page Cache: On
      *               - WP Rocket v3.8.8:
-     *                 - Page Cache: enabled (works)
-     *                 - JS/CSS minify/combine: enabled (works)
-     * 
+     *                 - Page Cache: Enabled
+     *                 - JS/CSS minify/combine: Enabled
+     *               - WP Super Cache v1.7.4
+     *                 - Page Cache: Enabled
+     *  
      * @return void 
      */
     public function return_buffer($html)
