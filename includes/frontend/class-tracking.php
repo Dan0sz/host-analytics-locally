@@ -129,14 +129,14 @@ class CAOS_Frontend_Tracking
      *               - WP Rocket
      *               - WP Super Cache
      * 
-     *               Tested but not needed:
+     *               Tested but not needed: (subject to change)
      *               - Autoptimize
+     *               - WP Optimize
      *   
      * @todo         Not tested (yet):
      *               - Asset Cleanup Pro
      *               - Kinsta Cache (Same as Cache Enabler?)
      *               - Swift Performance
-     *               - WP Optimize
      * 
      * @return bool 
      */
