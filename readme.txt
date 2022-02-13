@@ -95,11 +95,12 @@ N/A
   - WP Optimize
   - WP Rocket
   - WP Super Cache
-* Fixed: Compatibility mode would break previews of page builders. Tested with:
+* Fixed: Compatibility Mode would break previews of page builders. Tested with:
   - Beaver Builder
   - Divi
   - Elementor
   - Visual Composer
+* Fixed: Compatibility Mode would break WordPress' Customizer preview.
 
 = 4.3.0 =
 * Added: CAOS is now compatible with **all** Google Analytics plugins! (I finally figured it out, yay! 🎉)
