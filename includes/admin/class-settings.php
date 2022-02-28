@@ -475,8 +475,9 @@ class CAOS_Admin_Settings extends CAOS_Admin
         }
 
         /**
-         * Make sure the XML is properly encoded.
+         * Mute errors and make sure the XML is properly encoded.
          */
+        libxml_use_internal_errors(true);
         $xml = utf8_encode(html_entity_decode($xml));
         $xml = simplexml_load_string($xml);
 
