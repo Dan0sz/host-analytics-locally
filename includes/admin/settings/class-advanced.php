@@ -33,10 +33,10 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_compatibility_mode'], 30);
         add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 40);
         add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 50);
+        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 110);
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
-        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 130);
         add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 140);
