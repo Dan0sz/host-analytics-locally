@@ -24,20 +24,21 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
     'cookieExpires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookieFlags'   => 'samesite=none;secure'
 ));
-?>
 
-<script>
+$custom_attributes = apply_filters('caos_analytics_custom_attributes', '');
+?>
+<script<?php echo $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     window.ga = window.ga || function() {
-        (ga.q = ga.q || []).push(arguments);
+    (ga.q = ga.q || []).push(arguments);
     };
     ga.l = +new Date;
 
     <?php if (apply_filters('caos_analytics_use_local_storage', false)) : ?>
         if (window.localStorage) {
-            ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
+        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
         } else {
-            <?php $createConfig['clientId'] = ''; ?>
-            ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>)
+        <?php $createConfig['clientId'] = ''; ?>
+        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>)
         }
     <?php else : ?>
         ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
@@ -67,4 +68,4 @@ $createConfig = apply_filters('caos_analytics_ga_create_config', array(
         var event = new Event('caos_track_ad_blockers');
         document.dispatchEvent(event);
     <?php endif; ?>
-</script>
+    </script>
