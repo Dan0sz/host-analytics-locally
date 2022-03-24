@@ -24,16 +24,18 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
     'cookie_expires' => CAOS_COOKIE_EXPIRY_SECONDS,
     'cookie_flags'   => 'samesite=none;secure'
 ), CAOS_OPT_TRACKING_ID);
-?>
 
-<script>
+$custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
+?>
+<script<?php echo $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
-        dataLayer.push(arguments);
+    dataLayer.push(arguments);
     }
     gtag('js', new Date());
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
+    gtag('event', 'page_view');
     <?=
     /**
      * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
@@ -49,4 +51,4 @@ $caosGtagConfig = apply_filters('caos_gtag_config', array(
         var event = new Event('caos_track_ad_blockers');
         document.dispatchEvent(event);
     <?php endif; ?>
-</script>
+    </script>
