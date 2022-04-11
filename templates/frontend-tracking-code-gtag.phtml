@@ -35,7 +35,6 @@ $custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
     }
     gtag('js', new Date());
     gtag('config', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($caosGtagConfig); ?>);
-    gtag('event', 'page_view');
     <?=
     /**
      * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
