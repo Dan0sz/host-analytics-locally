@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.9
-Stable tag: 4.3.1
+Stable tag: 4.3.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/categ
 N/A
 
 == Changelog ==
+
+= 4.3.2 =
+* Added: filter caos_gtag_custom_attributes and caos_analytics_custom_attributes to add custom attributes to script tag.
+* Fixed: File to Download couldn't be changed when using Compatibility Mode.
+* Fixed: Mute XML errors when loading news reel.
 
 = 4.3.1 =
 * Fixed (hopefully): CAOS Compatibility Mode would break page caching. Tested with:
