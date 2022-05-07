@@ -20,7 +20,7 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
-For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://docs.ffw.press/category/17-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://ffw.press/docs/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
 - Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
@@ -79,7 +79,7 @@ Other features:
 
 == Frequently Asked Questions ==
 
-For CAOS' FAQ and Troubleshooting, [visit the docs](https://docs.ffw.press/category/33-caos---troubleshooting).
+For CAOS' FAQ and Troubleshooting, [visit the docs](https://ffw.press/docs/caos-troubleshooting/).
 
 == Screenshots ==
 
