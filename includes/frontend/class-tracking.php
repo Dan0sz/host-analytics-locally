@@ -359,7 +359,7 @@ class CAOS_Frontend_Tracking
      */
     public function dual_tracking()
     {
-        if (CAOS_OPT_DUAL_TRACKING !== 'on' || CAOS_OPT_DUAL_TRACKING !== 'on' && !$this->is_gtag()) {
+        if ($this->is_ga4() || !$this->is_gtag()) {
             return;
         }
 
@@ -373,6 +373,15 @@ class CAOS_Frontend_Tracking
             gtag('config', '<?= $measurement_id; ?>');
         <?php
         });
+    }
+
+    /**
+     * Dual tracking uses the GA3 gtag.js library, this method explicitly checks if a Measurement ID (GA4) is set as a Tracking ID (GA3).
+     * @return bool 
+     */
+    private function is_ga4()
+    {
+        return strpos(CAOS_OPT_TRACKING_ID, 'G-') === 0;
     }
 
     /**
