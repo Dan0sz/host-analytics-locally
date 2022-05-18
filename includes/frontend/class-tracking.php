@@ -353,7 +353,7 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     * Add GA4 Measurement ID to Gtag tracking code.
+     * Add GA4 Measurement ID to Gtag (GA3) tracking code.
      *
      * @return void 
      */
