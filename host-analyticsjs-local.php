@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
  * Plugin Name: CAOS
  * Plugin URI: https://ffw.press/wordpress/caos/
  * Description: Completely optimize Google Analytics for your Wordpress Website - host analytics.js/gtag.js locally or use Minimal Analytics, bypass Ad Blockers in Stealth Mode, capture outbound links, and much more!
- * Version: 4.3.2
+ * Version: 4.3.3
  * Author: Daan from FFW.Press
  * Author URI: https://ffw.press/
  * License: GPL2v2 or later
@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
 define('CAOS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CAOS_PLUGIN_FILE', __FILE__);
 define('CAOS_PLUGIN_BASENAME', plugin_basename(CAOS_PLUGIN_FILE));
-define('CAOS_STATIC_VERSION', '4.3.2');
+define('CAOS_STATIC_VERSION', '4.3.3');
 define('CAOS_DB_VERSION', '4.3.0');
 
 /**

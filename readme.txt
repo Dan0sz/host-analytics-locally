@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 5.9
-Stable tag: 4.3.2
+Stable tag: 4.3.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,12 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://ffw.press/docs/caos-
 N/A
 
 == Changelog ==
+
+= 4.3.3 =
+* Fixed: do not escape slashes when encoding the tracking code's config section.
+* Fixed: Links to documentation updated.
+* Fixed: double pageview hits when using GA4.
+* UX: When dual tracking is enabled, switch to gtag.js automatically.
 
 = 4.3.2 =
 * Added: filter caos_gtag_custom_attributes and caos_analytics_custom_attributes to add custom attributes to script tag.
