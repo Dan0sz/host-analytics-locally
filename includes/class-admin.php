@@ -102,7 +102,15 @@ class CAOS_Admin
             return $new_tracking_id;
         }
 
-        if (substr($new_tracking_id, 0, 2) == 'G-') {
+        $is_ga4    = substr($new_tracking_id, 0, 2) == 'G-';
+        $is_dt     = CAOS_OPT_DUAL_TRACKING && strpos(CAOS_OPT_GA4_MEASUREMENT_ID, 'G-') !== false;
+        $dt_notice = '';
+
+        if ($is_ga4 && $is_dt) {
+            $title     = 'Universal Analytics';
+            $filename  = 'gtag.js';
+            $dt_notice = 'but enabled Dual Tracking,';
+        } elseif ($is_ga4) {
             $title    = 'Google Analytics 4';
             $filename = 'gtag-v4.js';
 
@@ -119,7 +127,7 @@ class CAOS_Admin
         update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, $filename);
 
         CAOS_Admin_Notice::set_notice(
-            sprintf(__('Since you\'ve entered a %s ID, the <em>file to download</em> was changed to %s.', $this->plugin_text_domain), $title, $filename),
+            sprintf(__('Since you\'ve entered a %s ID, %s the <em>file to download</em> was changed to %s.', $this->plugin_text_domain), $title, $dt_notice, $filename),
             'warning'
         );
 
