@@ -55,11 +55,13 @@ class CAOS_Ajax
             return;
         }
 
-        $filesystem = CAOS::filesystem();
-        $path       = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR;
+        $path = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR;
 
         foreach ($caos_file_aliases as $file => $alias) {
-            $filesystem->delete($path . $alias);
+            if (file_exists($path . $alias)) {
+                unlink($path . $alias);
+            }
+
             $caos_file_aliases[$file] = bin2hex(random_bytes(4)) . '.js';
         }
 

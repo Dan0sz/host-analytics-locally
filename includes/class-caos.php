@@ -439,21 +439,4 @@ class CAOS
 
         return $file_manager->find_replace_in($file, $find, $replace);
     }
-
-    /**
-     * Helper to return WordPress filesystem subclass.
-     *
-     * @return WP_Filesystem_Base $wp_filesystem
-     */
-    public static function filesystem()
-    {
-        global $wp_filesystem;
-
-        if (is_null($wp_filesystem)) {
-            require_once ABSPATH . '/wp-admin/includes/file.php';
-            WP_Filesystem();
-        }
-
-        return $wp_filesystem;
-    }
 }

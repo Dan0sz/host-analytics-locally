@@ -106,7 +106,7 @@ class CAOS_FileManager
             }
         }
 
-        $write = CAOS::filesystem()->put_contents($local_dir . $file_alias, $this->file_contents['body']);
+        $write = file_put_contents($local_dir . $file_alias, $this->file_contents['body']);
 
         if ($write) {
             CAOS::debug(sprintf(__('File %s successfully saved.', $this->plugin_text_domain), $file_alias));
