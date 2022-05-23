@@ -87,6 +87,10 @@ N/A
 
 == Changelog ==
 
+= 4.3.4 =
+* Fixed: don't use WP_Filemanager to get and put file contents.
+* Fixed: updated links to new documentation hub.
+
 = 4.3.3 =
 * Fixed: do not escape slashes when encoding the tracking code's config section.
 * Fixed: Links to documentation updated.
