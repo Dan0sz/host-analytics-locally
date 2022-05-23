@@ -173,7 +173,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
             CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
             CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://docs.ffw.press/article/30-basic-settings' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://ffw.press/docs/caos/basic-settings/' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
         );
     }
 

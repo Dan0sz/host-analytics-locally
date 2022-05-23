@@ -46,10 +46,10 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder
                             <?php _e('Need Help?', $this->plugin_text_domain); ?>
                         </h3>
                         <ul>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_quick_start', 'https://docs.ffw.press/article/63-quick-start-caos'); ?>"><i class="dashicons dashicons-controls-play"></i><?= __('Quick Start Guide', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_user_manual', 'https://docs.ffw.press/category/17-caos'); ?>"><i class="dashicons dashicons-text-page"></i><?= __('User Manual', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_faq_link', 'https://docs.ffw.press/category/33-caos---troubleshooting'); ?>"><i class="dashicons dashicons-editor-help"></i><?= __('FAQ & Troubleshooting', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_support_link', 'https://docs.ffw.press/'); ?>"><i class="dashicons dashicons-bell"></i><?= __('Get Support', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_quick_start', 'https://ffw.press/docs/caos/quick-start-caos/'); ?>"><i class="dashicons dashicons-controls-play"></i><?= __('Quick Start Guide', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_user_manual', 'https://ffw.press/docs/caos/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-text-page"></i><?= __('User Manual', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_faq_link', 'https://ffw.press/docs/caos-troubleshooting/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-editor-help"></i><?= __('FAQ & Troubleshooting', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_support_link', 'https://ffw.press/contact/'); ?>"><i class="dashicons dashicons-bell"></i><?= __('Get Support', $this->plugin_text_domain); ?></a></li>
                         </ul>
                     </div>
                     <div class="column">
