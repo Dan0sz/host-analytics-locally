@@ -31,19 +31,19 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 
         // Content
         add_filter('caos_advanced_settings_content', [$this, 'do_compatibility_mode'], 30);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 40);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 50);
-        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 110);
+        add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 40);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 50);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 60);
 
         // Non Compatibility Mode settings.
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 120);
-        add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 130);
-        add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 170);
-        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 180);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 110);
+        add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 120);
+        add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 130);
+        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 140);
+        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 160);
+        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 170);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
