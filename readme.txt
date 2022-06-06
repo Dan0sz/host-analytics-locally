@@ -2,8 +2,8 @@
 Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
-Tested up to: 5.9
-Stable tag: 4.3.4
+Tested up to: 6.0
+Stable tag: 4.3.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://ffw.press/docs/caos-
 N/A
 
 == Changelog ==
+
+= 4.3.5 | June 6th, 2022 =
+* Fixed: Remote JS file should be allowed to be modified, when Compatibility Mode is active.
 
 = 4.3.4 =
 * Fixed: don't use WP_Filemanager to get and put file contents.
