@@ -117,9 +117,17 @@ class CAOS_Cron
          * Plausible Analytics
          */
         if ($key == 'plausible') {
+            $remote_file = 'script.';
+
+            if (CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS == 'on') {
+                $remote_file .= 'outbound-links.';
+            }
+
+            $remote_file .= 'js';
+
             $queue = array_merge($queue, [
                 'plausible' => [
-                    'remote' => 'https://plausible.io/js/script.js',
+                    'remote' => "https://plausible.io/js/$remote_file",
                     'local'  => CAOS::get_file_alias_path('plausible')
                 ]
             ]);
