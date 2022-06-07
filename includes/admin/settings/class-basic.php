@@ -73,7 +73,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_SERVICE_PROVIDER_OPTION,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER,
             CAOS_OPT_SERVICE_PROVIDER,
-            sprintf(__('Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s">Try Plausible Analytics</a>!', $this->plugin_text_domain), 'https://plausible.io/register')
+            sprintf(__('Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s">Try Plausible Analytics free for 30 days</a>!', $this->plugin_text_domain), 'https://plausible.io/register?utm_source=Daan+van+den+Bergh&utm_medium=WordPress+Plugin&utm_campaign=Try+Plausible')
         );
     }
 
