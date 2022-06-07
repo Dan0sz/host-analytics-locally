@@ -36,6 +36,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 60);
 
         // Non Compatibility Mode settings.
+        add_filter('caos_advanced_settings_content', [$this, 'do_invisible_option_notice'], 70);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 120);

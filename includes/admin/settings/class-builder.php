@@ -103,14 +103,14 @@ class CAOS_Admin_Settings_Builder
     /**
      * Show Compatibility Mode notice.
      */
-    public function do_compatibility_mode_notice()
+    public function do_invisible_option_notice()
     {
-        if (CAOS_OPT_COMPATIBILITY_MODE) : ?>
+        if (CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
             <tr>
                 <th></th>
                 <td>
                     <p class="description">
-                        <?= __('Some settings are not displayed, because you\'re running CAOS in Compatibility Mode. This setting can be changed in <strong>Advanced Settings</strong>.', $this->plugin_text_domain); ?>
+                        <?= __('Some settings are not displayed, because Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
                     </p>
                 </td>
             </tr>

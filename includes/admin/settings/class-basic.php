@@ -40,8 +40,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 32);
         add_filter('caos_basic_settings_content', [$this, 'do_dual_tracking'], 34);
         add_filter('caos_basic_settings_content', [$this, 'do_ga4_measurement_id'], 36);
-        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 38);
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 40);
+
+        add_filter('caos_basic_settings_content', [$this, 'do_invisible_option_notice'], 41);
 
         // Non-compatibility mode settings
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);

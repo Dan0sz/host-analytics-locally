@@ -45,7 +45,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         /**
          * Priorities 150 and up can't be used when compatibility mode is on. A proper notice will be shown when it's enabled.
          */
-        add_filter('caos_extensions_settings_content', [$this, 'do_compatibility_mode_notice'], 40);
+        add_filter('caos_extensions_settings_content', [$this, 'do_invisible_option_notice'], 40);
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 50);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_track_ad_blockers'], 60);
@@ -125,7 +125,8 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'caos_pro_cf_compatibility',
             defined('CAOS_PRO_CF_COMPATIBILITY') ? CAOS_PRO_CF_COMPATIBILITY : false,
             __('When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain),
-            true
+            true,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
     }
 
@@ -153,7 +154,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_extensions_settings_open()
     {
-        $this->do_tbody_open('caos_extensions_settings');
+        $this->do_tbody_open('caos_extensions_settings', !empty(CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics');
     }
 
     /**
