@@ -48,7 +48,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
-        add_filter('caos_advanced_settings_content', [$this, 'do_debug_mode'], 210);
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 220);
 
         // Close
