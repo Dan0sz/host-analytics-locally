@@ -160,7 +160,7 @@ class CAOS_Frontend_Tracking
     {
         $cache = content_url(CAOS_OPT_CACHE_DIR);
 ?>
-        <script defer data-domain="<?php echo CAOS_OPT_DOMAIN_NAME; ?>" data-api="<?php echo apply_filters('caos_plausible_analytics_api', '/stealth/event'); ?>" src="<?php echo $cache . CAOS::get_file_alias('plausible'); ?>"></script>
+        <script defer data-domain="<?php echo CAOS_OPT_DOMAIN_NAME; ?>" data-api="<?php echo apply_filters('caos_plausible_analytics_frontend_api', 'https://plausible.io/api/event'); ?>" src="<?php echo $cache . CAOS::get_file_alias('plausible'); ?>"></script>
         <?php
     }
 
