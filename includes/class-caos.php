@@ -200,7 +200,7 @@ class CAOS
      */
     public static function debug($message)
     {
-        if (!defined('CAOS_DEBUG_MODE')) {
+        if (!defined('CAOS_DEBUG_MODE') || CAOS_DEBUG_MODE === false) {
             return;
         }
 
