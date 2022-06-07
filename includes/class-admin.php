@@ -124,6 +124,15 @@ class CAOS_Admin
             $filename = 'analytics.js';
         }
 
+        /**
+         * If Minimal Analytics is used, don't throw notices and execute any further logic to prevent confusion.
+         * 
+         * @since v4.4.0
+         */
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
+            return $new_tracking_id;
+        }
+
         update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, $filename);
 
         CAOS_Admin_Notice::set_notice(

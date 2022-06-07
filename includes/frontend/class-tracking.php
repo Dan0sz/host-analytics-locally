@@ -117,7 +117,7 @@ class CAOS_Frontend_Tracking
              * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
              * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
              */
-            if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
                 switch (CAOS_OPT_SCRIPT_POSITION) {
                     case "footer":
                         add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
@@ -543,13 +543,17 @@ class CAOS_Frontend_Tracking
     }
 
     /**
-     *
+     * Insert either of the Minimal Analytics tracking codes.
      */
     public function insert_minimal_tracking_snippet()
     {
         echo "\n<!-- This site is using Minimal Analytics brought to you by CAOS. -->\n";
 
-        echo $this->get_tracking_code_template('minimal', true);
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+            echo $this->get_tracking_code_template('minimal', true);
+        } else {
+            echo $this->get_tracking_code_template('minimal-ga4', true);
+        }
     }
 
     /**

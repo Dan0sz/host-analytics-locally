@@ -34,7 +34,7 @@ class CAOS_Cron
      */
     public function __construct()
     {
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
             return;
         }
 

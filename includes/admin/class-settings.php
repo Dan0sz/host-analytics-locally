@@ -43,9 +43,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'cookie_value_contains' => 'When cookie value contains (loose comparison)'
     ];
     const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS = [
-        ''        => 'Default',
-        'async'   => 'Asynchronous',
-        'minimal' => 'Minimal Analytics (fastest)'
+        ''            => 'Default',
+        'async'       => 'Asynchronous',
+        'minimal'     => 'Minimal Analytics (fastest)',
+        'minimal_ga4' => 'Minimal Analytics (GA4 - beta)'
     ];
     const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
         ''    => 'Off (default)',

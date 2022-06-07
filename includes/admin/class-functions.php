@@ -35,9 +35,7 @@ class CAOS_Admin_Functions
     {
         clearstatcache();
 
-        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
-            $this->do_update_notice();
-        }
+        $this->do_update_notice();
 
         $this->do_adblock_notice();
     }
@@ -47,6 +45,10 @@ class CAOS_Admin_Functions
      */
     private function do_update_notice()
     {
+        if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
+            return;
+        }
+
         $file_updated = $this->file_recently_updated();
 
         if (!$file_updated) {

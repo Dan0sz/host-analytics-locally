@@ -1,0 +1,24 @@
+<?php
+/* * * * * * * * * * * * * * * * * * * *
+ *  ██████╗ █████╗  ██████╗ ███████╗
+ * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
+ * ██║     ███████║██║   ██║███████╗
+ * ██║     ██╔══██║██║   ██║╚════██║
+ * ╚██████╗██║  ██║╚██████╔╝███████║
+ *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ *
+ * @author   : Daan van den Bergh
+ * @url      : https://ffw.press/wordpress/caos/
+ * @copyright: (c) 2021 Daan van den Bergh
+ * @license  : GPL2v2 or later
+ * * * * * * * * * * * * * * * * * * * */
+
+$endpoint = apply_filters('caos_minimal_analytics_ga4_endpoint', 'https://www.google-analytics.com/g/collect');
+
+/**
+ * The below script is maintained by: https://dariusz.wieckiewicz.org/en/minimal-google-analytics-4-snippet/#minimal-analytics-4---the-code
+ */
+?>
+<script>
+    function a(){const n=localStorage,e=sessionStorage,t=document,o=navigator||{},w="<?php echo CAOS_OPT_TRACKING_ID; ?>",a=()=>Math.floor(Math.random()*1e9)+1,r=()=>Math.floor(Date.now()/1e3),y=()=>(e._p||(e._p=a()),e._p),b=()=>a()+"."+r(),g=()=>(n.cid_v4||(n.cid_v4=b()),n.cid_v4),f=n.getItem("cid_v4"),A=()=>f?void 0:"1",j=()=>(e.sid||(e.sid=r()),e.sid),m=()=>{if(!e._ss)return e._ss="1",e._ss;if(e.getItem("_ss")=="1")return void 0},d="1",p=()=>(e.sct?(x=+e.getItem("sct")+ +d,e.sct=x):e.sct=d,e.sct),s=t.location.search,v=new URLSearchParams(s),l=["q","s","search","query","keyword"],h=l.some(e=>s.includes("&"+e+"=")||s.includes("?"+e+"=")),c=()=>h==!0?"view_search_results":"page_view",_=()=>{if(c()=="view_search_results"){for(let e of v)if(l.includes(e[0]))return e[1]}else return void 0},i=encodeURIComponent,O=e=>{let t=[];for(let n in e)e.hasOwnProperty(n)&&e[n]!==void 0&&t.push(i(n)+"="+i(e[n]));return t.join("&")},C=!1,E="<?php echo $endpoint; ?>",k=O({v:"2",tid:w,_p:y(),sr:(screen.width*window.devicePixelRatio+"x"+screen.height*window.devicePixelRatio).toString(),ul:(o.language||void 0).toLowerCase(),cid:g(),_fv:A(),_s:"1",dl:t.location.origin+t.location.pathname+s,dt:t.title||void 0,dr:t.referrer||void 0,sid:j(),sct:p(),seg:"1",en:c(),'ep.search_term':_(),_ss:m(),_dbg:C?1:void 0}),u=E+"?"+k;if(o.sendBeacon)o.sendBeacon(u);else{let e=new XMLHttpRequest;e.open("POST",u,!0)}}a()
+</script>
