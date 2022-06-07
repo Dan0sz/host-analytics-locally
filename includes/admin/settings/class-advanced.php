@@ -93,7 +93,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
             CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
             CAOS_OPT_REMOTE_JS_FILE,
-            sprintf(__('<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and should only be used if you\'re using other Google services. Both are hosted locally when this option is selected! <code>gtag.js</code> and <code>analytics.js</code> can only be used with the v3 API. GA v4 (beta) users should choose <code>gtag.js</code> (V4 API). %sI don\'t know what to choose%s.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>')
+            sprintf(__('<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and should only be used if you\'re using other Google services or want to enable dual tracking with GA4. Both files are hosted locally when this option is selected! GA v4 (beta) users should choose <code>gtag.js</code> (V4 API). %sI don\'t know what to choose%s.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>')
         );
     }
 
