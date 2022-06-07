@@ -17,6 +17,13 @@
     margin-right: .25em;
     line-height: 1.2;
   }
+
+  .nav-tab {
+    &.disabled {
+      cursor: not-allowed;
+      color: #a2a2a2;
+    }
+  }
 }
 
 .caos_basic_settings {
@@ -31,7 +38,8 @@
       .caos-aip-example {
         font-size: 1.5em;
 
-        .third-octet, .fourth-octet {
+        .third-octet,
+        .fourth-octet {
           padding: 0 5px 3px;
           background-color: #fff;
           border-radius: 3px;
@@ -64,7 +72,7 @@
             a {
               text-decoration: none;
               line-height: 1.45;
-    
+
               i {
                 &.dashicons {
                   margin-right: 5px;
@@ -79,8 +87,8 @@
           margin-right: 45px;
 
           .signature {
-            text-align: center; 
-  
+            text-align: center;
+
             .dashicons-heart {
               color: #FF4136;
             }
@@ -94,13 +102,16 @@
 .track-cloaked-affiliate-links {
   width: 100%;
 
-  th, td {
+  th,
+  td {
     padding: 0 15px;
 
-    &:first-child, &:last-child {
+    &:first-child,
+    &:last-child {
       padding: 0;
     }
   }
+
   td {
     input[type="text"] {
       width: 100%;
@@ -125,7 +136,7 @@
     &.ffwp-heart {
       vertical-align: middle;
     }
-    
+
     &.ffwp-heart:before {
       color: #FF4136;
     }

@@ -31,14 +31,18 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Option Values
      */
-    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS  = [
+    const CAOS_ADMIN_SERVICE_PROVIDER_OPTION = [
+        'google_analytics'  => 'Google Analytics (default)',
+        'plausible'         => 'Plausible Analytics'
+    ];
+    const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS = [
         ''                  => 'Always (default)',
         'cookie_is_set'     => 'When cookie is set',
         'cookie_is_not_set' => 'When cookie is NOT set',
         'cookie_has_value'  => 'When cookie has a value (exact match)',
         'cookie_value_contains' => 'When cookie value contains (loose comparison)'
     ];
-    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS    = [
+    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS = [
         ''        => 'Default',
         'async'   => 'Asynchronous',
         'minimal' => 'Minimal Analytics (fastest)'
@@ -53,12 +57,12 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'footer' => 'Footer',
         'manual' => 'Add manually',
     ];
-    const CAOS_ADMIN_JS_FILE_OPTIONS         = [
+    const CAOS_ADMIN_JS_FILE_OPTIONS = [
         'analytics.js'  => 'Analytics.js (default)',
         'gtag-v4.js'    => 'Gtag.js (v4 API - Beta)',
         'gtag.js'       => 'Gtag.js'
     ];
-    const CAOS_ADMIN_EXT_REQUEST_HANDLING     = [
+    const CAOS_ADMIN_EXT_REQUEST_HANDLING = [
         'send_file'     => 'Default (WordPress API)',
         'super_stealth' => 'Fast (Super Stealth API)'
     ];
@@ -66,6 +70,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * CAOS Basic/Advanced Settings
      */
+    const CAOS_BASIC_SETTING_SERVICE_PROVIDER       = 'caos_service_provider';
+    const CAOS_BASIC_SETTING_DOMAIN_NAME            = 'caos_domain_name';
     const CAOS_BASIC_SETTING_TRACKING_ID            = 'sgal_tracking_id';
     const CAOS_BASIC_SETTING_DUAL_TRACKING          = 'caos_dual_tracking';
     const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID     = 'caos_ga4_measurement_id';
@@ -137,11 +143,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
 
         // Tabs
         add_action('caos_settings_tab', [$this, 'do_basic_settings_tab'], 1);
-
-        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
-            add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
-        }
-
+        add_action('caos_settings_tab', [$this, 'do_advanced_settings_tab'], 2);
         add_action('caos_settings_tab', [$this, 'do_extensions_tab'], 3);
         add_action('caos_settings_tab', [$this, 'do_help_tab'], 4);
 
@@ -354,7 +356,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_advanced_settings_tab()
     {
-        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', $this->plugin_text_domain));
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', $this->plugin_text_domain), CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_SNIPPET_TYPE == 'minimal');
     }
 
     /**
@@ -380,10 +382,10 @@ class CAOS_Admin_Settings extends CAOS_Admin
      * @param null $icon
      * @param null $label
      */
-    private function generate_tab($id, $icon = null, $label = null)
+    private function generate_tab($id, $icon = null, $label = null, $disabled = false)
     {
     ?>
-        <a class="nav-tab dashicons-before <?= $icon; ?> <?= $this->active_tab == $id ? 'nav-tab-active' : ''; ?>" href="<?= $this->generate_tab_link($id); ?>">
+        <a class="nav-tab dashicons-before <?= $icon; ?> <?= $this->active_tab == $id ? 'nav-tab-active' : ''; ?> <?= $disabled ? 'disabled' : ''; ?>" <?php if (!$disabled) : ?> href="<?= $this->generate_tab_link($id); ?>" <?php endif; ?> title="<?= $disabled ? __('Advanced Settings are disabled, because either Plausible Analytics or Minimal Analytics is enabled.', $this->plugin_text_domain) : ''; ?>">
             <?= $label; ?>
         </a>
 <?php

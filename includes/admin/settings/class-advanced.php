@@ -199,7 +199,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_advanced_settings_open()
     {
-        $this->do_tbody_open('caos_advanced_settings');
+        $this->do_tbody_open('caos_advanced_settings', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && (empty(CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'));
     }
 
     /**

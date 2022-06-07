@@ -82,10 +82,10 @@ class CAOS_Admin_Settings_Builder
     /**
      * @param $class
      */
-    public function do_tbody_open($class)
+    public function do_tbody_open($class, $visible = true)
     {
     ?>
-        <tbody class="<?= $class; ?>" <?= empty(CAOS_OPT_COMPATIBILITY_MODE) ? '' : 'style="display: none;"'; ?>>
+        <tbody class="<?= $class; ?>" <?= $visible ? '' : 'style="display: none;"'; ?>>
         <?php
     }
 

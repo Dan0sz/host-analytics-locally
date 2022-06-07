@@ -27,6 +27,7 @@ jQuery(document).ready(function ($) {
             $('.caos-dual-tracking',).on('change', this.toggle_ga4_measurement_id);
 
             // Radio's
+            $('input[class^="caos-service-provider"]').on('click', this.toggle_service_provider);
             $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
             $('input[class^="caos-anonymize-ip-mode"]').on('click', this.update_aip_example);
             $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
@@ -102,6 +103,26 @@ jQuery(document).ready(function ($) {
 
             if (caos_admin.ticker_index == caos_admin.ticker_items.length) {
                 caos_admin.ticker_index = 0;
+            }
+        },
+
+        /**
+         * Toggle Service Provider options.
+         */
+        toggle_service_provider: function () {
+            option_value = $(this).val();
+            $ga_options = $('.google_analytics_options');
+            $pa_options = $('.plausible_analytics_options');
+
+            switch (option_value) {
+                case 'google_analytics':
+                    $ga_options.show();
+                    $pa_options.hide();
+                    break;
+                case 'plausible':
+                    $pa_options.show();
+                    $ga_options.hide();
+                    break;
             }
         },
 

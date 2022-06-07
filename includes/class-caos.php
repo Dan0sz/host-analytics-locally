@@ -72,6 +72,8 @@ class CAOS
 
         define('CAOS_SITE_URL', 'https://ffw.press/blog');
         define('CAOS_STORED_DB_VERSION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1')));
+        define('CAOS_OPT_SERVICE_PROVIDER', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics')) ?: 'google_analytics');
+        define('CAOS_OPT_DOMAIN_NAME', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DOMAIN_NAME, $domain_name = str_replace(['https://', 'http://'], '', get_home_url()))) ?: $domain_name);
         define('CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID)));
         define('CAOS_OPT_DUAL_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING)));
         define('CAOS_OPT_GA4_MEASUREMENT_ID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID)));

@@ -23,31 +23,93 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         $this->title = __('Basic Settings', $this->plugin_text_domain);
 
         // Open
-        add_filter('caos_basic_settings_content', [$this, 'do_title'], 10);
-        add_filter('caos_basic_settings_content', [$this, 'do_before'], 20);
+        add_filter('caos_basic_settings_content', [$this, 'do_title'], 1);
+        add_filter('caos_basic_settings_content', [$this, 'do_before'], 2);
 
         // Settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 30);
-        add_filter('caos_basic_settings_content', [$this, 'do_dual_tracking'], 40);
-        add_filter('caos_basic_settings_content', [$this, 'do_ga4_measurement_id'], 50);
-        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_service_provider'], 10);
+        add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 12);
+
+        // Plausible Analytics Settings
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_plausible_options_open'], 20);
+        add_filter('caos_basic_settings_content', [$this, 'do_domain_name'], 22);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 24);
+
+        // Google Analytics Settings
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_google_analytics_options_open'], 30);
+        add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 32);
+        add_filter('caos_basic_settings_content', [$this, 'do_dual_tracking'], 34);
+        add_filter('caos_basic_settings_content', [$this, 'do_ga4_measurement_id'], 36);
+        add_filter('caos_basic_settings_content', [$this, 'do_compatibility_mode_notice'], 38);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 40);
 
         // Non-compatibility mode settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 60);
-        add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 70);
-        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 80);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 90);
-        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 100);
-        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 110);
-        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 120);
-        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 130);
-        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 140);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 150);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);
+        add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 52);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 54);
+        add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 56);
+        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 58);
+        add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 62);
+        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 64);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 66);
 
         // Close
-        add_filter('caos_basic_settings_content', [$this, 'do_after'], 200);
+        add_filter('caos_basic_settings_content', [$this, 'do_after'], 100);
 
         parent::__construct();
+    }
+
+    /**
+     * Service Provider
+     * 
+     * @return void 
+     */
+    public function do_service_provider()
+    {
+        $this->do_radio(
+            __('Service Provider', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADMIN_SERVICE_PROVIDER_OPTION,
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER,
+            CAOS_OPT_SERVICE_PROVIDER,
+            sprintf(__('Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s">Try Plausible Analytics</a>!', $this->plugin_text_domain), 'https://plausible.io/register')
+        );
+    }
+
+    /**
+     * Open Plausible Analytics options
+     * 
+     * @return void 
+     */
+    public function do_tbody_plausible_options_open()
+    {
+        $this->do_tbody_open('plausible_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'plausible');
+    }
+
+    /**
+     * Do Domain Name
+     * 
+     * @return void 
+     */
+    public function do_domain_name()
+    {
+        $this->do_text(
+            __('Domain Name', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_DOMAIN_NAME,
+            '',
+            CAOS_OPT_DOMAIN_NAME,
+            __('', $this->plugin_text_domain)
+        );
+    }
+
+    /**
+     * Open Google Analytics options
+     * 
+     * @return void 
+     */
+    public function do_tbody_google_analytics_options_open()
+    {
+        $this->do_tbody_open('google_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics');
     }
 
     /**
@@ -107,7 +169,8 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('Track logged in Administrators', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
             CAOS_OPT_TRACK_ADMIN,
-            '<strong>' . __('Warning!', $this->plugin_text_domain) . '</strong> ' . __('This will track all your traffic as a logged in user. (For testing/development purposes.)', $this->plugin_text_domain)
+            '<strong>' . __('Warning!', $this->plugin_text_domain) . '</strong> ' . __('This will track all your traffic as a logged in user. (For testing/development purposes.)', $this->plugin_text_domain),
+            false
         );
     }
 
@@ -116,7 +179,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_basic_settings_open()
     {
-        $this->do_tbody_open('caos_basic_settings');
+        $this->do_tbody_open('caos_basic_settings google_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && (empty(CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'));
     }
 
     /**
