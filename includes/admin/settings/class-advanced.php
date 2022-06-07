@@ -272,21 +272,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     * Debug Mode
-     * 
-     * @return void 
-     */
-    public function do_debug_mode()
-    {
-        $this->do_checkbox(
-            __('Enable Debug Mode', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_DEBUG_MODE,
-            CAOS_OPT_DEBUG_MODE,
-            __('Only use this for debugging purposes! When enabled, debug information is logged to <code>wp-content/caos-debug.log</code>', $this->plugin_text_domain)
-        );
-    }
-
-    /**
      * Remove settings at uninstall
      */
     public function do_uninstall_settings()

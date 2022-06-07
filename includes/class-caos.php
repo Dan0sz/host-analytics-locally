@@ -94,7 +94,6 @@ class CAOS
         define('CAOS_OPT_CACHE_DIR', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR)) ?: '/uploads/caos/');
         define('CAOS_OPT_CDN_URL', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL)));
         define('CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS)));
-        define('CAOS_OPT_DEBUG_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_DEBUG_MODE)));
         define('CAOS_OPT_UNINSTALL_SETTINGS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS)));
         define('CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)));
         define('CAOS_OPT_EXT_LINKID', esc_attr(get_option(CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID)));
@@ -201,7 +200,7 @@ class CAOS
      */
     public static function debug($message)
     {
-        if (!CAOS_OPT_DEBUG_MODE) {
+        if (!defined('CAOS_DEBUG_MODE')) {
             return;
         }
 
