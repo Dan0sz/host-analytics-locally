@@ -64,6 +64,30 @@ class CAOS_Frontend_Tracking
      */
     public function insert_tracking_code()
     {
+        /**
+         * Plausible Analytics
+         * 
+         * @since v4.4.0
+         */
+        if (CAOS_OPT_SERVICE_PROVIDER == 'plausible') {
+            /**
+             * If Track Administrators is disabled, bail early.
+             */
+            if (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
+                return;
+            }
+
+            add_action('wp_head', [$this, 'insert_plausible_tracking_code']);
+
+            /**
+             * We're done here.
+             */
+            return;
+        }
+
+        /**
+         * Google Analytics
+         */
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             /**
              * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
@@ -123,6 +147,21 @@ class CAOS_Frontend_Tracking
                     break;
             }
         }
+    }
+
+    /**
+     * Add Plausible Analytics tracking code.
+     * 
+     * @since v4.4.0
+     * 
+     * @return void 
+     */
+    public function insert_plausible_tracking_code()
+    {
+        $cache = content_url(CAOS_OPT_CACHE_DIR);
+?>
+        <script defer data-domain="<?php echo CAOS_OPT_DOMAIN_NAME; ?>" data-api="<?php echo apply_filters('caos_plausible_analytics_api', '/stealth/event'); ?>" src="<?php echo $cache . CAOS::get_file_alias('plausible'); ?>"></script>
+        <?php
     }
 
     /**
