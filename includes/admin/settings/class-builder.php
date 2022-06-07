@@ -128,16 +128,18 @@ class CAOS_Admin_Settings_Builder
      */
     public function do_radio($label, $inputs, $name, $checked, $description, $disabled = false)
     {
+        $i = 0;
         ?>
         <tr>
             <th scope="row"><?= $label; ?></th>
             <td id="<?= $name . '_right_column'; ?>">
                 <?php foreach ($inputs as $option => $option_label) : ?>
                     <label>
-                        <input type="radio" <?= $disabled !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
+                        <input type="radio" <?= is_array($disabled) && $disabled[$i] !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
                         <?= $option_label; ?>
                     </label>
                     <br />
+                    <?php $i++; ?>
                 <?php endforeach; ?>
                 <p class="description">
                     <?= apply_filters($name . '_setting_description', $description); ?>

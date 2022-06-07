@@ -111,7 +111,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'caos_pro_request_handling',
             defined('CAOS_PRO_REQUEST_HANDLING') ? CAOS_PRO_REQUEST_HANDLING : false,
             __('In Stealth Mode, all Plausible and Google Analytics related requests (e.g. <code>/api/event</code>, <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are sent almost instantly.', $this->plugin_text_domain) . ' ' . $this->promo,
-            true
+            [true, true]
         );
     }
 
