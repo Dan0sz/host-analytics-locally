@@ -182,8 +182,11 @@ class CAOS_Admin_Settings extends CAOS_Admin
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
             <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
+                <?php
+                $remote_file = CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? 'plausible' : CAOS_OPT_REMOTE_JS_FILE;
+                ?>
                 <div class="notice notice-info">
-                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS::get_file_alias(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)), $this->file_last_updated(), $this->cron_next_scheduled()); ?> <a id="caos-regenerate-alias" data-nonce="<?= wp_create_nonce(self::CAOS_ADMIN_PAGE); ?>" title="<?= __('This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', $this->plugin_text_domain); ?>" href="#"><?= __('Regenerate Alias(es)', $this->plugin_text_domain); ?></a>.</p>
+                    <p><?= sprintf(__('<strong>%s</strong> is renamed to <strong>%s</strong> and was last updated on <em>%s</em>. The next automatic update by cron is scheduled <em>%s</em>.', $this->plugin_text_domain), ucfirst($remote_file), CAOS::get_file_alias(str_replace('.js', '', $remote_file)), $this->file_last_updated(), $this->cron_next_scheduled()); ?> <a id="caos-regenerate-alias" data-nonce="<?= wp_create_nonce(self::CAOS_ADMIN_PAGE); ?>" title="<?= __('This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', $this->plugin_text_domain); ?>" href="#"><?= __('Regenerate Alias(es)', $this->plugin_text_domain); ?></a>.</p>
                 </div>
             <?php endif; ?>
 

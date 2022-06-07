@@ -105,8 +105,28 @@ class CAOS_Cron
      */
     private function build_download_queue()
     {
-        $key   = str_replace('.js', '', get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE));
+        if (CAOS_OPT_SERVICE_PROVIDER == 'plausible') {
+            $key = 'plausible';
+        } else {
+            $key = str_replace('.js', '', get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE));
+        }
+
         $queue = [];
+
+        /**
+         * Plausible Analytics
+         */
+        if ($key == 'plausible') {
+            $queue = array_merge($queue, [
+                'plausible' => [
+                    'remote' => 'https://plausible.io/js/script.js',
+                    'local'  => CAOS::get_file_alias_path('plausible')
+                ]
+            ]);
+
+            // No need to continue here...
+            return $queue;
+        }
 
         /**
          * Gtag V3 is a wrapper for analytics.js, so add it to the queue.
