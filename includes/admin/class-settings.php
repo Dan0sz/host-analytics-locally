@@ -42,7 +42,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'cookie_has_value'  => 'When cookie has a value (exact match)',
         'cookie_value_contains' => 'When cookie value contains (loose comparison)'
     ];
-    const CAOS_ADMIN_SNIPPET_TYPE_OPTIONS = [
+    const CAOS_ADMIN_TRACKING_CODE_OPTIONS = [
         ''            => 'Default',
         'async'       => 'Asynchronous',
         'minimal'     => 'Minimal Analytics (fastest)',
@@ -80,7 +80,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_BASIC_SETTING_ALLOW_TRACKING         = 'caos_allow_tracking';
     const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME     = 'sgal_cookie_notice_name';
     const CAOS_BASIC_SETTING_COOKIE_VALUE           = 'caos_cookie_value';
-    const CAOS_BASIC_SETTING_SNIPPET_TYPE           = 'caos_snippet_type';
+    const CAOS_BASIC_SETTING_TRACKING_CODE          = 'caos_snippet_type';
     const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE      = 'caos_anonymize_ip_mode';
     const CAOS_BASIC_SETTING_SCRIPT_POSITION        = 'sgal_script_position';
     const CAOS_ADV_SETTING_COMPATIBILITY_MODE       = 'caos_compatibility_mode';
@@ -181,7 +181,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         <div class="wrap">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
-            <?php if (CAOS_OPT_SNIPPET_TYPE != 'minimal') : ?>
+            <?php if (CAOS_OPT_TRACKING_CODE != 'minimal') : ?>
                 <?php
                 $remote_file = CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? 'plausible' : CAOS_OPT_REMOTE_JS_FILE;
                 ?>
@@ -359,7 +359,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
      */
     public function do_advanced_settings_tab()
     {
-        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', $this->plugin_text_domain), CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_SNIPPET_TYPE == 'minimal');
+        $this->generate_tab(self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __('Advanced Settings', $this->plugin_text_domain), CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_TRACKING_CODE == 'minimal');
     }
 
     /**

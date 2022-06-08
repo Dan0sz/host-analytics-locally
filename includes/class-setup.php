@@ -48,7 +48,7 @@ class CAOS_Setup
      */
     public function activate_cron()
     {
-        if (CAOS_OPT_SNIPPET_TYPE != 'minimal' && !wp_next_scheduled(CAOS_CRON)) {
+        if (!wp_next_scheduled(CAOS_CRON)) {
             wp_schedule_event(time(), 'twicedaily', CAOS_CRON);
         }
     }
@@ -80,6 +80,10 @@ class CAOS_Setup
      */
     public function load_cron_script()
     {
+        if (CAOS::uses_minimal_analytics()) {
+            return;
+        }
+
         new CAOS_Cron();
     }
 }

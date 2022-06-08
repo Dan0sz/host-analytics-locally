@@ -45,7 +45,7 @@ class CAOS_Admin_Functions
      */
     private function do_update_notice()
     {
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
+        if (CAOS::uses_minimal_analytics()) {
             return;
         }
 

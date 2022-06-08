@@ -47,7 +47,7 @@ class CAOS_Frontend_Tracking
      */
     public function __construct()
     {
-        $this->handle    = 'caos-' . (CAOS_OPT_SNIPPET_TYPE ? CAOS_OPT_SNIPPET_TYPE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+        $this->handle    = 'caos-' . (CAOS_OPT_TRACKING_CODE ? CAOS_OPT_TRACKING_CODE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
         add_action('init', [$this, 'insert_tracking_code']);
@@ -117,7 +117,7 @@ class CAOS_Frontend_Tracking
              * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
              * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
              */
-            if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
+            if (CAOS::uses_minimal_analytics()) {
                 switch (CAOS_OPT_SCRIPT_POSITION) {
                     case "footer":
                         add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
@@ -275,7 +275,7 @@ class CAOS_Frontend_Tracking
      */
     public function add_attributes($tag, $handle)
     {
-        if ((CAOS_OPT_SNIPPET_TYPE == 'async' && $handle == $this->handle)) {
+        if ((CAOS_OPT_TRACKING_CODE == 'async' && $handle == $this->handle)) {
             return str_replace('script src', 'script async src', $tag);
         }
 
@@ -479,7 +479,7 @@ class CAOS_Frontend_Tracking
 
         $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
 
-        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
+        if (CAOS_OPT_TRACKING_CODE != 'minimal') {
             wp_enqueue_script($this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer);
         }
 
@@ -549,7 +549,7 @@ class CAOS_Frontend_Tracking
     {
         echo "\n<!-- This site is using Minimal Analytics brought to you by CAOS. -->\n";
 
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
+        if (CAOS_OPT_TRACKING_CODE == 'minimal') {
             echo $this->get_tracking_code_template('minimal', true);
         } else {
             echo $this->get_tracking_code_template('minimal-ga4', true);

@@ -129,7 +129,7 @@ class CAOS_Admin
          * 
          * @since v4.4.0
          */
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal' || CAOS_OPT_SNIPPET_TYPE == 'minimal_ga4') {
+        if (CAOS::uses_minimal_analytics()) {
             return $new_tracking_id;
         }
 

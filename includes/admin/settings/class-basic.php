@@ -49,7 +49,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 52);
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 54);
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 56);
-        add_filter('caos_basic_settings_content', [$this, 'do_snippet_type'], 58);
+        add_filter('caos_basic_settings_content', [$this, 'do_tracking_code'], 58);
         add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 60);
         add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 62);
         add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 64);
@@ -230,14 +230,14 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     /**
      * Snippet type
      */
-    public function do_snippet_type()
+    public function do_tracking_code()
     {
         $this->do_select(
-            __('Snippet Type', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE,
-            CAOS_Admin_Settings::CAOS_ADMIN_SNIPPET_TYPE_OPTIONS,
-            CAOS_OPT_SNIPPET_TYPE,
-            __('Should we use the default or the asynchronous tracking snippet? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://ffw.press/docs/caos/basic-settings/' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Tracking Code', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
+            CAOS_Admin_Settings::CAOS_ADMIN_TRACKING_CODE_OPTIONS,
+            CAOS_OPT_TRACKING_CODE,
+            __('Should we use the default or the asynchronous tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://ffw.press/docs/caos/basic-settings/' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
         );
     }
 
@@ -309,21 +309,24 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
 
         $tracking_code .= "<!-- " . __('This site is running CAOS for Wordpress.', 'host-analyticsjs-local') . " -->\n";
 
-        if (CAOS_OPT_SNIPPET_TYPE != 'minimal') {
-            $urlId        = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
-            $snippetType  = CAOS_OPT_SNIPPET_TYPE;
-            $localFileUrl = CAOS::get_local_file_url() . $urlId;
-
-            $tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
+        if (CAOS_OPT_TRACKING_CODE == 'minimal') {
+            return $tracking_code . $this->get_tracking_code_template('minimal');
         }
+
+        if (CAOS_OPT_TRACKING_CODE == 'minimal_ga4') {
+            return $tracking_code . $this->get_tracking_code_template('minimal-ga4');
+        }
+
+        $urlId        = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? "?id=" . CAOS_OPT_TRACKING_ID : '';
+        $snippetType  = CAOS_OPT_TRACKING_CODE;
+        $localFileUrl = CAOS::get_local_file_url() . $urlId;
+
+        $tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
 
         if (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) {
             $tracking_code .= $this->get_tracking_code_template('cookie-value');
         }
 
-        if (CAOS_OPT_SNIPPET_TYPE == 'minimal') {
-            return $tracking_code . $this->get_tracking_code_template('minimal');
-        }
 
         if (CAOS_OPT_REMOTE_JS_FILE == 'gtag.js') {
             return $tracking_code . $this->get_tracking_code_template('gtag');

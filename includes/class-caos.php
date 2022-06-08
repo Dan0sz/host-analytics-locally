@@ -80,7 +80,7 @@ class CAOS
         define('CAOS_OPT_ALLOW_TRACKING', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING)));
         define('CAOS_OPT_COOKIE_NAME', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME)));
         define('CAOS_OPT_COOKIE_VALUE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE)));
-        define('CAOS_OPT_SNIPPET_TYPE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SNIPPET_TYPE)));
+        define('CAOS_OPT_TRACKING_CODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE)));
         define('CAOS_OPT_SCRIPT_POSITION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION)) ?: 'header');
         define('CAOS_OPT_COMPATIBILITY_MODE', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE)) ?: '');
         define('CAOS_OPT_SESSION_EXPIRY_DAYS', esc_attr(get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30)));
@@ -262,12 +262,16 @@ class CAOS
     }
 
     /**
-     * Triggers when CAOS Pro is (de)activated.
+     * Triggers when CAOS (Pro) is (de)activated.
      * 
      * @return CAOS_Cron 
      */
     public function trigger_cron_script()
     {
+        if (self::uses_minimal_analytics()) {
+            return;
+        }
+
         return new CAOS_Cron();
     }
 
@@ -439,5 +443,10 @@ class CAOS
         $file_manager = new CAOS_FileManager();
 
         return $file_manager->find_replace_in($file, $find, $replace);
+    }
+
+    public static function uses_minimal_analytics()
+    {
+        return CAOS_OPT_TRACKING_CODE == 'minimal' || CAOS_OPT_TRACKING_CODE == 'minimal_ga4';
     }
 }
