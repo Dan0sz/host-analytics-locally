@@ -166,7 +166,7 @@ class CAOS_Frontend_Tracking
                 window.plausible = window.plausible || function() {
                     (window.plausible.q = window.plausible.q || []).push(arguments)
                 }
-                setTimeout("plausible('Adjusted Bounce Rate', { props: { duration: '<?php CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>' } });", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+                setTimeout("plausible('Adjusted Bounce Rate', { props: { duration: '<?php echo CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>' } });", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
             </script>
         <?php endif;
     }
