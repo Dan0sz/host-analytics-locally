@@ -51,6 +51,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 56);
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_code'], 58);
         add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 60);
+        add_filter('caos_basic_settings_content', [$this, 'do_adjusted_bounce_rate'], 61);
         add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 62);
         add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 64);
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 66);
@@ -257,6 +258,19 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             $aip_mode,
             sprintf(__('Enables the <code>aip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data might still be stored on Google\'s servers. Combining the option \'two\' with <a href="%s">Stealth Mode</a> will properly anonymize IP addresses before sending the data over to Google, however location data might be inaccurate.', $this->plugin_text_domain), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')) . sprintf(' <span class="caos-aip">Example: <span class="caos-aip-example">192.168.<span class="third-octet">%s</span>.<span class="fourth-octet">%s</span></span></span> ', $third_octet, $fourth_octet) . $this->promo,
             [false, false, true]
+        );
+    }
+
+    /**
+     * Use adjusted bounce rate?
+     */
+    public function do_adjusted_bounce_rate()
+    {
+        $this->do_number(
+            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+            sprintf(__('Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
         );
     }
 

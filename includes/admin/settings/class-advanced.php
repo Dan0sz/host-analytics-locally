@@ -41,10 +41,9 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 130);
-        add_filter('caos_advanced_settings_content', [$this, 'do_adjusted_bounce_rate'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 160);
-        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 170);
+        add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
+        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 150);
+        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 160);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
@@ -214,20 +213,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', $this->plugin_text_domain)
         );
     }
-
-    /**
-     * Use adjusted bounce rate?
-     */
-    public function do_adjusted_bounce_rate()
-    {
-        $this->do_number(
-            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
-            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
-            sprintf(__('Set up an event which is triggered after a user spends X seconds on the landing page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
-        );
-    }
-
 
     /**
      * Site Speed Sample Rate (%)
