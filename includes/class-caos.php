@@ -324,6 +324,10 @@ class CAOS
             return;
         }
 
+        if (!isset($options['plugins'])) {
+            return;
+        }
+
         foreach ($options['plugins'] as $plugin) {
             if ($plugin == CAOS_PLUGIN_BASENAME) {
                 return $this->trigger_cron_script();
