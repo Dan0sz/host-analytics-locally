@@ -51,9 +51,12 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_value'], 56);
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_code'], 58);
         add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 60);
-        add_filter('caos_basic_settings_content', [$this, 'do_adjusted_bounce_rate'], 61);
-        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 62);
-        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 64);
+        add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 61);
+        add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 62);
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 63);
+
+        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_plausible_open'], 64);
+        add_filter('caos_basic_settings_content', [$this, 'do_adjusted_bounce_rate'], 65);
         add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 66);
 
         // Close
@@ -181,7 +184,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_basic_settings_open()
     {
-        $this->do_tbody_open('caos_basic_settings google_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && (empty(CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'));
+        $this->do_tbody_open('caos_basic_settings google_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && empty(CAOS_OPT_COMPATIBILITY_MODE));
     }
 
     /**
@@ -268,7 +271,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     {
         $this->do_number(
             __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE,
             CAOS_OPT_ADJUSTED_BOUNCE_RATE,
             sprintf(__('Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
         );
@@ -306,6 +309,16 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             </td>
         </tr>
 <?php
+    }
+
+    /**
+     * This options shouldn't be rendered when Compatibility mode is on, but are fine for both Google Analytics and Plausible Analytics.
+     * 
+     * @return void 
+     */
+    public function do_tbody_basic_settings_plausible_open()
+    {
+        $this->do_tbody_open('caos_basic_settings', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && empty(CAOS_OPT_COMPATIBILITY_MODE)) || CAOS_OPT_SERVICE_PROVIDER == 'plausible');
     }
 
     /**
