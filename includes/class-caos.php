@@ -57,7 +57,7 @@ class CAOS
         add_action('activated_plugin', [$this, 'maybe_do_update']);
         add_action('deactivated_plugin', [$this, 'maybe_do_update']);
         add_action('admin_init', [$this, 'do_update_after_save']);
-        add_action('upgrader_process_complete', [$this, 'do_update_after_update']);
+        add_action('upgrader_process_complete', [$this, 'do_update_after_update'], 10, 2);
         add_action('in_plugin_update_message-' . CAOS_PLUGIN_BASENAME, [$this, 'render_update_notice'], 11, 2);
     }
 
