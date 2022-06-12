@@ -161,7 +161,14 @@ class CAOS_Frontend_Tracking
         $cache = content_url(CAOS_OPT_CACHE_DIR);
 ?>
         <script defer data-domain="<?php echo CAOS_OPT_DOMAIN_NAME; ?>" data-api="<?php echo apply_filters('caos_plausible_analytics_frontend_api', 'https://plausible.io/api/event'); ?>" src="<?php echo $cache . CAOS::get_file_alias('plausible'); ?>"></script>
-        <?php
+        <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE) : ?>
+            <script>
+                window.plausible = window.plausible || function() {
+                    (window.plausible.q = window.plausible.q || []).push(arguments)
+                }
+                setTimeout("plausible('Adjusted Bounce Rate', { props: { duration: '<?php CAOS_OPT_ADJUSTED_BOUNCE_RATE; ?>' } });", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+            </script>
+        <?php endif;
     }
 
     /**
