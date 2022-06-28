@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 /**
  * @package   CAOS
  * @author    Daan van den Bergh
- *            https://ffw.press
+ *            https://daan.dev
  * @copyright © 2022 Daan van den Bergh
  * @license   BY-NC-ND-4.0
  *            http://creativecommons.org/licenses/by-nc-nd/4.0/
