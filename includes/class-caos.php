@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://ffw.press/wordpress/caos/
+ * @url      : https://daan.dev/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -71,7 +71,7 @@ class CAOS
         $caos_file_aliases      = get_option(CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES);
         $translated_tracking_id = _x('UA-123456789', 'Define a different Tracking ID for this site.', $this->plugin_text_domain);
 
-        define('CAOS_SITE_URL', 'https://ffw.press/blog');
+        define('CAOS_SITE_URL', 'https://daan.dev/blog');
         define('CAOS_STORED_DB_VERSION', esc_attr(get_option(CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1')));
         define('CAOS_OPT_SERVICE_PROVIDER', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics')) ?: 'google_analytics');
         define('CAOS_OPT_DOMAIN_NAME', esc_attr(get_option(CAOS_Admin_Settings::CAOS_BASIC_SETTING_DOMAIN_NAME, $domain_name = str_replace(['https://', 'http://'], '', get_home_url()))) ?: $domain_name);
@@ -348,7 +348,7 @@ class CAOS
         $new_version     = $plugin['new_version'];
 
         if (version_compare($current_version, $new_version, '<')) {
-            $response = wp_remote_get('https://ffw.press/caos-update-notices.json');
+            $response = wp_remote_get('https://daan.dev/caos-update-notices.json');
 
             if (is_wp_error($response)) {
                 return;

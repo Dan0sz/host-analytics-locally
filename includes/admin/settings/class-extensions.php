@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://ffw.press/wordpress/caos/
+ * @url      : https://daan.dev/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -64,7 +64,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             <?= sprintf(__("Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Stealth Mode, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS by default.", $this->plugin_text_domain)); ?>
         </p>
         <p>
-            <?= sprintf(__("For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://ffw.press/wordpress-plugins/'); ?>
+            <?= sprintf(__("For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain), 'https://daan.dev/wordpress-plugins/'); ?>
         </p>
     <?php
     }
@@ -179,7 +179,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Track Ad Blockers', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
             CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://ffw.press/docs/caos/extensions/')
+            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://daan.dev/docs/caos/extensions/')
         );
     }
 

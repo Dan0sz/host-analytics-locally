@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://ffw.press/wordpress/caos/
+ * @url      : https://daan.dev/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -103,7 +103,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     /**
      * Info URLs
      */
-    const FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO   = 'https://ffw.press/wordpress/caos-pro/';
+    const FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO   = 'https://daan.dev/wordpress/caos-pro/';
     const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
     const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB   = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
@@ -465,7 +465,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         $xml = get_transient(self::CAOS_NEWS_REEL);
 
         if (!$xml) {
-            $response = wp_remote_get('https://ffw.press/blog/tag/caos/feed');
+            $response = wp_remote_get('https://daan.dev/blog/tag/caos/feed');
 
             if (!is_wp_error($response)) {
                 $xml = wp_remote_retrieve_body($response);
@@ -496,7 +496,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             return $text;
         }
 
-        $text = sprintf(__('Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain), 'https://ffw.press/blog/tag/caos') . ' ';
+        $text = sprintf(__('Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain), 'https://daan.dev/blog/tag/caos') . ' ';
         $text .= '<span id="caos-ticker-wrap">';
         $i    = 0;
 

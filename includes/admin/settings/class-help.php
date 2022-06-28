@@ -8,7 +8,7 @@
  *  ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
  *
  * @author   : Daan van den Bergh
- * @url      : https://ffw.press/wordpress/caos/
+ * @url      : https://daan.dev/wordpress/caos/
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
@@ -46,10 +46,10 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder
                             <?php _e('Need Help?', $this->plugin_text_domain); ?>
                         </h3>
                         <ul>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_quick_start', 'https://ffw.press/docs/caos/quick-start-caos/'); ?>"><i class="dashicons dashicons-controls-play"></i><?= __('Quick Start Guide', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_user_manual', 'https://ffw.press/docs/caos/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-text-page"></i><?= __('User Manual', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_faq_link', 'https://ffw.press/docs/caos-troubleshooting/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-editor-help"></i><?= __('FAQ & Troubleshooting', $this->plugin_text_domain); ?></a></li>
-                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_support_link', 'https://ffw.press/contact/'); ?>"><i class="dashicons dashicons-bell"></i><?= __('Get Support', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_quick_start', 'https://daan.dev/docs/caos/quick-start-caos/'); ?>"><i class="dashicons dashicons-controls-play"></i><?= __('Quick Start Guide', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_user_manual', 'https://daan.dev/docs/caos/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-text-page"></i><?= __('User Manual', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_faq_link', 'https://daan.dev/docs/caos-troubleshooting/?collection_id=6171c32112c07c18afddfcce'); ?>"><i class="dashicons dashicons-editor-help"></i><?= __('FAQ & Troubleshooting', $this->plugin_text_domain); ?></a></li>
+                            <li><a target="_blank" href="<?= apply_filters('caos_settings_help_support_link', 'https://daan.dev/contact/'); ?>"><i class="dashicons dashicons-bell"></i><?= __('Get Support', $this->plugin_text_domain); ?></a></li>
                         </ul>
                     </div>
                     <div class="column">
@@ -62,7 +62,7 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder
                     <div class="column last">
                         <h3 class="signature"><?= sprintf(__('Coded with %s by', $this->plugin_text_domain), '<i class="dashicons dashicons-heart"></i>'); ?> </h3>
                         <p class="signature">
-                            <a target="_blank" title="<?= __('Visit FFW Press', $this->plugin_text_domain); ?>" href="https://ffw.press/wordpress-plugins/"><img class="signature-image" alt="<?= __('Visit FFW Press', $this->plugin_text_domain); ?>" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/logo-color.png'; ?>" /></a>
+                            <a target="_blank" title="<?= __('Visit FFW Press', $this->plugin_text_domain); ?>" href="https://daan.dev/wordpress-plugins/"><img class="signature-image" alt="<?= __('Visit FFW Press', $this->plugin_text_domain); ?>" src="<?= plugin_dir_url(CAOS_PLUGIN_FILE) . 'assets/images/logo-color.png'; ?>" /></a>
                         </p>
                     </div>
                 </div>

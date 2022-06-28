@@ -12,10 +12,10 @@ Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pi
 
 Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
-For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://ffw.press/docs/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
+For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://daan.dev/docs/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 ## Features
-- Host analytics.js or gtag.js locally ([What's the difference?](https://ffw.press/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
 - Downloaded files are renamed to random strings to avoid ad blockers,
 - Compatibility Mode allows you to use the locally hosted file with all Google Analytics plugins, e.g.
   - MonsterInsights (Pro),
@@ -44,7 +44,7 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 - Serve analytics.js/gtag.js from your CDN,
 - Set Cookie Expiry Period,
 - Set Site Speed Sample Rate,
-- Set [Adjusted Bounce Rate](https://ffw.press/blog/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
+- Set [Adjusted Bounce Rate](https://daan.dev/blog/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
 - Change enqueue order (prioritize order of loaded scripts),
 - Enable Enhanced Link Attribution (linkid.js),
 - Force disabling display features functionalities,
@@ -53,7 +53,7 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 - Endlessly extensible for developers by using the integrated filters and available mini plugins.
 
 ##  Features in CAOS Pro
-Use Google Analytics in [compliance with GDPR](https://ffw.press/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
+Use Google Analytics in [compliance with GDPR](https://daan.dev/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
 - Cookieless Analytics (which grants a fresh, untraceable UUID/ClientID to each visitor),
 - True IP anonymization (which anonymizes the last 2 octets of your user's IP address, e.g. 192.168.0.0 *before* sending it to Google Analytics),
 - Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it overseas, i.e. the US).
