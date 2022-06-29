@@ -466,7 +466,7 @@ class CAOS_Frontend_Tracking
     {
         $id = '';
 
-        if (strpos(CAOS_OPT_REMOTE_JS_FILE, 'gtag') !== false) {
+        if (CAOS::get_current_file_key() == 'gtag') {
             $id = "?id=" . CAOS_OPT_TRACKING_ID;
         }
 

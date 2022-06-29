@@ -101,11 +101,7 @@ class CAOS_Cron
      */
     private function build_download_queue()
     {
-        if (CAOS_OPT_SERVICE_PROVIDER == 'plausible') {
-            $key = 'plausible';
-        } else {
-            $key = str_replace('.js', '', get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE));
-        }
+        $key = CAOS::get_current_file_key();
 
         $queue = [];
 

@@ -76,7 +76,6 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
      */
     public function open_extensions_panel()
     {
-        $file = CAOS_OPT_REMOTE_JS_FILE;
     ?>
         <div class="caos-extensions postbox" style="padding: 0 15px 5px;">
             <h3><?= __('Stealth Mode (Pro)', $this->plugin_text_domain); ?></h3>

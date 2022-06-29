@@ -416,8 +416,7 @@ class CAOS
             return $url;
         }
 
-        $filehandle = str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
-        $file_alias = self::get_file_alias($filehandle);
+        $file_alias = self::get_file_alias(CAOS::get_current_file_key());
 
         if (!$file_alias) {
             return $url;
