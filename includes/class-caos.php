@@ -131,6 +131,16 @@ class CAOS
     }
 
     /**
+     * Retrieves the currently used file key. Convenient when searching for file aliases.
+     * 
+     * @return mixed 
+     */
+    public static function get_current_file_key()
+    {
+        return CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? CAOS_OPT_SERVICE_PROVIDER : str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
+    }
+
+    /**
      * @param array $file_aliases 
      * @param bool $write 
      * @return bool 

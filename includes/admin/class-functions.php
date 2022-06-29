@@ -53,7 +53,7 @@ class CAOS_Admin_Functions
 
         if (!$file_updated) {
             if (!get_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN)) {
-                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), CAOS_OPT_REMOTE_JS_FILE, 'https://daan.dev/docs/caos-troubleshooting/analytics-js-gtag-js-doesnt-exist/'), 'error');
+                CAOS_Admin_Notice::set_notice(sprintf(__('%s doesn\'t exist or hasn\'t been updated for more than two days. Try running <strong>Update %s</strong> in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain), ucfirst(CAOS::get_current_file_key()), CAOS::get_current_file_key(), 'https://daan.dev/docs/caos-troubleshooting/analytics-js-gtag-js-doesnt-exist/'), 'error');
 
                 set_transient(self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN, true, HOUR_IN_SECONDS * 4);
             }
@@ -86,7 +86,7 @@ class CAOS_Admin_Functions
      */
     public function file_recently_updated()
     {
-        $file_path = CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE));
+        $file_path = CAOS::get_file_alias_path(CAOS::get_current_file_key());
 
         if (!file_exists($file_path)) {
             return false;
