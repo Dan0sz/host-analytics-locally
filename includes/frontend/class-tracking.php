@@ -256,10 +256,8 @@ class CAOS_Frontend_Tracking
      *               - WP Super Cache v1.7.4
      *                 - Page Cache: Enabled
      * 
-     * @todo         Not tested (yet):
-     *               - Asset Cleanup Pro
-     *               - Kinsta Cache (Same as Cache Enabler?)
-     *               - Swift Performance
+     *                Not tested (yet):
+     * TODO: [CAOS-33] - Swift Performance
      *  
      * @return void 
      */
