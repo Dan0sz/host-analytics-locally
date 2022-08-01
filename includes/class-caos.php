@@ -327,9 +327,8 @@ class CAOS
     public function do_update_after_update($upgrade_obj, $options)
     {
         if (
-            $options['action'] != 'update'
-            && $options['type'] != 'plugin'
-            && !isset($options['plugins'])
+            isset($options['action']) && $options['action'] != 'update'
+            && isset($options['type']) && $options['type'] != 'plugin'
         ) {
             return;
         }
