@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 4.4.1
+Stable tag: 4.4.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.4.2 | August 2nd, 2022 =
+* Fixed: prevent warnings when updating downloaded tracking scripts directly after updating the plugin.
+* Fixed: show proper file update notice when using Plausible Analytics.
+* Fixed: updated signature in Help-tab to Daan.dev logo.
 
 = 4.4.1 | June 28th, 2022 =
 * Fixed: updated links from ffw.press to daan.dev after the migration.
