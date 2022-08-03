@@ -101,10 +101,16 @@ class CAOS_Cron
      */
     private function build_download_queue()
     {
-        // TODO: [CAOS-34] Uncaught Error: Call to undefined method CAOS::get_current_file_key() directly after update.
-        $key = CAOS::get_current_file_key();
-
         $queue = [];
+
+        /**
+         * This is a "fix" for the undefined method error @since v4.2.2.
+         */
+        if (!method_exists('CAOS', 'get_current_file_key')) {
+            return $queue;
+        }
+
+        $key = CAOS::get_current_file_key();
 
         /**
          * Plausible Analytics
