@@ -178,7 +178,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
             wp_die(__("You're not cool enough to access this page.", $this->plugin_text_domain));
         } ?>
 
-        <div class="wrap">
+        <div class="wrap caos">
             <h1><?php _e('CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain); ?></h1>
 
             <?php if (CAOS_OPT_TRACKING_CODE != 'minimal') : ?>

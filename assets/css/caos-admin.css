@@ -20,6 +20,9 @@
   cursor: not-allowed;
   color: #a2a2a2;
 }
+.caos form {
+  max-width: 1350px;
+}
 .caos_basic_settings #caos_anonymize_ip_mode_right_column {
   position: relative;
 }
