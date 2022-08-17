@@ -58,9 +58,15 @@ class CAOS_Frontend_Functions
 
     /**
      * Add Preconnect to google-analytics.com and CDN URL (if set) in wp_head().
+     * 
+     * @filter caos_frontend_add_dns_prefetch Allows disabling the prefetch, if already added by another plugin.
      */
     public function add_dns_prefetch($hints, $type)
     {
+        if (!apply_filters('caos_frontend_add_dns_prefetch', true)) {
+            return $hints;
+        }
+
         if ($type == 'preconnect') {
             $hints[] = '//www.google-analytics.com';
         }
