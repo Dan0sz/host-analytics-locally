@@ -482,8 +482,21 @@ class CAOS
         return $file_manager->find_replace_in($file, $find, $replace);
     }
 
+    /**
+     * 
+     */
     public static function uses_minimal_analytics()
     {
         return CAOS_OPT_TRACKING_CODE == 'minimal' || CAOS_OPT_TRACKING_CODE == 'minimal_ga4';
+    }
+
+    /**
+     * Global method to figure out if CAOS is setup to use Dual Tracking.
+     * 
+     * @return bool 
+     */
+    public static function dual_tracking_is_enabled()
+    {
+        return strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0 && CAOS_OPT_DUAL_TRACKING == 'on';
     }
 }

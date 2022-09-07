@@ -208,6 +208,11 @@ class CAOS_Cron
                 $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', "\"pageview\""];
                 $replaces   = [$local_ga_url, $file_alias . '?id=', "\"$home_url\"", $hit_type];
 
+                if (CAOS::dual_tracking_is_enabled()) {
+                    array_push($finds, 'https://www.googletagmanager.com/gtag/js?id=', 'www.googletagmanager.com', '/gtag/js');
+                    array_push($replaces, CAOS::get_local_file_url() . '?id=', trim($home_url, '/'), '/' . $file_alias);
+                }
+
                 CAOS::find_replace_in($downloaded_file, $finds, $replaces);
 
                 $this->tweet = sprintf($this->tweet, 'gtag.js+and+analytics.js');
