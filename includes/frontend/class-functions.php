@@ -24,6 +24,7 @@ class CAOS_Frontend_Functions
     {
         // Needs to be added after Google Analytics library is requested.
         add_action('wp_enqueue_scripts', [$this, 'enqueue_js_scripts'], CAOS_OPT_ENQUEUE_ORDER + 1);
+        add_filter('caos_frontend_add_dns_prefetch', [$this, 'maybe_add_dns_prefetch']);
         add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
     }
 
@@ -54,6 +55,17 @@ class CAOS_Frontend_Functions
         include CAOS_PLUGIN_DIR . 'templates/frontend-' . $name . '.phtml';
 
         return str_replace(['<script>', '</script>'], '', ob_get_clean());
+    }
+
+    /**
+     * Don't add DNS prefetch if compatibility mode is enabled.
+     * 
+     * @param mixed $result 
+     * @return bool 
+     */
+    public function maybe_add_dns_prefetch()
+    {
+        return CAOS_OPT_COMPATIBILITY_MODE !== 'on';
     }
 
     /**
