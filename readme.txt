@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 4.4.3
+Stable tag: 4.4.4
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.4.4 | September 22nd, 2022 =
+* Fixed: preconnect header shouldn't be added if Compatibility Mode is on.
+* Fixed: rewrite new endpoints for GA4 when Dual Tracking is enabled.
+* Fixed: Minify Minimal Analytics code (Damn auto-format!)
 
 = 4.4.3 | August 3rd, 2022 =
 * Fixed: explicitly check if CAOS::get_current_file_key() exists to prevent "undefined method" uncaught error.
