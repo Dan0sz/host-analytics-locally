@@ -238,13 +238,21 @@ class CAOS_Admin_Settings extends CAOS_Admin
     }
 
     /**
-     * Format timestamp of analytics.js last updated.
+     * Format timestamp of remote JS files' alias last updated time.
+     * 
+     * @since v4.4.6 Explicity check if file exists.
      *
      * @return string
      */
     private function file_last_updated()
     {
-        $file_mod_time = filemtime(CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE)));
+        $file_alias_path = CAOS::get_file_alias_path(str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE));
+
+        if (!file_exists($file_alias_path)) {
+            return '';
+        }
+
+        $file_mod_time = filemtime($file_alias_path);
 
         return $this->format_time_by_locale($file_mod_time, get_locale());
     }
