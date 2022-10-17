@@ -278,7 +278,7 @@ class CAOS_Admin
     public function set_cache_dir_notice($old_dir, $new_dir)
     {
         if ($new_dir !== $old_dir && !empty($new_dir)) {
-            CAOS_Admin_Notice::set_notice(sprintf(__('<strong>%s</strong> will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir));
+            CAOS_Admin_Notice::set_notice(sprintf(__('%s will now be saved in <em>%s</em>.', $this->plugin_text_domain), ucfirst(CAOS_OPT_REMOTE_JS_FILE), $new_dir));
         }
 
 
