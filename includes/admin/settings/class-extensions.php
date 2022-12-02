@@ -32,7 +32,8 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
 
         add_filter('caos_extensions_settings_content', [$this, 'do_stealth_mode_promo'], 14);
         add_filter('caos_extensions_settings_content', [$this, 'do_request_handling_promo'], 15);
-        add_filter('caos_extensions_settings_content', [$this, 'do_cloudflare_compatibility'], 16);
+        add_filter('caos_extensions_settings_content', [$this, 'do_gdpr_compliance'], 16);
+        add_filter('caos_extensions_settings_content', [$this, 'do_cloudflare_compatibility'], 17);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_after'], 18);
         add_filter('caos_extensions_settings_content', [$this, 'close_extensions_panel'], 19);
@@ -95,7 +96,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'caos_pro_stealth_mode',
             defined('CAOS_PRO_STEALTH_MODE') ? CAOS_PRO_STEALTH_MODE : false,
             sprintf(__('Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags) . ' ' . $this->promo,
-            true
+            !defined('CAOS_PRO_STEALTH_MODE')
         );
     }
 
@@ -115,6 +116,21 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     }
 
     /**
+     * GDPR Compliance
+     */
+    public function do_gdpr_compliance()
+    {
+        $this->do_checkbox(
+            __('GDPR Compliance (Pro)', $this->plugin_text_domain),
+            'caos_pro_gdpr',
+            defined('CAOS_PRO_GDPR') ? CAOS_PRO_GDPR : false,
+            __('Remove IP address, User Agent and other unique identifiers that are considered personal data to use Google Analytics in compliance with the GDPR.', $this->plugin_text_domain),
+            !defined('CAOS_PRO_GDPR'),
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
+        );
+    }
+
+    /**
      * @return void 
      */
     public function do_cloudflare_compatibility()
@@ -124,7 +140,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'caos_pro_cf_compatibility',
             defined('CAOS_PRO_CF_COMPATIBILITY') ? CAOS_PRO_CF_COMPATIBILITY : false,
             __('When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain),
-            true,
+            !defined('CAOS_PRO_CF_COMPATIBILITY'),
             CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
     }
@@ -153,7 +169,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_extensions_settings_open()
     {
-        $this->do_tbody_open('caos_extensions_settings', !empty(CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics');
+        $this->do_tbody_open('caos_extensions_settings', !CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'google_analytics');
     }
 
     /**
@@ -165,7 +181,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Capture Outbound Links', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
             CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
-            sprintf(__('Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>')
+            sprintf(__('Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'),
+            false,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
         );
     }
 
@@ -178,7 +196,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Track Ad Blockers', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
             CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
-            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://daan.dev/docs/caos/extensions/')
+            sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://daan.dev/docs/caos/extensions/'),
+            false,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
         );
     }
 
@@ -192,7 +212,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             __('Enhanced Link Attribution', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
             CAOS_OPT_EXT_LINKID,
-            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution')
+            sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution'),
+            false,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
         );
     }
 }

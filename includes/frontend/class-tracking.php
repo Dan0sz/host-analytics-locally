@@ -301,14 +301,14 @@ class CAOS_Frontend_Tracking
     public function disable_advertising_features()
     {
         // When merging config array, gtag.js properly renders the boolean values.
-        $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true;
+        $ads_features_disabled = apply_filters('caos_frontend_disable_ad_features_enabled', CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true, 'disable_ad_features');
 
         add_filter('caos_gtag_config', function ($config) use ($ads_features_disabled) {
             return $config + array('allow_google_signals' => $ads_features_disabled);
         });
 
         // Analytics.js requires a slightly different approach when merging the config.
-        $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? 'false' : 'true';
+        $ads_features_disabled = apply_filters('caos_frontend_disable_ad_features_enabled', CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? 'false' : 'true', 'disable_ad_features');
 
         add_filter('caos_analytics_before_send', function ($config) use ($ads_features_disabled) {
             $option = array(

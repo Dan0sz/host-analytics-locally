@@ -202,7 +202,7 @@ class CAOS_Cron
                 }
 
                 $ext_ga_url = CAOS_GA_URL . '/analytics.js';
-                $home_url   = str_replace(['https:', 'http:'], '', content_url(CAOS_OPT_CACHE_DIR));
+                $home_url   = str_replace(['https:', 'http:'], '', WP_CONTENT_URL . CAOS_OPT_CACHE_DIR);
                 $hit_type   = apply_filters('caos_gtag_hit_type', '"pageview"');
                 $file_alias = CAOS_OPT_DUAL_TRACKING == 'on' ? CAOS::get_file_alias('gtag-v4') : CAOS::get_file_alias($file);
                 $finds      = [$ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', "\"pageview\""];

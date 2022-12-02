@@ -103,17 +103,21 @@ class CAOS_Admin_Settings_Builder
     /**
      * Show Compatibility Mode notice.
      */
-    public function do_invisible_option_notice()
+    public function do_invisible_option_notice($add_to_table = true)
     {
         if (CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
-            <tr>
-                <th></th>
-                <td>
+            <?php if ($add_to_table) : ?>
+                <tr>
+                    <th></th>
+                    <td>
+                    <?php endif; ?>
                     <p class="description">
                         <?= __('Some settings are not displayed, because Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
                     </p>
-                </td>
-            </tr>
+                    <?php if ($add_to_table) : ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
         <?php endif;
     }
 
@@ -221,10 +225,14 @@ class CAOS_Admin_Settings_Builder
         <tr class="<?= str_replace('_', '-', $name); ?>-row" <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
-                <p class="description">
-                    <?= apply_filters($name . 'setting_description', $description); ?>
-                </p>
+                <?php if ($visible) : ?>
+                    <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
+                    <p class="description">
+                        <?= apply_filters($name . 'setting_description', $description); ?>
+                    </p>
+                <?php else : ?>
+                    <?php $this->do_invisible_option_notice(false); ?>
+                <?php endif; ?>
             </td>
         </tr>
     <?php
@@ -244,10 +252,14 @@ class CAOS_Admin_Settings_Builder
         <tr class='<?= str_replace('_', '-', $name); ?>-row' <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <label for="<?= $name; ?>">
-                    <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                    <?= apply_filters($name . '_setting_description', $description); ?>
-                </label>
+                <?php if ($visible) : ?>
+                    <label for="<?= $name; ?>">
+                        <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                        <?= apply_filters($name . '_setting_description', $description); ?>
+                    </label>
+                <?php else : ?>
+                    <?php $this->do_invisible_option_notice(false); ?>
+                <?php endif; ?>
             </td>
         </tr>
 <?php

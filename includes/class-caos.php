@@ -499,4 +499,14 @@ class CAOS
     {
         return strpos(CAOS_OPT_TRACKING_ID, 'UA-') === 0 && CAOS_OPT_DUAL_TRACKING == 'on';
     }
+
+    /**
+     * Global method to check if CAOS is set to use GA4.
+     * 
+     * @return bool 
+     */
+    public static function uses_ga4()
+    {
+        return strpos(CAOS_OPT_TRACKING_ID, 'G') === 0 && CAOS_OPT_REMOTE_JS_FILE == 'gtag-v4.js';
+    }
 }

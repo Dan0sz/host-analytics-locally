@@ -130,18 +130,15 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_cookieless_analytics_promo()
     {
-        $description = __('When enabled Google Analytics will not create any cookies. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent.', $this->plugin_text_domain) . ' ' . $this->promo;
-
-        if (CAOS_OPT_REMOTE_JS_FILE != 'analytics.js') {
-            $description = __('This option will only work when <strong>Download File</strong> is set to <code>analytics.js</code>.', $this->plugin_text_domain) . ' ' . $description;
-        }
+        $description = __('When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID, so your visitors can no longer be tracked across different websites/platforms.', $this->plugin_text_domain) . ' ' . $this->promo;
 
         $this->do_checkbox(
             __('Enable Cookieless Analytics (Pro)', $this->plugin_text_domain),
             'caos_pro_cookieless_analytics',
             defined('CAOS_PRO_COOKIELESS_ANALYTICS') && CAOS_PRO_COOKIELESS_ANALYTICS,
             $description,
-            true
+            true,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
     }
 
@@ -156,37 +153,41 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         <tr>
             <th><?= __('Track Cloaked Affiliate Links (Pro)', $this->plugin_text_domain); ?></th>
             <td>
-                <table class="track-cloaked-affiliate-links">
-                    <tr>
-                        <th><?= __('Path', $this->plugin_text_domain); ?></th>
-                        <th><?= __('Event Category', $this->plugin_text_domain); ?></th>
-                        <th></th>
-                    </tr>
-                    <?php
-                    $affiliate_links = defined('CAOS_PRO_AFFILIATE_LINKS') && CAOS_PRO_AFFILIATE_LINKS ? CAOS_PRO_AFFILIATE_LINKS : [0 => ['path' => '', 'category' => '']];
-                    $disabled        = apply_filters('caos_pro_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
-
-                    foreach ($affiliate_links as $key => $properties) :
-                    ?>
-                        <tr id="affiliate-link-row-<?= $key; ?>">
-                            <?php foreach ($properties as $prop_key => $prop_value) : ?>
-                                <td id="affiliate-link-<?= $prop_key; ?>-<?= $key; ?>">
-                                    <input type="text" <?= $disabled; ?> class="affiliate-link-<?= $prop_key; ?>" name="caos_pro_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
-                                </td>
-                            <?php endforeach; ?>
-                            <td>
-                                <span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?= $key; ?>" <?= $disabled ? 'style="opacity: 15%;"' : ''; ?>></span>
-                            </td>
+                <?php if (CAOS_OPT_SERVICE_PROVIDER != 'google_analytics') : ?>
+                    <?php $this->do_invisible_option_notice(false); ?>
+                <?php else : ?>
+                    <table class="track-cloaked-affiliate-links">
+                        <tr>
+                            <th><?= __('Path', $this->plugin_text_domain); ?></th>
+                            <th><?= __('Event Category', $this->plugin_text_domain); ?></th>
+                            <th></th>
                         </tr>
-                    <?php endforeach; ?>
-                </table>
-                <p>
-                    <input type="button" <?= $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?= __('Add Link Path', $this->plugin_text_domain); ?>" />
-                </p>
-                <p class="description">
-                    <?= defined('CAOS_PRO_STEALTH_MODE') && CAOS_PRO_STEALTH_MODE == 'on' ? __('If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', $this->plugin_text_domain) : ''; ?>
-                    <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
-                </p>
+                        <?php
+                        $affiliate_links = defined('CAOS_PRO_AFFILIATE_LINKS') && CAOS_PRO_AFFILIATE_LINKS ? CAOS_PRO_AFFILIATE_LINKS : [0 => ['path' => '', 'category' => '']];
+                        $disabled        = apply_filters('caos_pro_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
+
+                        foreach ($affiliate_links as $key => $properties) :
+                        ?>
+                            <tr id="affiliate-link-row-<?= $key; ?>">
+                                <?php foreach ($properties as $prop_key => $prop_value) : ?>
+                                    <td id="affiliate-link-<?= $prop_key; ?>-<?= $key; ?>">
+                                        <input type="text" <?= $disabled; ?> class="affiliate-link-<?= $prop_key; ?>" name="caos_pro_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
+                                    </td>
+                                <?php endforeach; ?>
+                                <td>
+                                    <span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?= $key; ?>" <?= $disabled ? 'style="opacity: 15%;"' : ''; ?>></span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <p>
+                        <input type="button" <?= $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?= __('Add Link Path', $this->plugin_text_domain); ?>" />
+                    </p>
+                    <p class="description">
+                        <?= defined('CAOS_PRO_STEALTH_MODE') && CAOS_PRO_STEALTH_MODE == 'on' ? __('If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', $this->plugin_text_domain) : ''; ?>
+                        <?= __('Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', $this->plugin_text_domain) . ' ' . $this->promo; ?>
+                    </p>
+                <?php endif; ?>
             </td>
         </tr>
 <?php
