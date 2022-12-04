@@ -45,7 +45,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
         /**
          * Priorities 150 and up can't be used when compatibility mode is on. A proper notice will be shown when it's enabled.
          */
-        add_filter('caos_extensions_settings_content', [$this, 'do_invisible_option_notice'], 40);
+        add_filter('caos_extensions_settings_content', function () {
+            $this->do_invisible_option_notice();
+        }, 40);
         add_filter('caos_extensions_settings_content', [$this, 'do_tbody_extensions_settings_open'], 50);
 
         add_filter('caos_extensions_settings_content', [$this, 'do_track_ad_blockers'], 60);

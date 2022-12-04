@@ -105,13 +105,13 @@ class CAOS_Admin_Settings_Builder
      */
     public function do_invisible_option_notice($add_to_table = true)
     {
-        if (CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
+        if ((CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
             <?php if ($add_to_table) : ?>
                 <tr>
                     <th></th>
                     <td>
                     <?php endif; ?>
-                    <p class="description">
+                    <p class="description caos-notice info">
                         <?= __('Some settings are not displayed, because Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
                     </p>
                     <?php if ($add_to_table) : ?>
@@ -137,17 +137,19 @@ class CAOS_Admin_Settings_Builder
         <tr>
             <th scope="row"><?= $label; ?></th>
             <td id="<?= $name . '_right_column'; ?>">
-                <?php foreach ($inputs as $option => $option_label) : ?>
-                    <label>
-                        <input type="radio" <?= is_array($disabled) && $disabled[$i] !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
-                        <?= $option_label; ?>
-                    </label>
-                    <br />
-                    <?php $i++; ?>
-                <?php endforeach; ?>
-                <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                </p>
+                <fieldset>
+                    <?php foreach ($inputs as $option => $option_label) : ?>
+                        <label>
+                            <input type="radio" <?= is_array($disabled) && $disabled[$i] !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
+                            <?= $option_label; ?>
+                        </label>
+                        <br />
+                        <?php $i++; ?>
+                    <?php endforeach; ?>
+                    <p class="description">
+                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                    </p>
+                </fieldset>
             </td>
         </tr>
     <?php
@@ -170,17 +172,19 @@ class CAOS_Admin_Settings_Builder
                 <?= apply_filters($select . '_setting_label', $label); ?>
             </th>
             <td>
-                <select name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
-                    <?php
-                    $options = apply_filters($select . '_setting_options', $options);
-                    ?>
-                    <?php foreach ($options as $option => $option_label) : ?>
-                        <option value="<?= $option; ?>" <?= ($selected == $option) ? 'selected' : ''; ?>><?= $option_label; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <p class="description">
-                    <?= apply_filters($select . '_setting_description', $description, $label, $name); ?>
-                </p>
+                <fieldset>
+                    <select name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
+                        <?php
+                        $options = apply_filters($select . '_setting_options', $options);
+                        ?>
+                        <?php foreach ($options as $option => $option_label) : ?>
+                            <option value="<?= $option; ?>" <?= ($selected == $option) ? 'selected' : ''; ?>><?= $option_label; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="description">
+                        <?= apply_filters($select . '_setting_description', $description, $label, $name); ?>
+                    </p>
+                </fieldset>
             </td>
         </tr>
     <?php
@@ -200,10 +204,12 @@ class CAOS_Admin_Settings_Builder
         <tr valign="top">
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>" />
-                <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                </p>
+                <fieldset>
+                    <input class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>" />
+                    <p class="description">
+                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                    </p>
+                </fieldset>
             </td>
         </tr>
     <?php
@@ -248,10 +254,12 @@ class CAOS_Admin_Settings_Builder
         <tr class='<?= str_replace('_', '-', $name); ?>-row' <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <label for="<?= $name; ?>">
-                    <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                </label>
+                <fieldset>
+                    <label for="<?= $name; ?>">
+                        <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                    </label>
+                </fieldset>
             </td>
         </tr>
 <?php
