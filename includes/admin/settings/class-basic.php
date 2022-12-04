@@ -199,7 +199,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             __('Increase GDPR Compliance (Pro)', $this->plugin_text_domain),
             'caos_pro_gdpr',
             defined('CAOS_PRO_GDPR') ? CAOS_PRO_GDPR : false,
-            sprintf(__('Remove IP address, User Agent and other unique identifiers that are considered personal data to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from your site\'s URL as well. <A href="%s" target="_blank">Read more</a>', $this->plugin_text_domain), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr') . ' ' . $this->promo,
+            sprintf(__('Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from your site\'s URL as well. <A href="%s" target="_blank">Read more</a>', $this->plugin_text_domain), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr') . ' ' . $this->promo,
             !defined('CAOS_PRO_GDPR'),
             CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
