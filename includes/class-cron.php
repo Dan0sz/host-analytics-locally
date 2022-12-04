@@ -52,7 +52,7 @@ class CAOS_Cron
         $downloaded_files = $this->download();
 
         // Only sent a success message if this is a AJAX request.
-        if (!wp_doing_cron()) {
+        if (!wp_doing_cron() && !empty($downloaded_files)) {
             $review_link = apply_filters('caos_manual_download_review_link', $this->review);
             $tweet_link  = apply_filters('caos_manual_download_tweet_link', $this->tweet);
             $notice      = $this->build_natural_sentence($downloaded_files);
@@ -101,6 +101,10 @@ class CAOS_Cron
      */
     private function build_download_queue()
     {
+        if (CAOS::uses_minimal_analytics()) {
+            return [];
+        }
+
         $queue = [];
 
         /**

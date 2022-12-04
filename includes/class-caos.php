@@ -290,10 +290,6 @@ class CAOS
      */
     public function trigger_cron_script()
     {
-        if (self::uses_minimal_analytics()) {
-            return;
-        }
-
         return new CAOS_Cron();
     }
 
