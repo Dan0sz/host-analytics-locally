@@ -42,8 +42,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 130);
         add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
-        add_filter('caos_advanced_settings_content', [$this, 'do_change_enqueue_order'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 160);
+        add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 150);
         add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
 
         // Uninstall Setting
@@ -130,14 +129,14 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_cookieless_analytics_promo()
     {
-        $description = __('When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID, so your visitors can no longer be tracked across different websites/platforms.', $this->plugin_text_domain) . ' ' . $this->promo;
+        $description = __('When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website, tracking across different websites/platforms is no longer possible.', $this->plugin_text_domain) . ' ' . $this->promo;
 
         $this->do_checkbox(
             __('Enable Cookieless Analytics (Pro)', $this->plugin_text_domain),
             'caos_pro_cookieless_analytics',
             defined('CAOS_PRO_COOKIELESS_ANALYTICS') && CAOS_PRO_COOKIELESS_ANALYTICS,
             $description,
-            true,
+            !defined('CAOS_PRO_COOKIELESS_ANALYTICS'),
             CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
     }
@@ -227,19 +226,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE,
             CAOS_OPT_SITE_SPEED_SAMPLE_RATE,
             __('This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', $this->plugin_text_domain)
-        );
-    }
-
-    /**
-     * Change enqueue order
-     */
-    public function do_change_enqueue_order()
-    {
-        $this->do_number(
-            __('Enqueue order', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_ADV_SETTING_ENQUEUE_ORDER,
-            CAOS_OPT_ENQUEUE_ORDER,
-            __('Do not change this unless you know, what you\'re doing. Defaults to 10.', $this->plugin_text_domain)
         );
     }
 

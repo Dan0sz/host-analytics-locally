@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdsInsightsBreakdownsValues;
-
 defined('ABSPATH') || exit;
 
 class CAOS_Frontend_Tracking
@@ -100,17 +98,17 @@ class CAOS_Frontend_Tracking
         } elseif (current_user_can('manage_options') && !CAOS_OPT_TRACK_ADMIN) {
             switch (CAOS_OPT_SCRIPT_POSITION) {
                 case "footer":
-                    add_action('wp_footer', [$this, 'show_admin_message'], CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_footer', [$this, 'show_admin_message']);
                     break;
                 case "manual":
                     break;
                 default:
-                    add_action('wp_head', [$this, 'show_admin_message'], CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_head', [$this, 'show_admin_message']);
                     break;
             }
         } else {
             if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
-                add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking'], CAOS_OPT_ENQUEUE_ORDER);
+                add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking']);
             }
 
             /**
@@ -120,12 +118,12 @@ class CAOS_Frontend_Tracking
             if (CAOS::uses_minimal_analytics()) {
                 switch (CAOS_OPT_SCRIPT_POSITION) {
                     case "footer":
-                        add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                        add_action('wp_footer', [$this, 'insert_minimal_tracking_snippet']);
                         break;
                     case "manual":
                         break;
                     default:
-                        add_action('wp_head', [$this, 'insert_minimal_tracking_snippet'], CAOS_OPT_ENQUEUE_ORDER);
+                        add_action('wp_head', [$this, 'insert_minimal_tracking_snippet']);
                         break;
                 }
 
@@ -143,7 +141,7 @@ class CAOS_Frontend_Tracking
                 case "manual":
                     break;
                 default:
-                    add_action('wp_enqueue_scripts', [$this, 'render_tracking_code'], CAOS_OPT_ENQUEUE_ORDER);
+                    add_action('wp_enqueue_scripts', [$this, 'render_tracking_code']);
                     break;
             }
         }
@@ -301,14 +299,14 @@ class CAOS_Frontend_Tracking
     public function disable_advertising_features()
     {
         // When merging config array, gtag.js properly renders the boolean values.
-        $ads_features_disabled = apply_filters('caos_frontend_disable_ad_features_enabled', CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true, 'disable_ad_features');
+        $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? false : true;
 
         add_filter('caos_gtag_config', function ($config) use ($ads_features_disabled) {
             return $config + array('allow_google_signals' => $ads_features_disabled);
         });
 
         // Analytics.js requires a slightly different approach when merging the config.
-        $ads_features_disabled = apply_filters('caos_frontend_disable_ad_features_enabled', CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? 'false' : 'true', 'disable_ad_features');
+        $ads_features_disabled = CAOS_OPT_DISABLE_ADS_FEAT == 'on' ? 'false' : 'true';
 
         add_filter('caos_analytics_before_send', function ($config) use ($ads_features_disabled) {
             $option = array(
@@ -324,7 +322,7 @@ class CAOS_Frontend_Tracking
      */
     public function anonymize_ip()
     {
-        if (CAOS_OPT_ANONYMIZE_IP_MODE == '') {
+        if (apply_filters('caos_frontend_anonymize_ip_disabled', CAOS_OPT_ANONYMIZE_IP_MODE == '')) {
             return;
         }
 

@@ -146,7 +146,7 @@ class CAOS_Admin_Settings_Builder
                     <?php $i++; ?>
                 <?php endforeach; ?>
                 <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description); ?>
+                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
                 </p>
             </td>
         </tr>
@@ -179,7 +179,7 @@ class CAOS_Admin_Settings_Builder
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?= apply_filters($select . '_setting_description', $description); ?>
+                    <?= apply_filters($select . '_setting_description', $description, $label, $name); ?>
                 </p>
             </td>
         </tr>
@@ -202,7 +202,7 @@ class CAOS_Admin_Settings_Builder
             <td>
                 <input class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>" />
                 <p class="description">
-                    <?= apply_filters($name . '_setting_description', $description); ?>
+                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
                 </p>
             </td>
         </tr>
@@ -228,7 +228,7 @@ class CAOS_Admin_Settings_Builder
                 <?php if ($visible) : ?>
                     <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
                     <p class="description">
-                        <?= apply_filters($name . 'setting_description', $description); ?>
+                        <?= apply_filters($name . 'setting_description', $description, $label, $name); ?>
                     </p>
                 <?php else : ?>
                     <?php $this->do_invisible_option_notice(false); ?>
@@ -255,7 +255,7 @@ class CAOS_Admin_Settings_Builder
                 <?php if ($visible) : ?>
                     <label for="<?= $name; ?>">
                         <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                        <?= apply_filters($name . '_setting_description', $description); ?>
+                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
                     </label>
                 <?php else : ?>
                     <?php $this->do_invisible_option_notice(false); ?>

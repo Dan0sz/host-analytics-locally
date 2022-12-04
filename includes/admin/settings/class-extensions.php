@@ -111,7 +111,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             'caos_pro_request_handling',
             defined('CAOS_PRO_REQUEST_HANDLING') ? CAOS_PRO_REQUEST_HANDLING : false,
             __('In Stealth Mode, all Plausible and Google Analytics related requests (e.g. <code>/api/event</code>, <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are sent almost instantly.', $this->plugin_text_domain) . ' ' . $this->promo,
-            [true, true]
+            [!defined('CAOS_PRO_REQUEST_HANDLING'), !defined('CAOS_PRO_REQUEST_HANDLING')]
         );
     }
 
@@ -121,10 +121,10 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_gdpr_compliance()
     {
         $this->do_checkbox(
-            __('GDPR Compliance (Pro)', $this->plugin_text_domain),
+            __('Increase GDPR Compliance (Pro)', $this->plugin_text_domain),
             'caos_pro_gdpr',
             defined('CAOS_PRO_GDPR') ? CAOS_PRO_GDPR : false,
-            __('Remove IP address, User Agent and other unique identifiers that are considered personal data to use Google Analytics in compliance with the GDPR.', $this->plugin_text_domain),
+            sprintf(__('Remove IP address, User Agent and other unique identifiers that are considered personal data to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from your site\'s URL as well. <A href="%s" target="_blank">Read more</a>', $this->plugin_text_domain), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr'),
             !defined('CAOS_PRO_GDPR'),
             CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
         );
