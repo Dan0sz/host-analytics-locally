@@ -182,7 +182,7 @@ class CAOS_Admin_Settings_Builder
                         <?php endforeach; ?>
                     </select>
                     <p class="description">
-                        <?= apply_filters($select . '_setting_description', $description, $label, $name); ?>
+                        <?= apply_filters($select . '_setting_description', $description, $label, $select); ?>
                     </p>
                 </fieldset>
             </td>
