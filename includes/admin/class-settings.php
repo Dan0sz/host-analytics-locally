@@ -449,7 +449,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     }
 
     /**
-     * All logic to generate the news reel in the bottom right of the footer on all of OMGF's settings pages.
+     * All logic to generate the news reel in the bottom right of the footer on all of CAOS' settings pages.
      * 
      * Includes multiple checks to make sure the reel is only shown if a recent post is available.
      * 

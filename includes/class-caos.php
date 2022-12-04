@@ -238,7 +238,7 @@ class CAOS
     }
 
     /**
-     * Modify behavior of OMGF's AJAX hooks.
+     * Modify behavior of CAOS' AJAX hooks.
      * 
      * @return void 
      */
