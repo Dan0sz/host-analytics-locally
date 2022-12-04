@@ -107,10 +107,6 @@ class CAOS_Frontend_Tracking
                     break;
             }
         } else {
-            if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
-                add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking']);
-            }
-
             /**
              * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
              * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
@@ -128,6 +124,10 @@ class CAOS_Frontend_Tracking
                 }
 
                 return;
+            }
+
+            if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
+                add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking']);
             }
 
             /**
