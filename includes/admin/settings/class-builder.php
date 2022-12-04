@@ -225,21 +225,17 @@ class CAOS_Admin_Settings_Builder
         <tr class="<?= str_replace('_', '-', $name); ?>-row" <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <?php if ($visible) : ?>
-                    <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
-                    <p class="description">
-                        <?= apply_filters($name . 'setting_description', $description, $label, $name); ?>
-                    </p>
-                <?php else : ?>
-                    <?php $this->do_invisible_option_notice(false); ?>
-                <?php endif; ?>
+                <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
+                <p class="description">
+                    <?= apply_filters($name . 'setting_description', $description, $label, $name); ?>
+                </p>
             </td>
         </tr>
     <?php
     }
 
     /**
-     * Generate checkbox setting.
+     * Generate checkbox setting.q
      *
      * @param $label
      * @param $name
@@ -252,14 +248,10 @@ class CAOS_Admin_Settings_Builder
         <tr class='<?= str_replace('_', '-', $name); ?>-row' <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <?php if ($visible) : ?>
-                    <label for="<?= $name; ?>">
-                        <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                    </label>
-                <?php else : ?>
-                    <?php $this->do_invisible_option_notice(false); ?>
-                <?php endif; ?>
+                <label for="<?= $name; ?>">
+                    <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                    <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                </label>
             </td>
         </tr>
 <?php
