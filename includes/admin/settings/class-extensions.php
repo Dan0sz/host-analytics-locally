@@ -169,7 +169,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS,
             sprintf(__('Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %sRead more%s', $this->plugin_text_domain), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>'),
             false,
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS::uses_minimal_analytics() && !CAOS::uses_ga4()
         );
     }
 
@@ -179,12 +179,12 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
     public function do_track_ad_blockers()
     {
         $this->do_checkbox(
-            __('Track Ad Blockers', $this->plugin_text_domain),
+            __('Track Ad Blockers (deprecated)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
             CAOS_OPT_EXT_TRACK_AD_BLOCKERS,
             sprintf(__("Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain), 'https://daan.dev/docs/caos/extensions/'),
             false,
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS::uses_minimal_analytics() && !CAOS::uses_ga4()
         );
     }
 
@@ -200,7 +200,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_OPT_EXT_LINKID,
             sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution'),
             false,
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && strpos(CAOS_OPT_TRACKING_CODE, 'minimal') === false && !CAOS::uses_ga4()
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS::uses_minimal_analytics() && !CAOS::uses_ga4()
         );
     }
 }
