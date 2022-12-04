@@ -480,7 +480,7 @@ class CAOS_Frontend_Tracking
 
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
-        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
+        $deps = apply_filters('caos_frontend_tracking_track_ad_blockers_enabled', CAOS_OPT_EXT_TRACK_AD_BLOCKERS) ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
 
         if (CAOS_OPT_TRACKING_CODE != 'minimal') {
             wp_enqueue_script($this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer);
