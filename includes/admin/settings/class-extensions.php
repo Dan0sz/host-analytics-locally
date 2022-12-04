@@ -200,7 +200,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder
             CAOS_OPT_EXT_LINKID,
             sprintf(__('Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution'),
             false,
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS::uses_minimal_analytics() && !CAOS::uses_ga4()
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS::uses_minimal_analytics() && !CAOS::uses_ga4()
         );
     }
 }
