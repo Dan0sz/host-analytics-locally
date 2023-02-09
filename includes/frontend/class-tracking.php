@@ -107,7 +107,7 @@ class CAOS_Frontend_Tracking
                     break;
             }
         } else {
-            if (apply_filters('caos_frontend_tracking_track_ad_blockers_enabled', CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on')) {
+            if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS == 'on') {
                 add_action('wp_enqueue_scripts', [$this, 'insert_ad_blocker_tracking']);
             }
 
@@ -322,7 +322,7 @@ class CAOS_Frontend_Tracking
      */
     public function anonymize_ip()
     {
-        if (apply_filters('caos_frontend_anonymize_ip_disabled', CAOS_OPT_ANONYMIZE_IP_MODE == '')) {
+        if (CAOS_OPT_ANONYMIZE_IP_MODE == '') {
             return;
         }
 
@@ -401,6 +401,10 @@ class CAOS_Frontend_Tracking
      */
     public function dual_tracking()
     {
+        if (CAOS_OPT_DUAL_TRACKING !== 'on') {
+            return;
+        }
+
         if ($this->is_ga4() || !$this->is_gtag()) {
             return;
         }
@@ -480,7 +484,7 @@ class CAOS_Frontend_Tracking
 
         echo "<!-- " . __('This site is running CAOS for Wordpress', 'host-analyticsjs-local') . " -->\n";
 
-        $deps = apply_filters('caos_frontend_tracking_track_ad_blockers_enabled', CAOS_OPT_EXT_TRACK_AD_BLOCKERS) ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
+        $deps = CAOS_OPT_EXT_TRACK_AD_BLOCKERS ? [self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS] : [];
 
         if (CAOS_OPT_TRACKING_CODE != 'minimal') {
             wp_enqueue_script($this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer);
