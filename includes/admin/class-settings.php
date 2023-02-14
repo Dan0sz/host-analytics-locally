@@ -51,7 +51,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
         ''    => 'Off (default)',
         'one' => 'One octet',
-        'two' => 'Two octets (Pro) (only works in Stealth Mode)'
+        'all' => 'All octets (Pro) (only works in Stealth Mode)'
     ];
     const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
         'header' => 'Header (default)',

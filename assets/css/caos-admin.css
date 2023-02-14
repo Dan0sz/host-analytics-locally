@@ -46,8 +46,7 @@
 .caos_basic_settings #caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example {
   font-size: 1.5em;
 }
-.caos_basic_settings #caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example .third-octet,
-.caos_basic_settings #caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example .fourth-octet {
+.caos_basic_settings #caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example .octet {
   padding: 0 5px 3px;
   background-color: #fff;
   border-radius: 3px;
