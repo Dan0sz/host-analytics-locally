@@ -39,9 +39,9 @@ $custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
     /**
      * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
      *
-     * Example: add_filter('caos_gtag_additional_config', 'your_filter_function_name');
+     * Example: add_action('caos_gtag_additional_config', 'your_filter_function_name');
      */
-    apply_filters('caos_gtag_additional_config', '');
+    do_action('caos_gtag_additional_config');
     ?>
     <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE) : ?>
         setTimeout("gtag('event', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>', {'event_category': 'Adjusted Bounce Rate'})", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);

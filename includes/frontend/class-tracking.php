@@ -48,6 +48,8 @@ class CAOS_Frontend_Tracking
         $this->handle    = 'caos-' . (CAOS_OPT_TRACKING_CODE ? CAOS_OPT_TRACKING_CODE . '-' : '') . str_replace('.js', '', CAOS_OPT_REMOTE_JS_FILE);
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
+        add_action('caos_inline_scripts_before_tracking_code', [$this, 'consent_mode']);
+        add_action('caos_gtag_additional_config', [$this, 'consent_mode_listener']);
         add_action('init', [$this, 'insert_tracking_code']);
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_action('caos_process_settings', [$this, 'disable_advertising_features']);
@@ -58,13 +60,140 @@ class CAOS_Frontend_Tracking
     }
 
     /**
+     * Inserts the code snippet required for Google Analytics' Consent Mode to be activated.
+     * 
+     * @param mixed $handle 
+     * 
+     * @since v4.5.0
+     * 
+     * @return void 
+     */
+    public function consent_mode($handle)
+    {
+        if (apply_filters('caos_frontend_tracking_consent_mode', !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '')) {
+            return;
+        }
+
+        ob_start(); ?>
+
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('consent', 'default', {
+                'analytics_storage': 'denied'
+            });
+
+            <?php
+            /**
+             * Allows for adding additional defaults as HTML to Google Analytics' Consent Mode, e.g.
+             * 
+             * gtag('consent', 'default', {s
+             *     'ad_storage': 'denied'
+             * });
+             * 
+             * @since v4.5.0
+             * 
+             * @action caos_frontend_tracking_consent_mode_defaults
+             */
+            do_action('caos_frontend_tracking_consent_mode_defaults');
+            ?>
+        </script>
+    <?php
+        $snippet = ob_get_clean();
+
+        wp_add_inline_script($handle, str_replace(['<script>', '</script>'], '', $snippet), 'before');
+    }
+
+    /**
+     * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
+     * 
+     * @since v4.5.0
+     * 
+     * @return void 
+     */
+    public function consent_mode_listener()
+    {
+        if (apply_filters('caos_frontend_tracking_consent_mode_listener', !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '')) {
+            return;
+        }
+
+        ob_start(); ?>
+
+        <script>
+            var caos_consent_mode = function() {
+                var i = 0;
+
+                return function() {
+                    if (i >= 30) {
+                        console.log('No cookie match found for 15 seconds, trying again on next pageload.');
+
+                        clearInterval(caos_consent_mode_listener);
+                    }
+
+                    var cookie = document.cookie;
+
+                    <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set') : ?>
+                        if (cookie.match(/<?php echo CAOS_OPT_COOKIE_NAME; ?>=.*?/) !== null) {
+                            consent_granted();
+                        }
+                    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set') : ?>
+                        if (cookie.match(/<?php echo CAOS_OPT_COOKIE_NAME; ?>=.*?/) === null) {
+                            consent_granted();
+                        }
+                    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'çookie_has_value') : ?>
+                        if (cookie.match(/<?php echo CAOS_OPT_COOKIE_NAME; ?>=<?php echo CAOS_OPT_COOKIE_VALUE; ?>/) !== null) {
+                            consent_granted();
+                        }
+                    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_value_contains') : ?>
+                        if (cookie.match(/<?php echo CAOS_OPT_COOKIE_NAME; ?>=.*?<?php echo CAOS_OPT_COOKIE_VALUE; ?>.*?/) !== null) {
+                            consent_granted();
+                        }
+                    <?php endif; ?>
+
+                    i++;
+                };
+            }();
+
+            var caos_consent_mode_listener = window.setInterval(caos_consent_mode, 500);
+
+            function consent_granted() {
+                console.log('Cookie matched! Updating consent state to granted.');
+
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
+
+                <?php
+                /**
+                 * Allows for triggering additional update queries to Google Analytics' Consent Mode framework.
+                 * 
+                 * @since v4.5.0
+                 * 
+                 * @action caos_frontend_tracking_consent_mode_listener_update
+                 */
+                do_action('caos_frontend_tracking_consent_mode_listener_update');
+                ?>
+
+                window.clearInterval(caos_consent_mode_listener);
+            }
+        </script>
+    <?php
+
+        echo ob_get_clean();
+    }
+
+    /**
      * Render the tracking code in it's selected locations
      */
     public function insert_tracking_code()
     {
         /**
          * Plausible Analytics
-         * 
+         *
          * @since v4.4.0
          */
         if (CAOS_OPT_SERVICE_PROVIDER == 'plausible') {
@@ -89,7 +218,7 @@ class CAOS_Frontend_Tracking
         if (CAOS_OPT_COMPATIBILITY_MODE && !is_admin()) {
             /**
              * @since v4.3.1 For certain Page Cache plugins, we're using an alternative method,
-             *               to prevent breaking the page cache. We still use the same filter, 
+             *               to prevent breaking the page cache. We still use the same filter,
              *               though.
              */
             add_filter('caos_buffer_output', [$this, 'insert_local_file']);
@@ -149,15 +278,15 @@ class CAOS_Frontend_Tracking
 
     /**
      * Add Plausible Analytics tracking code.
-     * 
+     *
      * @since v4.4.0
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function insert_plausible_tracking_code()
     {
         $cache = content_url(CAOS_OPT_CACHE_DIR);
-?>
+    ?>
         <script defer data-domain="<?php echo CAOS_OPT_DOMAIN_NAME; ?>" data-api="<?php echo apply_filters('caos_plausible_analytics_frontend_api', 'https://plausible.io/api/event'); ?>" src="<?php echo $cache . CAOS::get_file_alias('plausible'); ?>"></script>
         <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE) : ?>
             <script>
@@ -415,7 +544,7 @@ class CAOS_Frontend_Tracking
             return;
         }
 
-        add_filter('caos_gtag_additional_config', function () use ($measurement_id) { ?>
+        add_action('caos_gtag_additional_config', function () use ($measurement_id) { ?>
             gtag('config', '<?= $measurement_id; ?>');
         <?php
         });
@@ -494,7 +623,9 @@ class CAOS_Frontend_Tracking
             wp_add_inline_script($this->handle, $this->get_tracking_code_template('cookie-value'));
         }
 
-        wp_add_inline_script($this->handle, $this->get_tracking_code_template('ga-disable'));
+        if (!CAOS::uses_ga4()) {
+            wp_add_inline_script($this->handle, $this->get_tracking_code_template('ga-disable'));
+        }
 
         /**
          * Allow WP DEVs to add additional JS before Analytics/Gtag tracking code.
