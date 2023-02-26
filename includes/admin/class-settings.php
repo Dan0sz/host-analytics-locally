@@ -40,7 +40,8 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'cookie_is_set'     => 'When cookie is set',
         'cookie_is_not_set' => 'When cookie is NOT set',
         'cookie_has_value'  => 'When cookie has a value (exact match)',
-        'cookie_value_contains' => 'When cookie value contains (loose comparison)'
+        'cookie_value_contains' => 'When cookie value contains (loose comparison)',
+        'consent_mode'      => 'When Consent mode is updated to "granted" by 3rd party plugin'
     ];
     const CAOS_ADMIN_TRACKING_CODE_OPTIONS = [
         ''            => 'Default',

@@ -49,7 +49,9 @@ class CAOS_Frontend_Tracking
         $this->in_footer = CAOS_OPT_SCRIPT_POSITION == 'footer';
 
         add_action('caos_inline_scripts_before_tracking_code', [$this, 'consent_mode']);
+        add_filter('caos_frontend_tracking_consent_mode', [$this, 'maybe_disable_consent_mode']);
         add_action('caos_gtag_additional_config', [$this, 'consent_mode_listener']);
+        add_filter('caos_frontend_tracking_consent_mode_listener', [$this, 'maybe_disable_consent_mode_listener']);
         add_action('init', [$this, 'insert_tracking_code']);
         add_filter('script_loader_tag', [$this, 'add_attributes'], 10, 2);
         add_action('caos_process_settings', [$this, 'disable_advertising_features']);
@@ -70,7 +72,14 @@ class CAOS_Frontend_Tracking
      */
     public function consent_mode($handle)
     {
-        if (apply_filters('caos_frontend_tracking_consent_mode', !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '')) {
+        /**
+         * Setting this to true disables the required JS to run Consent Mode.
+         * 
+         * @filter caos_frontend_tracking_consent_mode
+         * 
+         * @since v4.5.0
+         */
+        if (apply_filters('caos_frontend_tracking_consent_mode', false)) {
             return;
         }
 
@@ -109,6 +118,21 @@ class CAOS_Frontend_Tracking
     }
 
     /**
+     * Consent Mode framework should be disabled when Google Analytics 4 isn't used or when Allow Tracking
+     * is set to 'Always'
+     * 
+     * @filter caos_frontend_tracking_consent_mode
+     * 
+     * @since v4.5.0
+     * 
+     * @return bool 
+     */
+    public function maybe_disable_consent_mode()
+    {
+        return !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '';
+    }
+
+    /**
      * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
      * 
      * @since v4.5.0
@@ -117,7 +141,15 @@ class CAOS_Frontend_Tracking
      */
     public function consent_mode_listener()
     {
-        if (apply_filters('caos_frontend_tracking_consent_mode_listener', !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '')) {
+        /**
+         * Setting this to true disables the "listening" part of the Consent Mode script to allow Cookie Notice plugins or other 
+         * Google Analytics plugins to update the Consent state.
+         * 
+         * @filter caos_frontend_tracking_consent_mode_listener
+         * 
+         * @since v4.5.0
+         */
+        if (apply_filters('caos_frontend_tracking_consent_mode_listener', false)) {
             return;
         }
 
@@ -184,6 +216,21 @@ class CAOS_Frontend_Tracking
     <?php
 
         echo ob_get_clean();
+    }
+
+    /**
+     * The "listening" part of Consent Mode should be disabled when Google Analytics 4 isn't used, or when 
+     * Allow Tracking is set to 'Always' or 'Consent Mode'.
+     *  
+     * @since v4.5.0
+     * 
+     * @filter caos_frontend_tracking_consent_mode_listener
+     * 
+     * @return bool 
+     */
+    public function maybe_disable_consent_mode_listener()
+    {
+        return !CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING == '' || CAOS_OPT_ALLOW_TRACKING == 'consent_mode';
     }
 
     /**
