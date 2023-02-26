@@ -187,7 +187,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
      */
     public function do_tbody_basic_settings_open()
     {
-        $this->do_tbody_open('caos_basic_settings google_analytics_options', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible');
+        $this->do_tbody_open('caos_basic_settings google_analytics_options', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS_OPT_COMPATIBILITY_MODE));
     }
 
     /**

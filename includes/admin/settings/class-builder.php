@@ -105,14 +105,14 @@ class CAOS_Admin_Settings_Builder
      */
     public function do_invisible_option_notice($add_to_table = true)
     {
-        if ((CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS::uses_ga4()) : ?>
+        if ((CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
             <?php if ($add_to_table) : ?>
                 <tr>
                     <th></th>
                     <td>
                     <?php endif; ?>
                     <p class="description caos-notice info">
-                        <?= __('Some settings are not displayed, because Google Analytics 4 is used, or Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
+                        <?= __('Some settings are not displayed, because Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
                     </p>
                     <?php if ($add_to_table) : ?>
                     </td>
