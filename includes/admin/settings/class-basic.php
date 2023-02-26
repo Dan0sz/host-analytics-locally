@@ -215,7 +215,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
             CAOS_OPT_ALLOW_TRACKING,
-            sprintf(__('Choose \'Always\' to use Google Analytics without a Cookie Notice. Follow %sthis tutorial%s to comply with GDPR Laws.', $this->plugin_text_domain), '<a href="' . CAOS_SITE_URL . "/wordpress/analytics-gdpr-anonymize-ip-cookie-notice/$this->utm_tags\" target='_blank'>", '</a>') . ' ' . __('Choose \'When cookie is set\' or \'When cookie has a value\' to make CAOS compatible with your Cookie Notice plugin.', $this->plugin_text_domain) . ' ' . sprintf(__('<a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL .  '/blog/gdpr/google-analytics-compliance-gdpr/' . $this->utm_tags)
+            __('Configure CAOS to "listen" to your Cookie Notice plugin.', $this->plugin_text_domain) . ' ' . __('Choose \'Always\' to use Google Analytics without a Cookie Notice.', $this->plugin_text_domain) . ' ' . sprintf(__('<a href="%s" target="_blank">Consent Mode</a> is used when a Google Analytics 4 (starting with G-) Measurement ID is configured in the <strong>Google Analytics Tracking ID</strong> field.', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9976101?hl=en')
         );
     }
 
