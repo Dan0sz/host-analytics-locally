@@ -29,25 +29,16 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         add_filter('caos_advanced_settings_content', [$this, 'do_description'], 15);
         add_filter('caos_advanced_settings_content', [$this, 'do_before'], 20);
 
-        // Content
+        // Settings
         add_filter('caos_advanced_settings_content', [$this, 'do_compatibility_mode'], 30);
         add_filter('caos_advanced_settings_content', [$this, 'do_remote_js_file'], 40);
         add_filter('caos_advanced_settings_content', [$this, 'do_cache_dir'], 50);
         add_filter('caos_advanced_settings_content', [$this, 'do_cdn_url'], 60);
-
-        // Non Compatibility Mode settings.
-        add_filter('caos_advanced_settings_content', function () {
-            $this->do_invisible_option_notice();
-        }, 70);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_advanced_settings_open'], 100);
         add_filter('caos_advanced_settings_content', [$this, 'do_cookieless_analytics_promo'], 110);
         add_filter('caos_advanced_settings_content', [$this, 'do_cloaked_affiliate_links_tracking_promo'], 120);
         add_filter('caos_advanced_settings_content', [$this, 'do_session_expiry'], 130);
         add_filter('caos_advanced_settings_content', [$this, 'do_site_speed_sample_rate'], 140);
         add_filter('caos_advanced_settings_content', [$this, 'do_advertising_features'], 150);
-        add_filter('caos_advanced_settings_content', [$this, 'do_tbody_close'], 200);
-
-        // Uninstall Setting
         add_filter('caos_advanced_settings_content', [$this, 'do_uninstall_settings'], 220);
 
         // Close
@@ -78,7 +69,8 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Compatibility Mode', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
             CAOS_OPT_COMPATIBILITY_MODE != '' ? 'on' : '',
-            __('Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>google-analytics.com/analytics.js</code> and <code>googletagmanager.com/gtag/js</code> on your site will be replaced with a local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> and <strong>Download File</strong> settings match your Google Analytics plugin\'s configuration.', $this->plugin_text_domain)
+            __('Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>google-analytics.com/analytics.js</code> and <code>googletagmanager.com/gtag/js</code> on your site will be replaced with a local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> and <strong>Download File</strong> settings match your Google Analytics plugin\'s configuration.', $this->plugin_text_domain),
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible'
         );
     }
 
@@ -131,15 +123,17 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
      */
     public function do_cookieless_analytics_promo()
     {
-        $description = __('When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website, tracking across different websites/platforms is no longer possible.', $this->plugin_text_domain) . ' ' . $this->promo;
+        $description = __('When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website to ensure that tracking across different websites/platforms is no longer possible.', $this->plugin_text_domain) . ' ' . $this->promo;
 
         $this->do_checkbox(
             __('Enable Cookieless Analytics (Pro)', $this->plugin_text_domain),
             'caos_pro_cookieless_analytics',
             defined('CAOS_PRO_COOKIELESS_ANALYTICS') && CAOS_PRO_COOKIELESS_ANALYTICS,
             $description,
-            !defined('CAOS_PRO_COOKIELESS_ANALYTICS'),
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
+            !defined('CAOS_PRO_COOKIELESS_ANALYTICS') || (defined('CAOS_PRO_COOKIELESS_ANALYTICS') && (CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER != 'google_analytics')),
+            true,
+            true,
+            __('Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local')
         );
     }
 
@@ -154,8 +148,13 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
         <tr>
             <th><?= __('Track Cloaked Affiliate Links (Pro)', $this->plugin_text_domain); ?></th>
             <td>
-                <?php if (CAOS_OPT_SERVICE_PROVIDER != 'google_analytics') : ?>
-                    <?php $this->do_invisible_option_notice(false); ?>
+                <?php
+                $disabled = !defined('CAOS_PRO_AFFILIATE_LINKS') || (defined('CAOS_PRO_AFFILIATE_LINKS') && (CAOS_OPT_SERVICE_PROVIDER != 'google_analytics' || CAOS_OPT_TRACKING_CODE == 'minimal' || CAOS_OPT_TRACKING_CODE == 'minimal_ga4'));
+                ?>
+                <?php if ($disabled && $this->display_reason(true)) : ?>
+                    <p class="description option-disabled">
+                        <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), __('Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Default or Asynchronous.', 'host-webfonts-local')); ?>
+                    </p>
                 <?php else : ?>
                     <table class="track-cloaked-affiliate-links">
                         <tr>
@@ -165,14 +164,13 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
                         </tr>
                         <?php
                         $affiliate_links = defined('CAOS_PRO_AFFILIATE_LINKS') && CAOS_PRO_AFFILIATE_LINKS ? CAOS_PRO_AFFILIATE_LINKS : [0 => ['path' => '', 'category' => '']];
-                        $disabled        = apply_filters('caos_pro_track_cloaked_affiliate_links_setting_disabled', true) ? 'disabled' : '';
 
                         foreach ($affiliate_links as $key => $properties) :
                         ?>
                             <tr id="affiliate-link-row-<?= $key; ?>">
                                 <?php foreach ($properties as $prop_key => $prop_value) : ?>
                                     <td id="affiliate-link-<?= $prop_key; ?>-<?= $key; ?>">
-                                        <input type="text" <?= $disabled; ?> class="affiliate-link-<?= $prop_key; ?>" name="caos_pro_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
+                                        <input type="text" <?= $disabled ? 'disabled' : ''; ?> class="affiliate-link-<?= $prop_key; ?>" name="caos_pro_cloaked_affiliate_links[<?= $key; ?>][<?= $prop_key; ?>]" value="<?= $prop_value; ?>" />
                                     </td>
                                 <?php endforeach; ?>
                                 <td>
@@ -194,15 +192,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
 <?php
     }
 
-
-    /**
-     * Tbody open
-     */
-    public function do_tbody_advanced_settings_open()
-    {
-        $this->do_tbody_open('caos_advanced_settings', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible');
-    }
-
     /**
      * Cookie expiry period (days)
      */
@@ -212,7 +201,10 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Session expiry period (days)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS,
             CAOS_OPT_SESSION_EXPIRY_DAYS,
-            __('The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', $this->plugin_text_domain)
+            __('The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', $this->plugin_text_domain),
+            0,
+            CAOS_OPT_COMPATIBILITY_MODE,
+            __('Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local')
         );
     }
 
@@ -227,7 +219,10 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Site Speed Sample Rate (%)', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE,
             CAOS_OPT_SITE_SPEED_SAMPLE_RATE,
-            __('This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', $this->plugin_text_domain)
+            __('This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', $this->plugin_text_domain),
+            0,
+            CAOS_OPT_COMPATIBILITY_MODE || CAOS::uses_ga4(),
+            CAOS::uses_ga4() ? __('Provide a Google Analytics V3 (UA-) <strong>Tracking ID</strong> to enable it.', 'host-webfonts-local') : __('Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local')
         );
     }
 
@@ -240,7 +235,11 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder
             __('Disable Advertising Features', $this->plugin_text_domain),
             CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES,
             CAOS_OPT_DISABLE_ADS_FEAT,
-            sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9050852?hl=en')
+            sprintf(__('Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9050852?hl=en'),
+            CAOS_OPT_COMPATIBILITY_MODE,
+            true,
+            false,
+            __('Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local')
         );
     }
 

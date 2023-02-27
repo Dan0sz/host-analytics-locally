@@ -225,7 +225,7 @@ class CAOS_Admin
                     CAOS_Admin_Notice::set_notice(__('Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', $this->plugin_text_domain), 'info');
                     break;
                 default:
-                    CAOS_Admin_Notice::set_notice(__("CAOS has added the Google Analytics tracking code to the $new_position of your theme.", $this->plugin_text_domain), 'success');
+                    CAOS_Admin_Notice::set_notice(__("CAOS has added the tracking code to the $new_position of your site.", $this->plugin_text_domain), 'success');
                     break;
             }
         }

@@ -110,20 +110,9 @@ jQuery(document).ready(function ($) {
          * Toggle Service Provider options.
          */
         toggle_service_provider: function () {
-            option_value = $(this).val();
-            $ga_options = $('.google_analytics_options');
-            $pa_options = $('.plausible_analytics_options');
+            caos_admin.show_loader();
 
-            switch (option_value) {
-                case 'google_analytics':
-                    $ga_options.show();
-                    $pa_options.hide();
-                    break;
-                case 'plausible':
-                    $pa_options.show();
-                    $ga_options.hide();
-                    break;
-            }
+            document.querySelector('input[type="submit"]').click();
         },
 
         /**
@@ -218,6 +207,13 @@ jQuery(document).ready(function ($) {
             } else {
                 $optimize_id.hide();
             }
+        },
+
+        /**
+         *
+         */
+        show_loader: function () {
+            $('#wpwrap').append('<div class="caos-loading"><span class="spinner is-active"></span></div>');
         }
     };
 

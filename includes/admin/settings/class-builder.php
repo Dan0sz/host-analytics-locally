@@ -45,8 +45,25 @@ class CAOS_Admin_Settings_Builder
     public function do_promo()
     {
         if (apply_filters('caos_pro_active', false) == false) {
-            $this->promo = sprintf(__('<a href="%s" target="_blank">Get CAOS Pro</a> to enable this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO . $this->utm_tags);
+            $this->promo = sprintf(__('<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.'), CAOS_Admin_Settings::FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO . $this->utm_tags);
         }
+    }
+
+    /**
+     * Return an array containing the reason why an option is disabled. Always returns an empty array 
+     * if $is_pro_option is true.
+     * 
+     * @var bool $is_pro_option 
+     * 
+     * @return bool 
+     */
+    public function display_reason($is_pro_option = false)
+    {
+        if ($is_pro_option && !defined('CAOS_PRO_STEALTH_MODE')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -97,58 +114,46 @@ class CAOS_Admin_Settings_Builder
     {
         ?>
         </tbody>
-        <?php
-    }
-
-    /**
-     * Show Compatibility Mode notice.
-     */
-    public function do_invisible_option_notice($add_to_table = true)
-    {
-        if ((CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible') : ?>
-            <?php if ($add_to_table) : ?>
-                <tr>
-                    <th></th>
-                    <td>
-                    <?php endif; ?>
-                    <p class="description caos-notice info">
-                        <?= __('Some settings are not displayed, because Compatibility Mode or Plausible Analytics is enabled.', $this->plugin_text_domain); ?>
-                    </p>
-                    <?php if ($add_to_table) : ?>
-                    </td>
-                </tr>
-            <?php endif; ?>
-        <?php endif;
+    <?php
     }
 
     /**
      * Generate radio setting
      *
-     * @param $label
-     * @param $inputs
-     * @param $name
-     * @param $checked
-     * @param $description
+     * @param string $label
+     * @param array  $inputs
+     * @param string $name
+     * @param bool   $checked
+     * @param string $description
+     * @param bool   $disabled
+     * @param bool   $is_pro_option
+     * @param string $explanation
      */
-    public function do_radio($label, $inputs, $name, $checked, $description, $disabled = false)
+    public function do_radio($label, $inputs, $name, $checked, $description, $disabled = false, $is_pro_option = false, $explanation = '')
     {
         $i = 0;
-        ?>
+    ?>
         <tr>
             <th scope="row"><?= $label; ?></th>
             <td id="<?= $name . '_right_column'; ?>">
                 <fieldset>
                     <?php foreach ($inputs as $option => $option_label) : ?>
                         <label>
-                            <input type="radio" <?= is_array($disabled) && $disabled[$i] !== false ? apply_filters($name . '_' . $option . '_setting_disabled', 'disabled') : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
+                            <input type="radio" <?= is_array($disabled) && $disabled[$i] !== false || (!is_array($disabled) && $disabled) ? 'disabled' : ''; ?> class="<?= str_replace('_', '-', $name . '_' . $option); ?>" name="<?= $name; ?>" value="<?= $option; ?>" <?= $option == $checked ? 'checked="checked"' : ''; ?> />
                             <?= $option_label; ?>
                         </label>
                         <br />
                         <?php $i++; ?>
                     <?php endforeach; ?>
-                    <p class="description">
-                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                    </p>
+                    <?php if (!is_array($disabled) && $disabled && $this->display_reason()) : ?>
+                        <p class="option-disabled">
+                            <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), $explanation); ?>
+                        </p>
+                    <?php else : ?>
+                        <p class="description">
+                            <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                        </p>
+                    <?php endif; ?>
                 </fieldset>
             </td>
         </tr>
@@ -164,7 +169,7 @@ class CAOS_Admin_Settings_Builder
      * @param      $selected
      * @param      $description
      */
-    public function do_select($label, $select, $options, $selected, $description)
+    public function do_select($label, $select, $options, $selected, $description, $disabled = false, $explanation = '')
     {
     ?>
         <tr>
@@ -173,7 +178,7 @@ class CAOS_Admin_Settings_Builder
             </th>
             <td>
                 <fieldset>
-                    <select name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
+                    <select <?php echo $disabled ? 'disabled' : ''; ?> name="<?= $select; ?>" class="<?= str_replace('_', '-', $select); ?>">
                         <?php
                         $options = apply_filters($select . '_setting_options', $options);
                         ?>
@@ -181,9 +186,15 @@ class CAOS_Admin_Settings_Builder
                             <option value="<?= $option; ?>" <?= ($selected == $option) ? 'selected' : ''; ?>><?= $option_label; ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <p class="description">
-                        <?= apply_filters($select . '_setting_description', $description, $label, $select); ?>
-                    </p>
+                    <?php if ($disabled && $this->display_reason()) : ?>
+                        <p class="option-disabled">
+                            <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), $explanation); ?>
+                        </p>
+                    <?php else : ?>
+                        <p class="description">
+                            <?= apply_filters($select . '_setting_description', $description, $label, $select); ?>
+                        </p>
+                    <?php endif; ?>
                 </fieldset>
             </td>
         </tr>
@@ -193,22 +204,31 @@ class CAOS_Admin_Settings_Builder
     /**
      * Generate number setting.
      *
-     * @param $label
-     * @param $name
-     * @param $value
-     * @param $description
+     * @param string $label
+     * @param string $name
+     * @param int    $value
+     * @param string $description
+     * @param int    $min
+     * @param bool   $disabled
+     * @param string $explanation
      */
-    public function do_number($label, $name, $value, $description, $min = 0)
+    public function do_number($label, $name, $value, $description, $min = 0, $disabled = false, $explanation = '')
     {
     ?>
         <tr valign="top">
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
                 <fieldset>
-                    <input class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>" />
-                    <p class="description">
-                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
-                    </p>
+                    <input <?php echo $disabled ? 'disabled' : ''; ?> class="<?= str_replace('_', '-', $name); ?>" type="number" name="<?= $name; ?>" min="<?= $min; ?>" value="<?= $value; ?>" />
+                    <?php if ($disabled && $this->display_reason()) : ?>
+                        <p class="option-disabled">
+                            <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), $explanation); ?>
+                        </p>
+                    <?php else : ?>
+                        <p class="description">
+                            <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                        </p>
+                    <?php endif; ?>
                 </fieldset>
             </td>
         </tr>
@@ -223,41 +243,60 @@ class CAOS_Admin_Settings_Builder
      * @param        $placeholder
      * @param        $value
      * @param string $description
-     * @param bool   $update_required
+     * @param bool   $visible
+     * @param bool   $disabled
+     * @param string $explanation Offer an explanation 
      */
-    public function do_text($label, $name, $placeholder, $value, $description = '', $visible = true)
+    public function do_text($label, $name, $placeholder, $value, $description = '', $visible = true, $disabled = false, $explanation = '')
     {
     ?>
         <tr class="<?= str_replace('_', '-', $name); ?>-row" <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
-                <input class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
-                <p class="description">
-                    <?= apply_filters($name . 'setting_description', $description, $label, $name); ?>
-                </p>
+                <input <?php echo $disabled ? 'disabled' : ''; ?> class="<?= str_replace('_', '-', $name); ?>" type="text" name="<?= $name; ?>" placeholder="<?= $placeholder; ?>" value="<?= $value; ?>" />
+                <?php if ($disabled && $this->display_reason()) : ?>
+                    <p class="option-disabled">
+                        <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), $explanation); ?>
+                    </p>
+                <?php else : ?>
+                    <p class="description">
+                        <?= apply_filters($name . 'setting_description', $description, $label, $name); ?>
+                    </p>
+                <?php endif; ?>
             </td>
         </tr>
     <?php
     }
 
     /**
-     * Generate checkbox setting.q
+     * Generate checkbox setting.
      *
-     * @param $label
-     * @param $name
-     * @param $checked
-     * @param $description
+     * @param string $label
+     * @param string $name
+     * @param bool $checked
+     * @param string $description
+     * @param bool $disabled
+     * @param bool $visible
+     * @param bool $is_pro_option
+     * @param string $explanation Offer an explanation as to why an option is disabled (recommended -- only displayed when NOT a Pro option, 
+     *                            because the promo message is more important to display)
      */
-    public function do_checkbox($label, $name, $checked, $description, $disabled = false, $visible = true)
+    public function do_checkbox($label, $name, $checked, $description, $disabled = false, $visible = true, $is_pro_option = false, $explanation = '')
     {
     ?>
         <tr class='<?= str_replace('_', '-', $name); ?>-row' <?= $visible ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?= apply_filters($name . '_setting_label', $label); ?></th>
             <td>
                 <fieldset>
-                    <label for="<?= $name; ?>">
-                        <input <?= apply_filters($name . '_setting_disabled', $disabled) ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
-                        <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                    <label for="<?php echo $name; ?>">
+                        <input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?= str_replace('_', '-', $name); ?>" name="<?= $name; ?>" <?= $checked == "on" ? 'checked = "checked"' : ''; ?> />
+                        <?php if ($disabled && $this->display_reason($is_pro_option)) : ?>
+                            <p class="description option-disabled">
+                                <?php echo sprintf(__('This option is disabled. %s', 'host-webfonts-local'), $explanation); ?>
+                            </p>
+                        <?php else : ?>
+                            <?= apply_filters($name . '_setting_description', $description, $label, $name); ?>
+                        <?php endif; ?>
                     </label>
                 </fieldset>
             </td>

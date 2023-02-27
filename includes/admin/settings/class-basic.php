@@ -29,25 +29,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         // Settings
         add_filter('caos_basic_settings_content', [$this, 'do_service_provider'], 10);
         add_filter('caos_basic_settings_content', [$this, 'do_track_admin'], 12);
-
-        // Plausible Analytics Settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_plausible_options_open'], 20);
         add_filter('caos_basic_settings_content', [$this, 'do_domain_name'], 22);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 24);
-
-        // Google Analytics Settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_google_analytics_options_open'], 30);
         add_filter('caos_basic_settings_content', [$this, 'do_tracking_id'], 32);
         add_filter('caos_basic_settings_content', [$this, 'do_dual_tracking'], 34);
         add_filter('caos_basic_settings_content', [$this, 'do_ga4_measurement_id'], 36);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 40);
-
-        add_filter('caos_basic_settings_content', function () {
-            $this->do_invisible_option_notice();
-        }, 41);
-
-        // Non-compatibility mode settings
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_open'], 50);
         add_filter('caos_basic_settings_content', [$this, 'do_gdpr_compliance_promo'], 51);
         add_filter('caos_basic_settings_content', [$this, 'do_allow_tracking'], 52);
         add_filter('caos_basic_settings_content', [$this, 'do_cookie_name'], 54);
@@ -56,11 +41,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
         add_filter('caos_basic_settings_content', [$this, 'do_anonymize_ip_mode'], 60);
         add_filter('caos_basic_settings_content', [$this, 'do_script_position'], 61);
         add_filter('caos_basic_settings_content', [$this, 'do_add_manually'], 62);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 63);
-
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_basic_settings_plausible_open'], 64);
         add_filter('caos_basic_settings_content', [$this, 'do_adjusted_bounce_rate'], 65);
-        add_filter('caos_basic_settings_content', [$this, 'do_tbody_close'], 66);
 
         // Close
         add_filter('caos_basic_settings_content', [$this, 'do_after'], 100);
@@ -80,18 +61,8 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_SERVICE_PROVIDER_OPTION,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER,
             CAOS_OPT_SERVICE_PROVIDER,
-            sprintf(__('Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s">Try Plausible Analytics free for 30 days</a>!', $this->plugin_text_domain), 'https://plausible.io/register?utm_source=Daan+van+den+Bergh&utm_medium=WordPress+Plugin&utm_campaign=Try+Plausible')
+            sprintf(__('Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s" target="_blank">Try Plausible Analytics free for 30 days</a>!', $this->plugin_text_domain), 'https://plausible.io/register')
         );
-    }
-
-    /**
-     * Open Plausible Analytics options
-     * 
-     * @return void 
-     */
-    public function do_tbody_plausible_options_open()
-    {
-        $this->do_tbody_open('plausible_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'plausible');
     }
 
     /**
@@ -106,18 +77,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_DOMAIN_NAME,
             '',
             CAOS_OPT_DOMAIN_NAME,
-            __('', $this->plugin_text_domain)
+            __('', $this->plugin_text_domain),
+            true,
+            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics',
+            __('Enable it by setting <strong>Service Provider</strong> to Plausible Analytics.', 'host-webfonts-local')
         );
-    }
-
-    /**
-     * Open Google Analytics options
-     * 
-     * @return void 
-     */
-    public function do_tbody_google_analytics_options_open()
-    {
-        $this->do_tbody_open('google_analytics_options', CAOS_OPT_SERVICE_PROVIDER == 'google_analytics');
     }
 
     /**
@@ -130,7 +94,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID,
             __('e.g. UA-1234567-12', $this->plugin_text_domain),
             CAOS_OPT_TRACKING_ID,
-            __('Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API). Enter a V3 Tracking ID if you\'d like to enable Dual Tracking with GA V4.', $this->plugin_text_domain)
+            __('Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API). Enter a V3 Tracking ID if you\'d like to enable Dual Tracking with GA V4.', $this->plugin_text_domain),
+            true,
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible',
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local')
         );
     }
 
@@ -183,14 +150,6 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
     }
 
     /**
-     *
-     */
-    public function do_tbody_basic_settings_open()
-    {
-        $this->do_tbody_open('caos_basic_settings google_analytics_options', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS_OPT_COMPATIBILITY_MODE));
-    }
-
-    /**
      * GDPR Compliance
      */
     public function do_gdpr_compliance_promo()
@@ -200,8 +159,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             'caos_pro_gdpr',
             defined('CAOS_PRO_GDPR') ? CAOS_PRO_GDPR : false,
             sprintf(__('Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', $this->plugin_text_domain), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr') . ' ' . $this->promo,
-            !defined('CAOS_PRO_GDPR'),
-            CAOS_OPT_SERVICE_PROVIDER == 'google_analytics'
+            !defined('CAOS_PRO_GDPR') || CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+            true,
+            true,
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local')
         );
     }
 
@@ -215,7 +176,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
             CAOS_OPT_ALLOW_TRACKING,
-            __('Configure CAOS to "listen" to your Cookie Notice plugin.', $this->plugin_text_domain) . ' ' . __('Choose \'Always\' to use Google Analytics without a Cookie Notice.', $this->plugin_text_domain) . ' ' . sprintf(__('<a href="%s" target="_blank">Consent Mode</a> is used when <strong>Consent mode</strong> is selected or a Google Analytics 4 (starting with G-) Measurement ID is configured in the <strong>Google Analytics Tracking ID</strong> field.', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9976101?hl=en')
+            __('Configure CAOS to "listen" to your Cookie Notice plugin.', $this->plugin_text_domain) . ' ' . __('Choose \'Always\' to use Google Analytics without a Cookie Notice.', $this->plugin_text_domain) . ' ' . sprintf(__('<a href="%s" target="_blank">Consent Mode</a> is used when <strong>Consent mode</strong> is selected or a Google Analytics 4 (starting with G-) Measurement ID is configured in the <strong>Google Analytics Tracking ID</strong> field.', $this->plugin_text_domain), 'https://support.google.com/analytics/answer/9976101?hl=en'),
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+            false,
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local')
         );
     }
 
@@ -259,7 +223,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
             CAOS_Admin_Settings::CAOS_ADMIN_TRACKING_CODE_OPTIONS,
             CAOS_OPT_TRACKING_CODE,
-            __('Should we use the default or the asynchronous tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>'
+            __('Should we use the default or the asynchronous tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', $this->plugin_text_domain) . ' ' . sprintf('<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags) . __('Read more', $this->plugin_text_domain) . '</a>',
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local')
         );
     }
 
@@ -287,21 +253,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
             $aip_mode,
-            sprintf(__('<strong>One octet</strong> enables the <code>aip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still be stored on Google\'s servers. Anonymize <strong>all octets</strong> and enable <a href="%s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data will be lost.', $this->plugin_text_domain), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')) . sprintf(' <span class="caos-aip">Example: %s', $aip_example) . $this->promo,
-            [false, false, !defined('CAOS_PRO_ANONYMIZE_IP_ALL')]
-        );
-    }
-
-    /**
-     * Use adjusted bounce rate?
-     */
-    public function do_adjusted_bounce_rate()
-    {
-        $this->do_number(
-            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
-            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE,
-            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
-            sprintf(__('Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags)
+            sprintf(__('<strong>One octet</strong> enables the <code>aip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still be stored on Google\'s servers. Anonymize <strong>all octets</strong> and enable <a href="%s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data will be lost.', $this->plugin_text_domain), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')) . sprintf(' <span class="caos-aip">Example: %s', $aip_example) . ' ' . $this->promo,
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? true : [false, false, !defined('CAOS_PRO_ANONYMIZE_IP_ALL')],
+            false,
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local')
         );
     }
 
@@ -315,7 +270,26 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
             CAOS_OPT_SCRIPT_POSITION,
-            __('Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', $this->plugin_text_domain)
+            __('Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', $this->plugin_text_domain),
+            CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'plausible',
+            false,
+            __('Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local')
+        );
+    }
+
+    /**
+     * Use adjusted bounce rate?
+     */
+    public function do_adjusted_bounce_rate()
+    {
+        $this->do_number(
+            __('Adjusted Bounce Rate (seconds)', $this->plugin_text_domain),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE,
+            CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+            sprintf(__('Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', $this->plugin_text_domain), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags),
+            0,
+            CAOS_OPT_COMPATIBILITY_MODE,
+            __('Disable <strong>Compatibility Mode</strong> to use it.', 'host-webfonts-local')
         );
     }
 
@@ -337,16 +311,6 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             </td>
         </tr>
 <?php
-    }
-
-    /**
-     * This options shouldn't be rendered when Compatibility mode is on, but are fine for both Google Analytics and Plausible Analytics.
-     * 
-     * @return void 
-     */
-    public function do_tbody_basic_settings_plausible_open()
-    {
-        $this->do_tbody_open('caos_basic_settings', (CAOS_OPT_SERVICE_PROVIDER == 'google_analytics' && !CAOS_OPT_COMPATIBILITY_MODE) || CAOS_OPT_SERVICE_PROVIDER == 'plausible');
     }
 
     /**
