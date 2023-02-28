@@ -160,6 +160,12 @@ jQuery(document).ready(function ($) {
                     $octets[2].textContent = '178';
                     $octets[3].textContent = '0';
                     break;
+                case 'two':
+                    $octets[0].textContent = '192';
+                    $octets[1].textContent = '168';
+                    $octets[2].textContent = '0';
+                    $octets[3].textContent = '0';
+                    break;
                 case 'all':
                     $octets[0].textContent = '1';
                     $octets[1].textContent = '0';

@@ -241,6 +241,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             case 'one':
                 $aip_example = sprintf($aip_template, '192', '168', '178', '0');
                 break;
+            case 'two':
+                $aip_example = sprintf($aip_template, '192', '168', '0', '0');
+                break;
             case 'all':
                 $aip_example = sprintf($aip_template, '1', '0', '0', '0');
                 break;
@@ -254,7 +257,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder
             CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
             $aip_mode,
             sprintf(__('<strong>One octet</strong> enables the <code>aip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still be stored on Google\'s servers. Anonymize <strong>all octets</strong> and enable <a href="%s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data will be lost.', $this->plugin_text_domain), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url('options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings')) . sprintf(' <span class="caos-aip">Example: %s', $aip_example) . ' ' . $this->promo,
-            CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? true : [false, false, !defined('CAOS_PRO_ANONYMIZE_IP_ALL')],
+            CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? true : [false, false, !defined('CAOS_PRO_ANONYMIZE_IP'), !defined('CAOS_PRO_ANONYMIZE_IP')],
             false,
             __('Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local')
         );
