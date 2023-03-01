@@ -41,7 +41,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
         'cookie_is_not_set' => 'When cookie is NOT set',
         'cookie_has_value'  => 'When cookie has a value (exact match)',
         'cookie_value_contains' => 'When cookie value contains (loose comparison)',
-        'consent_mode'      => 'When Consent mode is updated to "granted" by 3rd party plugin'
+        'consent_mode'      => 'When Consent mode\'s <code>analytics_storage</code> is updated to "granted" by 3rd party plugin'
     ];
     const CAOS_ADMIN_TRACKING_CODE_OPTIONS = [
         ''            => 'Default',
@@ -52,8 +52,7 @@ class CAOS_Admin_Settings extends CAOS_Admin
     const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
         ''    => 'Off (default)',
         'one' => 'One octet',
-        'two' => 'Two octets (Pro) (only works in Stealth Mode)',
-        'all' => 'All octets (Pro) (only works in Stealth Mode)'
+        'two' => 'Two octets (Pro) (only works in Stealth Mode)'
     ];
     const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
         'header' => 'Header (default)',
