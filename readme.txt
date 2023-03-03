@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.1
-Stable tag: 4.4.5
+Stable tag: 4.5.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,13 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.5.0 | March 3rd, 2023 =
+* Fixed: filemtime() stat failed for /wp-content/uploads/caos/analytic.js bug
+* Removed: change enqueue order option, because it was rendered useless years ago
+* Improved: all options are now always displayed and show a clear explanation if they're disabled due to configuration.
+* Added: Increase GDPR Compliance (Pro) promotional option.
+* Added: Google Analytics 4's Consent Mode compatibility to Allow Tracking When-option. 
 
 = 4.4.5 | September 29th, 2022 =
 * Fixed: Bug in Minimal Analytics GA4 when Stealth Mode was enabled.
