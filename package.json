@@ -1,0 +1,15 @@
+{
+    "name": "CAOS",
+    "version": "4.5.0",
+    "description": "",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Dan0sz/host-analytics-locally.git"
+    },
+    "author": "Daan van den Bergh",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://wordpress.org/support/plugin/host-analyticsjs-local/"
+    },
+    "homepage": "https://wordpress.org/plugins/host-analyticsjs-local/"
+}
