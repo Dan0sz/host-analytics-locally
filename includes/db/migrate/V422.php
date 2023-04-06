@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') || exit;
-
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -14,36 +12,32 @@ defined('ABSPATH') || exit;
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+namespace CAOS\DB\Migrate;
 
-class CAOS_DB
-{
-    /** @var string */
-    private $current_version = '';
+use CAOS\DB\Migrate;
 
-    /**
-     * DB Migration constructor.
-     */
-    public function __construct()
-    {
-        $this->current_version = get_option(CAOS_Admin_Settings::CAOS_DB_VERSION);
+defined( 'ABSPATH' ) || exit;
 
-        if ($this->should_run_migration('4.2.2')) {
-            new CAOS_DB_Migrate_V422();
-        }
+class V422 extends Migrate {
 
-        if ($this->should_run_migration('4.3.0')) {
-            new CAOS_DB_Migrate_V430();
-        }
-    }
+	protected $migrate_option_names = [
+		'sgal_anonymize_ip' => 'caos_anonymize_ip_mode',
+	];
 
-    /**
-     * Checks whether migration script has been run.
-     * 
-     * @param mixed $version 
-     * @return bool 
-     */
-    private function should_run_migration($version)
-    {
-        return version_compare($this->current_version, $version) < 0;
-    }
+	protected $update_option_values = [
+		'caos_anonymize_ip_mode' => [ 'one', 'two' ],
+	];
+
+	protected $version = '4.2.2';
+
+	/**
+	 * Build class
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->migrate_option_names();
+		$this->update_option_values();
+		$this->update_db_version();
+	}
 }

@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') || exit;
-
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -14,27 +12,35 @@ defined('ABSPATH') || exit;
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-class CAOS_DB_Migrate_V422 extends CAOS_DB_Migrate
-{
-    protected $migrate_option_names = [
-        'sgal_anonymize_ip' => 'caos_anonymize_ip_mode'
-    ];
+namespace CAOS\DB\Migrate;
 
-    protected $update_option_values = [
-        'caos_anonymize_ip_mode' => ['one', 'two']
-    ];
+use CAOS\Admin\Settings;
+use CAOS\DB\Migrate;
 
-    protected $version = '4.2.2';
+defined( 'ABSPATH' ) || exit;
 
-    /**
-     * Build class
-     * 
-     * @return void 
-     */
-    public function __construct()
-    {
-        $this->migrate_option_names();
-        $this->update_option_values();
-        $this->update_db_version();
-    }
+class V430 extends Migrate {
+
+	protected $migrate_option_names = [
+		'caos_analytics_compatibility_mode' => Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
+	];
+
+	protected $version = '4.3.0';
+
+	/**
+	 * Build class
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->migrate_option_names();
+
+		$compatibility_mode = get_option( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE );
+
+		if ( $compatibility_mode ) {
+			update_option( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, 'on' );
+		}
+
+		$this->update_db_version();
+	}
 }

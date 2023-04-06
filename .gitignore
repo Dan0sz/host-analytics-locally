@@ -2,3 +2,6 @@
 .svn
 .idea
 .svnignore
+
+vendor/*
+!vendor/composer/
