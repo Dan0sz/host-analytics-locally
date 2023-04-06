@@ -476,7 +476,7 @@ class Plugin {
 		$file = '',
 		$is_plugin = false
 	) {
-		$download = new CAOS_FileManager();
+		$download = new \CAOS\FileManager();
 
 		return $download->download_file( $local_file, $remote_file, $file, $is_plugin );
 	}
@@ -487,7 +487,7 @@ class Plugin {
 	 * @return bool
 	 */
 	public static function create_dir_r( $path ) {
-		$file_manager = new CAOS_FileManager();
+		$file_manager = new \CAOS\FileManager();
 
 		return $file_manager->create_dir_recursive( $path );
 	}
@@ -500,7 +500,7 @@ class Plugin {
 	 * @return int|false
 	 */
 	public static function find_replace_in( $file, $find, $replace ) {
-		$file_manager = new CAOS_FileManager();
+		$file_manager = new \CAOS\FileManager();
 
 		return $file_manager->find_replace_in( $file, $find, $replace );
 	}
