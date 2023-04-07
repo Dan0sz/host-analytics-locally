@@ -15,6 +15,7 @@
 namespace CAOS\Admin\Settings;
 
 use CAOS\Admin\Settings;
+use CAOS\Plugin as CAOS;
 
 class Basic extends Builder {
 
@@ -25,28 +26,28 @@ class Basic extends Builder {
 		$this->title = __( 'Basic Settings', 'host-analyticsjs-local' );
 
 		// Open
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_title' ], 1 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_before' ], 2 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_title' ], 1 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_before' ], 2 );
 
 		// Settings
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_service_provider' ], 10 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_track_admin' ], 12 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_domain_name' ], 22 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_tracking_id' ], 32 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_dual_tracking' ], 34 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_ga4_measurement_id' ], 36 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_gdpr_compliance_promo' ], 51 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_allow_tracking' ], 52 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_cookie_name' ], 54 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_cookie_value' ], 56 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_tracking_code' ], 58 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_anonymize_ip_mode' ], 60 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_script_position' ], 61 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_add_manually' ], 62 );
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_adjusted_bounce_rate' ], 65 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_service_provider' ], 10 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_track_admin' ], 12 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_domain_name' ], 22 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_tracking_id' ], 32 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_dual_tracking' ], 34 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_ga4_measurement_id' ], 36 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_gdpr_compliance_promo' ], 51 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_allow_tracking' ], 52 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_cookie_name' ], 54 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_cookie_value' ], 56 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_tracking_code' ], 58 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_anonymize_ip_mode' ], 60 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_script_position' ], 61 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_add_manually' ], 62 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_adjusted_bounce_rate' ], 65 );
 
 		// Close
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_after' ], 100 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_after' ], 100 );
 
 		parent::__construct();
 	}
@@ -61,7 +62,7 @@ class Basic extends Builder {
 			__( 'Service Provider', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADMIN_SERVICE_PROVIDER_OPTION,
 			Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER,
-			CAOS_OPT_SERVICE_PROVIDER,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google-analytics' ),
 			sprintf( __( 'Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s" target="_blank">Try Plausible Analytics free for 30 days</a>!', 'host-analyticsjs-local' ), 'https://plausible.io/register' )
 		);
 	}
@@ -76,10 +77,10 @@ class Basic extends Builder {
 			__( 'Domain Name', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_DOMAIN_NAME,
 			'',
-			CAOS_OPT_DOMAIN_NAME,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_DOMAIN_NAME, str_replace( [ 'https://', 'http://' ], '', get_home_url() ) ),
 			__( '', 'host-analyticsjs-local' ),
 			true,
-			CAOS_OPT_SERVICE_PROVIDER == 'google_analytics',
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'google_analytics',
 			__( 'Enable it by setting <strong>Service Provider</strong> to Plausible Analytics.', 'host-webfonts-local' )
 		);
 	}
@@ -88,14 +89,16 @@ class Basic extends Builder {
 	 * Google Analytics Tracking ID
 	 */
 	public function do_tracking_id() {
+		$translated_tracking_id = _x( 'UA-123456789', 'Define a different Tracking ID for this site.', 'host-analyticsjs-local' );
+
 		$this->do_text(
 			__( 'Google Analytics Tracking ID', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_TRACKING_ID,
 			__( 'e.g. UA-1234567-12', 'host-analyticsjs-local' ),
-			CAOS_OPT_TRACKING_ID,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID, $translated_tracking_id !== 'UA-123456789' ? $translated_tracking_id : '' ),
 			__( 'Enter your Tracking ID, e.g. UA-1234567-89 (v3 API) or G-123ABC789 (v4 API). Enter a V3 Tracking ID if you\'d like to enable Dual Tracking with GA V4.', 'host-analyticsjs-local' ),
 			true,
-			CAOS_OPT_SERVICE_PROVIDER == 'plausible',
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible',
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local' )
 		);
 	}
@@ -109,10 +112,10 @@ class Basic extends Builder {
 		$this->do_checkbox(
 			__( 'Enable Dual Tracking', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_DUAL_TRACKING,
-			CAOS_OPT_DUAL_TRACKING,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ),
 			'Enable dual tracking to send hits and events to both your UA and GA4 properties.',
 			false,
-			strpos( CAOS_OPT_TRACKING_ID, 'UA-' ) === 0
+			strpos( CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'UA-' ) === 0
 		);
 	}
 
@@ -126,9 +129,9 @@ class Basic extends Builder {
 			__( 'GA4 Measurement ID', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID,
 			__( 'e.g. G-123ABC456', 'host-analyticsjs-local' ),
-			CAOS_OPT_GA4_MEASUREMENT_ID,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ),
 			__( 'Enter a GA4 Measurement ID to enable dual tracking, e.g. G-123ABC789.', 'host-analyticsjs-local' ),
-			CAOS_OPT_DUAL_TRACKING == 'on' && strpos( CAOS_OPT_TRACKING_ID, 'UA-' ) === 0
+			CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' && strpos( CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'UA-' ) === 0
 		);
 	}
 
@@ -139,7 +142,7 @@ class Basic extends Builder {
 		$this->do_checkbox(
 			__( 'Track logged in Administrators', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
-			CAOS_OPT_TRACK_ADMIN,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ),
 			'<strong>' . __( 'Warning!', 'host-analyticsjs-local' ) . '</strong> ' . __( 'This will track all your traffic as a logged in user. (For testing/development purposes.)', 'host-analyticsjs-local' ),
 			false
 		);
@@ -152,9 +155,9 @@ class Basic extends Builder {
 		$this->do_checkbox(
 			__( 'Increase GDPR Compliance (Pro)', 'host-analyticsjs-local' ),
 			'caos_pro_gdpr',
-			defined( 'CAOS_PRO_GDPR' ) ? CAOS_PRO_GDPR : false,
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'caos_pro_gdpr', false ) : false,
 			sprintf( __( 'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', 'host-analyticsjs-local' ), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr' ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_GDPR' ) || CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+			! defined( 'CAOS_PRO_GDPR' ) || CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			true,
 			true,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
@@ -169,9 +172,9 @@ class Basic extends Builder {
 			__( 'Allow tracking...', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
 			Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
-			CAOS_OPT_ALLOW_TRACKING,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ),
 			__( 'Configure CAOS to "listen" to your Cookie Notice plugin.', 'host-analyticsjs-local' ) . ' ' . __( 'Choose \'Always\' to use Google Analytics without a Cookie Notice.', 'host-analyticsjs-local' ) . ' ' . sprintf( __( '<a href="%s" target="_blank">Consent Mode</a> is used when <strong>Consent mode</strong> is selected or a Google Analytics 4 (starting with G-) Measurement ID is configured in the <strong>Google Analytics Tracking ID</strong> field.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9976101?hl=en' ),
-			CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			false,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
 		);
@@ -183,11 +186,11 @@ class Basic extends Builder {
 	public function do_cookie_name() {
 		$this->do_text(
 			__( 'Cookie Name', 'host-analyticsjs-local' ),
-			Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
+			Settings::CAOS_BASIC_SETTING_COOKIE_NAME,
 			__( 'e.g. cookie_accepted', 'host-analyticsjs-local' ),
-			CAOS_OPT_COOKIE_NAME,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_NAME ),
 			__( 'The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local' ),
-			CAOS_OPT_ALLOW_TRACKING
+			CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING )
 		);
 	}
 
@@ -199,9 +202,9 @@ class Basic extends Builder {
 			__( 'Cookie Value', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_COOKIE_VALUE,
 			__( 'e.g. true', 'host-analyticsjs-local' ),
-			CAOS_OPT_COOKIE_VALUE,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ),
 			__( 'The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local' ),
-			CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value'
+			CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value'
 		);
 	}
 
@@ -213,9 +216,9 @@ class Basic extends Builder {
 			__( 'Tracking Code', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
 			Settings::CAOS_ADMIN_TRACKING_CODE_OPTIONS,
-			CAOS_OPT_TRACKING_CODE,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ),
 			__( 'Should we use the default or the asynchronous tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', 'host-analyticsjs-local' ) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
-			CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_COMPATIBILITY_MODE,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
 		);
 	}
@@ -224,7 +227,7 @@ class Basic extends Builder {
 	 * Render Anonymize IP Mode option and example.
 	 */
 	public function do_anonymize_ip_mode() {
-		$aip_mode     = CAOS_OPT_ANONYMIZE_IP_MODE;
+		$aip_mode     = CAOS::get( Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE );
 		$aip_template = '<span class="caos-aip-example"><span class="octet">%s</span>.<span class="octet">%s</span>.<span class="octet">%s</span>.<span class="octet">%s</span></span>';
 
 		switch ( $aip_mode ) {
@@ -247,7 +250,7 @@ class Basic extends Builder {
 			Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
 			$aip_mode,
 			sprintf( __( '<strong>One octet</strong> enables the <code>anonymize_ip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%1$s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still stored on Google\'s servers. Anonymize <strong>two octets</strong> and enable <a href="%2$s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data might not be accurate.', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url( 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings' ) ) . sprintf( ' <span class="caos-aip">Example: %s', $aip_example ) . ' ' . $this->promo,
-			CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? true : [ false, false, ! defined( 'CAOS_PRO_ANONYMIZE_IP' ) ],
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' ? true : [ false, false, ! defined( 'CAOS_PRO_ANONYMIZE_IP' ) ],
 			false,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local' )
 		);
@@ -261,9 +264,9 @@ class Basic extends Builder {
 			__( 'Tracking Code Position', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
 			Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
-			CAOS_OPT_SCRIPT_POSITION,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ),
 			__( 'Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local' ),
-			CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER == 'plausible',
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ) || CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible',
 			false,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
 		);
@@ -276,10 +279,10 @@ class Basic extends Builder {
 		$this->do_number(
 			__( 'Adjusted Bounce Rate (seconds)', 'host-analyticsjs-local' ),
 			Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE,
-			CAOS_OPT_ADJUSTED_BOUNCE_RATE,
+			CAOS::get( Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ),
 			sprintf( __( 'Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags ),
 			0,
-			CAOS_OPT_COMPATIBILITY_MODE,
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			__( 'Disable <strong>Compatibility Mode</strong> to use it.', 'host-webfonts-local' )
 		);
 	}
@@ -289,7 +292,7 @@ class Basic extends Builder {
 	 */
 	public function do_add_manually() {
 		?>
-		<tr class="caos_add_manually" valign="top" <?php echo CAOS_OPT_SCRIPT_POSITION == 'manual' ? '' : 'style="display: none;"'; ?>>
+		<tr class="caos_add_manually" valign="top" <?php echo CAOS::get( Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION ) === 'manual' ? '' : 'style="display: none;"'; ?>>
 			<th scope="row"><?php _e( 'Tracking-code', 'host-analyticsjs-local' ); ?></th>
 			<td>
 				<label>
@@ -310,32 +313,32 @@ class Basic extends Builder {
 	 */
 	private function render_tracking_code() {
 		$tracking_code = "\n";
+		$tracking_id   = CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID );
 
-		if ( ! CAOS_OPT_TRACKING_ID ) {
+		if ( ! $tracking_id ) {
 			return $tracking_code;
 		}
 
 		$tracking_code .= '<!-- ' . __( 'This site is running CAOS for WordPress.', 'host-analyticsjs-local' ) . " -->\n";
+		$snippet_type   = CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE );
 
-		if ( CAOS_OPT_TRACKING_CODE == 'minimal' ) {
+		if ( $snippet_type === 'minimal' ) {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal' );
 		}
 
-		if ( CAOS_OPT_TRACKING_CODE == 'minimal_ga4' ) {
+		if ( $snippet_type === 'minimal_ga4' ) {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal-ga4' );
 		}
 
-		$urlId        = CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ? '?id=' . CAOS_OPT_TRACKING_ID : '';
-		$snippetType  = CAOS_OPT_TRACKING_CODE;
-		$localFileUrl = CAOS::get_local_file_url() . $urlId;
+		$url_id         = CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) === 'gtag.js' ? '?id=' . $tracking_id : '';
+		$local_file_url = CAOS::get_local_file_url() . $url_id;
+		$tracking_code .= "<script $snippet_type src='$local_file_url'></script>\n";
 
-		$tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
-
-		if ( CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE ) {
+		if ( CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' && CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_NAME ) && CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ) {
 			$tracking_code .= $this->get_tracking_code_template( 'cookie-value' );
 		}
 
-		if ( CAOS_OPT_REMOTE_JS_FILE == 'gtag.js' ) {
+		if ( CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) === 'gtag.js' ) {
 			return $tracking_code . $this->get_tracking_code_template( 'gtag' );
 		} else {
 			return $tracking_code . $this->get_tracking_code_template( 'analytics' );

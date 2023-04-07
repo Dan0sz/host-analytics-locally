@@ -14,6 +14,9 @@
  * * * * * * * * * * * * * * * * * * * */
 namespace CAOS\Frontend;
 
+use CAOS\Admin\Settings;
+use CAOS\Plugin as CAOS;
+
 defined( 'ABSPATH' ) || exit;
 
 class Functions {
@@ -36,7 +39,7 @@ class Functions {
 			return;
 		}
 
-		if ( CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS === 'on' ) {
+		if ( CAOS::get( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) === 'on' ) {
 			$tracking = new \CAOS\Frontend\Tracking();
 			wp_add_inline_script( $tracking->handle, $this->get_frontend_template( 'outbound-link-tracking' ) );
 		}

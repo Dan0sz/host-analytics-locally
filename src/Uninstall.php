@@ -14,6 +14,7 @@
  * * * * * * * * * * * * * * * * * * * */
 namespace CAOS;
 
+use CAOS\Plugin as CAOS;
 use CAOS\Admin\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +32,7 @@ class Uninstall {
 	 * @throws ReflectionException
 	 */
 	public function __construct() {
-		if ( CAOS_OPT_UNINSTALL_SETTINGS !== 'on' ) {
+		if ( CAOS::get( Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ) !== 'on' ) {
 			return;
 		}
 

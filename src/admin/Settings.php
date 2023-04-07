@@ -84,7 +84,7 @@ class Settings extends Admin {
 	const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID   = 'caos_ga4_measurement_id';
 	const CAOS_BASIC_SETTING_TRACK_ADMIN          = 'sgal_track_admin';
 	const CAOS_BASIC_SETTING_ALLOW_TRACKING       = 'caos_allow_tracking';
-	const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME   = 'sgal_cookie_notice_name';
+	const CAOS_BASIC_SETTING_COOKIE_NAME          = 'sgal_cookie_notice_name';
 	const CAOS_BASIC_SETTING_COOKIE_VALUE         = 'caos_cookie_value';
 	const CAOS_BASIC_SETTING_TRACKING_CODE        = 'caos_snippet_type';
 	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE    = 'caos_anonymize_ip_mode';
@@ -181,7 +181,7 @@ class Settings extends Admin {
 		<div class="wrap caos">
 			<h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ); ?></h1>
 
-			<?php if ( CAOS_OPT_TRACKING_CODE != 'minimal' ) : ?>
+			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) != 'minimal' ) : ?>
 				<?php
 				$remote_file = CAOS::get_current_file_key();
 				?>
@@ -246,7 +246,7 @@ class Settings extends Admin {
 	 * @return string
 	 */
 	private function file_last_updated() {
-		$file_alias_path = CAOS::get_file_alias_path( str_replace( '.js', '', CAOS_OPT_REMOTE_JS_FILE ) );
+		$file_alias_path = CAOS::get_file_alias_path( str_replace( '.js', '', CAOS::get( self::CAOS_ADV_SETTING_JS_FILE ) ) );
 
 		if ( ! file_exists( $file_alias_path ) ) {
 			return '';
@@ -361,7 +361,7 @@ class Settings extends Admin {
 	 * Add Advanced Settings Tab to Settings Screen.
 	 */
 	public function do_advanced_settings_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS_OPT_SERVICE_PROVIDER == 'plausible' || CAOS_OPT_TRACKING_CODE == 'minimal' );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal' );
 	}
 
 	/**
@@ -410,7 +410,7 @@ class Settings extends Admin {
 	 * Render active content.
 	 */
 	public function do_content() {
-		echo apply_filters( str_replace( '-', '_', $this->active_tab ) . '_content', '' );
+		echo do_action( str_replace( '-', '_', $this->active_tab ) . '_content', '' );
 	}
 
 	/**

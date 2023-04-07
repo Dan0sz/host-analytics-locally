@@ -12,6 +12,7 @@
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+$cookie_name = \CAOS\Plugin::get(\CAOS\Admin\Settings::CAOS_BASIC_SETTING_COOKIE_NAME);
 ?>
 <script>
     function getCookieValue(name) {
@@ -28,5 +29,5 @@
         return cookieValue;
     }
 
-    cookieValue = getCookieValue('<?= CAOS_OPT_COOKIE_NAME; ?>');
+    cookieValue = getCookieValue('<?= $cookie_name; ?>');
 </script>

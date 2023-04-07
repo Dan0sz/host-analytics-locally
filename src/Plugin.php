@@ -25,8 +25,10 @@ class Plugin {
 	 */
 	const CAOS_PRO_PLUGIN_SLUG = 'caos-pro';
 
-	/** @var string $plugin_text_domain */
-	private $plugin_text_domain = 'host-analyticsjs-local';
+	/**
+	 * Used for storing default values of certain settings.
+	 */
+	private static $defaults = [];
 
 	/**
 	 * CAOS constructor.
@@ -73,37 +75,23 @@ class Plugin {
 		$caos_file_aliases      = get_option( Settings::CAOS_CRON_FILE_ALIASES );
 		$translated_tracking_id = _x( 'UA-123456789', 'Define a different Tracking ID for this site.', 'host-analyticsjs-local' );
 
+		self::$defaults = [
+			Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER => 'google_analytics',
+			Settings::CAOS_BASIC_SETTING_DOMAIN_NAME      => str_replace( [ 'https://', 'http://' ], '', get_home_url() ),
+			Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION  => 'header',
+			Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS => 30,
+			Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE => 1,
+			Settings::CAOS_ADV_SETTING_JS_FILE            => 'gtag.js',
+			Settings::CAOS_ADV_SETTING_CACHE_DIR          => '/uploads/caos/',
+		];
+
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
-		define( 'CAOS_OPT_SERVICE_PROVIDER', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) ) ?: 'google_analytics' );
-		define( 'CAOS_OPT_DOMAIN_NAME', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_DOMAIN_NAME, $domain_name = str_replace( [ 'https://', 'http://' ], '', get_home_url() ) ) ) ?: $domain_name );
-		define( 'CAOS_OPT_TRACKING_ID', $translated_tracking_id != 'UA-123456789' ? $translated_tracking_id : esc_attr( get_option( Settings::CAOS_BASIC_SETTING_TRACKING_ID ) ) );
-		define( 'CAOS_OPT_DUAL_TRACKING', esc_attr( apply_filters( 'caos_opt_dual_tracking', get_option( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) ) ) );
-		define( 'CAOS_OPT_GA4_MEASUREMENT_ID', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ) ) );
-		define( 'CAOS_OPT_ALLOW_TRACKING', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) );
-		define( 'CAOS_OPT_COOKIE_NAME', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ) );
-		define( 'CAOS_OPT_COOKIE_VALUE', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ) );
-		define( 'CAOS_OPT_TRACKING_CODE', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ) );
-		define( 'CAOS_OPT_SCRIPT_POSITION', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION ) ) ?: 'header' );
-		define( 'CAOS_OPT_ADJUSTED_BOUNCE_RATE', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ) ) );
-		define( 'CAOS_OPT_COMPATIBILITY_MODE', esc_attr( get_option( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ) ) ?: '' );
-		define( 'CAOS_OPT_SESSION_EXPIRY_DAYS', esc_attr( get_option( Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30 ) ) );
-		define( 'CAOS_OPT_SITE_SPEED_SAMPLE_RATE', esc_attr( get_option( Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1 ) ) );
-		define( 'CAOS_OPT_ANONYMIZE_IP_MODE', esc_attr( apply_filters( 'caos_opt_anonymize_ip_mode', get_option( Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE, '' ) ) ) );
-		define( 'CAOS_OPT_TRACK_ADMIN', esc_attr( get_option( Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ) ) );
-		define( 'CAOS_OPT_DISABLE_ADS_FEAT', esc_attr( apply_filters( 'caos_opt_disable_ads_feat', get_option( Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES ) ) ) );
-		define( 'CAOS_OPT_REMOTE_JS_FILE', esc_attr( get_option( Settings::CAOS_ADV_SETTING_JS_FILE ) ) ?: 'analytics.js' );
-		define( 'CAOS_OPT_CACHE_DIR', esc_attr( get_option( Settings::CAOS_ADV_SETTING_CACHE_DIR ) ) ?: '/uploads/caos/' );
-		define( 'CAOS_OPT_CDN_URL', esc_attr( get_option( Settings::CAOS_ADV_SETTING_CDN_URL ) ) );
-		define( 'CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS', esc_attr( apply_filters( 'caos_opt_capture_outbound_links', get_option( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) ) ) );
-		define( 'CAOS_OPT_UNINSTALL_SETTINGS', esc_attr( get_option( Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ) ) );
-		define( 'CAOS_OPT_EXT_TRACK_AD_BLOCKERS', esc_attr( apply_filters( 'caos_opt_track_ad_blockers', get_option( Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) ) ) );
-		define( 'CAOS_OPT_EXT_LINKID', esc_attr( apply_filters( 'caos_opt_linkid', get_option( Settings::CAOS_EXT_SETTING_LINKID ) ) ) );
-		define( 'CAOS_COOKIE_EXPIRY_SECONDS', CAOS_OPT_SESSION_EXPIRY_DAYS ? CAOS_OPT_SESSION_EXPIRY_DAYS * 86400 : 2592000 );
+		define( 'CAOS_COOKIE_EXPIRY_SECONDS', CAOS::get( Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS ) ? CAOS::get( Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS ) * 86400 : 2592000 );
 		define( 'CAOS_CRON', 'caos_update_analytics_js' );
 		define( 'CAOS_GA_URL', 'https://www.google-analytics.com' );
 		define( 'CAOS_GTM_URL', 'https://www.googletagmanager.com' );
-		define( 'CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR );
+		define( 'CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR ) );
 	}
 
 	/**
@@ -126,18 +114,25 @@ class Plugin {
 	/**
 	 * Method to retrieve settings from database.
 	 *
-	 * @filter omgf_get_setting_{$name}
+	 * @filter caos_setting_{$name}
 	 *
 	 * @param string $name
 	 * @param mixed  $default (optional)
 	 *
-	 * @since v5.5.7
+	 * @since v4.5.1
 	 */
 	public static function get( $name, $default = null ) {
 		$value = self::get_settings()[ $name ] ?? '';
 
-		if ( empty( $value ) ) {
+		if ( empty( $value ) && $default !== null ) {
 			$value = $default;
+		}
+
+		/**
+		 * If $default isn't set, let's check if a global default has been set.
+		 */
+		if ( $default !== null && isset( self::$defaults[ $name ] ) ) {
+			$value = self::$defaults[ $name ];
 		}
 
 		return apply_filters( "caos_setting_$name", $value );
@@ -172,7 +167,7 @@ class Plugin {
 	 * @return mixed
 	 */
 	public static function get_current_file_key() {
-		return CAOS_OPT_SERVICE_PROVIDER == 'plausible' ? CAOS_OPT_SERVICE_PROVIDER : str_replace( '.js', '', CAOS_OPT_REMOTE_JS_FILE );
+		return CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' ? CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) : str_replace( '.js', '', CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) );
 	}
 
 	/**
@@ -242,10 +237,12 @@ class Plugin {
 	 * @return void
 	 */
 	public static function debug( $message ) {
+		// phpcs:ignore
 		if ( ! defined( 'CAOS_DEBUG_MODE' ) || CAOS_DEBUG_MODE === false ) {
 			return;
 		}
 
+		// phpcs:ignore
 		error_log( current_time( 'Y-m-d H:i:s' ) . ": $message\n", 3, trailingslashit( WP_CONTENT_DIR ) . 'caos-debug.log' );
 	}
 
@@ -333,10 +330,12 @@ class Plugin {
 	 * @return UpdateFiles
 	 */
 	public function do_update_after_save() {
+		// phpcs:disable
 		$settings_page    = $_GET['page'] ?? '';
 		$settings_updated = $_GET['settings-updated'] ?? '';
+		// phpcs:enable
 
-		if ( Settings::CAOS_ADMIN_PAGE != $settings_page ) {
+		if ( Settings::CAOS_ADMIN_PAGE !== $settings_page ) {
 			return;
 		}
 
@@ -356,8 +355,8 @@ class Plugin {
 	 */
 	public function do_update_after_update( $upgrade_obj, $options ) {
 		if (
-			isset( $options['action'] ) && $options['action'] != 'update'
-			&& isset( $options['type'] ) && $options['type'] != 'plugin'
+			isset( $options['action'] ) && $options['action'] !== 'update'
+			&& isset( $options['type'] ) && $options['type'] !== 'plugin'
 		) {
 			return;
 		}
@@ -367,7 +366,7 @@ class Plugin {
 		}
 
 		foreach ( $options['plugins'] as $plugin ) {
-			if ( $plugin == CAOS_PLUGIN_BASENAME ) {
+			if ( $plugin === CAOS_PLUGIN_BASENAME ) {
 				return $this->trigger_cron_script();
 			}
 		}
@@ -398,7 +397,7 @@ class Plugin {
 			}
 
 			printf(
-				' <strong>' . __( 'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.' ) . '</strong>',
+				' <strong>' . __( 'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.', 'host-analyticsjs-local' ) . '</strong>',
 				$update_notices[ $new_version ]->url
 			);
 		}
@@ -409,7 +408,7 @@ class Plugin {
 	 * For using Stealth mode, SSL is required.
 	 */
 	public function register_routes() {
-		if ( CAOS_OPT_EXT_TRACK_AD_BLOCKERS ) {
+		if ( CAOS::get( Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) ) {
 			$proxy = new \CAOS\API\AdBlockDetect();
 			$proxy->register_routes();
 		}
@@ -423,7 +422,7 @@ class Plugin {
 	 * @return string
 	 */
 	public static function get_local_file_url() {
-		$url = content_url() . CAOS_OPT_CACHE_DIR . CAOS_OPT_REMOTE_JS_FILE;
+		$url = content_url() . CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR ) . CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE );
 
 		/**
 		 * is_ssl() fails when behind a load balancer or reverse proxy. That's why we double check here if
@@ -433,8 +432,10 @@ class Plugin {
 			$url = str_replace( 'http://', 'https://', $url );
 		}
 
-		if ( CAOS_OPT_CDN_URL ) {
-			$url = str_replace( get_home_url( get_current_blog_id() ), '//' . CAOS_OPT_CDN_URL, $url );
+		$cdn_url = CAOS::get( Settings::CAOS_ADV_SETTING_CDN_URL );
+
+		if ( $cdn_url ) {
+			$url = str_replace( get_home_url( get_current_blog_id() ), '//' . $cdn_url, $url );
 		}
 
 		if ( ! self::get_file_aliases() ) {
@@ -447,7 +448,7 @@ class Plugin {
 			return $url;
 		}
 
-		$url = str_replace( CAOS_OPT_REMOTE_JS_FILE, $file_alias, $url );
+		$url = str_replace( CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ), $file_alias, $url );
 
 		return $url;
 	}
@@ -509,7 +510,7 @@ class Plugin {
 	 *
 	 */
 	public static function uses_minimal_analytics() {
-		return CAOS_OPT_TRACKING_CODE == 'minimal' || CAOS_OPT_TRACKING_CODE == 'minimal_ga4';
+		return CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal' || CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4';
 	}
 
 	/**
@@ -518,7 +519,7 @@ class Plugin {
 	 * @return bool
 	 */
 	public static function dual_tracking_is_enabled() {
-		return strpos( CAOS_OPT_TRACKING_ID, 'UA-' ) === 0 && CAOS_OPT_DUAL_TRACKING == 'on';
+		return strpos( CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'UA-' ) === 0 && CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on';
 	}
 
 	/**
@@ -527,6 +528,6 @@ class Plugin {
 	 * @return bool
 	 */
 	public static function uses_ga4() {
-		return strpos( CAOS_OPT_TRACKING_ID, 'G' ) === 0 && CAOS_OPT_REMOTE_JS_FILE == 'gtag-v4.js';
+		return strpos( CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'G' ) === 0 && CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) === 'gtag-v4.js';
 	}
 }

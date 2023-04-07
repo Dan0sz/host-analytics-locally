@@ -15,6 +15,7 @@
 namespace CAOS\Admin\Settings;
 
 use CAOS\Admin\Settings;
+use CAOS\Plugin as CAOS;
 
 class Advanced extends Builder {
 
@@ -27,24 +28,24 @@ class Advanced extends Builder {
 		$this->title = __( 'Advanced Settings', 'host-analyticsjs-local' );
 
 		// Open
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_title' ], 10 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_description' ], 15 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_before' ], 20 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_title' ], 10 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_description' ], 15 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_before' ], 20 );
 
 		// Settings
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_compatibility_mode' ], 30 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_remote_js_file' ], 40 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_cache_dir' ], 50 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_cdn_url' ], 60 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_cookieless_analytics_promo' ], 110 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_cloaked_affiliate_links_tracking_promo' ], 120 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_session_expiry' ], 130 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_site_speed_sample_rate' ], 140 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_advertising_features' ], 150 );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_uninstall_settings' ], 220 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_compatibility_mode' ], 30 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_remote_js_file' ], 40 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_cache_dir' ], 50 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_cdn_url' ], 60 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_cookieless_analytics_promo' ], 110 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_cloaked_affiliate_links_tracking_promo' ], 120 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_session_expiry' ], 130 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_site_speed_sample_rate' ], 140 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_advertising_features' ], 150 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_uninstall_settings' ], 220 );
 
 		// Close
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_after' ], 250 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_after' ], 250 );
 
 		parent::__construct();
 	}
@@ -68,9 +69,9 @@ class Advanced extends Builder {
 		$this->do_checkbox(
 			__( 'Compatibility Mode', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
-			CAOS_OPT_COMPATIBILITY_MODE != '' ? 'on' : '',
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			__( 'Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>google-analytics.com/analytics.js</code> and <code>googletagmanager.com/gtag/js</code> on your site will be replaced with a local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> and <strong>Download File</strong> settings match your Google Analytics plugin\'s configuration.', 'host-analyticsjs-local' ),
-			CAOS_OPT_SERVICE_PROVIDER == 'plausible'
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible'
 		);
 	}
 
@@ -82,7 +83,7 @@ class Advanced extends Builder {
 			__( 'Download File', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_JS_FILE,
 			Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
-			CAOS_OPT_REMOTE_JS_FILE,
+			CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ),
 			sprintf( __( '<code>analytics.js</code> is recommended in most situations. <code>gtag.js</code> is a wrapper for <code>analytics.js</code> and should only be used if you\'re using other Google services or want to enable dual tracking with GA4. Both files are hosted locally when this option is selected! GA v4 (beta) users should choose <code>gtag.js</code> (V4 API). %1$sI don\'t know what to choose%2$s.', 'host-analyticsjs-local' ), '<a href="' . CAOS_SITE_URL . '/wordpress/difference-analyics-gtag-ga-js/' . $this->utm_tags . '" target="_blank">', '</a>' )
 		);
 	}
@@ -92,10 +93,10 @@ class Advanced extends Builder {
 	 */
 	public function do_cache_dir() {
 		$this->do_text(
-			sprintf( __( 'Cache directory for %s', 'host-analyticsjs-local' ), CAOS_OPT_REMOTE_JS_FILE ),
+			sprintf( __( 'Cache directory for %s', 'host-analyticsjs-local' ), CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) ),
 			Settings::CAOS_ADV_SETTING_CACHE_DIR,
 			__( 'e.g. /uploads/caos/', 'host-analyticsjs-local' ),
-			CAOS_OPT_CACHE_DIR,
+			CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ),
 			__( "Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", 'host-analyticsjs-local' )
 		);
 	}
@@ -108,8 +109,8 @@ class Advanced extends Builder {
 			__( 'Serve from CDN', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_CDN_URL,
 			__( 'e.g. cdn.mydomain.com', 'host-analyticsjs-local' ),
-			CAOS_OPT_CDN_URL,
-			sprintf( __( 'If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local' ), CAOS_OPT_REMOTE_JS_FILE )
+			CAOS::get( Settings::CAOS_ADV_SETTING_CDN_URL, '' ),
+			sprintf( __( 'If you\'re using a CDN, enter the URL here to serve <code>%s</code> from your CDN.', 'host-analyticsjs-local' ), Settings::CAOS_ADV_SETTING_JS_FILE )
 		);
 	}
 
@@ -124,9 +125,9 @@ class Advanced extends Builder {
 		$this->do_checkbox(
 			__( 'Enable Cookieless Analytics (Pro)', 'host-analyticsjs-local' ),
 			'caos_pro_cookieless_analytics',
-			defined( 'CAOS_PRO_COOKIELESS_ANALYTICS' ) && CAOS_PRO_COOKIELESS_ANALYTICS,
+			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'caos_pro_cookieless_analytics' ),
 			$description,
-			! defined( 'CAOS_PRO_COOKIELESS_ANALYTICS' ) || ( defined( 'CAOS_PRO_COOKIELESS_ANALYTICS' ) && ( CAOS_OPT_COMPATIBILITY_MODE || CAOS_OPT_SERVICE_PROVIDER != 'google_analytics' ) ),
+			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && ( CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ) || CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) !== 'google_analytics' ) ),
 			true,
 			true,
 			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
@@ -144,7 +145,10 @@ class Advanced extends Builder {
 			<th><?php echo __( 'Track Cloaked Affiliate Links (Pro)', 'host-analyticsjs-local' ); ?></th>
 			<td>
 				<?php
-				$disabled = ! defined( 'CAOS_PRO_AFFILIATE_LINKS' ) || ( defined( 'CAOS_PRO_AFFILIATE_LINKS' ) && ( CAOS_OPT_SERVICE_PROVIDER != 'google_analytics' || CAOS_OPT_TRACKING_CODE == 'minimal' || CAOS_OPT_TRACKING_CODE == 'minimal_ga4' ) );
+				$disabled = ! defined( 'CAOS_PRO_AFFILIATE_LINKS' )
+				|| ( defined( 'CAOS_PRO_AFFILIATE_LINKS' ) && ( CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) !== 'google_analytics'
+				|| CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal'
+				|| CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4' ) );
 				?>
 				<?php if ( $disabled && $this->display_reason( true ) ) : ?>
 					<p class="description option-disabled">
@@ -183,7 +187,7 @@ class Advanced extends Builder {
 						<input type="button" <?php echo $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?php echo __( 'Add Link Path', 'host-analyticsjs-local' ); ?>" />
 					</p>
 					<p class="description">
-						<?php echo defined( 'CAOS_PRO_STEALTH_MODE' ) && CAOS_PRO_STEALTH_MODE == 'on' ? __( 'If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', 'host-analyticsjs-local' ) : ''; ?>
+						<?php echo defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'caos_pro_stealth_mode' )) ? __( 'If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', 'host-analyticsjs-local' ) : ''; ?>
 						<?php echo __( 'Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', 'host-analyticsjs-local' ) . ' ' . $this->promo; ?>
 					</p>
 				<?php endif; ?>
@@ -199,10 +203,10 @@ class Advanced extends Builder {
 		$this->do_number(
 			__( 'Session expiry period (days)', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS,
-			CAOS_OPT_SESSION_EXPIRY_DAYS,
+			CAOS::get( Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30 ),
 			__( 'The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', 'host-analyticsjs-local' ),
 			0,
-			CAOS_OPT_COMPATIBILITY_MODE,
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
 		);
 	}
@@ -216,10 +220,10 @@ class Advanced extends Builder {
 		$this->do_number(
 			__( 'Site Speed Sample Rate (%)', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE,
-			CAOS_OPT_SITE_SPEED_SAMPLE_RATE,
+			CAOS::get( Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE ),
 			__( 'This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', 'host-analyticsjs-local' ),
 			0,
-			CAOS_OPT_COMPATIBILITY_MODE || CAOS::uses_ga4(),
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ) || CAOS::uses_ga4(),
 			CAOS::uses_ga4() ? __( 'Provide a Google Analytics V3 (UA-) <strong>Tracking ID</strong> to enable it.', 'host-webfonts-local' ) : __( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
 		);
 	}
@@ -231,9 +235,9 @@ class Advanced extends Builder {
 		$this->do_checkbox(
 			__( 'Disable Advertising Features', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES,
-			CAOS_OPT_DISABLE_ADS_FEAT,
+			CAOS::get( Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES ),
 			sprintf( __( 'Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href="%s" target="_blank">What\'s this?</a>', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9050852?hl=en' ),
-			CAOS_OPT_COMPATIBILITY_MODE,
+			CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			true,
 			false,
 			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
@@ -247,7 +251,7 @@ class Advanced extends Builder {
 		$this->do_checkbox(
 			__( 'Remove settings at Uninstall', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS,
-			CAOS_OPT_UNINSTALL_SETTINGS,
+			CAOS::get( Setings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ),
 			'<strong>' . __( 'Warning!', 'host-analytics-local' ) . '</strong> ' . __( 'This will remove the settings from the database upon plugin deletion!', 'host-analyticsjs-local' )
 		);
 	}

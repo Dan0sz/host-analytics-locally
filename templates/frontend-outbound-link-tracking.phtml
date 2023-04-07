@@ -18,6 +18,7 @@
  *
  * Thanks to Ralph Slooten: https://www.axllent.org/docs/view/track-outbound-links-with-analytics-js/
  */
+$js_file = \CAOS\Plugin::get( \CAOS\Admin\Settings::CAOS_ADV_SETTING_JS_FILE );
 ?>
 <script>
     function _caosLt(event) {
@@ -61,7 +62,7 @@
 
                 if (target) {
                     /* If target opens a new window then just track */
-                    <?php if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') : ?>
+                    <?php if ($js_file == 'analytics.js') : ?>
                         ga('send', 'event', 'Outbound Link Tracking', 'click', link);
                     <?php else : ?>
                         gtag('event', 'click', {
@@ -74,7 +75,7 @@
                     /* Prevent standard click, track then open */
                     event.preventDefault ? event.preventDefault() : event.returnValue != 1;
                     /* send event with callback */
-                    <?php if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') : ?>
+                    <?php if ($js_file == 'analytics.js') : ?>
                         ga('send', 'event', 'Outbound Link Tracking', 'click', link, {
                             'transport': 'beacon',
                             'hitCallback': hitBack

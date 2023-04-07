@@ -15,6 +15,7 @@
 namespace CAOS;
 
 use CAOS\Admin\Notice;
+use CAOS\Admin\Settings;
 use CAOS\Plugin as CAOS;
 
 defined( 'ABSPATH' ) || exit;
@@ -120,7 +121,7 @@ class Cron {
 		if ( $key == 'plausible' ) {
 			$remote_file = 'script.';
 
-			if ( CAOS_OPT_EXT_CAPTURE_OUTBOUND_LINKS == 'on' ) {
+			if ( CAOS::get( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) == 'on' ) {
 				$remote_file .= 'outbound-links.';
 			}
 

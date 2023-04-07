@@ -14,11 +14,9 @@
  * * * * * * * * * * * * * * * * * * * */
 namespace CAOS\Admin\Settings;
 
+use CAOS\Admin\Settings;
+
 class Builder {
-
-	/** @var string $plugin_text_domain */
-	protected $plugin_text_domain = 'host-analyticsjs-local';
-
 	/** @var string $utm_tags */
 	protected $utm_tags = '?utm_source=caos&utm_medium=plugin&utm_campaign=settings';
 
@@ -34,16 +32,16 @@ class Builder {
 	 * Builder constructor.
 	 */
 	public function __construct() {
-		add_filter( 'caos_basic_settings_content', [ $this, 'do_promo' ] );
-		add_filter( 'caos_advanced_settings_content', [ $this, 'do_promo' ] );
-		add_filter( 'caos_extensions_settings_content', [ $this, 'do_promo' ] );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_promo' ] );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_promo' ] );
+		add_action( 'caos_extensions_settings_content', [ $this, 'do_promo' ] );
 	}
 
 	/**
 	 *
 	 */
 	public function do_promo() {
-		if ( apply_filters( 'caos_pro_active', false ) == false ) {
+		if ( apply_filters( 'caos_pro_active', false ) === false ) {
 			$this->promo = sprintf( __( '<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.' ), Settings::FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO . $this->utm_tags );
 		}
 	}
@@ -87,7 +85,7 @@ class Builder {
 	 */
 	public function do_title() {
 		?>
-		<h2><?php echo $this->title; ?></h2>
+		<h2><?php echo esc_html( $this->title ); ?></h2>
 		<?php
 	}
 
@@ -96,7 +94,7 @@ class Builder {
 	 */
 	public function do_tbody_open( $class, $visible = true ) {
 		?>
-		<tbody class="<?php echo $class; ?>" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
+		<tbody class="<?php echo esc_attr( $class ); ?>" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
 		<?php
 	}
 
@@ -126,24 +124,25 @@ class Builder {
 		$i = 0;
 		?>
 		<tr>
-			<th scope="row"><?php echo $label; ?></th>
+			<th scope="row"><?php echo esc_html( $label ); ?></th>
 			<td id="<?php echo esc_attr( $name . '_right_column' ); ?>">
 				<fieldset>
 					<?php foreach ( $inputs as $option => $option_label ) : ?>
 						<label>
-							<input type="radio" <?php echo is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name . '_' . $option ); ?>" name="<?php echo $name; ?>" value="<?php echo $option; ?>" <?php echo $option == $checked ? 'checked="checked"' : ''; ?> />
-							<?php echo $option_label; ?>
+							<input type="radio" <?php echo is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name . '_' . $option ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="<?php echo esc_attr( $option ); ?>" <?php echo esc_attr( $option === $checked ? 'checked="checked"' : '' ); ?> />
+							<?php echo esc_html( $option_label ); ?>
 						</label>
 						<br />
 						<?php $i++; ?>
 					<?php endforeach; ?>
 					<?php if ( ! is_array( $disabled ) && $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php // phpcs:ignore
+							echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -165,25 +164,26 @@ class Builder {
 		?>
 		<tr>
 			<th scope="row">
-				<?php echo apply_filters( $select . '_setting_label', $label ); ?>
+				<?php echo esc_html( apply_filters( $select . '_setting_label', $label ) ); ?>
 			</th>
 			<td>
 				<fieldset>
-					<select <?php echo $disabled ? 'disabled' : ''; ?> name="<?php echo $select; ?>" class="<?php echo str_replace( '_', '-', $select ); ?>">
+					<select <?php echo $disabled ? 'disabled' : ''; ?> name="caos_settings[<?php echo esc_attr( $select ); ?>]" class="<?php echo esc_attr( str_replace( '_', '-', $select ) ); ?>">
 						<?php
 						$options = apply_filters( $select . '_setting_options', $options );
 						?>
 						<?php foreach ( $options as $option => $option_label ) : ?>
-							<option value="<?php echo $option; ?>" <?php echo ( $selected == $option ) ? 'selected' : ''; ?>><?php echo $option_label; ?></option>
+							<option value="<?php echo esc_attr( $option ); ?>" <?php echo ( $selected === $option ) ? esc_attr( 'selected' ) : ''; ?>><?php echo esc_html( $option_label ); ?></option>
 						<?php endforeach; ?>
 					</select>
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $select . '_setting_description', $description, $label, $select ); ?>
+							<?php // phpcs:ignore
+							echo apply_filters( $select . '_setting_description', $description, $label, $select ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -206,17 +206,18 @@ class Builder {
 	public function do_number( $label, $name, $value, $description, $min = 0, $disabled = false, $explanation = '' ) {
 		?>
 		<tr valign="top">
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+			<th scope="row"><?php echo esc_html( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
 				<fieldset>
-					<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name ); ?>" type="number" name="<?php echo $name; ?>" min="<?php echo $min; ?>" value="<?php echo $value; ?>" />
+					<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="number" name="caos_settings[<?php echo esc_attr( $name ); ?>]" min="<?php echo esc_attr( $min ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php // phpcs:ignore
+							echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -239,17 +240,18 @@ class Builder {
 	 */
 	public function do_text( $label, $name, $placeholder, $value, $description = '', $visible = true, $disabled = false, $explanation = '' ) {
 		?>
-		<tr class="<?php echo str_replace( '_', '-', $name ); ?>-row" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+		<tr class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
+			<th scope="row"><?php echo esc_html( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
-				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name ); ?>" type="text" name="<?php echo $name; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo $value; ?>" />
+				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="text" name="caos_settings[<?php echo esc_attr( $name ); ?>]" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 				<?php if ( $disabled && $this->display_reason() ) : ?>
 					<p class="option-disabled">
-						<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+						<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 					</p>
 				<?php else : ?>
 					<p class="description">
-						<?php echo apply_filters( $name . 'setting_description', $description, $label, $name ); ?>
+						<?php // phpcs:ignore
+						echo apply_filters( $name . 'setting_description', $description, $label, $name ); ?>
 					</p>
 				<?php endif; ?>
 			</td>
@@ -272,18 +274,19 @@ class Builder {
 	 */
 	public function do_checkbox( $label, $name, $checked, $description, $disabled = false, $visible = true, $is_pro_option = false, $explanation = '' ) {
 		?>
-		<tr class='<?php echo str_replace( '_', '-', $name ); ?>-row' <?php echo $visible ? '' : 'style="display: none;"'; ?>>
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+		<tr class='<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row' <?php echo $visible ? '' : 'style="display: none;"'; ?>>
+			<th scope="row"><?php echo esc_html( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
 				<fieldset>
-					<label for="<?php echo $name; ?>">
-						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo str_replace( '_', '-', $name ); ?>" name="<?php echo $name; ?>" <?php echo $checked == 'on' ? 'checked = "checked"' : ''; ?> />
+					<label for="<?php echo esc_attr( $name ); ?>">
+						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" <?php echo esc_attr( $checked === 'on' ? 'checked = "checked"' : '' ); ?> />
 						<?php if ( $disabled && $this->display_reason( $is_pro_option ) ) : ?>
 							<p class="description option-disabled">
-								<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+								<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 							</p>
 						<?php else : ?>
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php // phpcs:ignore
+								echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
 						<?php endif; ?>
 					</label>
 				</fieldset>
