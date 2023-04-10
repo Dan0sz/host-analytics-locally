@@ -77,7 +77,7 @@ class Cron {
 				$sentence .= __( 'and ', 'host-analyticsjs-local' );
 			}
 
-			$sentence .= sprintf( __( '%s', 'host-analyticsjs-local' ), $filename, $alias ) . ' ';
+			$sentence .= $filename . '(renamed to ' . $alias . ') ';
 
 			$i++;
 		}
@@ -118,7 +118,7 @@ class Cron {
 		/**
 		 * Plausible Analytics
 		 */
-		if ( $key == 'plausible' ) {
+		if ( $key === 'plausible' ) {
 			$remote_file = 'script.';
 
 			if ( CAOS::get( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) == 'on' ) {
@@ -144,7 +144,7 @@ class Cron {
 		/**
 		 * Gtag V3 is a wrapper for analytics.js, so add it to the queue.
 		 */
-		if ( $key == 'analytics' || $key == 'gtag' ) {
+		if ( $key === 'analytics' || $key === 'gtag' ) {
 			$queue = array_merge(
 				$queue,
 				[
@@ -159,29 +159,31 @@ class Cron {
 		/**
 		 * Gtag V3
 		 */
-		if ( $key == 'gtag' ) {
+		if ( $key === 'gtag' ) {
 			$queue = array_merge(
 				$queue,
 				[
 					$key => [
-						'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS_OPT_TRACKING_ID,
+						'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ),
 						'local'  => CAOS::get_file_alias_path( $key ),
 					],
 				]
 			);
 		}
 
+		$dual_tracking = CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING );
+
 		/**
 		 * If Dual Tracking is enabled, then add Gtag V4 to the download queue.
 		 */
-		if ( CAOS_OPT_DUAL_TRACKING == 'on' || $key == 'gtag-v4' ) {
-			$tracking_id = CAOS_OPT_DUAL_TRACKING == 'on' ? CAOS_OPT_GA4_MEASUREMENT_ID : CAOS_OPT_TRACKING_ID;
+		if ( $dual_tracking === 'on' || $key === 'gtag-v4' ) {
+			$tracking_id = $dual_tracking === 'on' ? CAOS::get( Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ) : CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID );
 
 			$queue = array_merge(
 				$queue,
 				[
 					'gtag-v4' => [
-						'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . $tracking_id,
+						'remote' => CAOS_GTM_URL . '/gtag/js?id=' . $tracking_id,
 						'local'  => CAOS::get_file_alias_path( 'gtag-v4' ),
 					],
 				]
@@ -197,7 +199,7 @@ class Cron {
 	private function download() {
 		$i                = 0;
 		$downloaded_files = [];
-		$this->tweet      = sprintf( $this->tweet, CAOS_OPT_REMOTE_JS_FILE );
+		$this->tweet      = sprintf( $this->tweet, CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) );
 
 		foreach ( $this->files as $file => $location ) {
 			$downloaded_file = CAOS::download_file( $location['local'], $location['remote'], $file );
@@ -218,7 +220,7 @@ class Cron {
 				$ext_ga_url = CAOS_GA_URL . '/analytics.js';
 				$home_url   = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS_OPT_CACHE_DIR );
 				$hit_type   = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
-				$file_alias = CAOS_OPT_DUAL_TRACKING == 'on' ? CAOS::get_file_alias( 'gtag-v4' ) : CAOS::get_file_alias( $file );
+				$file_alias = CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' ? CAOS::get_file_alias( 'gtag-v4' ) : CAOS::get_file_alias( $file );
 				$finds      = [ $ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
 				$replaces   = [ $local_ga_url, $file_alias . '?id=', "\"$home_url\"", $hit_type ];
 

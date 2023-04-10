@@ -77,41 +77,45 @@ class Settings extends Admin {
 	/**
 	 * CAOS Basic/Advanced Settings
 	 */
-	const CAOS_BASIC_SETTING_SERVICE_PROVIDER     = 'caos_service_provider';
-	const CAOS_BASIC_SETTING_DOMAIN_NAME          = 'caos_domain_name';
-	const CAOS_BASIC_SETTING_TRACKING_ID          = 'sgal_tracking_id';
-	const CAOS_BASIC_SETTING_DUAL_TRACKING        = 'caos_dual_tracking';
-	const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID   = 'caos_ga4_measurement_id';
-	const CAOS_BASIC_SETTING_TRACK_ADMIN          = 'sgal_track_admin';
-	const CAOS_BASIC_SETTING_ALLOW_TRACKING       = 'caos_allow_tracking';
-	const CAOS_BASIC_SETTING_COOKIE_NAME          = 'sgal_cookie_notice_name';
-	const CAOS_BASIC_SETTING_COOKIE_VALUE         = 'caos_cookie_value';
-	const CAOS_BASIC_SETTING_TRACKING_CODE        = 'caos_snippet_type';
-	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE    = 'caos_anonymize_ip_mode';
-	const CAOS_BASIC_SETTING_SCRIPT_POSITION      = 'sgal_script_position';
-	const CAOS_ADV_SETTING_COMPATIBILITY_MODE     = 'caos_compatibility_mode';
-	const CAOS_ADV_SETTING_JS_FILE                = 'caos_analytics_js_file';
-	const CAOS_ADV_SETTING_COOKIELESS_ANALYTICS   = 'caos_cookieless_analytics';
-	const CAOS_ADV_SETTING_CACHE_DIR              = 'caos_analytics_cache_dir';
-	const CAOS_ADV_SETTING_CDN_URL                = 'caos_analytics_cdn_url';
-	const CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS = 'sgal_ga_cookie_expiry_days';
-	const CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE = 'sgal_adjusted_bounce_rate';
-	const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE = 'caos_site_speed_sample_rate';
-	const CAOS_ADV_SETTING_ENQUEUE_ORDER          = 'sgal_enqueue_order';
-	const CAOS_ADV_SETTING_DISABLE_ADS_FEATURES   = 'caos_disable_display_features';
-	const CAOS_ADV_SETTING_UNINSTALL_SETTINGS     = 'caos_analytics_uninstall_settings';
-	const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS      = 'caos_extension_track_ad_blockers';
-	const CAOS_EXT_SETTING_LINKID                 = 'caos_extension_linkid';
-	const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS = 'caos_capture_outbound_links';
-	const CAOS_CRON_RUN_UPDATE                    = 'caos_cron_run_update';
-	const CAOS_CRON_FILE_ALIASES                  = 'caos_cron_file_aliases';
+	const CAOS_BASIC_SETTING_SERVICE_PROVIDER     = 'service_provider';
+	const CAOS_BASIC_SETTING_DOMAIN_NAME          = 'domain_name';
+	const CAOS_BASIC_SETTING_TRACKING_ID          = 'tracking_id';
+	const CAOS_BASIC_SETTING_DUAL_TRACKING        = 'dual_tracking';
+	const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID   = 'ga4_measurement_id';
+	const CAOS_BASIC_SETTING_TRACK_ADMIN          = 'track_admin';
+	const CAOS_BASIC_SETTING_ALLOW_TRACKING       = 'allow_tracking';
+	const CAOS_BASIC_SETTING_COOKIE_NAME          = 'cookie_notice_name';
+	const CAOS_BASIC_SETTING_COOKIE_VALUE         = 'cookie_value';
+	const CAOS_BASIC_SETTING_TRACKING_CODE        = 'snippet_type';
+	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE    = 'anonymize_ip_mode';
+	const CAOS_BASIC_SETTING_SCRIPT_POSITION      = 'script_position';
+	const CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE = 'adjusted_bounce_rate';
+	const CAOS_ADV_SETTING_COMPATIBILITY_MODE     = 'compatibility_mode';
+	const CAOS_ADV_SETTING_JS_FILE                = 'analytics_js_file';
+	const CAOS_ADV_SETTING_COOKIELESS_ANALYTICS   = 'cookieless_analytics';
+	const CAOS_ADV_SETTING_CACHE_DIR              = 'analytics_cache_dir';
+	const CAOS_ADV_SETTING_CDN_URL                = 'analytics_cdn_url';
+	const CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS = 'ga_cookie_expiry_days';
+	const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE = 'site_speed_sample_rate';
+	const CAOS_ADV_SETTING_ENQUEUE_ORDER          = 'enqueue_order';
+	const CAOS_ADV_SETTING_DISABLE_ADS_FEATURES   = 'disable_display_features';
+	const CAOS_ADV_SETTING_UNINSTALL_SETTINGS     = 'analytics_uninstall_settings';
+	const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS      = 'track_ad_blockers';
+	const CAOS_EXT_SETTING_LINKID                 = 'linkid';
+	const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS = 'capture_outbound_links';
+
+	/**
+	 * CAOS Cron
+	 */
+	const CAOS_CRON_RUN_UPDATE   = 'cron_run_update';
+	const CAOS_CRON_FILE_ALIASES = 'cron_file_aliases';
 
 	/**
 	 * Info URLs
 	 */
-	const FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO   = 'https://daan.dev/wordpress/caos-pro/';
-	const CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
-	const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB   = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
+	const DAAN_DEV_WORDPRESS_CAOS_PRO          = 'https://daan.dev/wordpress/caos-pro/';
+	const CAOS_SETTINGS_EXTENSIONS_TAB_URI     = 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings';
+	const CAOS_SETTINGS_UTM_PARAMS_SUPPORT_TAB = '?utm_source=caos&utm_medium=plugin&utm_campaign=support_tab';
 
 	/** @var string $active_tab */
 	private $active_tab;
@@ -123,8 +127,8 @@ class Settings extends Admin {
 	 * Settings constructor.
 	 */
 	public function __construct() {
-		$this->active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
-		$this->page       = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$this->active_tab = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : self::CAOS_ADMIN_SECTION_BASIC_SETTINGS;
+		$this->page       = isset( $_GET['page'] ) ? esc_attr( $_GET['page'] ) : '';
 
 		parent::__construct();
 
@@ -181,7 +185,7 @@ class Settings extends Admin {
 		<div class="wrap caos">
 			<h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ); ?></h1>
 
-			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) != 'minimal' ) : ?>
+			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) !== 'minimal' ) : ?>
 				<?php
 				$remote_file = CAOS::get_current_file_key();
 				?>
@@ -194,9 +198,18 @@ class Settings extends Admin {
 				<?php do_action( 'caos_settings_tab' ); ?>
 			</h2>
 
-			<form id="<?php echo $this->active_tab; ?>-form" method="post" action="options.php?tab=<?php echo $this->active_tab; ?>">
+			<form id="<?php echo esc_attr( $this->active_tab ); ?>-form" method="post" action="options.php?tab=<?php echo esc_attr( $this->active_tab ); ?>">
 				<?php
+				ob_start();
 				settings_fields( $this->active_tab );
+				/**
+				 * We use a custom update action, so we can group all settings in one DB row upon form submit.
+				 *
+				 * @see \CAOS\Plugin update_options()
+				 */
+				$settings_fields = ob_get_clean();
+				$settings_fields = str_replace( 'value="update"', 'value="caos-update"', $settings_fields );
+				echo $settings_fields;
 				do_settings_sections( $this->active_tab );
 				?>
 

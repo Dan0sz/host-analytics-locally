@@ -42,7 +42,7 @@ class Builder {
 	 */
 	public function do_promo() {
 		if ( apply_filters( 'caos_pro_active', false ) === false ) {
-			$this->promo = sprintf( __( '<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.' ), Settings::FFW_PRESS_WORDPRESS_PLUGINS_CAOS_PRO . $this->utm_tags );
+			$this->promo = sprintf( __( '<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.' ), Settings::DAAN_DEV_WORDPRESS_CAOS_PRO . $this->utm_tags );
 		}
 	}
 
@@ -137,7 +137,7 @@ class Builder {
 					<?php endforeach; ?>
 					<?php if ( ! is_array( $disabled ) && $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+							<?php echo esc_attr( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">

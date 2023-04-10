@@ -80,8 +80,8 @@ class Extensions extends Builder {
 	public function do_stealth_mode_promo() {
 		$this->do_checkbox(
 			__( 'Stealth Mode (Pro)', 'host-analyticsjs-local' ),
-			'caos_pro_stealth_mode',
-			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'caos_pro_stealth_mode' ) : false,
+			'stealth_mode',
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'stealth_mode' ) : false,
 			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
 			! defined( 'CAOS_PRO_STEALTH_MODE' ),
 			true,
@@ -96,8 +96,8 @@ class Extensions extends Builder {
 		$this->do_radio(
 			__( 'Request Handling (Pro)', 'host-analyticsjs-local' ),
 			Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
-			'caos_pro_request_handling',
-			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'caos_pro_request_handling' ) : false,
+			'request_handling',
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'request_handling' ) : false,
 			__( 'In Stealth Mode, all Plausible and Google Analytics related requests (e.g. <code>/api/event</code>, <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are sent almost instantly.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
 			[ ! defined( 'CAOS_PRO_ACTIVE' ), ! defined( 'CAOS_PRO_ACTIVE' ) ],
 			true
@@ -110,8 +110,8 @@ class Extensions extends Builder {
 	public function do_cloudflare_compatibility() {
 		$this->do_checkbox(
 			__( 'Cloudflare Compatibility (Pro)', 'host-analyticsjs-local' ),
-			'caos_pro_cf_compatibility',
-			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'caos_pro_cf_compatibility' ) : false,
+			'cf_compatibility',
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'cf_compatibility' ) : false,
 			__( 'When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
 			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) !== 'google_analytics' ),
 			true,

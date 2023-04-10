@@ -60,7 +60,7 @@ class Setup {
 	 *
 	 */
 	public function show_ad_block_message() {
-		$admin_url = admin_url( Settings::CAOS_ADMIN_SETTINGS_EXTENSIONS_TAB_URI );
+		$admin_url = admin_url( Settings::CAOS_SETTINGS_EXTENSIONS_TAB_URI );
 		$message   = __( "Did you know <strong>~30%% of your visitors use Ad Blockers</strong>? CAOS now offers insights into the Ad Blocker usage of your visitors, i.e. the stats that're currently missing in your Google Analytics dashboard. Enable this option in <em>Settings > Optimize Google Analytics > <a href='%s'>Extensions</a></em>.", 'host-analyticsjs-local' );
 
 		Notice::set_notice( sprintf( $message, $admin_url ), 'info' );

@@ -12,36 +12,40 @@
  * @copyright: (c) 2021 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
 namespace CAOS\Frontend;
 
 use CAOS\Admin\Settings;
 use CAOS\Plugin as CAOS;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-class Functions {
+class Functions
+{
 
 	/**
 	 * CAOS_Frontend_Functions constructor.
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		// Needs to be added after Google Analytics library is requested.
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_js_scripts' ], 11 );
-		add_filter( 'caos_frontend_add_dns_prefetch', [ $this, 'maybe_add_dns_prefetch' ] );
-		add_filter( 'wp_resource_hints', [ $this, 'add_dns_prefetch' ], 10, 2 );
+		add_action('wp_enqueue_scripts', [$this, 'enqueue_js_scripts'], 11);
+		add_filter('caos_frontend_add_dns_prefetch', [$this, 'maybe_add_dns_prefetch']);
+		add_filter('wp_resource_hints', [$this, 'add_dns_prefetch'], 10, 2);
 	}
 
 	/**
 	 * Enqueue JS scripts for frontend.
 	 */
-	public function enqueue_js_scripts() {
-		if ( current_user_can( 'manage_options' ) && ! CAOS_OPT_TRACK_ADMIN ) {
+	public function enqueue_js_scripts()
+	{
+		if (current_user_can('manage_options') && !CAOS::get(Settings::CAOS_BASIC_SETTING_TRACK_ADMIN)) {
 			return;
 		}
 
-		if ( CAOS::get( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) === 'on' ) {
+		if (CAOS::get(Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS) === 'on') {
 			$tracking = new \CAOS\Frontend\Tracking();
-			wp_add_inline_script( $tracking->handle, $this->get_frontend_template( 'outbound-link-tracking' ) );
+			wp_add_inline_script($tracking->handle, $this->get_frontend_template('outbound-link-tracking'));
 		}
 	}
 
@@ -50,12 +54,13 @@ class Functions {
 	 *
 	 * @return false|string
 	 */
-	public function get_frontend_template( $name ) {
+	public function get_frontend_template($name)
+	{
 		ob_start();
 
 		include CAOS_PLUGIN_DIR . 'templates/frontend-' . $name . '.phtml';
 
-		return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
+		return str_replace(['<script>', '</script>'], '', ob_get_clean());
 	}
 
 	/**
@@ -64,8 +69,9 @@ class Functions {
 	 * @param mixed $result
 	 * @return bool
 	 */
-	public function maybe_add_dns_prefetch() {
-		return CAOS_OPT_COMPATIBILITY_MODE !== 'on';
+	public function maybe_add_dns_prefetch()
+	{
+		return CAOS::get(Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE) !== 'on';
 	}
 
 	/**
@@ -73,12 +79,13 @@ class Functions {
 	 *
 	 * @filter caos_frontend_add_dns_prefetch Allows disabling the prefetch, if already added by another plugin.
 	 */
-	public function add_dns_prefetch( $hints, $type ) {
-		if ( ! apply_filters( 'caos_frontend_add_dns_prefetch', true ) ) {
+	public function add_dns_prefetch($hints, $type)
+	{
+		if (!apply_filters('caos_frontend_add_dns_prefetch', true)) {
 			return $hints;
 		}
 
-		if ( $type == 'preconnect' ) {
+		if ($type == 'preconnect') {
 			$hints[] = '//www.google-analytics.com';
 		}
 

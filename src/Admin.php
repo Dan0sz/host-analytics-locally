@@ -97,8 +97,8 @@ class Admin {
 			return $new_tracking_id;
 		}
 
-		$is_ga4    = substr( $new_tracking_id, 0, 2 ) == 'G-';
-		$is_dt     = CAOS_OPT_DUAL_TRACKING && strpos( CAOS_OPT_GA4_MEASUREMENT_ID, 'G-' ) !== false;
+		$is_ga4    = substr( $new_tracking_id, 0, 2 ) === 'G-';
+		$is_dt     = CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) && strpos( CAOS::get( Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ), 'G-' ) !== false;
 		$dt_notice = '';
 
 		if ( $is_ga4 && $is_dt ) {
@@ -135,7 +135,7 @@ class Admin {
 			'warning'
 		);
 
-		if ( $filename == 'analytics.js' ) {
+		if ( $filename === 'analytics.js' ) {
 			Notice::set_notice(
 				__( 'You can change the <em>file to download</em> manually to gtag.js in <em>Advanced Settings</em> if you wish to do so.', 'host-analyticsjs-local' ),
 				'info'
@@ -153,12 +153,12 @@ class Admin {
 	 * @return mixed
 	 */
 	public function maybe_remove_related_settings( $old_value, $new_value ) {
-		if ( $new_value == $old_value ) {
+		if ( $new_value === $old_value ) {
 			return $new_value;
 		}
 
 		// Dual tracking has been enabled. Let's delete related options.
-		if ( $new_value != 'on' ) {
+		if ( $new_value !== 'on' ) {
 			delete_option( Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID );
 
 			/**
@@ -187,7 +187,7 @@ class Admin {
 				__( 'The entered Measurement ID isn\'t correct. Fix it to avoid breaking your Analytics.', 'host-analyticsjs-local' ),
 				'error'
 			);
-		} elseif ( CAOS_OPT_REMOTE_JS_FILE != 'gtag.js' ) {
+		} elseif ( CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) !== 'gtag.js' ) {
 			Notice::set_notice(
 				__( 'Dual Tracking is enabled and the <em>file to download</em> was changed to <em>gtag.js</em>.', 'host-analyticsjs-local' ),
 				'info'
@@ -251,7 +251,7 @@ class Admin {
 
 		$real_path = realpath( $allowed_path );
 
-		if ( $real_path != rtrim( $allowed_path, '/' ) ) {
+		if ( $real_path !== rtrim( $allowed_path, '/' ) ) {
 			Notice::set_notice( __( 'CAOS\' Cache Directory wasn\'t changed. Attempted path traversal.', 'host-analyticsjs-local' ), 'error' );
 
 			return $old_dir;
@@ -268,7 +268,7 @@ class Admin {
 	 */
 	public function set_cache_dir_notice( $old_dir, $new_dir ) {
 		if ( $new_dir !== $old_dir && ! empty( $new_dir ) ) {
-			Notice::set_notice( sprintf( __( '%1$s will now be saved in <em>%2$s</em>.', 'host-analyticsjs-local' ), ucfirst( CAOS_OPT_REMOTE_JS_FILE ), $new_dir ) );
+			Notice::set_notice( sprintf( __( '%1$s will now be saved in <em>%2$s</em>.', 'host-analyticsjs-local' ), ucfirst( CAOS::get( Settings::CAOS_ADV_SETTING_JS_FILE ) ), $new_dir ) );
 		}
 
 		return $new_dir;

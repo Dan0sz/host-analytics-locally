@@ -154,10 +154,10 @@ class Basic extends Builder {
 	public function do_gdpr_compliance_promo() {
 		$this->do_checkbox(
 			__( 'Increase GDPR Compliance (Pro)', 'host-analyticsjs-local' ),
-			'caos_pro_gdpr',
-			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'caos_pro_gdpr', false ) : false,
+			'gdpr',
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'gdpr', false ) : false,
 			sprintf( __( 'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', 'host-analyticsjs-local' ), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr' ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_GDPR' ) || CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
+			! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || CAOS::get( Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE ),
 			true,
 			true,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
@@ -250,7 +250,7 @@ class Basic extends Builder {
 			Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
 			$aip_mode,
 			sprintf( __( '<strong>One octet</strong> enables the <code>anonymize_ip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%1$s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still stored on Google\'s servers. Anonymize <strong>two octets</strong> and enable <a href="%2$s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data might not be accurate.', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url( 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings' ) ) . sprintf( ' <span class="caos-aip">Example: %s', $aip_example ) . ' ' . $this->promo,
-			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' ? true : [ false, false, ! defined( 'CAOS_PRO_ANONYMIZE_IP' ) ],
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' ? true : [ false, false, ! defined( 'CAOS_PRO_ACTIVE' ) ],
 			false,
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics.', 'host-webfonts-local' )
 		);

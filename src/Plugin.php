@@ -41,6 +41,9 @@ class Plugin {
 			$this->update_db();
 		}
 
+		// Save Settings
+		add_action( 'admin_init', [ $this, 'update_settings' ] );
+
 		if ( is_admin() ) {
 			do_action( 'caos_before_admin' );
 
@@ -95,9 +98,75 @@ class Plugin {
 	}
 
 	/**
+	 * We use a custom update action, because we're storing multidimensional arrays upon form submit.
+	 *
+	 * This prevents us from having to use AJAX, serialize(), stringify() and eventually having to json_decode() it, i.e.
+	 * a lot of headaches.
+	 *
+	 * @since v4.6.0
+	 */
+	public function update_settings() {
+		// phpcs:ignore WordPress.Security
+		if ( empty( $_POST['action'] ) || $_POST['action'] !== 'caos-update' ) {
+			return;
+		}
+
+		// phpcs:ignore
+		$post_data = $this->clean($_POST);
+
+		$options = apply_filters(
+			/**
+			 * Any options that're better off in their own DB row (e.g. due to size) can be added using this filter.
+			 *
+			 * @since v4.6.0
+			 */
+			'caos_update_settings_serialized',
+			[
+				'caos_settings',
+			]
+		);
+
+		foreach ( $options as $option ) {
+			if ( ! empty( $post_data[ $option ] ) ) {
+				update_option( $option, $post_data[ $option ] );
+			}
+		}
+
+		/**
+		 * Additional update actions can be added here.
+		 *
+		 * @since v4.6.0
+		 */
+		do_action( 'caos_update_settings' );
+
+		// Redirect back to the settings page that was submitted.
+		$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
+		wp_redirect( $goback );
+		exit;
+	}
+
+	/**
+	 * Clean variables using `sanitize_text_field`.
+	 * Arrays are cleaned recursively. Non-scalar values are ignored.
+	 *
+	 * @param string|array $var Sanitize the variable.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @return string|array
+	 */
+	private function clean( $var ) {
+		if ( is_array( $var ) ) {
+			return array_map( [ __CLASS__, __METHOD__ ], $var );
+		}
+
+		return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
+	}
+
+	/**
 	 * Gets all settings for CAOS.
 	 *
-	 * @since 4.5.1
+	 * @since 4.6.0
 	 *
 	 * @return array
 	 */
@@ -119,7 +188,7 @@ class Plugin {
 	 * @param string $name
 	 * @param mixed  $default (optional)
 	 *
-	 * @since v4.5.1
+	 * @since v4.6.0
 	 */
 	public static function get( $name, $default = null ) {
 		$value = self::get_settings()[ $name ] ?? '';
@@ -131,12 +200,14 @@ class Plugin {
 		/**
 		 * If $default isn't set, let's check if a global default has been set.
 		 */
-		if ( $default !== null && isset( self::$defaults[ $name ] ) ) {
+		if ( empty( $value ) && $default !== null && isset( self::$defaults[ $name ] ) ) {
 			$value = self::$defaults[ $name ];
 		}
 
 		return apply_filters( "caos_setting_$name", $value );
 	}
+
+
 
 	/**
 	 * @return false|array

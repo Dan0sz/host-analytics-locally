@@ -237,7 +237,7 @@ class Tracking {
 	 */
 	public function maybe_disable_consent_mode_listener() {
 		// phpcs:ignore
-		return ! CAOS::uses_ga4() || CAOS_OPT_ALLOW_TRACKING != '' || CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
+		return ! CAOS::uses_ga4() || CAOS::get(Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING) != '' || CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
@@ -697,7 +697,11 @@ class Tracking {
 			wp_enqueue_script( $this->handle, $this->return_analytics_js_url(), $deps, CAOS_STATIC_VERSION, $this->in_footer );
 		}
 
-		if ( ( CAOS_OPT_ALLOW_TRACKING === 'cookie_has_value' || CAOS_OPT_ALLOW_TRACKING === 'cookie_value_contains' ) && CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_NAME ) && CAOS_OPT_COOKIE_VALUE ) {
+		$allow_tracking = CAOS::get( Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING );
+
+		if ( ( $allow_tracking === 'cookie_has_value' || $allow_tracking === 'cookie_value_contains' )
+			&& CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_NAME )
+			&& CAOS::get( Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ) {
 			wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'cookie-value' ) );
 		}
 

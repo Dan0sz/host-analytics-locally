@@ -15,6 +15,7 @@
 namespace CAOS\API;
 
 use CAOS\Admin\Functions;
+use CAOS\Admin\Settings;
 use CAOS\Plugin as CAOS;
 
 defined( 'ABSPATH' ) || exit;
@@ -113,7 +114,7 @@ class AdBlockDetect extends \WP_REST_Controller {
 		$params = [
 			'v'   => (string) 1,
 			't'   => 'event',
-			'tid' => CAOS_OPT_TRACKING_ID,
+			'tid' => CAOS::get( Settings::CAOS_BASIC_SETTING_TRACKING_ID ),
 			'cid' => $cid,
 			'uip' => $ip,
 			'ec'  => 'Tracking',
