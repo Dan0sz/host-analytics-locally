@@ -190,7 +190,18 @@ class Settings extends Admin {
 				$remote_file = CAOS::get_current_file_key();
 				?>
 				<div class="notice notice-info">
-					<p><?php echo sprintf( __( '<strong>%1$s</strong> is renamed to <strong>%2$s</strong> and was last updated on <em>%3$s</em>. The next automatic update by cron is scheduled <em>%4$s</em>.', 'host-analyticsjs-local' ), ucfirst( $remote_file ), CAOS::get_file_alias( str_replace( '.js', '', $remote_file ) ), $this->file_last_updated(), $this->cron_next_scheduled() ); ?> <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', 'host-analyticsjs-local' ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', 'host-analyticsjs-local' ); ?></a>.</p>
+					<p>
+					<?php
+					echo sprintf(
+						__( '<strong>%1$s</strong> is renamed to <strong>%2$s</strong> and was last updated on <em>%3$s</em>. The next automatic update by cron is scheduled <em>%4$s</em>.', 'host-analyticsjs-local' ),
+						ucfirst( $remote_file ),
+						CAOS::get_file_alias( str_replace( '.js', '', $remote_file ) ),
+						$this->file_last_updated(),
+						$this->cron_next_scheduled()
+					);
+					?>
+						 <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', 'host-analyticsjs-local' ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', 'host-analyticsjs-local' ); ?></a>.
+					</p>
 				</div>
 			<?php endif; ?>
 

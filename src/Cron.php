@@ -77,7 +77,7 @@ class Cron {
 				$sentence .= __( 'and ', 'host-analyticsjs-local' );
 			}
 
-			$sentence .= $filename . '(renamed to ' . $alias . ') ';
+			$sentence .= $filename . ' ';
 
 			$i++;
 		}
@@ -105,15 +105,7 @@ class Cron {
 		}
 
 		$queue = [];
-
-		/**
-		 * This is a "fix" for the undefined method error @since v4.2.2.
-		 */
-		if ( ! method_exists( 'CAOS', 'get_current_file_key' ) ) {
-			return $queue;
-		}
-
-		$key = CAOS::get_current_file_key();
+		$key   = CAOS::get_current_file_key();
 
 		/**
 		 * Plausible Analytics
@@ -204,7 +196,7 @@ class Cron {
 		foreach ( $this->files as $file => $location ) {
 			$downloaded_file = CAOS::download_file( $location['local'], $location['remote'], $file );
 
-			if ( $file == 'gtag' ) {
+			if ( $file === 'gtag' ) {
 				$file_alias = CAOS::get_file_alias( $file );
 				/**
 				 * Backwards compatibility with pre-file alias era.
@@ -218,7 +210,7 @@ class Cron {
 				}
 
 				$ext_ga_url = CAOS_GA_URL . '/analytics.js';
-				$home_url   = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS_OPT_CACHE_DIR );
+				$home_url   = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR ) );
 				$hit_type   = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
 				$file_alias = CAOS::get( Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' ? CAOS::get_file_alias( 'gtag-v4' ) : CAOS::get_file_alias( $file );
 				$finds      = [ $ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];

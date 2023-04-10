@@ -83,7 +83,7 @@ class Extensions extends Builder {
 			'stealth_mode',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'stealth_mode' ) : false,
 			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_STEALTH_MODE' ),
+			! defined( 'CAOS_PRO_ACTIVE' ),
 			true,
 			true
 		);
@@ -146,7 +146,7 @@ class Extensions extends Builder {
 			Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
 			CAOS::get( Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ),
 			sprintf( __( 'Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %1$sRead more%2$s', 'host-analyticsjs-local' ), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>' ),
-			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) == 'plausible' || ( CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
+			CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'plausible' || ( CAOS::get( Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER ) === 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
 			true,
 			false,
 			CAOS::uses_ga4() ? __( 'To enable Outbound Link Tracking in Google Analytics 4, go to your GA Dashboard > Admin > (select property) > Data Streams > (select stream) > activate Enhanced Measurement > Gear icon > Enable Outbound Clicks.', 'host-webfonts-local' ) : __( 'Enable it by providing a V3 (UA-) <strong>Google Analytics Tracking ID</strong> and/or selecting the default or async <strong>Tracking Code</strong>.', 'host-webfonts-local' )

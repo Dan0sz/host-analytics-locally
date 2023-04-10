@@ -38,7 +38,7 @@ class Uninstall {
 
 		$settings        = new Settings();
 		$this->options   = $settings->get_settings();
-		$this->cache_dir = CAOS_OPT_CACHE_DIR;
+		$this->cache_dir = CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR );
 
 		$this->remove_db_entries();
 		$this->delete_files();

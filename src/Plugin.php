@@ -38,7 +38,8 @@ class Plugin {
 		$this->do_setup();
 
 		if ( version_compare( CAOS_STORED_DB_VERSION, CAOS_DB_VERSION ) < 0 ) {
-			$this->update_db();
+			// Update DB
+			new \CAOS\DB();
 		}
 
 		// Save Settings
@@ -47,8 +48,8 @@ class Plugin {
 		if ( is_admin() ) {
 			do_action( 'caos_before_admin' );
 
-			$this->add_ajax_hooks();
-			$this->do_settings();
+			new \CAOS\Ajax();
+			new Settings();
 		}
 
 		if ( ! is_admin() ) {
@@ -78,15 +79,18 @@ class Plugin {
 		$caos_file_aliases      = get_option( Settings::CAOS_CRON_FILE_ALIASES );
 		$translated_tracking_id = _x( 'UA-123456789', 'Define a different Tracking ID for this site.', 'host-analyticsjs-local' );
 
-		self::$defaults = [
-			Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER => 'google_analytics',
-			Settings::CAOS_BASIC_SETTING_DOMAIN_NAME      => str_replace( [ 'https://', 'http://' ], '', get_home_url() ),
-			Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION  => 'header',
-			Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS => 30,
-			Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE => 1,
-			Settings::CAOS_ADV_SETTING_JS_FILE            => 'gtag.js',
-			Settings::CAOS_ADV_SETTING_CACHE_DIR          => '/uploads/caos/',
-		];
+		self::$defaults = apply_filters(
+			'caos_options_defaults',
+			[
+				Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER => 'google_analytics',
+				Settings::CAOS_BASIC_SETTING_DOMAIN_NAME => str_replace( [ 'https://', 'http://' ], '', get_home_url() ),
+				Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION => 'header',
+				Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS => 30,
+				Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE => 1,
+				Settings::CAOS_ADV_SETTING_JS_FILE       => 'gtag.js',
+				Settings::CAOS_ADV_SETTING_CACHE_DIR     => '/uploads/caos/',
+			]
+		);
 
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
@@ -95,6 +99,15 @@ class Plugin {
 		define( 'CAOS_GA_URL', 'https://www.google-analytics.com' );
 		define( 'CAOS_GTM_URL', 'https://www.googletagmanager.com' );
 		define( 'CAOS_LOCAL_DIR', WP_CONTENT_DIR . CAOS::get( Settings::CAOS_ADV_SETTING_CACHE_DIR ) );
+	}
+
+	/**
+	 * @return \CAOS\Setup
+	 */
+	private function do_setup() {
+		register_uninstall_hook( CAOS_PLUGIN_FILE, 'CAOS::do_uninstall' );
+
+		return new \CAOS\Setup();
 	}
 
 	/**
@@ -128,7 +141,10 @@ class Plugin {
 
 		foreach ( $options as $option ) {
 			if ( ! empty( $post_data[ $option ] ) ) {
-				update_option( $option, $post_data[ $option ] );
+				$current_options = get_option( $option );
+				$merged          = array_replace( $current_options, $post_data[ $option ] );
+
+				update_option( $option, $merged );
 			}
 		}
 
@@ -200,7 +216,7 @@ class Plugin {
 		/**
 		 * If $default isn't set, let's check if a global default has been set.
 		 */
-		if ( empty( $value ) && $default !== null && isset( self::$defaults[ $name ] ) ) {
+		if ( empty( $value ) && $default === null && isset( self::$defaults[ $name ] ) ) {
 			$value = self::$defaults[ $name ];
 		}
 
@@ -315,40 +331,6 @@ class Plugin {
 
 		// phpcs:ignore
 		error_log( current_time( 'Y-m-d H:i:s' ) . ": $message\n", 3, trailingslashit( WP_CONTENT_DIR ) . 'caos-debug.log' );
-	}
-
-	/**
-	 * @return \CAOS\Setup
-	 */
-	private function do_setup() {
-		register_uninstall_hook( CAOS_PLUGIN_FILE, 'CAOS::do_uninstall' );
-
-		return new \CAOS\Setup();
-	}
-
-	/**
-	 * Triggers all required DB updates (if any).
-	 *
-	 * @return void
-	 */
-	private function update_db() {
-		new \CAOS\DB();
-	}
-
-	/**
-	 * Modify behavior of CAOS' AJAX hooks.
-	 *
-	 * @return void
-	 */
-	private function add_ajax_hooks() {
-		new \CAOS\Ajax();
-	}
-
-	/**
-	 * @return Settings
-	 */
-	private function do_settings() {
-		new Settings();
 	}
 
 	/**
