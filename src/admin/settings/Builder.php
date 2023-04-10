@@ -26,12 +26,19 @@ class Builder {
 	/** @var $promo string */
 	protected $promo;
 
+	/** @var array $allowed_html */
+	protected $allowed_html;
+
 	/**
 	 * Only sets the promo string on settings load.
 	 *
 	 * Builder constructor.
 	 */
 	public function __construct() {
+		global $allowedposttags;
+
+		$this->allowed_html = $allowedposttags;
+
 		add_action( 'caos_basic_settings_content', [ $this, 'do_promo' ] );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_promo' ] );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_promo' ] );
@@ -130,19 +137,18 @@ class Builder {
 					<?php foreach ( $inputs as $option => $option_label ) : ?>
 						<label>
 							<input type="radio" <?php echo is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name . '_' . $option ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="<?php echo esc_attr( $option ); ?>" <?php echo esc_attr( $option === $checked ? 'checked="checked"' : '' ); ?> />
-							<?php echo esc_html( $option_label ); ?>
+							<?php echo wp_kses( $option_label, $this->allowed_html ); ?>
 						</label>
 						<br />
 						<?php $i++; ?>
 					<?php endforeach; ?>
 					<?php if ( ! is_array( $disabled ) && $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo esc_attr( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), $this->allowed_html ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php // phpcs:ignore
-							echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), $this->allowed_html ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -178,12 +184,11 @@ class Builder {
 					</select>
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), $this->allowed_html ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php // phpcs:ignore
-							echo apply_filters( $select . '_setting_description', $description, $label, $select ); ?>
+							<?php echo wp_kses( apply_filters( $select . '_setting_description', $description, $label, $select ), $this->allowed_html ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -212,12 +217,11 @@ class Builder {
 					<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="number" name="caos_settings[<?php echo esc_attr( $name ); ?>]" min="<?php echo esc_attr( $min ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), $this->allowed_html ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php // phpcs:ignore
-							echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), $this->allowed_html ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -246,12 +250,11 @@ class Builder {
 				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="text" name="caos_settings[<?php echo esc_attr( $name ); ?>]" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 				<?php if ( $disabled && $this->display_reason() ) : ?>
 					<p class="option-disabled">
-						<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), $this->allowed_html ); ?>
 					</p>
 				<?php else : ?>
 					<p class="description">
-						<?php // phpcs:ignore
-						echo apply_filters( $name . 'setting_description', $description, $label, $name ); ?>
+						<?php echo wp_kses( apply_filters( $name . 'setting_description', $description, $label, $name ), $this->allowed_html ); ?>
 					</p>
 				<?php endif; ?>
 			</td>
@@ -282,11 +285,10 @@ class Builder {
 						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" <?php echo esc_attr( $checked === 'on' ? 'checked = "checked"' : '' ); ?> />
 						<?php if ( $disabled && $this->display_reason( $is_pro_option ) ) : ?>
 							<p class="description option-disabled">
-								<?php echo esc_html( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ) ); ?>
+								<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), $this->allowed_html ); ?>
 							</p>
 						<?php else : ?>
-							<?php // phpcs:ignore
-								echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), $this->allowed_html ); ?>
 						<?php endif; ?>
 					</label>
 				</fieldset>
