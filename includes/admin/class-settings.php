@@ -123,11 +123,6 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	private $page;
 
 	/**
-	 * @var string $plugin_text_domain
-	 */
-	private $plugin_text_domain = 'host-analyticsjs-local';
-
-	/**
 	 * CAOS_Admin_Settings constructor.
 	 */
 	public function __construct() {
@@ -183,18 +178,18 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 */
 	public function settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( "You're not cool enough to access this page.", $this->plugin_text_domain ) );
+			wp_die( __( "You're not cool enough to access this page.", 'host-analyticsjs-local' ) );
 		} ?>
 
 		<div class="wrap caos">
-			<h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', $this->plugin_text_domain ); ?></h1>
+			<h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ); ?></h1>
 
-			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) != 'minimal' ) : ?>
+			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) !== 'minimal' ) : ?>
 				<?php
 				$remote_file = CAOS::get_current_file_key();
 				?>
 				<div class="notice notice-info">
-					<p><?php echo sprintf( __( '<strong>%1$s</strong> is renamed to <strong>%2$s</strong> and was last updated on <em>%3$s</em>. The next automatic update by cron is scheduled <em>%4$s</em>.', $this->plugin_text_domain ), ucfirst( $remote_file ), CAOS::get_file_alias( str_replace( '.js', '', $remote_file ) ), $this->file_last_updated(), $this->cron_next_scheduled() ); ?> <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', $this->plugin_text_domain ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', $this->plugin_text_domain ); ?></a>.</p>
+					<p><?php echo sprintf( __( '<strong>%1$s</strong> is renamed to <strong>%2$s</strong> and was last updated on <em>%3$s</em>. The next automatic update by cron is scheduled <em>%4$s</em>.', 'host-analyticsjs-local' ), ucfirst( $remote_file ), CAOS::get_file_alias( str_replace( '.js', '', $remote_file ) ), $this->file_last_updated(), $this->cron_next_scheduled() ); ?> <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', 'host-analyticsjs-local' ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', 'host-analyticsjs-local' ); ?></a>.</p>
 				</div>
 			<?php endif; ?>
 
@@ -204,7 +199,16 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 			<form id="<?php echo $this->active_tab; ?>-form" method="post" action="options.php?tab=<?php echo $this->active_tab; ?>">
 				<?php
+				ob_start();
 				settings_fields( $this->active_tab );
+				/**
+				 * We use a custom update action, so we can group all settings in one DB row upon form submit.
+				 *
+				 * @see \CAOS\Plugin update_options()
+				 */
+				$settings_fields = ob_get_clean();
+				$settings_fields = str_replace( 'value="update"', 'value="caos-update"', $settings_fields );
+				echo $settings_fields;
 				do_settings_sections( $this->active_tab );
 				?>
 
@@ -216,7 +220,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 				?>
 
 				<?php if ( $this->active_tab !== self::CAOS_ADMIN_SECTION_HELP ) : ?>
-					<?php submit_button( __( 'Save Changes & Update', $this->plugin_text_domain ), 'primary', 'submit', false ); ?>
+					<?php submit_button( __( 'Save Changes & Update', 'host-analyticsjs-local' ), 'primary', 'submit', false ); ?>
 				<?php endif; ?>
 			</form>
 		</div>
@@ -273,7 +277,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		$next_scheduled = wp_next_scheduled( CAOS_CRON );
 
 		if ( ! $next_scheduled ) {
-			return __( 'Never. Your WP cron might not be functioning properly', $this->plugin_text_domain );
+			return __( 'Never. Your WP cron might not be functioning properly', 'host-analyticsjs-local' );
 		}
 
 		return $this->format_time_by_locale( $next_scheduled, get_locale() );
@@ -292,7 +296,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			$date_object = new DateTime();
 			$date_object->setTimestamp( $date_time );
 		} catch ( \Exception $e ) {
-			return __( 'Date/Time cannot be set', $this->plugin_text_domain ) . ': ' . $e->getMessage();
+			return __( 'Date/Time cannot be set', 'host-analyticsjs-local' ) . ': ' . $e->getMessage();
 		}
 
 		$intl_loaded = extension_loaded( 'intl' );
@@ -304,7 +308,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		try {
 			$format = new IntlDateFormatter( $locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG );
 		} catch ( \Exception $e ) {
-			return __( 'Date/Time cannot be formatted to locale', $this->plugin_text_domain ) . ': ' . $e->getMessage();
+			return __( 'Date/Time cannot be formatted to locale', 'host-analyticsjs-local' ) . ': ' . $e->getMessage();
 		}
 
 		return $format->format( $date_time );
@@ -361,21 +365,21 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * Add Basic Settings Tab to Settings Screen.
 	 */
 	public function do_basic_settings_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_BASIC_SETTINGS, 'dashicons-analytics', __( 'Basic Settings', $this->plugin_text_domain ) );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_BASIC_SETTINGS, 'dashicons-analytics', __( 'Basic Settings', 'host-analyticsjs-local' ) );
 	}
 
 	/**
 	 * Add Advanced Settings Tab to Settings Screen.
 	 */
 	public function do_advanced_settings_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', $this->plugin_text_domain ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' );
 	}
 
 	/**
 	 * Add Connect Tab to Settings Screen.
 	 */
 	public function do_extensions_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __( 'Extensions', $this->plugin_text_domain ) );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __( 'Extensions', 'host-analyticsjs-local' ) );
 	}
 
 	/**
@@ -384,7 +388,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * @return void
 	 */
 	public function do_help_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_HELP, 'dashicons-editor-help', __( 'Help', $this->plugin_text_domain ) );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_HELP, 'dashicons-editor-help', __( 'Help', 'host-analyticsjs-local' ) );
 	}
 
 	/**
@@ -402,7 +406,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 															<?php
 	   endif;
 														?>
-		title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because either Plausible Analytics or Minimal Analytics is enabled.', $this->plugin_text_domain ) : ''; ?>">
+		title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because either Plausible Analytics or Minimal Analytics is enabled.', 'host-analyticsjs-local' ) : ''; ?>">
 			<?php echo $label; ?>
 		</a>
 		<?php
@@ -433,7 +437,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 */
 	public function settings_link( $links ) {
 		$adminUrl     = admin_url() . 'options-general.php?page=host_analyticsjs_local';
-		$settingsLink = "<a href='$adminUrl'>" . __( 'Settings', $this->plugin_text_domain ) . '</a>';
+		$settingsLink = "<a href='$adminUrl'>" . __( 'Settings', 'host-analyticsjs-local' ) . '</a>';
 		array_push( $links, $settingsLink );
 
 		return $links;
@@ -445,7 +449,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * @return string
 	 */
 	public function footer_text_left() {
-		$text = sprintf( __( 'Coded with %s in The Netherlands @ <strong>Daan.dev</strong>.', $this->plugin_text_domain ), '❤️' );
+		$text = sprintf( __( 'Coded with %s in The Netherlands @ <strong>Daan.dev</strong>.', 'host-analyticsjs-local' ), '❤️' );
 
 		return '<span id="footer-thankyou">' . $text . '</span>';
 	}
@@ -505,7 +509,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			return $text;
 		}
 
-		$text  = sprintf( __( 'Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', $this->plugin_text_domain ), 'https://daan.dev/blog/tag/caos' ) . ' ';
+		$text  = sprintf( __( 'Recently tagged <a target="_blank" href="%s"><strong>#CAOS</strong></a> on my blog:', 'host-analyticsjs-local' ), 'https://daan.dev/blog/tag/caos' ) . ' ';
 		$text .= '<span id="caos-ticker-wrap">';
 		$i     = 0;
 

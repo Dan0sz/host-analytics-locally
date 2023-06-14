@@ -39,18 +39,18 @@
   color: #72aee6;
   font-style: italic;
 }
-#caos_anonymize_ip_mode_right_column {
+#anonymize_ip_mode_right_column {
   position: relative;
 }
-#caos_anonymize_ip_mode_right_column .caos-aip {
+#anonymize_ip_mode_right_column .caos-aip {
   position: absolute;
   right: 1em;
   top: 1.15em;
 }
-#caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example {
+#anonymize_ip_mode_right_column .caos-aip .caos-aip-example {
   font-size: 1.5em;
 }
-#caos_anonymize_ip_mode_right_column .caos-aip .caos-aip-example .octet {
+#anonymize_ip_mode_right_column .caos-aip .caos-aip-example .octet {
   padding: 0 5px 3px;
   background-color: #fff;
   border-radius: 3px;

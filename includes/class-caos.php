@@ -544,9 +544,14 @@ class CAOS {
 		foreach ( $options as $option ) {
 			if ( ! empty( $post_data[ $option ] ) ) {
 				$current_options = get_option( $option );
-				$merged          = array_replace( $current_options, $post_data[ $option ] );
 
-				update_option( $option, $merged );
+				if ( $current_options ) {
+					$merged = array_replace( $current_options, $post_data[ $option ] );
+
+					update_option( $option, $merged );
+				} else {
+					update_option( $option, $post_data[ $option ] );
+				}
 			}
 		}
 
