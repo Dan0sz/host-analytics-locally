@@ -76,7 +76,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_remote_js_file() {
 		$this->do_select(
-			__( 'Download File', 'host-analyticsjs-local' ),
+			__( 'Download File (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE,
 			CAOS_Admin_Settings::CAOS_ADMIN_JS_FILE_OPTIONS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ),
@@ -119,7 +119,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 		$description = __( 'When enabled, Google Analytics (except V4) will not create any (<em>third-party</em>) cookies and the user ID known to Google will be changed with a new, random user ID. This adds a layer of privacy for your visitors, increases GDPR Compliance and effectively removes the necessity for cookie consent. Since GA4 only creates <em>first-party</em> (which are GDPR compliant) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website to ensure that tracking across different websites/platforms is no longer possible.', 'host-analyticsjs-local' ) . ' ' . $this->promo;
 
 		$this->do_checkbox(
-			__( 'Enable Cookieless Analytics (Pro)', 'host-analyticsjs-local' ),
+			__( 'Enable Cookieless Analytics (Pro) (deprecated)', 'host-analyticsjs-local' ),
 			'pro_cookieless_analytics',
 			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_cookieless_analytics' ),
 			$description,
@@ -194,7 +194,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_session_expiry() {
 		$this->do_number(
-			__( 'Session expiry period (days)', 'host-analyticsjs-local' ),
+			__( 'Session expiry period (days) (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30 ),
 			__( 'The number of days when the user session will automatically expire. When using <strong>Cookieless Analytics</strong> the ClientID will be refreshed after this amount of days. (Default: 30)', 'host-analyticsjs-local' ),
@@ -211,7 +211,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_site_speed_sample_rate() {
 		$this->do_number(
-			__( 'Site Speed Sample Rate (%)', 'host-analyticsjs-local' ),
+			__( 'Site Speed Sample Rate (%) (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1 ),
 			__( 'This setting determines how often site speed beacons will be sent. Defaults to 1%. For low-traffic sites it is advised to set this to 50 or higher.', 'host-analyticsjs-local' ),

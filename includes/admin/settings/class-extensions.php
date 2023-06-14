@@ -96,7 +96,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_request_handling_promo() {
 		$this->do_radio(
-			__( 'Request Handling (Pro)', 'host-analyticsjs-local' ),
+			__( 'Request Handling (Pro) (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
 			'caos_pro_request_handling',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_request_handling', 'send_file' ) : false,

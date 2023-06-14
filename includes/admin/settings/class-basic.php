@@ -322,11 +322,11 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal-ga4' );
 		}
 
-		$urlId        = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) === 'gtag.js' ? '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) : '';
-		$snippetType  = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE );
-		$localFileUrl = CAOS::get_local_file_url() . $urlId;
+		$url_id         = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) === 'gtag.js' ? '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) : '';
+		$snippet_type   = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE );
+		$local_file_url = CAOS::get_local_file_url() . $url_id;
 
-		$tracking_code .= "<script $snippetType src='$localFileUrl'></script>\n";
+		$tracking_code .= "<script $snippet_type src='$local_file_url'></script>\n";
 
 		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ) {
 			$tracking_code .= $this->get_tracking_code_template( 'cookie-value' );

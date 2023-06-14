@@ -33,20 +33,20 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 */
 	const CAOS_ADMIN_SERVICE_PROVIDER_OPTION   = [
 		'google_analytics' => 'Google Analytics (default)',
-		'plausible'        => 'Plausible Analytics',
+		'plausible'        => 'Plausible Analytics (deprecated)',
 	];
 	const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS    = [
 		''                      => 'Always (default)',
-		'cookie_is_set'         => 'When cookie is set',
-		'cookie_is_not_set'     => 'When cookie is NOT set',
-		'cookie_has_value'      => 'When cookie has a value (exact match)',
-		'cookie_value_contains' => 'When cookie value contains (loose comparison)',
+		'cookie_is_set'         => 'When cookie is set (deprecated)',
+		'cookie_is_not_set'     => 'When cookie is NOT set (deprecated)',
+		'cookie_has_value'      => 'When cookie has a value (exact match) (deprecated)',
+		'cookie_value_contains' => 'When cookie value contains (loose comparison) (deprecated)',
 		'consent_mode'          => 'When Consent mode\'s <code>analytics_storage</code> is updated to "granted" by 3rd party plugin',
 	];
 	const CAOS_ADMIN_TRACKING_CODE_OPTIONS     = [
 		''            => 'Default',
 		'async'       => 'Asynchronous',
-		'minimal'     => 'Minimal Analytics (fastest)',
+		'minimal'     => 'Minimal Analytics (deprecated)',
 		'minimal_ga4' => 'Minimal Analytics (GA4 - beta)',
 	];
 	const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
@@ -60,9 +60,9 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		'manual' => 'Add manually',
 	];
 	const CAOS_ADMIN_JS_FILE_OPTIONS           = [
-		'analytics.js' => 'Analytics.js (default)',
+		'analytics.js' => 'Analytics.js (deprecated)',
 		'gtag-v4.js'   => 'Gtag.js (v4 API - Beta)',
-		'gtag.js'      => 'Gtag.js',
+		'gtag.js'      => 'Gtag.js (deprecated',
 	];
 	const CAOS_ADMIN_EXT_REQUEST_HANDLING      = [
 		'send_file'     => 'Default (WordPress API)',
@@ -372,7 +372,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * Add Advanced Settings Tab to Settings Screen.
 	 */
 	public function do_advanced_settings_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' );
 	}
 
 	/**

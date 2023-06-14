@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
@@ -15,35 +15,37 @@ defined('ABSPATH') || exit;
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-class CAOS_DB
-{
-    /** @var string */
-    private $current_version = '';
+class CAOS_DB {
 
-    /**
-     * DB Migration constructor.
-     */
-    public function __construct()
-    {
-        $this->current_version = get_option(CAOS_Admin_Settings::CAOS_DB_VERSION);
+	/** @var string */
+	private $current_version = '';
 
-        if ($this->should_run_migration('4.2.2')) {
-            new CAOS_DB_Migrate_V422();
-        }
+	/**
+	 * DB Migration constructor.
+	 */
+	public function __construct() {
+		$this->current_version = get_option( CAOS_Admin_Settings::CAOS_DB_VERSION );
 
-        if ($this->should_run_migration('4.3.0')) {
-            new CAOS_DB_Migrate_V430();
-        }
-    }
+		if ( $this->should_run_migration( '4.2.2' ) ) {
+			new CAOS_DB_Migrate_V422();
+		}
 
-    /**
-     * Checks whether migration script has been run.
-     * 
-     * @param mixed $version 
-     * @return bool 
-     */
-    private function should_run_migration($version)
-    {
-        return version_compare($this->current_version, $version) < 0;
-    }
+		if ( $this->should_run_migration( '4.3.0' ) ) {
+			new CAOS_DB_Migrate_V430();
+		}
+
+		if ( $this->should_run_migration( '4.6.0' ) ) {
+			new CAOS_DB_Migrate_V460();
+		}
+	}
+
+	/**
+	 * Checks whether migration script has been run.
+	 *
+	 * @param mixed $version
+	 * @return bool
+	 */
+	private function should_run_migration( $version ) {
+		return version_compare( $this->current_version, $version ) < 0;
+	}
 }
