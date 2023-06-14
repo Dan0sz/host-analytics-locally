@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
@@ -11,32 +11,31 @@ defined('ABSPATH') || exit;
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress/caos/
- * @copyright: (c) 2021 Daan van den Bergh
+ * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-class CAOS_DB_Migrate_V430 extends CAOS_DB_Migrate
-{
-    protected $migrate_option_names = [
-        'caos_analytics_compatibility_mode' => CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE
-    ];
+class CAOS_DB_Migrate_V430 extends CAOS_DB_Migrate {
 
-    protected $version = '4.3.0';
+	protected $migrate_option_names = [
+		'caos_analytics_compatibility_mode' => CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
+	];
 
-    /**
-     * Build class
-     * 
-     * @return void 
-     */
-    public function __construct()
-    {
-        $this->migrate_option_names();
+	protected $version = '4.3.0';
 
-        $compatibility_mode = get_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE);
+	/**
+	 * Build class
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->migrate_option_names();
 
-        if ($compatibility_mode) {
-            update_option(CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, 'on');
-        }
+		$compatibility_mode = get_option( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE );
 
-        $this->update_db_version();
-    }
+		if ( $compatibility_mode ) {
+			update_option( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, 'on' );
+		}
+
+		$this->update_db_version();
+	}
 }

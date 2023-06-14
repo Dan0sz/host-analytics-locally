@@ -2,75 +2,73 @@
 /* * * * * * * * * * * * * * * * * * * * * *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress-plugins/
- * @copyright: (c) 2021 Daan van den Bergh
+ * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * * * */
 
-class FFWP_Autoloader
-{
-    /** @var string $class */
-    private $class;
+class FFWP_Autoloader {
 
-    /** @var string $file */
-    private $file;
+	/** @var string $class */
+	private $class;
 
-    /**
-     * FFWP_Autoloader constructor.
-     *
-     * @param $class
-     */
-    public function __construct(
-        $class
-    ) {
-        $this->class = $class;
-    }
+	/** @var string $file */
+	private $file;
 
-    /**
-     * Build filepath for requested class.
-     */
-    public function load()
-    {
-        $path       = explode('_', $this->class);
-        $this->file = '';
-        $i          = 0;
+	/**
+	 * FFWP_Autoloader constructor.
+	 *
+	 * @param $class
+	 */
+	public function __construct(
+		$class
+	) {
+		$this->class = $class;
+	}
 
-        if (count($path) > 1) {
-            array_shift($path);
-        }
-        end($path);
+	/**
+	 * Build filepath for requested class.
+	 */
+	public function load() {
+		$path       = explode( '_', $this->class );
+		$this->file = '';
+		$i          = 0;
 
-        /**
-         * Build directory path.
-         */
-        while ($i < key($path)) {
-            $this->build($path[$i], '', '/');
+		if ( count( $path ) > 1 ) {
+			array_shift( $path );
+		}
+		end( $path );
 
-            $i++;
-        }
+		/**
+		 * Build directory path.
+		 */
+		while ( $i < key( $path ) ) {
+			$this->build( $path[ $i ], '', '/' );
 
-        /**
-         * Build filename.
-         */
-        $this->build($path[$i], 'class', '.php');
+			$i++;
+		}
 
-        return $this->file;
-    }
+		/**
+		 * Build filename.
+		 */
+		$this->build( $path[ $i ], 'class', '.php' );
 
-    /**
-     * Checks if $path is written uppercase entirely, otherwise it'll split $path up and build a string glued with
-     * dashes.
-     *
-     * @param        $path
-     * @param string $prefix
-     * @param string $suffix
-     */
-    private function build($path, $prefix = '', $suffix = '/')
-    {
-        if (ctype_upper($path)) {
-            $this->file .= ($prefix ? $prefix . '-' : '') . strtolower($path) . $suffix;
-        } else {
-            $parts = preg_split('/(?=[A-Z])/', lcfirst($path));
-            $this->file .= ($prefix ? $prefix . '-' : '') . strtolower(implode('-', $parts)) . $suffix;
-        }
-    }
+		return $this->file;
+	}
+
+	/**
+	 * Checks if $path is written uppercase entirely, otherwise it'll split $path up and build a string glued with
+	 * dashes.
+	 *
+	 * @param        $path
+	 * @param string $prefix
+	 * @param string $suffix
+	 */
+	private function build( $path, $prefix = '', $suffix = '/' ) {
+		if ( ctype_upper( $path ) ) {
+			$this->file .= ( $prefix ? $prefix . '-' : '' ) . strtolower( $path ) . $suffix;
+		} else {
+			$parts       = preg_split( '/(?=[A-Z])/', lcfirst( $path ) );
+			$this->file .= ( $prefix ? $prefix . '-' : '' ) . strtolower( implode( '-', $parts ) ) . $suffix;
+		}
+	}
 }

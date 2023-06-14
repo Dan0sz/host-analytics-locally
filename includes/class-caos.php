@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress/caos/
- * @copyright: (c) 2021 Daan van den Bergh
+ * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 class CAOS {
