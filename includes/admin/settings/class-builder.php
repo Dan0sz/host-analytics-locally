@@ -276,7 +276,9 @@ class CAOS_Admin_Settings_Builder {
 			<td>
 				<fieldset>
 					<label for="<?php echo $name; ?>">
-						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo str_replace( '_', '-', $name ); ?>" name="caos_settings[<?php echo $name; ?>]" <?php echo $checked == 'on' ? 'checked = "checked"' : ''; ?> />
+						<?php // This trick keeps our checkboxes present in $_POST even when they're unchecked. ?>
+						<input type="hidden" name="caos_settings[<?php echo $name; ?>]" value="0" />
+						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo str_replace( '_', '-', $name ); ?>" name="caos_settings[<?php echo $name; ?>]" <?php echo $checked === 'on' ? 'checked = "checked"' : ''; ?> />
 						<?php if ( $disabled && $this->display_reason( $is_pro_option ) ) : ?>
 							<p class="description option-disabled">
 								<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>

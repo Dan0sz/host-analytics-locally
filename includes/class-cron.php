@@ -75,7 +75,7 @@ class CAOS_Cron {
 				$sentence .= __( 'and ', $this->plugin_text_domain );
 			}
 
-			$sentence .= $filename . '(renamed to ' . $alias . ') ';
+			$sentence .= $filename . ' ';
 
 			$i++;
 		}
