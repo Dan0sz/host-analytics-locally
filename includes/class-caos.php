@@ -288,8 +288,8 @@ class CAOS {
 	 * @return void|CAOS_Cron
 	 */
 	public function do_update_after_update( $upgrade_obj, $options ) {
-		if ( isset( $options['action'] ) && $options['action'] != 'update'
-			&& isset( $options['type'] ) && $options['type'] != 'plugin'
+		if ( isset( $options['action'] ) && $options['action'] !== 'update'
+			&& isset( $options['type'] ) && $options['type'] !== 'plugin'
 		) {
 			return;
 		}
@@ -299,7 +299,7 @@ class CAOS {
 		}
 
 		foreach ( $options['plugins'] as $plugin ) {
-			if ( $plugin == CAOS_PLUGIN_BASENAME ) {
+			if ( $plugin === CAOS_PLUGIN_BASENAME ) {
 				return $this->trigger_cron_script();
 			}
 		}
