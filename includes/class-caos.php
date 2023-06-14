@@ -467,8 +467,8 @@ class CAOS {
 	 *
 	 * @filter caos_setting_{$name}
 	 *
-	 * @param string $name
-	 * @param mixed  $default (optional)
+	 * @param string $name               Any constant from the CAOS_Admin_Settings class.
+	 * @param mixed  $default (optional) The option's default value if it isn't set (yet).
 	 *
 	 * @since v4.5.1
 	 *
