@@ -16,9 +16,11 @@
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
-
+	/**
+	 * @return void
+	 */
 	public function __construct() {
-		$this->title = __( 'Extensions', $this->plugin_text_domain );
+		$this->title = __( 'Extensions', 'host-analyticsjs-local' );
 
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_title' ], 10 );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_description' ], 11 );
@@ -44,13 +46,17 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 		parent::__construct();
 	}
 
+	/**
+	 *
+	 * @return void
+	 */
 	public function do_description() {
 		?>
 		<p>
-			<?php echo sprintf( __( 'Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Stealth Mode, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS by default.', $this->plugin_text_domain ) ); ?>
+			<?php echo sprintf( __( 'Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Stealth Mode, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS by default.', 'host-analyticsjs-local' ) ); ?>
 		</p>
 		<p>
-			<?php echo sprintf( __( "For a list of available extensions, click <a href='%s'>here</a>.", $this->plugin_text_domain ), 'https://daan.dev/wordpress-plugins/' ); ?>
+			<?php echo sprintf( __( "For a list of available extensions, click <a href='%s'>here</a>.", 'host-analyticsjs-local' ), 'https://daan.dev/wordpress-plugins/' ); ?>
 		</p>
 		<?php
 	}
@@ -63,9 +69,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	public function open_extensions_panel() {
 		?>
 		<div class="caos-extensions postbox" style="padding: 0 15px 5px;">
-			<h3><?php echo __( 'Stealth Mode (Pro)', $this->plugin_text_domain ); ?></h3>
+			<h3><?php echo __( 'Stealth Mode (Pro)', 'host-analyticsjs-local' ); ?></h3>
 			<p>
-				<?php echo __( 'Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.', $this->plugin_text_domain ) . ' ' . $this->promo; ?>
+				<?php echo __( 'Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.', 'host-analyticsjs-local' ) . ' ' . $this->promo; ?>
 			</p>
 		<?php
 	}
@@ -75,11 +81,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_stealth_mode_promo() {
 		$this->do_checkbox(
-			__( 'Stealth Mode (Pro)', $this->plugin_text_domain ),
+			__( 'Stealth Mode (Pro)', 'host-analyticsjs-local' ),
 			'caos_pro_stealth_mode',
-			defined( 'CAOS_PRO_STEALTH_MODE' ) ? CAOS_PRO_STEALTH_MODE : false,
-			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', $this->plugin_text_domain ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_STEALTH_MODE' ),
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_stealth_mode', '' ) : false,
+			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
+			! defined( 'CAOS_PRO_ACTIVE' ),
 			true,
 			true
 		);
@@ -90,12 +96,12 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_request_handling_promo() {
 		$this->do_radio(
-			__( 'Request Handling (Pro)', $this->plugin_text_domain ),
+			__( 'Request Handling (Pro)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADMIN_EXT_REQUEST_HANDLING,
 			'caos_pro_request_handling',
-			defined( 'CAOS_PRO_REQUEST_HANDLING' ) ? CAOS_PRO_REQUEST_HANDLING : false,
-			__( 'In Stealth Mode, all Plausible and Google Analytics related requests (e.g. <code>/api/event</code>, <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are sent almost instantly.', $this->plugin_text_domain ) . ' ' . $this->promo,
-			[ ! defined( 'CAOS_PRO_STEALTH_MODE' ), ! defined( 'CAOS_PRO_STEALTH_MODE' ) ],
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_request_handling', 'send_file' ) : false,
+			__( 'In Stealth Mode, all Plausible and Google Analytics related requests (e.g. <code>/api/event</code>, <code>/g/collect</code>, <code>linkid.js</code> or <code>ec.js</code>) are routed through WordPress\' (<strong>often sluggish</strong>) API to avoid Ad Blockers. Using the (<em>10x faster</em>) Super Stealth API, requests are sent almost instantly.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
+			[ ! defined( 'CAOS_PRO_ACTIVE' ), ! defined( 'CAOS_PRO_ACTIVE' ) ],
 			true
 		);
 	}
@@ -105,11 +111,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_cloudflare_compatibility() {
 		$this->do_checkbox(
-			__( 'Cloudflare Compatibility (Pro)', $this->plugin_text_domain ),
+			__( 'Cloudflare Compatibility (Pro)', 'host-analyticsjs-local' ),
 			'caos_pro_cf_compatibility',
-			defined( 'CAOS_PRO_CF_COMPATIBILITY' ) ? CAOS_PRO_CF_COMPATIBILITY : false,
-			__( 'When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', $this->plugin_text_domain ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_CF_COMPATIBILITY' ) || ( defined( 'CAOS_PRO_CF_COMPATIBILITY' ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) != 'google_analytics' ),
+			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_cf_compatibility', '' ) : false,
+			__( 'When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
+			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) !== 'google_analytics' ),
 			true,
 			true,
 			__( 'It can only be used with Google Analytics.', 'host-webfonts-local' )
@@ -127,9 +133,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 		<?php
 	}
 
+	/**
+	 *
+	 * @return void
+	 */
 	public function do_sub_title() {
 		?>
-		<h3><?php echo __( 'Installed Extensions', $this->plugin_text_domain ); ?></h3>
+		<h3><?php echo __( 'Installed Extensions', 'host-analyticsjs-local' ); ?></h3>
 		<?php
 	}
 
@@ -138,11 +148,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_capture_outbound_links() {
 		$this->do_checkbox(
-			__( 'Capture Outbound Links (deprecated)', $this->plugin_text_domain ),
+			__( 'Capture Outbound Links (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ),
-			sprintf( __( 'Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %1$sRead more%2$s', $this->plugin_text_domain ), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
+			sprintf( __( 'Sends an event, containing the link information your users used to leave your site. Might not work properly while using Google Analytics with Stealth Mode enabled. %1$sRead more%2$s', 'host-analyticsjs-local' ), '<a target="_blank" href="https://support.google.com/analytics/answer/1136920">', '</a>' ),
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
 			true,
 			false,
 			CAOS::uses_ga4() ? __( 'To enable Outbound Link Tracking in Google Analytics 4, go to your GA Dashboard > Admin > (select property) > Data Streams > (select stream) > activate Enhanced Measurement > Gear icon > Enable Outbound Clicks.', 'host-webfonts-local' ) : __( 'Enable it by providing a V3 (UA-) <strong>Google Analytics Tracking ID</strong> and/or selecting the default or async <strong>Tracking Code</strong>.', 'host-webfonts-local' )
@@ -154,11 +164,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_track_ad_blockers() {
 		$this->do_checkbox(
-			__( 'Track Ad Blockers (deprecated)', $this->plugin_text_domain ),
+			__( 'Track Ad Blockers (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ),
-			sprintf( __( "Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", $this->plugin_text_domain ), 'https://daan.dev/docs/caos/extensions/' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
+			sprintf( __( "Enable this option to gain insight into the missing data in your Google Analytics dashboard. Adds two tiny (< 1 KiB / non-render blocking) bits of JavaScript right before Analytics' tracking code. Reports an event to Google Analytics containing a visitor's ad blocker usage. This is not the same as Stealth Mode! <a target='blank' href='%s'>Read more</a>", 'host-analyticsjs-local' ), 'https://daan.dev/docs/caos/extensions/' ),
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
 			true,
 			false,
 			__( 'Enable it by providing a V3 (UA-) <strong>Google Analytics Tracking ID</strong> and/or selecting the default or async <strong>Tracking Code</strong>.', 'host-webfonts-local' )
@@ -171,11 +181,11 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_linkid() {
 		$this->do_checkbox(
-			__( 'Enhanced Link Attribution (deprecated)', $this->plugin_text_domain ),
+			__( 'Enhanced Link Attribution (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID,
 			CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID ),
-			sprintf( __( 'Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', $this->plugin_text_domain ), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
+			sprintf( __( 'Automatically differentiate between multiple links to the same URL on a single page. Does not work with Minimal Analytics. <a href="%s" target="_blank">Read more</a>.', 'host-analyticsjs-local' ), 'https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution' ),
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'google_analytics' && ( CAOS::uses_minimal_analytics() || CAOS::uses_ga4() ) ),
 			true,
 			false,
 			__( 'Enable it by providing a V3 (UA-) <strong>Google Analytics Tracking ID</strong> and/or selecting the default or async <strong>Tracking Code</strong>.', 'host-webfonts-local' )
