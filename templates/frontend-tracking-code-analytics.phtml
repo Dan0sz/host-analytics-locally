@@ -35,10 +35,10 @@ $custom_attributes = apply_filters('caos_analytics_custom_attributes', '');
 
     <?php if (apply_filters('caos_analytics_use_local_storage', false)) : ?>
         if (window.localStorage) {
-        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
+        ga('create', '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>', <?= str_replace('"localStorage.getItem(\'GA_CLIENT_ID_HASHED\')"', 'localStorage.getItem(\'GA_CLIENT_ID_HASHED\')', json_encode($createConfig)); ?>);
         }
     <?php else : ?>
-        ga('create', '<?= CAOS_OPT_TRACKING_ID; ?>', <?= json_encode($createConfig); ?>);
+        ga('create', '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>', <?= json_encode($createConfig); ?>);
     <?php endif; ?>
 
     <?php
@@ -48,7 +48,7 @@ $custom_attributes = apply_filters('caos_analytics_custom_attributes', '');
      * Example: add_filter('caos_analytics_before_send', 'your_filter_function_name');
      */
     ?>
-    <?= implode("\n", apply_filters('caos_analytics_before_send', array(), CAOS_OPT_TRACKING_ID)); ?>
+    <?= implode("\n", apply_filters('caos_analytics_before_send', array(), CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID))); ?>
     ga('send', '<?= apply_filters('caos_analytics_hit_type', 'pageview'); ?>');
     <?php
     /**
@@ -57,11 +57,11 @@ $custom_attributes = apply_filters('caos_analytics_custom_attributes', '');
      * Example: add_filter('caos_analytics_after_send', 'your_filter_function_name');
      */
     ?>
-    <?= implode("\n", apply_filters('caos_analytics_after_send', array(), CAOS_OPT_TRACKING_ID)); ?>
-    <?php if (CAOS_OPT_ADJUSTED_BOUNCE_RATE) : ?>
-        setTimeout("ga('send', 'event', 'Adjusted Bounce Rate', '<?= CAOS_OPT_ADJUSTED_BOUNCE_RATE . ' seconds'; ?>')", <?= CAOS_OPT_ADJUSTED_BOUNCE_RATE * 1000; ?>);
+    <?= implode("\n", apply_filters('caos_analytics_after_send', array(), CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID))); ?>
+    <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE)) : ?>
+        setTimeout("ga('send', 'event', 'Adjusted Bounce Rate', '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE) . ' seconds'; ?>')", <?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE) * 1000; ?>);
     <?php endif; ?>
-    <?php if (CAOS_OPT_EXT_TRACK_AD_BLOCKERS) : ?>
+    <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS)) : ?>
         var event = new Event('caos_track_ad_blockers');
         document.dispatchEvent(event);
     <?php endif; ?>

@@ -13,62 +13,58 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
-class CAOS_Uninstall
-{
-    /** @var array $options */
-    private $options;
+class CAOS_Uninstall {
 
-    /** @var string $cacheDir */
-    private $cacheDir;
+	/** @var array $options */
+	private $options;
 
-    /**
-     * CAOS_Uninstall constructor.
-     * @throws ReflectionException
-     */
-    public function __construct()
-    {
-        if (CAOS_OPT_UNINSTALL_SETTINGS !== 'on') {
-            return;
-        }
+	/** @var string $cacheDir */
+	private $cacheDir;
 
-        $settings       = new CAOS_Admin_Settings();
-        $this->options  = $settings->get_settings();
-        $this->cacheDir = CAOS_OPT_CACHE_DIR;
+	/**
+	 * CAOS_Uninstall constructor.
+	 * @throws ReflectionException
+	 */
+	public function __construct() {
+		if ( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ) !== 'on' ) {
+			return;
+		}
 
-        $this->remove_db_entries();
-        $this->delete_files();
-        $this->delete_dir();
-    }
+		$settings       = new CAOS_Admin_Settings();
+		$this->options  = $settings->get_settings();
+		$this->cacheDir = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' );
 
-    /**
-     * Remove all options from the database.
-     */
-    private function remove_db_entries()
-    {
-        foreach ($this->options as $constant => $option) {
-            delete_option($option);
-        }
-    }
+		$this->remove_db_entries();
+		$this->delete_files();
+		$this->delete_dir();
+	}
 
-    /**
-     * Delete all files in the cache directory.
-     *
-     * @return array
-     */
-    private function delete_files()
-    {
-        return array_map('unlink', glob($this->cacheDir . '/*.*'));
-    }
+	/**
+	 * Remove all options from the database.
+	 */
+	private function remove_db_entries() {
+		foreach ( $this->options as $constant => $option ) {
+			delete_option( $option );
+		}
+	}
 
-    /**
-     * Delete the cache directory.
-     *
-     * @return bool
-     */
-    private function delete_dir()
-    {
-        return rmdir($this->cacheDir);
-    }
+	/**
+	 * Delete all files in the cache directory.
+	 *
+	 * @return array
+	 */
+	private function delete_files() {
+		return array_map( 'unlink', glob( $this->cacheDir . '/*.*' ) );
+	}
+
+	/**
+	 * Delete the cache directory.
+	 *
+	 * @return bool
+	 */
+	private function delete_dir() {
+		return rmdir( $this->cacheDir );
+	}
 }

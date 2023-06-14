@@ -1,4 +1,9 @@
 .DS_Store
-.svn
 .idea
+.git
+.svn
 .svnignore
+
+vendor/*
+!vendor/composer/
+!vendor/autoload.php

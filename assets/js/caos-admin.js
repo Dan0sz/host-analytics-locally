@@ -21,18 +21,16 @@ jQuery(document).ready(function ($) {
             $('#caos-regenerate-alias').on('click', this.regenerate_alias);
 
             // Text Fields
-            $('.sgal-tracking-id').on('input', this.toggle_dual_tracking_visibility);
+            $('.tracking-id').on('input', this.toggle_dual_tracking_visibility);
 
             // Checkboxes
-            $('.caos-dual-tracking',).on('change', this.toggle_ga4_measurement_id);
+            $('.dual-tracking',).on('change', this.toggle_ga4_measurement_id);
 
             // Radio's
-            $('input[class^="caos-service-provider"]').on('click', this.toggle_service_provider);
-            $('input[class^="caos-allow-tracking"]').on('click', this.toggle_allow_tracking);
-            $('input[class^="caos-anonymize-ip-mode"]').on('click', this.update_aip_example);
-            $('input[class^="sgal-script-position"]').on('click', this.toggle_script_position);
-            $('.caos-stealth-mode, .caos-extension-optimize').on('click', this.toggle_stealth_mode);
-            $('.caos-extension-optimize').on('click', this.toggle_optimize_id);
+            $('input[class^="service-provider"]').on('click', this.toggle_service_provider);
+            $('input[class^="allow-tracking"]').on('click', this.toggle_allow_tracking);
+            $('input[class^="anonymize-ip-mode"]').on('click', this.update_aip_example);
+            $('input[class^="script-position"]').on('click', this.toggle_script_position);
 
             // Ticker
             setInterval(this.loop_ticker_items, 4000);
@@ -58,9 +56,9 @@ jQuery(document).ready(function ($) {
          */
         toggle_dual_tracking_visibility: function () {
             current_value = this.value;
-            $option = $('.caos-dual-tracking');
-            $option_row = $('.caos-dual-tracking-row');
-            $2nd_option_row = $('.caos-ga4-measurement-id-row');
+            $option = $('.dual-tracking');
+            $option_row = $('.dual-tracking-row');
+            $2nd_option_row = $('.ga4-measurement-id-row');
 
             if (current_value.startsWith('UA-')) {
                 $option_row.show();
@@ -78,7 +76,7 @@ jQuery(document).ready(function ($) {
          * 
          */
         toggle_ga4_measurement_id: function () {
-            $option = $('.caos-ga4-measurement-id-row');
+            $option = $('.ga4-measurement-id-row');
 
             if (this.checked) {
                 $option.show();
@@ -119,9 +117,9 @@ jQuery(document).ready(function ($) {
          * Toggle Allow tracking options.
          */
         toggle_allow_tracking: function () {
-            option = this.className.replace('caos-allow-tracking-', '');
-            $cookie_name = $('.sgal-cookie-notice-name-row');
-            $cookie_value = $('.caos-cookie-value-row');
+            option = this.className.replace('allow-tracking-', '');
+            $cookie_name = $('.cookie-notice-name-row');
+            $cookie_value = $('.cookie-value-row');
 
             switch (option) {
                 case 'cookie-is-set':
@@ -179,39 +177,13 @@ jQuery(document).ready(function ($) {
          * Toggle 'Add Manual' window.
          */
         toggle_script_position: function () {
-            option = this.className.replace('sgal-script-position-', '');
+            option = this.className.replace('script-position-', '');
             $add_manually = $('.caos_add_manually');
 
             if (option === 'manual') {
                 $add_manually.show();
             } else {
                 $add_manually.hide();
-            }
-        },
-
-        /**
-         * Toggle Stealth Mode options
-         */
-        toggle_stealth_mode: function () {
-            if (this.className === 'caos-stealth-mode') {
-                $('.caos-extension-optimize').attr('checked', false);
-                $('.caos-extension-optimize-id-row').hide();
-            } else {
-                $('.caos-stealth-mode').attr('checked', false);
-
-            }
-        },
-
-        /**
-         * Toggle Optimize ID field.
-         */
-        toggle_optimize_id: function () {
-            $optimize_id = $('.caos-extension-optimize-id-row');
-
-            if (this.checked) {
-                $optimize_id.show();
-            } else {
-                $optimize_id.hide();
             }
         },
 

@@ -61,7 +61,7 @@
 
                 if (target) {
                     /* If target opens a new window then just track */
-                    <?php if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') : ?>
+                    <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js') == 'analytics.js') : ?>
                         ga('send', 'event', 'Outbound Link Tracking', 'click', link);
                     <?php else : ?>
                         gtag('event', 'click', {
@@ -74,7 +74,7 @@
                     /* Prevent standard click, track then open */
                     event.preventDefault ? event.preventDefault() : event.returnValue != 1;
                     /* send event with callback */
-                    <?php if (CAOS_OPT_REMOTE_JS_FILE == 'analytics.js') : ?>
+                    <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js') == 'analytics.js') : ?>
                         ga('send', 'event', 'Outbound Link Tracking', 'click', link, {
                             'transport': 'beacon',
                             'hitCallback': hitBack

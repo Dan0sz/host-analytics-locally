@@ -14,21 +14,21 @@
  * * * * * * * * * * * * * * * * * * * */
 ?>
 <script>
-    <?php if (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_set' && CAOS_OPT_COOKIE_NAME) : ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') === -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING) == 'cookie_is_set' && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME)) : ?>
+        if (document.cookie.indexOf('<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME); ?>=') === -1) {
+            window['ga-disable-<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>'] = true;
         }
-    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_is_not_set' && CAOS_OPT_COOKIE_NAME) : ?>
-        if (document.cookie.indexOf('<?= CAOS_OPT_COOKIE_NAME; ?>=') !== -1) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    <?php elseif (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING) == 'cookie_is_not_set' && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME)) : ?>
+        if (document.cookie.indexOf('<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME); ?>=') !== -1) {
+            window['ga-disable-<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>'] = true;
         }
-    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_has_value' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) : ?>
-        if (cookieValue !== '<?= CAOS_OPT_COOKIE_VALUE; ?>') {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    <?php elseif (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING) == 'cookie_has_value' && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME) && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE)) : ?>
+        if (cookieValue !== '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE); ?>') {
+            window['ga-disable-<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>'] = true;
         }
-    <?php elseif (CAOS_OPT_ALLOW_TRACKING == 'cookie_value_contains' && CAOS_OPT_COOKIE_NAME && CAOS_OPT_COOKIE_VALUE) : ?>
-        if (cookieValue !== null && !cookieValue.includes('<?= CAOS_OPT_COOKIE_VALUE; ?>')) {
-            window['ga-disable-<?= CAOS_OPT_TRACKING_ID; ?>'] = true;
+    <?php elseif (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING) == 'cookie_value_contains' && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME) && CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE)) : ?>
+        if (cookieValue !== null && !cookieValue.includes('<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE); ?>')) {
+            window['ga-disable-<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>'] = true;
         }
     <?php endif; ?>
 </script>

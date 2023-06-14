@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * @package   CAOS
@@ -10,61 +10,58 @@ defined('ABSPATH') || exit;
  *            http://creativecommons.org/licenses/by-nc-nd/4.0/
  */
 
-class CAOS_Ajax
-{
-    private $plugin_text_domain = 'host-analyticsjs-local';
+class CAOS_Ajax {
 
-    /**
-     * Build class.
-     * 
-     * @return void 
-     */
-    public function __construct()
-    {
-        $this->init();
-    }
+	private $plugin_text_domain = 'host-analyticsjs-local';
 
-    /**
-     * Init hooks and filters.
-     * 
-     * @return void 
-     */
-    private function init()
-    {
-        add_action('wp_ajax_caos_regenerate_alias', [$this, 'regenerate_alias']);
-    }
+	/**
+	 * Build class.
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->init();
+	}
 
-    /**
-     * Regenerate aliases and new files. Cleans up old files.
-     * 
-     * @since v4.2.1
-     * 
-     * @return void 
-     */
-    public function regenerate_alias()
-    {
-        check_ajax_referer(CAOS_Admin_Settings::CAOS_ADMIN_PAGE, 'nonce');
+	/**
+	 * Init hooks and filters.
+	 *
+	 * @return void
+	 */
+	private function init() {
+		add_action( 'wp_ajax_caos_regenerate_alias', [ $this, 'regenerate_alias' ] );
+	}
 
-        if (!current_user_can('manage_options')) {
-            wp_die(__("Sorry, you're not allowed to do this.", $this->plugin_text_domain));
-        }
+	/**
+	 * Regenerate aliases and new files. Cleans up old files.
+	 *
+	 * @since v4.2.1
+	 *
+	 * @return void
+	 */
+	public function regenerate_alias() {
+		check_ajax_referer( CAOS_Admin_Settings::CAOS_ADMIN_PAGE, 'nonce' );
 
-        global $caos_file_aliases;
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( "Sorry, you're not allowed to do this.", $this->plugin_text_domain ) );
+		}
 
-        if (empty($caos_file_aliases) || !$caos_file_aliases) {
-            return;
-        }
+		global $caos_file_aliases;
 
-        $path = WP_CONTENT_DIR . CAOS_OPT_CACHE_DIR;
+		if ( empty( $caos_file_aliases ) || ! $caos_file_aliases ) {
+			return;
+		}
 
-        foreach ($caos_file_aliases as $file => $alias) {
-            if (file_exists($path . $alias)) {
-                unlink($path . $alias);
-            }
+		$path = WP_CONTENT_DIR . CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' );
 
-            $caos_file_aliases[$file] = bin2hex(random_bytes(4)) . '.js';
-        }
+		foreach ( $caos_file_aliases as $file => $alias ) {
+			if ( file_exists( $path . $alias ) ) {
+				unlink( $path . $alias );
+			}
 
-        CAOS::set_file_aliases($caos_file_aliases, true);
-    }
+			$caos_file_aliases[ $file ] = bin2hex( random_bytes( 4 ) ) . '.js';
+		}
+
+		CAOS::set_file_aliases( $caos_file_aliases, true );
+	}
 }
