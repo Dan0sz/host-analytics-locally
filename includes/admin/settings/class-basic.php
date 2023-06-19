@@ -271,7 +271,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_adjusted_bounce_rate() {
 		$this->do_number(
-			__( 'Adjusted Bounce Rate (seconds)', 'host-analyticsjs-local' ),
+			__( 'Adjusted Bounce Rate (seconds) (deprecated)', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ),
 			sprintf( __( 'Create a more realistic view of your website\'s Bounce Rate. This option creates an event which is triggered after a user spends X seconds on a page. <a target="_blank" href="%s">Read more</a>.', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/adjusted-bounce-rate-caos/' . $this->utm_tags ),
