@@ -211,7 +211,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
 			CAOS_Admin_Settings::CAOS_ADMIN_TRACKING_CODE_OPTIONS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ),
-			__( 'Should we use the default or the asynchronous tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', 'host-analyticsjs-local' ) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
+			__( 'Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', 'host-analyticsjs-local' ) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			__( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or disable <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
 		);

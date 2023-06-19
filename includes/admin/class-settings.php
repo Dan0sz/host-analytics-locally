@@ -44,7 +44,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		'consent_mode'          => 'When Consent mode\'s <code>analytics_storage</code> is updated to "granted" by 3rd party plugin',
 	];
 	const CAOS_ADMIN_TRACKING_CODE_OPTIONS     = [
-		''            => 'Default',
+		''            => 'Default (deprecated)',
 		'async'       => 'Asynchronous',
 		'minimal'     => 'Minimal Analytics (deprecated)',
 		'minimal_ga4' => 'Minimal Analytics (GA4 - beta)',
@@ -399,7 +399,10 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	private function generate_tab( $id, $icon = null, $label = null, $disabled = false ) {
 		?>
 		<a class="nav-tab dashicons-before <?php echo $icon; ?> <?php echo $this->active_tab == $id ? 'nav-tab-active' : ''; ?> <?php echo $disabled ? 'disabled' : ''; ?>" 
-			<?php if ( ! $disabled ) : ?>href="<?php echo $this->generate_tab_link( $id ); ?>" <?php endif; ?>
+			<?php
+			if ( ! $disabled ) :
+				?>
+				href="<?php echo $this->generate_tab_link( $id ); ?>" <?php endif; ?>
 		title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because either Plausible Analytics or Minimal Analytics is enabled.', 'host-analyticsjs-local' ) : ''; ?>">
 			<?php echo $label; ?>
 		</a>
