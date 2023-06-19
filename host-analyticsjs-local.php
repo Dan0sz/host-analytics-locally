@@ -1,16 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress/caos/
- * Description: Completely optimize Google Analytics for your WordPress Website - host analytics.js/gtag.js locally or use Minimal Analytics, bypass Ad Blockers in Stealth Mode, capture outbound links, and much more!
- * Version: 4.5.0
+ * Description: Completely optimize Google Analytics 4 for your WordPress Website - host gtag.js locally or use Minimal Analytics, bypass Ad Blockers in Stealth Mode, and much more!
+ * Version: 4.6.0
  * Author: Daan from Daan.dev
  * Author URI: https://daan.dev/
  * License: GPL2v2 or later
  * Text Domain: host-analyticsjs-local
  */
+
+defined( 'ABSPATH' ) || exit;
 
 define( 'CAOS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CAOS_PLUGIN_FILE', __FILE__ );

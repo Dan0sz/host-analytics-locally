@@ -1,29 +1,29 @@
 === CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
-Tags: analytics, host, locally, ga, gtag, analytics, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
+Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.5.0
+Stable tag: 4.6.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automagically download and update analytics.js/gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
+Automagically download and update gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
 
 == Description ==
 
-CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host analytics.js/gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
+CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
-Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com), which is basically Google Analytics Lite. An extremely lightweight alternative to Google Analytics' default libraries (analytics.js/gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
+Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com). An extremely lightweight alternative to Google Analytics' default libraries (gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the analytics.js/gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
+Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
 For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://daan.dev/docs/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
-- Host analytics.js or gtag.js locally ([What's the difference?](https://daan.dev/blog/wordpress/difference-analyics-gtag-ga-js/?utm_source=wordpress&utm_medium=description&utm_campaign=caos)),
+- Host gtag.js for Google Analytics 4 locally,
 - Downloaded files are renamed to random strings to avoid ad blockers,
 - Compatibility Mode allows you to use the locally hosted file with all Google Analytics plugins, e.g.
   - MonsterInsights (Pro),
@@ -41,24 +41,16 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
   - Cookie Notice & Consent Banner,
   - And many more!
 - Minimal Analytics support,
-- Google Analytics V4 support (incl. Dual Tracking),
 - Preconnect to google-analytics.com to reduce latency and speed up requests,
 - Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
-- Capture outbound links,
-- Enhanced link attribution,
 - **Add tracking code** to header, **footer** or manually,
-- Load the tracking snippet Asynchronous or Default (Synchronous)
-- Save analytics.js/gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
-- Serve analytics.js/gtag.js from your CDN,
+- Load the tracking snippet Asynchronous,
+- Save gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
+- Serve gtag.js from your CDN,
 - Set Cookie Expiry Period,
-- Set Site Speed Sample Rate,
-- Set [Adjusted Bounce Rate](https://daan.dev/blog/wordpress/adjusted-bounce-rate-caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos),
-- Change enqueue order (prioritize order of loaded scripts),
-- Enable Enhanced Link Attribution (linkid.js),
 - Force disabling display features functionalities,
 - Anonymize IP addresses (last octet),
 - Track logged in Administrators,
-- Endlessly extensible for developers by using the integrated filters and available mini plugins.
 
 == Features in CAOS Pro ==
 Use Google Analytics in [compliance with GDPR](https://daan.dev/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
@@ -86,6 +78,13 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.6.0 | June 19th, 2023 =
+* This release marks the deprecation of Universal Analytics (GA3), all options that'll disappear on July 1st are
+  marked as deprecated.
+* Tested with WP 6.2 - No issues.
+* Improved: DB reads/writes reduced by ~90%!
+* Renamed Extensions tab to Avoid Ad Blockers, because all extensions are deprecated (due to incompatibility with GA4 or being replaced with a GA4 native option)
 
 = 4.5.0 | March 3rd, 2023 =
 * Fixed: filemtime() stat failed for /wp-content/uploads/caos/analytic.js bug
