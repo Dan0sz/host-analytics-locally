@@ -59,7 +59,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_ADMIN_SERVICE_PROVIDER_OPTION,
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ),
-			sprintf( __( 'Looking for a simple, privacy and GDPR friendly alternative to Google Analytics? <a href="%s" target="_blank">Try Plausible Analytics free for 30 days</a>!', 'host-analyticsjs-local' ), 'https://plausible.io/register' )
+			''
 		);
 	}
 

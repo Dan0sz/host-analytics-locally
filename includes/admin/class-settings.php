@@ -379,7 +379,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * Add Connect Tab to Settings Screen.
 	 */
 	public function do_extensions_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-admin-plugins', __( 'Extensions', 'host-analyticsjs-local' ) );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_EXT_SETTINGS, 'dashicons-shield', __( 'Avoid Ad Blockers (Pro)', 'host-analyticsjs-local' ) );
 	}
 
 	/**

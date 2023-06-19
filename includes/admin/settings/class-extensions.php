@@ -20,10 +20,9 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->title = __( 'Extensions', 'host-analyticsjs-local' );
+		$this->title = __( 'Avoid Ad Blockers (Pro)', 'host-analyticsjs-local' );
 
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_title' ], 10 );
-		add_action( 'caos_extensions_settings_content', [ $this, 'do_description' ], 11 );
 
 		// Stealth Mode Panel
 		add_action( 'caos_extensions_settings_content', [ $this, 'open_extensions_panel' ], 12 );
@@ -43,21 +42,6 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_after' ], 100 );
 
 		parent::__construct();
-	}
-
-	/**
-	 *
-	 * @return void
-	 */
-	public function do_description() {
-		?>
-		<p>
-			<?php echo sprintf( __( 'Extensions are typically specific to a set of features that may not be required by all CAOS and/or Google Analytics users, such as Stealth Mode, ecommerce or cross-domain measurement, and are therefore not enabled/included in CAOS by default.', 'host-analyticsjs-local' ) ); ?>
-		</p>
-		<p>
-			<?php echo sprintf( __( "For a list of available extensions, click <a href='%s'>here</a>.", 'host-analyticsjs-local' ), 'https://daan.dev/wordpress-plugins/' ); ?>
-		</p>
-		<?php
 	}
 
 	/**
@@ -83,7 +67,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 			__( 'Stealth Mode (Pro)', 'host-analyticsjs-local' ),
 			'pro_stealth_mode',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_stealth_mode', '' ) : false,
-			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>plausible.io/api/event</code> or <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
+			sprintf( __( 'Stealth Mode enables WordPress to route all Plausible and Google Analytics traffic (e.g. <code>google-analytics.com/g/collect</code>) through a custom-built API, making it undetectable by Ad Blockers. <a href="%s" target="_blank">Read More</a>', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/how-to/bypass-ad-blockers-caos/' . $this->utm_tags ) . ' ' . $this->promo,
 			! defined( 'CAOS_PRO_ACTIVE' ),
 			true,
 			true
@@ -123,7 +107,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_sub_title() {
 		?>
-		<h3><?php echo __( 'Installed Extensions', 'host-analyticsjs-local' ); ?></h3>
+		<h3><?php echo __( 'Installed Extensions (deprecated)', 'host-analyticsjs-local' ); ?></h3>
 		<?php
 	}
 
