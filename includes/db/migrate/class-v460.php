@@ -74,6 +74,6 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 
 		update_option( 'caos_settings', $new_settings );
 
-		// $this->update_db_version();
+		$this->update_db_version();
 	}
 }
