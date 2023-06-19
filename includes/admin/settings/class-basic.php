@@ -150,7 +150,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Increase GDPR Compliance (Pro)', 'host-analyticsjs-local' ),
 			'pro_gdpr',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_gdpr', '' ) : false,
-			sprintf( __( 'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', 'host-analyticsjs-local' ), 'https://www.cnil.fr/en/google-analytics-and-data-transfers-how-make-your-analytics-tool-compliant-gdpr' ) . ' ' . $this->promo,
+			sprintf( __( 'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', 'host-analyticsjs-local' ), 'https://daan.dev/blog/wordpress/google-analytics-gdpr-compliance/' ) . ' ' . $this->promo,
 			! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			true,
 			true,
