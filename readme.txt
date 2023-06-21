@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.6.0
+Stable tag: 4.6.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -78,6 +78,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.6.1 | June 21st, 2023 =
+* Fixed: Fatal Error (undefined method `CAOS::get()`) directly after updating.
 
 = 4.6.0 | June 19th, 2023 =
 * This release marks the deprecation of Universal Analytics (GA3), all options that'll disappear on July 1st are
