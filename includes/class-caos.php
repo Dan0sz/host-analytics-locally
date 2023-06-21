@@ -55,7 +55,6 @@ class CAOS {
 		add_action( 'activated_plugin', [ $this, 'maybe_do_update' ] );
 		add_action( 'deactivated_plugin', [ $this, 'maybe_do_update' ] );
 		add_action( 'admin_init', [ $this, 'do_update_after_save' ] );
-		add_action( 'upgrader_process_complete', [ $this, 'do_update_after_update' ], 10, 2 );
 		add_action( 'in_plugin_update_message-' . CAOS_PLUGIN_BASENAME, [ $this, 'render_update_notice' ], 11, 2 );
 	}
 
@@ -278,31 +277,6 @@ class CAOS {
 		}
 
 		return $this->trigger_cron_script();
-	}
-
-	/**
-	 * Make sure downloaded files are updated after plugin is updated.
-	 *
-	 * @param  mixed $upgrade_obj
-	 * @param  array $options
-	 * @return void|CAOS_Cron
-	 */
-	public function do_update_after_update( $upgrade_obj, $options ) {
-		if ( isset( $options['action'] ) && $options['action'] !== 'update'
-			&& isset( $options['type'] ) && $options['type'] !== 'plugin'
-		) {
-			return;
-		}
-
-		if ( ! isset( $options['plugins'] ) ) {
-			return;
-		}
-
-		foreach ( $options['plugins'] as $plugin ) {
-			if ( $plugin === CAOS_PLUGIN_BASENAME ) {
-				return $this->trigger_cron_script();
-			}
-		}
 	}
 
 	/**

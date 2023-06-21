@@ -116,7 +116,7 @@ class CAOS_Cron {
 		/**
 		 * Plausible Analytics
 		 */
-		if ( $key == 'plausible' ) {
+		if ( $key === 'plausible' ) {
 			$remote_file = 'script.';
 
 			if ( CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) == 'on' ) {
@@ -142,7 +142,7 @@ class CAOS_Cron {
 		/**
 		 * Gtag V3 is a wrapper for analytics.js, so add it to the queue.
 		 */
-		if ( $key == 'analytics' || $key == 'gtag' ) {
+		if ( $key === 'analytics' || $key === 'gtag' ) {
 			$queue = array_merge(
 				$queue,
 				[
@@ -157,12 +157,12 @@ class CAOS_Cron {
 		/**
 		 * Gtag V3
 		 */
-		if ( $key == 'gtag' ) {
+		if ( $key === 'gtag' ) {
 			$queue = array_merge(
 				$queue,
 				[
 					$key => [
-						'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ),
+						'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ),
 						'local'  => CAOS::get_file_alias_path( $key ),
 					],
 				]
@@ -172,14 +172,14 @@ class CAOS_Cron {
 		/**
 		 * If Dual Tracking is enabled, then add Gtag V4 to the download queue.
 		 */
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) == 'on' || $key == 'gtag-v4' ) {
-			$tracking_id = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) == 'on' ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ) : CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID );
+		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' || $key === 'gtag-v4' ) {
+			$tracking_id = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ) : CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID );
 
 			$queue = array_merge(
 				$queue,
 				[
 					'gtag-v4' => [
-						'remote' => CAOS_GTM_URL . '/' . 'gtag/js?id=' . $tracking_id,
+						'remote' => CAOS_GTM_URL . "/gtag/js?id=$tracking_id",
 						'local'  => CAOS::get_file_alias_path( 'gtag-v4' ),
 					],
 				]
