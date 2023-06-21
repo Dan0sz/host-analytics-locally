@@ -178,6 +178,7 @@ class CAOS {
 			return;
 		}
 
+		// phpcs:ignore
 		error_log( current_time( 'Y-m-d H:i:s' ) . ": $message\n", 3, trailingslashit( WP_CONTENT_DIR ) . 'caos-debug.log' );
 	}
 
@@ -304,7 +305,7 @@ class CAOS {
 			}
 
 			printf(
-				' <strong>' . __( 'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.' ) . '</strong>',
+				' <strong>' . __( 'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.', 'host-analyticsjs-local' ) . '</strong>',
 				$update_notices[ $new_version ]->url
 			);
 		}
