@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
-	protected $version = '4.6.0';
+class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
+	protected $version = '4.6.2';
 
 	protected $rows = [];
 
@@ -26,53 +26,73 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 	 */
 	public function __construct() {
 		$this->rows = apply_filters(
-			'caos_db_migration_v460',
+			'caos_db_migration_v461',
 			[
 				// Basic
 				'service_provider',
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
+				'tracking_id',
 				'domain_name',
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID,
 				'dual_tracking',
 				'ga4_measurement_id',
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
+				'snippet_type',
 				'adjusted_bounce_rate',
 				// Advanced
-				CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
 				'analytics_js_file',
-				CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
-				CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL,
 				'ga_cookie_expiry_days',
 				'site_speed_sample_rate',
-				CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES,
-				CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS,
 				// Extensions
-				'capture_outbound_links',
 				'extension_track_ad_blockers',
 				'extension_linkid',
+				'capture_outbound_links',
 			]
 		);
 
 		$this->init();
 	}
 
+	/**
+	 * Remove settings belonging to removed options and migrate a few options to their new destination.
+	 *
+	 * @return void
+	 */
 	private function init() {
 		$new_settings = CAOS::get_settings();
 
+		// Migrate Tracking ID option if it's already a GA4 measurement ID.
+		if ( ! empty( $new_settings['tracking_id'] ) && strpos( $new_settings['tracking_id'], 'G-' ) === 0 ) {
+			$new_settings['measurement_id'] = $new_settings['measurement_id'];
+		}
+
+		// Migrate GA4 Measurement ID to new Measurement ID setting if it's set.
+		if ( empty( $new_settings['measurement_id'] ) && ! empty( $new_settings['ga4_measurement_id'] ) ) {
+			$new_settings['measurement_id'] = $new_settings['ga4_measurement_id'];
+		}
+
+		if ( ! empty( $new_settings['snippet_type'] ) ) {
+			$new_settings['tracking_code'] = $new_settings['snippet_type'];
+
+			if ( $new_settings['tracking_code'] === 'async' ) {
+				// Async is the new default.
+				$new_settings['tracking_code'] = '';
+			}
+		}
+
 		foreach ( $this->rows as $row ) {
-			$option_value = get_option( "caos_$row" );
-
-			if ( $option_value !== false ) {
-				$new_settings[ $row ] = get_option( "caos_$row" );
-
-				delete_option( "caos_$row" );
+			if ( isset( $new_settings[ $row ] ) ) {
+				unset( $new_settings[ $row ] );
 			}
 		}
 
 		update_option( 'caos_settings', $new_settings );
+
+		/**
+		 * Refresh the aliases.
+		 */
+		delete_option( CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES );
+
+		if ( ! empty( $new_settings['measurement_id'] ) ) {
+			new CAOS_Cron();
+		}
 
 		$this->update_db_version();
 	}

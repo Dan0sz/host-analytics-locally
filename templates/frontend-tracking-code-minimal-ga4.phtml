@@ -21,7 +21,7 @@ $endpoint = apply_filters('caos_minimal_analytics_ga4_endpoint', 'https://www.go
 ?>
 <script>
     window.minimalAnalytics =  {
-        trackingId: '<?php echo CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID); ?>',
+        trackingId: '<?php echo CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID); ?>',
         autoTrack: true,
         defineGlobal: true
     }

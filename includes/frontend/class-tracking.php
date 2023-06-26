@@ -16,9 +16,6 @@
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Frontend_Tracking {
-
-	const CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS = 'caos-track-ad-blockers';
-
 	/**
 	 * @var array $page_builders Array of keys set by page builders when they're displaying their previews.
 	 */
@@ -44,8 +41,8 @@ class CAOS_Frontend_Tracking {
 	 * CAOS_Frontend_Tracking constructor.
 	 */
 	public function __construct() {
-		$this->handle    = 'caos-' . ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) . str_replace( '.js', '', CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) );
-		$this->in_footer = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) == 'footer';
+		$this->handle    = 'caos-' . ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) . 'gtag';
+		$this->in_footer = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) === 'footer';
 
 		add_action( 'caos_inline_scripts_before_tracking_code', [ $this, 'consent_mode' ] );
 		add_filter( 'caos_frontend_tracking_consent_mode', [ $this, 'maybe_disable_consent_mode' ] );
@@ -55,9 +52,6 @@ class CAOS_Frontend_Tracking {
 		add_filter( 'script_loader_tag', [ $this, 'add_attributes' ], 10, 2 );
 		add_action( 'caos_process_settings', [ $this, 'disable_advertising_features' ] );
 		add_action( 'caos_process_settings', [ $this, 'anonymize_ip' ] );
-		add_action( 'caos_process_settings', [ $this, 'site_speed_sample_rate' ] );
-		add_action( 'caos_process_settings', [ $this, 'linkid' ] );
-		add_action( 'caos_process_settings', [ $this, 'dual_tracking' ] );
 	}
 
 	/**
@@ -126,7 +120,7 @@ class CAOS_Frontend_Tracking {
 	 * @return bool
 	 */
 	public function maybe_disable_consent_mode() {
-		return ! CAOS::uses_ga4() || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == '';
+		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) );
 	}
 
 	/**
@@ -165,19 +159,19 @@ class CAOS_Frontend_Tracking {
 
 					var cookie = document.cookie;
 
-					<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'cookie_is_set' ) : ?>
+					<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
 						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?/) !== null) {
 							consent_granted();
 						}
-					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'cookie_is_not_set' ) : ?>
+					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_not_set' ) : ?>
 						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?/) === null) {
 							consent_granted();
 						}
-					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'çookie_has_value' ) : ?>
+					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'çookie_has_value' ) : ?>
 						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ); ?>/) !== null) {
 							consent_granted();
 						}
-					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'cookie_value_contains' ) : ?>
+					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains' ) : ?>
 						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ); ?>.*?/) !== null) {
 							consent_granted();
 						}
@@ -226,34 +220,13 @@ class CAOS_Frontend_Tracking {
 	 * @return bool
 	 */
 	public function maybe_disable_consent_mode_listener() {
-		return ! CAOS::uses_ga4() || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == '' || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'consent_mode';
+		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
 	 * Render the tracking code in it's selected locations
 	 */
 	public function insert_tracking_code() {
-		/**
-		 * Plausible Analytics
-		 *
-		 * @since v4.4.0
-		 */
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) == 'plausible' ) {
-			/**
-			 * If Track Administrators is disabled, bail early.
-			 */
-			if ( current_user_can( 'manage_options' ) && ! CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ) ) {
-				return;
-			}
-
-			add_action( 'wp_head', [ $this, 'insert_plausible_tracking_code' ] );
-
-			/**
-			 * We're done here.
-			 */
-			return;
-		}
-
 		/**
 		 * Google Analytics
 		 */
@@ -278,10 +251,6 @@ class CAOS_Frontend_Tracking {
 					break;
 			}
 		} else {
-			if ( CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) == 'on' ) {
-				add_action( 'wp_enqueue_scripts', [ $this, 'insert_ad_blocker_tracking' ] );
-			}
-
 			/**
 			 * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
 			 * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
@@ -319,28 +288,6 @@ class CAOS_Frontend_Tracking {
 	}
 
 	/**
-	 * Add Plausible Analytics tracking code.
-	 *
-	 * @since v4.4.0
-	 *
-	 * @return void
-	 */
-	public function insert_plausible_tracking_code() {
-		$cache = content_url( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
-		?>
-		<script defer data-domain="<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DOMAIN_NAME, str_replace( [ 'https://', 'http://' ], '', get_home_url() ) ); ?>" data-api="<?php echo apply_filters( 'caos_plausible_analytics_frontend_api', 'https://plausible.io/api/event' ); ?>" src="<?php echo $cache . CAOS::get_file_alias( 'plausible' ); ?>"></script>
-		<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ) ) : ?>
-			<script>
-				window.plausible = window.plausible || function() {
-					(window.plausible.q = window.plausible.q || []).push(arguments)
-				}
-				setTimeout("plausible('Adjusted Bounce Rate', { props: { duration: '<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ); ?>' } });", <?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE ) * 1000; ?>);
-			</script>
-			<?php
-		endif;
-	}
-
-	/**
 	 * Rewrite all external URLs in $html.
 	 *
 	 * @filter caos_buffer_output
@@ -353,15 +300,11 @@ class CAOS_Frontend_Tracking {
 		$search = [
 			'//www.googletagmanager.com/gtag/js',
 			'https://www.googletagmanager.com/gtag/js',
-			'//www.google-analytics.com/analytics.js',
-			'https://www.google-analytics.com/analytics.js',
 		];
 
 		$replace = [
-			str_replace( [ 'https:', 'http:' ], '', $cache . CAOS::get_file_alias( 'gtag' ) ),
-			$cache . CAOS::get_file_alias( 'gtag' ),
-			str_replace( [ 'https:', 'http:' ], '', $cache . CAOS::get_file_alias( 'analytics' ) ),
-			$cache . CAOS::get_file_alias( 'analytics' ),
+			str_replace( [ 'https:', 'http:' ], '', $cache . CAOS::get_file_alias() ),
+			$cache . CAOS::get_file_alias(),
 		];
 
 		return str_replace( $search, $replace, $html );
@@ -437,7 +380,7 @@ class CAOS_Frontend_Tracking {
 	}
 
 	/**
-	 * Adds async attribute to analytics.js/gtag.js script.
+	 * Adds async attribute to gtag.js script.
 	 *
 	 * @param $tag
 	 * @param $handle
@@ -445,15 +388,11 @@ class CAOS_Frontend_Tracking {
 	 * @return string
 	 */
 	public function add_attributes( $tag, $handle ) {
-		if ( ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'async' && $handle == $this->handle ) ) {
+		if ( ( ! CAOS::uses_minimal_analytics() && $handle === $this->handle ) ) {
 			return str_replace( 'script src', 'script async src', $tag );
 		}
 
-		if ( $handle == self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ) {
-			return str_replace( 'script src', 'script defer src', $tag );
-		}
-
-		if ( $handle == $this->handle && $custom_attributes = apply_filters( 'caos_script_custom_attributes', '' ) ) {
+		if ( $handle === $this->handle && $custom_attributes = apply_filters( 'caos_script_custom_attributes', '' ) ) {
 			return str_replace( 'script id', "script $custom_attributes id", $tag );
 		}
 
@@ -465,26 +404,12 @@ class CAOS_Frontend_Tracking {
 	 */
 	public function disable_advertising_features() {
 		// When merging config array, gtag.js properly renders the boolean values.
-		$ads_features_disabled = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES ) == 'on' ? false : true;
+		$ads_features_disabled = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES ) === 'on' ? false : true;
 
 		add_filter(
 			'caos_gtag_config',
 			function ( $config ) use ( $ads_features_disabled ) {
 				return $config + [ 'allow_google_signals' => $ads_features_disabled ];
-			}
-		);
-
-		// Analytics.js requires a slightly different approach when merging the config.
-		$ads_features_disabled = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES ) == 'on' ? 'false' : 'true';
-
-		add_filter(
-			'caos_analytics_before_send',
-			function ( $config ) use ( $ads_features_disabled ) {
-				$option = [
-					'ads_features' => "ga('set', 'allowAdFeatures', $ads_features_disabled);",
-				];
-
-				return $config + $option;
 			}
 		);
 	}
@@ -497,142 +422,13 @@ class CAOS_Frontend_Tracking {
 			return;
 		}
 
-		if ( $this->is_gtag() ) {
-			add_filter(
-				'caos_gtag_config',
-				function ( $config, $trackingId ) {
-					return $config + [ 'anonymize_ip' => true ];
-				},
-				10,
-				2
-			);
-		}
-
 		add_filter(
-			'caos_analytics_before_send',
+			'caos_gtag_config',
 			function ( $config ) {
-				$option = [
-					'anonymizeIp' => "ga('set', 'anonymizeIp', true);",
-				];
-
-				return $config + $option;
-			}
+				return $config + [ 'anonymize_ip' => true ];
+			},
+			10
 		);
-	}
-
-	/**
-	 * Process Site Speed Sample Rate setting (defaults to 1)
-	 *
-	 * @return void
-	 */
-	public function site_speed_sample_rate() {
-		if ( $this->is_gtag() ) {
-			add_filter(
-				'caos_gtag_config',
-				function ( $config, $trackingId ) {
-					return $config + [ 'site_speed_sample_rate' => CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1 ) ];
-				},
-				10,
-				2
-			);
-		}
-
-		add_filter(
-			'caos_analytics_ga_create_config',
-			function ( $config ) {
-				$option = [
-					'siteSpeedSampleRate' => CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE, 1 ),
-				];
-
-				return $config + $option;
-			}
-		);
-	}
-
-	/**
-	 * Enhanced Link Attribution
-	 *
-	 * TODO: Set samesite flag as soon as it's available.
-	 *       @see https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-link-attribution
-	 */
-	public function linkid() {
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_LINKID ) !== 'on' ) {
-			return;
-		}
-
-		if ( $this->is_gtag() ) {
-			add_filter(
-				'caos_gtag_config',
-				function ( $config, $tracking_id ) {
-					return $config + [
-						'link_attribution',
-						[
-							'cookie_name' => 'caos_linkid',
-						],
-					];
-				},
-				10,
-				2
-			);
-		}
-
-		add_filter(
-			'caos_analytics_before_send',
-			function ( $config ) {
-				$option = [
-					'linkid' => "ga('require', 'linkid', { 'cookieName':'caosLinkid', 'cookieFlags':'samesite=none;secure' });",
-				];
-
-				return $config + $option;
-			}
-		);
-	}
-
-	/**
-	 * Add GA4 Measurement ID to Gtag (GA3) tracking code.
-	 *
-	 * @return void
-	 */
-	public function dual_tracking() {
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) !== 'on' ) {
-			return;
-		}
-
-		if ( $this->is_ga4() || ! $this->is_gtag() ) {
-			return;
-		}
-
-		$measurement_id = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID );
-
-		if ( ! $measurement_id ) {
-			return;
-		}
-
-		add_action(
-			'caos_gtag_additional_config',
-			function () use ( $measurement_id ) {
-				?>
-			gtag('config', '<?php echo $measurement_id; ?>');
-				<?php
-			}
-		);
-	}
-
-	/**
-	 * Dual tracking uses the GA3 gtag.js library, this method explicitly checks if a Measurement ID (GA4) is set as a Tracking ID (GA3).
-	 * @return bool
-	 */
-	private function is_ga4() {
-		return strpos( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'G-' ) === 0;
-	}
-
-	/**
-	 * Check if Global Site Tag is used.
-	 *
-	 * @return bool
-	 */
-	private function is_gtag() {
-		return CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) == 'gtag.js' || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) == 'gtag-v4.js';
 	}
 
 	/**
@@ -655,12 +451,8 @@ class CAOS_Frontend_Tracking {
 	 *
 	 * @return string
 	 */
-	public function return_analytics_js_url() {
-		$id = '';
-
-		if ( CAOS::get_current_file_key() == 'gtag' ) {
-			$id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID );
-		}
+	private function return_js_url() {
+		$id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
 
 		return CAOS::get_local_file_url() . $id;
 	}
@@ -669,7 +461,7 @@ class CAOS_Frontend_Tracking {
 	 * Generate tracking code and add to header (default) or footer.
 	 */
 	public function render_tracking_code() {
-		if ( ! CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) ) {
+		if ( ! CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) ) {
 			return;
 		}
 
@@ -677,18 +469,8 @@ class CAOS_Frontend_Tracking {
 			echo '<!-- ' . __( 'This site is running CAOS for WordPress', 'host-analyticsjs-local' ) . " -->\n";
 		}
 
-		$deps = CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) ? [ self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [];
-
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) != 'minimal' ) {
-			wp_enqueue_script( $this->handle, $this->return_analytics_js_url(), $deps, null, $this->in_footer );
-		}
-
-		if ( ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'cookie_has_value' || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) == 'cookie_value_contains' ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ) {
-			wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'cookie-value' ) );
-		}
-
-		if ( ! CAOS::uses_ga4() ) {
-			wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'ga-disable' ) );
+		if ( empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ) ) {
+			wp_enqueue_script( $this->handle, $this->return_js_url(), [], null, $this->in_footer );
 		}
 
 		/**
@@ -696,24 +478,16 @@ class CAOS_Frontend_Tracking {
 		 *
 		 * @since v4.2.0
 		 */
-		do_action( 'caos_inline_scripts_before_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) );
+		do_action( 'caos_inline_scripts_before_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
 
-		switch ( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) ) {
-			case 'gtag.js':
-			case 'gtag-v4.js':
-				wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'gtag' ) );
-				break;
-			default:
-				wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'analytics' ) );
-				break;
-		}
+		wp_add_inline_script( $this->handle, $this->get_tracking_code_template() );
 
 		/**
 		 * Allow WP DEVs to add additional JS after Analytics/Gtag tracking code.
 		 *
 		 * @since v4.2.0
 		 */
-		do_action( 'caos_add_script_after_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) );
+		do_action( 'caos_add_script_after_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
 	}
 
 	/**
@@ -721,10 +495,10 @@ class CAOS_Frontend_Tracking {
 	 *
 	 * @return false|string
 	 */
-	public function get_tracking_code_template( $name, $strip = false ) {
+	public function get_tracking_code_template( $strip = false ) {
 		ob_start();
 
-		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-' . $name . '.phtml';
+		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-gtag.phtml';
 
 		if ( ! $strip ) {
 			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
@@ -734,75 +508,11 @@ class CAOS_Frontend_Tracking {
 	}
 
 	/**
-	 * Respects the tracking code's position (header/footer) because this script needs to be triggered after the
-	 * pageview is sent.
-	 */
-	public function insert_ad_blocker_tracking() {
-		wp_enqueue_script( self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, plugins_url( 'assets/js/detect-ad-block.js', CAOS_PLUGIN_FILE ), [], CAOS_STATIC_VERSION, $this->in_footer );
-		wp_add_inline_script( self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS, $this->send_ad_blocker_result() );
-	}
-
-	/**
 	 * Insert either of the Minimal Analytics tracking codes.
 	 */
 	public function insert_minimal_tracking_snippet() {
-		echo "\n<!-- This site is using Minimal Analytics brought to you by CAOS. -->\n";
+		echo "\n<!-- This site is using Minimal Analytics 4 brought to you by CAOS. -->\n";
 
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' ) {
-			echo $this->get_tracking_code_template( 'minimal', true );
-		} else {
-			echo $this->get_tracking_code_template( 'minimal-ga4', true );
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	private function send_ad_blocker_result() {
-		$url = home_url( 'wp-json/caos/v1/block/detect' );
-		/**
-		 * DISCLAIMER:
-		 *
-		 * To developers who want to override this filter and insert clientIds themselves.
-		 * Please beware of privacy laws in your country and (more importantly) of your visitors.
-		 * Bypassing ad blockers AND sending unique client IDs to Google Analytics (which potentially
-		 * could identify an individual) is forbidden by GDPR EU laws and might also be forbidden
-		 * in your country.
-		 *
-		 * Client ID's can be added by making sure the ClientIDHashed variable exists anywhere inside
-		 * the document before this script is loaded.
-		 *
-		 * You have been warned!
-		 */
-		$use_cid = apply_filters( 'caos_track_ad_blockers_use_cid', false );
-
-		ob_start();
-		?>
-		<script>
-			document.addEventListener('caos_track_ad_blockers', function(e) {
-				document.addEventListener('DOMContentLoaded', function(e) {
-					var caos_detect_ad_blocker = 1;
-
-					<?php if ( $use_cid ) : ?>
-						var cid = localStorage.getItem('GA_CLIENT_ID_HASHED') ?? '';
-					<?php else : ?>
-						var cid = '';
-					<?php endif; ?>
-
-					if (document.getElementById('caos-detect-ad-block')) {
-						caos_detect_ad_blocker = 0;
-					}
-					var ajax = new XMLHttpRequest();
-					ajax.open('POST', '<?php echo $url; ?>');
-					ajax.onreadystatechange = function() {
-						if (ajax.readyState !== 4 || ajax.readyState !== 200) return;
-					};
-					ajax.send("result=" + caos_detect_ad_blocker + '&cid=' + cid);
-				});
-			});
-		</script>
-		<?php
-
-		return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
+		echo $this->get_tracking_code_template( 'minimal-ga4', true );
 	}
 }

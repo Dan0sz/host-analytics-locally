@@ -16,7 +16,7 @@ define( 'CAOS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CAOS_PLUGIN_FILE', __FILE__ );
 define( 'CAOS_PLUGIN_BASENAME', plugin_basename( CAOS_PLUGIN_FILE ) );
 define( 'CAOS_STATIC_VERSION', '4.5.0' );
-define( 'CAOS_DB_VERSION', '4.6.0' );
+define( 'CAOS_DB_VERSION', '4.6.2' );
 
 /**
  * Takes care of loading classes on demand.

@@ -37,9 +37,7 @@ class CAOS_Admin {
 		$this->do_help_section();
 
 		// Notices
-		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID, [ $this, 'add_tracking_code_notice' ], 10, 2 );
-		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING, [ $this, 'maybe_remove_related_settings' ], 10, 2 );
-		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID, [ $this, 'update_remote_js_file' ], 10, 2 );
+		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID, [ $this, 'add_tracking_code_notice' ], 10, 2 );
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, [ $this, 'add_script_position_notice' ], 10, 2 );
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'set_cache_dir_notice' ], 10, 2 );
 		add_action( 'pre_update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'validate_cache_dir' ], 10, 2 );
@@ -88,118 +86,14 @@ class CAOS_Admin {
 	 */
 	public function add_tracking_code_notice( $old_tracking_id, $new_tracking_id ) {
 		if ( $new_tracking_id !== $old_tracking_id && ! empty( $new_tracking_id ) ) {
-			CAOS_Admin_Notice::set_notice( sprintf( __( 'CAOS has connected WordPress to Google Analytics using Tracking ID: %s.', $this->plugin_text_domain ), $new_tracking_id ) );
+			CAOS_Admin_Notice::set_notice( sprintf( __( 'CAOS has connected WordPress to Google Analytics using Measurement ID: %s.', $this->plugin_text_domain ), $new_tracking_id ) );
 		}
 
 		if ( empty( $new_tracking_id ) ) {
 			return $new_tracking_id;
 		}
 
-		$is_ga4    = substr( $new_tracking_id, 0, 2 ) == 'G-';
-		$is_dt     = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) && strpos( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ), 'G-' ) !== false;
-		$dt_notice = '';
-
-		if ( $is_ga4 && $is_dt ) {
-			$title     = 'Universal Analytics';
-			$filename  = 'gtag.js';
-			$dt_notice = 'but enabled Dual Tracking,';
-		} elseif ( $is_ga4 ) {
-			$title    = 'Google Analytics 4';
-			$filename = 'gtag-v4.js';
-
-			/**
-			 * When a GA V4 measurement ID is used, the defined ID in Dual Tracking should be emptied, just to make sure it isn't used anywhere.
-			 */
-			delete_option( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING );
-			delete_option( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID );
-		} else {
-			$title    = 'Universal Analytics';
-			$filename = 'analytics.js';
-		}
-
-		/**
-		 * If Minimal Analytics is used, don't throw notices and execute any further logic to prevent confusion.
-		 *
-		 * @since v4.4.0
-		 */
-		if ( CAOS::uses_minimal_analytics() ) {
-			return $new_tracking_id;
-		}
-
-		update_option( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, $filename );
-
-		CAOS_Admin_Notice::set_notice(
-			sprintf( __( 'Since you\'ve entered a %1$s ID, %2$s the <em>file to download</em> was changed to %3$s.', $this->plugin_text_domain ), $title, $dt_notice, $filename ),
-			'warning'
-		);
-
-		if ( $filename == 'analytics.js' ) {
-			CAOS_Admin_Notice::set_notice(
-				__( 'You can change the <em>file to download</em> manually to gtag.js in <em>Advanced Settings</em> if you wish to do so.', $this->plugin_text_domain ),
-				'info'
-			);
-		}
-
 		return $new_tracking_id;
-	}
-
-	/**
-	 * Check if Dual Tracking is disabled and if so, remove GA4 Measurement ID.
-	 *
-	 * @param mixed $old_value
-	 * @param mixed $new_value
-	 * @return mixed
-	 */
-	public function maybe_remove_related_settings( $old_value, $new_value ) {
-		if ( $new_value == $old_value ) {
-			return $new_value;
-		}
-
-		// Dual tracking has been enabled. Let's delete related options.
-		if ( $new_value != 'on' ) {
-			delete_option( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID );
-
-			/**
-			 * This prevents the option from being added after this action is done running.
-			 *
-			 * @see /wp-admin/options.php:305-314
-			 */
-			if ( isset( $_POST[ CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ] ) ) {
-				unset( $_POST[ CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ] );
-			}
-		}
-
-		return $new_value;
-	}
-
-	/**
-	 * Throw appropriate notices for enabling Dual Tracking.
-	 *
-	 * @param mixed $old_id
-	 * @param mixed $new_id
-	 * @return mixed
-	 */
-	public function update_remote_js_file( $old_id, $new_id ) {
-		if ( strpos( $new_id, 'G-' ) !== 0 ) {
-			CAOS_Admin_Notice::set_notice(
-				__( 'The entered Measurement ID isn\'t correct. Fix it to avoid breaking your Analytics.', $this->plugin_text_domain ),
-				'error'
-			);
-		} elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) != 'gtag.js' ) {
-			CAOS_Admin_Notice::set_notice(
-				__( 'Dual Tracking is enabled and the <em>file to download</em> was changed to <em>gtag.js</em>.', $this->plugin_text_domain ),
-				'info'
-			);
-
-			update_option( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'gtag.js' );
-		} else {
-			CAOS_Admin_Notice::set_notice(
-				__( 'Dual Tracking is enabled.', $this->plugin_text_domain ),
-				'info'
-			);
-		}
-
-		return $new_id;
 	}
 
 	/**
@@ -266,7 +160,7 @@ class CAOS_Admin {
 	 */
 	public function set_cache_dir_notice( $old_dir, $new_dir ) {
 		if ( $new_dir !== $old_dir && ! empty( $new_dir ) ) {
-			CAOS_Admin_Notice::set_notice( sprintf( __( '%1$s will now be saved in <em>%2$s</em>.', $this->plugin_text_domain ), ucfirst( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) ), $new_dir ) );
+			CAOS_Admin_Notice::set_notice( sprintf( __( 'Gtag.js will now be saved in <em>%s</em>.', $this->plugin_text_domain ), $new_dir ) );
 		}
 
 		return $new_dir;

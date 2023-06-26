@@ -33,11 +33,10 @@ class CAOS_FileManager {
 	 * @param $localFile
 	 * @param $remoteFile
 	 * @param $file string
-	 * @param $is_plugin bool
 	 *
 	 * @return void|string
 	 */
-	public function download_file( $local_file, $remote_file, $file = '', $is_plugin = false ) {
+	public function download_file( $remote_file, $file = '' ) {
 		do_action( 'caos_admin_update_before' );
 
 		$this->file_contents = wp_remote_get( $remote_file );
@@ -49,19 +48,14 @@ class CAOS_FileManager {
 		}
 
 		/**
-		 * If $file is not set, extract it from $remoteFile, unless we're downloading a plugin.
+		 * If $file is not set, extract it from $remote_file, unless we're downloading a plugin.
 		 *
 		 * @since 3.11.0
 		 * @since 4.0.3 Don't rename plugins.
 		 */
-		$file = $file ?: pathinfo( $remote_file )['filename'];
-
-		if ( ! $is_plugin ) {
-			$file_aliases = CAOS::get_file_aliases();
-			$file_alias   = $file_aliases[ $file ] ?? '';
-		} else {
-			$file_alias = $file . '.js';
-		}
+		$file         = $file ? $file : pathinfo( $remote_file )['filename'];
+		$file_aliases = CAOS::get_file_aliases();
+		$file_alias   = $file_aliases[ $file ] ?? '';
 
 		/**
 		 * If no file alias has been set (yet) and we're not downloading a plugin, generate a new alias.
@@ -70,21 +64,11 @@ class CAOS_FileManager {
 		 * @since 4.0.3 Don't rename plugins
 		 *
 		 */
-		if ( ! $file_alias && ! $is_plugin ) {
+		if ( ! $file_alias || $file_alias === 'gtag' ) {
 			$file_alias = bin2hex( random_bytes( 4 ) ) . '.js';
 		}
 
 		$local_dir = CAOS_LOCAL_DIR;
-
-		/**
-		 * If file is a plugin, we use the same subdirectory structure Google uses.
-		 */
-		if ( $is_plugin ) {
-			$local_dir = untrailingslashit( CAOS_LOCAL_DIR ) . str_replace( CAOS_GA_URL, '', $remote_file );
-			$local_dir = trailingslashit( pathinfo( $local_dir )['dirname'] ) ?? CAOS_LOCAL_DIR;
-
-			CAOS::debug( __( 'File is a plugin.', $this->plugin_text_domain ) );
-		}
 
 		CAOS::debug( sprintf( __( 'Saving to %s.', $this->plugin_text_domain ), $local_dir ) );
 
@@ -123,7 +107,7 @@ class CAOS_FileManager {
 		 *
 		 * @see CAOS_Cron_Script::download()
 		 */
-		CAOS::set_file_alias( $file, $file_alias );
+		CAOS::set_file_alias( $file_alias, true );
 
 		do_action( 'caos_admin_update_after' );
 

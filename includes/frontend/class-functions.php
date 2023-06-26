@@ -21,24 +21,8 @@ class CAOS_Frontend_Functions {
 	 * CAOS_Frontend_Functions constructor.
 	 */
 	public function __construct() {
-		// Needs to be added after Google Analytics library is requested.
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_js_scripts' ], 11 );
 		add_filter( 'caos_frontend_add_dns_prefetch', [ $this, 'maybe_add_dns_prefetch' ] );
 		add_filter( 'wp_resource_hints', [ $this, 'add_dns_prefetch' ], 10, 2 );
-	}
-
-	/**
-	 * Enqueue JS scripts for frontend.
-	 */
-	function enqueue_js_scripts() {
-		if ( current_user_can( 'manage_options' ) && ! CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ) ) {
-			return;
-		}
-
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) === 'on' ) {
-			$tracking = new CAOS_Frontend_Tracking();
-			wp_add_inline_script( $tracking->handle, $this->get_frontend_template( 'outbound-link-tracking' ) );
-		}
 	}
 
 	/**

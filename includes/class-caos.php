@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * * * * * * * * * * * * * * * * * * * */
 class CAOS {
 	/**
-	 * Used to check if CAOS Pro is (de)activated and update files (e.g. analytics.js) accordingly.
+	 * Used to check if CAOS Pro is (de)activated and update files (e.g. gtag.js) accordingly.
 	 */
 	const CAOS_PRO_PLUGIN_SLUG = 'caos-pro';
 
@@ -45,9 +45,6 @@ class CAOS {
 			$this->do_tracking_code();
 		}
 
-		// API Routes
-		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
-
 		// Update Settings
 		add_action( 'admin_init', [ $this, 'update_settings' ] );
 
@@ -68,7 +65,6 @@ class CAOS {
 
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
-		define( 'CAOS_COOKIE_EXPIRY_SECONDS', self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30 ) ? self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS, 30 ) * 86400 : 2592000 );
 		define( 'CAOS_CRON', 'caos_update_analytics_js' );
 		define( 'CAOS_GA_URL', 'https://www.google-analytics.com' );
 		define( 'CAOS_GTM_URL', 'https://www.googletagmanager.com' );
@@ -76,7 +72,7 @@ class CAOS {
 	}
 
 	/**
-	 * @return false|array
+	 * @return false|array Global variable containing all saved file aliases.
 	 */
 	public static function get_file_aliases() {
 		global $caos_file_aliases;
@@ -85,17 +81,18 @@ class CAOS {
 	}
 
 	/**
-	 * @param  string $key
+	 * Get alias of JS library.
+	 *
 	 * @return string
 	 */
-	public static function get_file_alias( $key = '' ) {
+	public static function get_file_alias() {
 		$file_aliases = self::get_file_aliases();
 
 		if ( ! $file_aliases ) {
 			return '';
 		}
 
-		return $file_aliases[ $key ] ?? '';
+		return $file_aliases['gtag'] ?? '';
 	}
 
 	/**
@@ -104,7 +101,7 @@ class CAOS {
 	 * @return mixed
 	 */
 	public static function get_current_file_key() {
-		return self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' ? self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) : str_replace( '.js', '', self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) );
+		return 'gtag';
 	}
 
 	/**
@@ -128,15 +125,14 @@ class CAOS {
 	}
 
 	/**
-	 * @param  string $key
 	 * @param  string $alias
 	 * @param  bool   $write
 	 * @return bool
 	 */
-	public static function set_file_alias( $key, $alias, $write = false ) {
+	public static function set_file_alias( $alias, $write = false ) {
 		$file_aliases = self::get_file_aliases();
 
-		$file_aliases[ $key ] = $alias;
+		$file_aliases['gtag'] = $alias;
 
 		return self::set_file_aliases( $file_aliases, $write );
 	}
@@ -146,18 +142,17 @@ class CAOS {
 	 *
 	 * @since 3.11.0
 	 *
-	 * @param  mixed $key
 	 * @return string|void
 	 */
-	public static function get_file_alias_path( $key ) {
-		$file_path = CAOS_LOCAL_DIR . $key . '.js';
+	public static function get_file_alias_path() {
+		$file_path = CAOS_LOCAL_DIR . 'gtag.js';
 
 		// Backwards compatibility
 		if ( ! self::get_file_aliases() ) {
 			return $file_path;
 		}
 
-		$file_alias = self::get_file_alias( $key ) ?? '';
+		$file_alias = self::get_file_alias() ?? '';
 
 		// Backwards compatibility
 		if ( ! $file_alias ) {
@@ -269,7 +264,7 @@ class CAOS {
 		$settings_page    = $_GET['page'] ?? '';
 		$settings_updated = $_GET['settings-updated'] ?? '';
 
-		if ( CAOS_Admin_Settings::CAOS_ADMIN_PAGE != $settings_page ) {
+		if ( CAOS_Admin_Settings::CAOS_ADMIN_PAGE !== $settings_page ) {
 			return;
 		}
 
@@ -312,17 +307,6 @@ class CAOS {
 	}
 
 	/**
-	 * Register CAOS Proxy so endpoint can be used.
-	 * For using Stealth mode, SSL is required.
-	 */
-	public function register_routes() {
-		if ( self::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) ) {
-			$proxy = new CAOS_API_AdBlockDetect();
-			$proxy->register_routes();
-		}
-	}
-
-	/**
 	 * Returns early if File Aliases option doesn't exist for Backwards Compatibility.
 	 *
 	 * @since 3.11.0
@@ -330,7 +314,7 @@ class CAOS {
 	 * @return string
 	 */
 	public static function get_local_file_url() {
-		$url = content_url() . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' );
+		$url = content_url() . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) . 'gtag.js';
 
 		/**
 		 * is_ssl() fails when behind a load balancer or reverse proxy. That's why we double check here if
@@ -344,17 +328,13 @@ class CAOS {
 			$url = str_replace( get_home_url( get_current_blog_id() ), '//' . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CDN_URL ), $url );
 		}
 
-		if ( ! self::get_file_aliases() ) {
-			return $url;
-		}
-
-		$file_alias = self::get_file_alias( self::get_current_file_key() );
+		$file_alias = self::get_file_alias();
 
 		if ( ! $file_alias ) {
 			return $url;
 		}
 
-		$url = str_replace( self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ), $file_alias, $url );
+		$url = str_replace( 'gtag.js', $file_alias, $url );
 
 		return $url;
 	}
@@ -378,14 +358,12 @@ class CAOS {
 	 * @return string
 	 */
 	public static function download_file(
-		$local_file,
 		$remote_file,
-		$file = '',
-		$is_plugin = false
+		$file = ''
 	) {
 		$download = new CAOS_FileManager();
 
-		return $download->download_file( $local_file, $remote_file, $file, $is_plugin );
+		return $download->download_file( $remote_file, $file );
 	}
 
 	/**
@@ -416,25 +394,7 @@ class CAOS {
 	 *
 	 */
 	public static function uses_minimal_analytics() {
-		return self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' || self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal_ga4';
-	}
-
-	/**
-	 * Global method to figure out if CAOS is setup to use Dual Tracking.
-	 *
-	 * @return bool
-	 */
-	public static function dual_tracking_is_enabled() {
-		return strpos( self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'UA-' ) === 0 && self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) == 'on';
-	}
-
-	/**
-	 * Global method to check if CAOS is set to use GA4.
-	 *
-	 * @return bool
-	 */
-	public static function uses_ga4() {
-		return strpos( self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ), 'G' ) === 0 && self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) == 'gtag-v4.js';
+		return self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4';
 	}
 
 	/**
@@ -459,7 +419,7 @@ class CAOS {
 		/**
 		 * This allows for WPML (and similar plugins) to use different tracking IDs on different languages/sites.
 		 */
-		if ( $name === CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ) {
+		if ( $name === CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) {
 			$translated_tracking_id = _x( 'UA-123456789', 'Define a different Tracking ID for this site.', 'host-analyticsjs-local' );
 
 			if ( $translated_tracking_id !== 'UA-123456789' ) {

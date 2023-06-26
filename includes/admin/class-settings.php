@@ -28,26 +28,17 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
 	const CAOS_ADMIN_SECTION_HELP           = 'caos-help';
 
-	/**
-	 * Option Values
-	 */
-	const CAOS_ADMIN_SERVICE_PROVIDER_OPTION   = [
-		'google_analytics' => 'Google Analytics (default)',
-		'plausible'        => 'Plausible Analytics (deprecated)',
-	];
 	const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS    = [
 		''                      => 'Always (default)',
-		'cookie_is_set'         => 'When cookie is set (deprecated)',
-		'cookie_is_not_set'     => 'When cookie is NOT set (deprecated)',
-		'cookie_has_value'      => 'When cookie has a value (exact match) (deprecated)',
-		'cookie_value_contains' => 'When cookie value contains (loose comparison) (deprecated)',
+		'cookie_is_set'         => 'When cookie is set',
+		'cookie_is_not_set'     => 'When cookie is NOT set',
+		'cookie_has_value'      => 'When cookie has a value (exact match)',
+		'cookie_value_contains' => 'When cookie value contains (loose comparison)',
 		'consent_mode'          => 'When Consent mode\'s <code>analytics_storage</code> is updated to "granted" by 3rd party plugin',
 	];
 	const CAOS_ADMIN_TRACKING_CODE_OPTIONS     = [
-		''            => 'Default (deprecated)',
-		'async'       => 'Asynchronous',
-		'minimal'     => 'Minimal Analytics (deprecated)',
-		'minimal_ga4' => 'Minimal Analytics (GA4 - beta)',
+		''            => 'Asynchronous (default)',
+		'minimal_ga4' => 'Minimal Analytics 4',
 	];
 	const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
 		''    => 'Off (default)',
@@ -59,51 +50,29 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		'footer' => 'Footer',
 		'manual' => 'Add manually',
 	];
-	const CAOS_ADMIN_JS_FILE_OPTIONS           = [
-		'analytics.js' => 'Analytics.js (deprecated)',
-		'gtag-v4.js'   => 'Gtag.js (v4 API - Beta)',
-		'gtag.js'      => 'Gtag.js (deprecated',
-	];
-	const CAOS_ADMIN_EXT_REQUEST_HANDLING      = [
-		'send_file'     => 'Default (WordPress API)',
-		'super_stealth' => 'Fast (Super Stealth API)',
-	];
 
 	/**
 	 * CAOS Basic/Advanced Settings
 	 */
-	const CAOS_BASIC_SETTING_SERVICE_PROVIDER     = 'service_provider';
-	const CAOS_BASIC_SETTING_DOMAIN_NAME          = 'domain_name';
-	const CAOS_BASIC_SETTING_TRACKING_ID          = 'tracking_id';
-	const CAOS_BASIC_SETTING_DUAL_TRACKING        = 'dual_tracking';
-	const CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID   = 'ga4_measurement_id';
-	const CAOS_BASIC_SETTING_TRACK_ADMIN          = 'track_admin';
-	const CAOS_BASIC_SETTING_ALLOW_TRACKING       = 'allow_tracking';
-	const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME   = 'cookie_notice_name';
-	const CAOS_BASIC_SETTING_COOKIE_VALUE         = 'cookie_value';
-	const CAOS_BASIC_SETTING_TRACKING_CODE        = 'snippet_type';
-	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE    = 'anonymize_ip_mode';
-	const CAOS_BASIC_SETTING_SCRIPT_POSITION      = 'script_position';
-	const CAOS_ADV_SETTING_COMPATIBILITY_MODE     = 'compatibility_mode';
-	const CAOS_ADV_SETTING_JS_FILE                = 'analytics_js_file';
-	const CAOS_ADV_SETTING_COOKIELESS_ANALYTICS   = 'cookieless_analytics';
-	const CAOS_ADV_SETTING_CACHE_DIR              = 'analytics_cache_dir';
-	const CAOS_ADV_SETTING_CDN_URL                = 'analytics_cdn_url';
-	const CAOS_ADV_SETTING_GA_SESSION_EXPIRY_DAYS = 'ga_cookie_expiry_days';
-	const CAOS_BASIC_SETTING_ADJUSTED_BOUNCE_RATE = 'adjusted_bounce_rate';
-	const CAOS_ADV_SETTING_SITE_SPEED_SAMPLE_RATE = 'site_speed_sample_rate';
-	const CAOS_ADV_SETTING_ENQUEUE_ORDER          = 'enqueue_order';
-	const CAOS_ADV_SETTING_DISABLE_ADS_FEATURES   = 'disable_display_features';
-	const CAOS_ADV_SETTING_UNINSTALL_SETTINGS     = 'analytics_uninstall_settings';
-	const CAOS_EXT_SETTING_TRACK_AD_BLOCKERS      = 'extension_track_ad_blockers';
-	const CAOS_EXT_SETTING_LINKID                 = 'extension_linkid';
-	const CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS = 'capture_outbound_links';
+	const CAOS_BASIC_SETTING_MEASUREMENT_ID     = 'measurement_id';
+	const CAOS_BASIC_SETTING_TRACK_ADMIN        = 'track_admin';
+	const CAOS_BASIC_SETTING_ALLOW_TRACKING     = 'allow_tracking';
+	const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'cookie_notice_name';
+	const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'cookie_value';
+	const CAOS_BASIC_SETTING_TRACKING_CODE      = 'tracking_code';
+	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE  = 'anonymize_ip_mode';
+	const CAOS_BASIC_SETTING_SCRIPT_POSITION    = 'script_position';
+	const CAOS_ADV_SETTING_COMPATIBILITY_MODE   = 'compatibility_mode';
+	const CAOS_ADV_SETTING_CACHE_DIR            = 'analytics_cache_dir';
+	const CAOS_ADV_SETTING_CDN_URL              = 'analytics_cdn_url';
+	const CAOS_ADV_SETTING_DISABLE_ADS_FEATURES = 'disable_display_features';
+	const CAOS_ADV_SETTING_UNINSTALL_SETTINGS   = 'analytics_uninstall_settings';
 
 	/**
 	 * CAOS Cron
 	 */
-	const CAOS_CRON_RUN_UPDATE   = 'cron_run_update';
-	const CAOS_CRON_FILE_ALIASES = 'cron_file_aliases';
+	const CAOS_CRON_RUN_UPDATE   = 'caos_cron_run_update';
+	const CAOS_CRON_FILE_ALIASES = 'caos_cron_file_aliases';
 
 	/**
 	 * Info URLs
@@ -184,12 +153,9 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		<div class="wrap caos">
 			<h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ); ?></h1>
 
-			<?php if ( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) !== 'minimal' ) : ?>
-				<?php
-				$remote_file = CAOS::get_current_file_key();
-				?>
+			<?php if ( empty( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) ) ) : ?>
 				<div class="notice notice-info">
-					<p><?php echo sprintf( __( '<strong>%1$s</strong> is renamed to <strong>%2$s</strong> and was last updated on <em>%3$s</em>. The next automatic update by cron is scheduled <em>%4$s</em>.', 'host-analyticsjs-local' ), ucfirst( $remote_file ), CAOS::get_file_alias( str_replace( '.js', '', $remote_file ) ), $this->file_last_updated(), $this->cron_next_scheduled() ); ?> <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', 'host-analyticsjs-local' ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', 'host-analyticsjs-local' ); ?></a>.</p>
+					<p><?php echo sprintf( __( '<strong>Gtag.js</strong> is renamed to <strong>%1$s</strong> and was last updated on <em>%2$s</em>. The next automatic update by cron is scheduled <em>%3$s</em>.', 'host-analyticsjs-local' ), CAOS::get_file_alias(), $this->file_last_updated(), $this->cron_next_scheduled() ); ?> <a id="caos-regenerate-alias" data-nonce="<?php echo wp_create_nonce( self::CAOS_ADMIN_PAGE ); ?>" title="<?php echo __( 'This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues.', 'host-analyticsjs-local' ); ?>" href="#"><?php echo __( 'Regenerate Alias(es)', 'host-analyticsjs-local' ); ?></a>.</p>
 				</div>
 			<?php endif; ?>
 
@@ -257,7 +223,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * @return string
 	 */
 	private function file_last_updated() {
-		$file_alias_path = CAOS::get_file_alias_path( str_replace( '.js', '', CAOS::get( self::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) ) );
+		$file_alias_path = CAOS::get_file_alias_path();
 
 		if ( ! file_exists( $file_alias_path ) ) {
 			return '';
@@ -372,7 +338,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * Add Advanced Settings Tab to Settings Screen.
 	 */
 	public function do_advanced_settings_tab() {
-		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_SERVICE_PROVIDER, 'google_analytics' ) === 'plausible' || CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) == 'minimal' );
+		$this->generate_tab( self::CAOS_ADMIN_SECTION_ADV_SETTINGS, 'dashicons-admin-settings', __( 'Advanced Settings', 'host-analyticsjs-local' ), CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4' );
 	}
 
 	/**

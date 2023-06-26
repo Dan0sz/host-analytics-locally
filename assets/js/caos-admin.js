@@ -27,7 +27,6 @@ jQuery(document).ready(function ($) {
             $('.dual-tracking',).on('change', this.toggle_ga4_measurement_id);
 
             // Radio's
-            $('input[class^="service-provider"]').on('click', this.toggle_service_provider);
             $('input[class^="allow-tracking"]').on('click', this.toggle_allow_tracking);
             $('input[class^="anonymize-ip-mode"]').on('click', this.update_aip_example);
             $('input[class^="script-position"]').on('click', this.toggle_script_position);
@@ -102,15 +101,6 @@ jQuery(document).ready(function ($) {
             if (caos_admin.ticker_index == caos_admin.ticker_items.length) {
                 caos_admin.ticker_index = 0;
             }
-        },
-
-        /**
-         * Toggle Service Provider options.
-         */
-        toggle_service_provider: function () {
-            caos_admin.show_loader();
-
-            document.querySelector('input[type="submit"]').click();
         },
 
         /**

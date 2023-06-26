@@ -54,40 +54,13 @@ class CAOS_Cron {
 		if ( ! wp_doing_cron() && ! empty( $downloaded_files ) ) {
 			$review_link = apply_filters( 'caos_manual_download_review_link', $this->review );
 			$tweet_link  = apply_filters( 'caos_manual_download_tweet_link', $this->tweet );
-			$notice      = $this->build_natural_sentence( $downloaded_files );
+			$notice      = __(
+				'Gtag.js is downloaded successfully and updated accordingly.',
+				$this->plugin_text_domain
+			);
 
 			CAOS_Admin_Notice::set_notice( $notice . ' ' . sprintf( __( 'Would you be willing to <a href="%1$s" target="_blank">write a review</a> or <a href="%2$s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local' ), $review_link, $tweet_link ), 'success', 'all', 'file_downloaded' );
 		}
-	}
-
-	/**
-	 *
-	 * @param array $list
-	 * @return string
-	 */
-	private function build_natural_sentence( array $list ) {
-		$i        = 0;
-		$last     = count( $list ) - 1;
-		$sentence = '';
-
-		foreach ( $list as $filename => $alias ) {
-			if ( count( $list ) > 1 && $i == $last ) {
-				$sentence .= __( 'and ', $this->plugin_text_domain );
-			}
-
-			$sentence .= $filename . ' ';
-
-			$i++;
-		}
-
-		$sentence .= _n(
-			'is downloaded successfully and updated accordingly.',
-			'are downloaded successfully and updated accordingly.',
-			count( $list ),
-			$this->plugin_text_domain
-		);
-
-		return $sentence;
 	}
 
 	/**
@@ -111,80 +84,12 @@ class CAOS_Cron {
 			return $queue;
 		}
 
-		$key = CAOS::get_current_file_key();
-
-		/**
-		 * Plausible Analytics
-		 */
-		if ( $key === 'plausible' ) {
-			$remote_file = 'script.';
-
-			if ( CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_CAPTURE_OUTBOUND_LINKS ) == 'on' ) {
-				$remote_file .= 'outbound-links.';
-			}
-
-			$remote_file .= 'js';
-
-			$queue = array_merge(
-				$queue,
-				[
-					'plausible' => [
-						'remote' => "https://plausible.io/js/$remote_file",
-						'local'  => CAOS::get_file_alias_path( 'plausible' ),
-					],
-				]
-			);
-
-			// No need to continue here...
-			return $queue;
-		}
-
-		/**
-		 * Gtag V3 is a wrapper for analytics.js, so add it to the queue.
-		 */
-		if ( $key === 'analytics' || $key === 'gtag' ) {
-			$queue = array_merge(
-				$queue,
-				[
-					'analytics' => [
-						'remote' => CAOS_GA_URL . '/analytics.js',
-						'local'  => CAOS::get_file_alias_path( 'analytics' ),
-					],
-				]
-			);
-		}
-
-		/**
-		 * Gtag V3
-		 */
-		if ( $key === 'gtag' ) {
-			$queue = array_merge(
-				$queue,
-				[
-					$key => [
-						'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID ),
-						'local'  => CAOS::get_file_alias_path( $key ),
-					],
-				]
-			);
-		}
-
-		/**
-		 * If Dual Tracking is enabled, then add Gtag V4 to the download queue.
-		 */
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' || $key === 'gtag-v4' ) {
-			$tracking_id = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) === 'on' ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GA4_MEASUREMENT_ID ) : CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_ID );
-
-			$queue = array_merge(
-				$queue,
-				[
-					'gtag-v4' => [
-						'remote' => CAOS_GTM_URL . "/gtag/js?id=$tracking_id",
-						'local'  => CAOS::get_file_alias_path( 'gtag-v4' ),
-					],
-				]
-			);
-		}
+		$key   = CAOS::get_current_file_key();
+		$queue = [
+			$key => [
+				'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
+			],
+		];
 
 		return $queue;
 	}
@@ -193,56 +98,19 @@ class CAOS_Cron {
 	 * Download files.
 	 */
 	private function download() {
-		$i                = 0;
-		$downloaded_files = [];
-		$this->tweet      = sprintf( $this->tweet, CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_JS_FILE, 'analytics.js' ) );
+		$this->tweet     = sprintf( $this->tweet, 'gtag.js' );
+		$downloaded_file = CAOS::download_file( $this->files['gtag']['remote'], 'gtag' );
+		$file_alias      = CAOS::get_file_alias();
+		$home_url        = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
+		$finds           = [ '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
+		$replaces        = [ $file_alias . '?id=', "\"$home_url\"", $hit_type ];
 
-		foreach ( $this->files as $file => $location ) {
-			$downloaded_file = CAOS::download_file( $location['local'], $location['remote'], $file );
+		CAOS::find_replace_in( $downloaded_file, $finds, $replaces );
 
-			if ( $file == 'gtag' ) {
-				$file_alias = CAOS::get_file_alias( $file );
-				/**
-				 * Backwards compatibility with pre-file alias era.
-				 *
-				 * @since 3.11.0
-				 */
-				if ( ! CAOS::get_file_aliases() ) {
-					$local_ga_url = str_replace( 'gtag.js', 'analytics.js', CAOS::get_local_file_url() );
-				} else {
-					$local_ga_url = str_replace( $file_alias, CAOS::get_file_alias( 'analytics' ), CAOS::get_local_file_url() );
-				}
-
-				$ext_ga_url = CAOS_GA_URL . '/analytics.js';
-				$home_url   = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
-				$hit_type   = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
-				$file_alias = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_DUAL_TRACKING ) == 'on' ? CAOS::get_file_alias( 'gtag-v4' ) : CAOS::get_file_alias( $file );
-				$finds      = [ $ext_ga_url, '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
-				$replaces   = [ $local_ga_url, $file_alias . '?id=', "\"$home_url\"", $hit_type ];
-
-				if ( CAOS::dual_tracking_is_enabled() ) {
-					array_push( $finds, 'https://www.googletagmanager.com/gtag/js?id=', 'www.googletagmanager.com', '/gtag/js' );
-					array_push( $replaces, CAOS::get_local_file_url() . '?id=', trim( $home_url, '/' ), '/' . $file_alias );
-				}
-
-				CAOS::find_replace_in( $downloaded_file, $finds, $replaces );
-
-				$this->tweet = sprintf( $this->tweet, 'gtag.js+and+analytics.js' );
-			}
-
-			$downloaded_file = apply_filters( "caos_cron_update_${file}", $downloaded_file );
-
-			/**
-			 * Make first entry uppercase.
-			 */
-			if ( $i == 0 ) {
-				$file = ucfirst( $file );
-			}
-
-			$i++;
-
-			$downloaded_files[ $file . '.js' ] = CAOS::get_file_alias( $file );
-		}
+		$this->tweet                 = sprintf( $this->tweet, 'gtag.js' );
+		$downloaded_file             = apply_filters( 'caos_cron_update_gtag', $downloaded_file );
+		$downloaded_files['gtag.js'] = CAOS::get_file_alias();
 
 		/**
 		 * Writes all currently stored file aliases to the database.
