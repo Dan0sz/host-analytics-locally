@@ -673,7 +673,9 @@ class CAOS_Frontend_Tracking {
 			return;
 		}
 
-		echo '<!-- ' . __( 'This site is running CAOS for WordPress', 'host-analyticsjs-local' ) . " -->\n";
+		if ( apply_filters( 'caos_frontend_tracking_promo_message', true ) ) {
+			echo '<!-- ' . __( 'This site is running CAOS for WordPress', 'host-analyticsjs-local' ) . " -->\n";
+		}
 
 		$deps = CAOS::get( CAOS_Admin_Settings::CAOS_EXT_SETTING_TRACK_AD_BLOCKERS ) ? [ self::CAOS_SCRIPT_HANDLE_TRACK_AD_BLOCKERS ] : [];
 
