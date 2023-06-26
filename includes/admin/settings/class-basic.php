@@ -312,7 +312,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			return $tracking_code;
 		}
 
-		$tracking_code .= '<!-- ' . __( 'This site is running CAOS for WordPress.', 'host-analyticsjs-local' ) . " -->\n";
+		if ( apply_filters( 'caos_frontend_tracking_promo_message', true ) ) {
+			$tracking_code .= '<!-- ' . __( 'This site is running CAOS for WordPress.', 'host-analyticsjs-local' ) . " -->\n";
+		}
 
 		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal' ) {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal' );
