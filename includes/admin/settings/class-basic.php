@@ -48,7 +48,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_measurement_id() {
 		$this->do_text(
-			__( 'Data Stream Measurent ID', 'host-analyticsjs-local' ),
+			__( 'Data Stream Measurement ID', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID,
 			__( 'e.g. G-123ABC789', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
