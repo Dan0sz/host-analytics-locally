@@ -58,9 +58,13 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 	private function init() {
 		$new_settings = CAOS::get_settings();
 
+		$new_settings['tracking_id'] = 'UA-123456789';
+		unset( $new_settings['measurement_id'] );
+		$new_settings['ga4_measurement_id'] = 'G-13W2VHQ4P1';
+
 		// Migrate Tracking ID option if it's already a GA4 measurement ID.
 		if ( ! empty( $new_settings['tracking_id'] ) && strpos( $new_settings['tracking_id'], 'G-' ) === 0 ) {
-			$new_settings['measurement_id'] = $new_settings['measurement_id'];
+			$new_settings['measurement_id'] = $new_settings['tracking_id'];
 		}
 
 		// Migrate GA4 Measurement ID to new Measurement ID setting if it's set.
@@ -96,7 +100,7 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 
 		CAOS_Admin_Notice::set_notice(
 			sprintf(
-				__( 'Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version. Please check <a href="%1$s">your settings</a> and refer to <a href="%2$s">this article</a> for a list of the changes.', 'host-analyticsjs-local' ),
+				__( 'Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version of CAOS. Please check <a href="%1$s" target="_blank">your settings</a> and refer to <a href="%2$s" target="_blank">this article</a> for a list of the changes.', 'host-analyticsjs-local' ),
 				admin_url( 'options-general.php?page=host_analyticsjs_local' ),
 				'https://daan.dev/blog/wordpress/rip-universal-analytics/'
 			),
