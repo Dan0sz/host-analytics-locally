@@ -20,12 +20,6 @@ jQuery(document).ready(function ($) {
             // Buttons
             $('#caos-regenerate-alias').on('click', this.regenerate_alias);
 
-            // Text Fields
-            $('.tracking-id').on('input', this.toggle_dual_tracking_visibility);
-
-            // Checkboxes
-            $('.dual-tracking',).on('change', this.toggle_ga4_measurement_id);
-
             // Radio's
             $('input[class^="allow-tracking"]').on('click', this.toggle_allow_tracking);
             $('input[class^="anonymize-ip-mode"]').on('click', this.update_aip_example);
@@ -48,40 +42,6 @@ jQuery(document).ready(function ($) {
                     $('#submit').click();
                 }
             });
-        },
-
-        /**
-         * 
-         */
-        toggle_dual_tracking_visibility: function () {
-            current_value = this.value;
-            $option = $('.dual-tracking');
-            $option_row = $('.dual-tracking-row');
-            $2nd_option_row = $('.ga4-measurement-id-row');
-
-            if (current_value.startsWith('UA-')) {
-                $option_row.show();
-
-                if ($option.is(':checked')) {
-                    $2nd_option_row.show();
-                }
-            } else {
-                $option_row.hide();
-                $2nd_option_row.hide();
-            }
-        },
-
-        /**
-         * 
-         */
-        toggle_ga4_measurement_id: function () {
-            $option = $('.ga4-measurement-id-row');
-
-            if (this.checked) {
-                $option.show();
-            } else {
-                $option.hide();
-            }
         },
 
         /**
