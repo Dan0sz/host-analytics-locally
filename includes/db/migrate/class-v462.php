@@ -94,6 +94,17 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 			new CAOS_Cron();
 		}
 
+		CAOS_Admin_Notice::set_notice(
+			sprintf(
+				__( 'Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version. Please check <a href="%1$s">your settings</a> and refer to <a href="%2$s">this article</a> for a list of the changes.', 'host-analyticsjs-local' ),
+				admin_url( 'options-general.php?page=host_analyticsjs_local' ),
+				'https://daan.dev/blog/wordpress/rip-universal-analytics/'
+			),
+			'info',
+			'all',
+			'caos-update-message-v462'
+		);
+
 		$this->update_db_version();
 	}
 }
