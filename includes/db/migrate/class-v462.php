@@ -58,10 +58,6 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 	private function init() {
 		$new_settings = CAOS::get_settings();
 
-		$new_settings['tracking_id'] = 'UA-123456789';
-		unset( $new_settings['measurement_id'] );
-		$new_settings['ga4_measurement_id'] = 'G-13W2VHQ4P1';
-
 		// Migrate Tracking ID option if it's already a GA4 measurement ID.
 		if ( ! empty( $new_settings['tracking_id'] ) && strpos( $new_settings['tracking_id'], 'G-' ) === 0 ) {
 			$new_settings['measurement_id'] = $new_settings['tracking_id'];
