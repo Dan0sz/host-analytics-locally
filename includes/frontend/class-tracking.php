@@ -498,7 +498,7 @@ class CAOS_Frontend_Tracking {
 	public function get_tracking_code_template( $strip = false ) {
 		ob_start();
 
-		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-minimal-ga4.phtml';
+		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-gtag.phtml';
 
 		if ( ! $strip ) {
 			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
