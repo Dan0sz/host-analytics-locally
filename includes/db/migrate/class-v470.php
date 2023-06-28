@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
-	protected $version = '4.6.2';
+class CAOS_DB_Migrate_V470 extends CAOS_DB_Migrate {
+	protected $version = '4.7.0';
 
 	protected $rows = [];
 
@@ -26,7 +26,7 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 	 */
 	public function __construct() {
 		$this->rows = apply_filters(
-			'caos_db_migration_v461',
+			'caos_db_migration_v470',
 			[
 				// Basic
 				'service_provider',
@@ -102,7 +102,7 @@ class CAOS_DB_Migrate_V462 extends CAOS_DB_Migrate {
 			),
 			'info',
 			'all',
-			'caos-update-message-v462'
+			'caos-update-message-v470'
 		);
 
 		$this->update_db_version();

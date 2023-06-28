@@ -38,8 +38,8 @@ class CAOS_DB {
 			new CAOS_DB_Migrate_V460();
 		}
 
-		if ( $this->should_run_migration( '4.6.2' ) ) {
-			new CAOS_DB_Migrate_V462();
+		if ( $this->should_run_migration( '4.7.0' ) ) {
+			new CAOS_DB_Migrate_V470();
 		}
 	}
 
