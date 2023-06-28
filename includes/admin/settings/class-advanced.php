@@ -119,26 +119,28 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	 * @return void
 	 */
 	public function do_cloaked_affiliate_links_tracking_promo() {
+		$label = __( 'Track Cloaked Affiliate Links (Pro)', 'host-analyticsjs-local' );
+		$name  = 'pro_cloaked_affiliate_links';
 		?>
 		<tr>
-			<th><?php echo __( 'Track Cloaked Affiliate Links (Pro)', 'host-analyticsjs-local' ); ?></th>
+			<th><?php echo esc_attr( $label ); ?></th>
 			<td>
 				<?php
 				$disabled = ! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4' );
 				?>
 				<?php if ( $disabled && $this->display_reason( true ) ) : ?>
 					<p class="description option-disabled">
-						<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), __( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Default or Asynchronous.', 'host-webfonts-local' ) ); ?>
+						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), __( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Default or Asynchronous.', 'host-webfonts-local' ) ), 'post' ); ?>
 					</p>
 				<?php else : ?>
 					<table class="track-cloaked-affiliate-links">
 						<tr>
-							<th><?php echo __( 'Path', 'host-analyticsjs-local' ); ?></th>
-							<th><?php echo __( 'Event Category', 'host-analyticsjs-local' ); ?></th>
+							<th><?php echo esc_attr( __( 'Path', 'host-analyticsjs-local' ) ); ?></th>
+							<th><?php echo esc_attr( __( 'Event Category', 'host-analyticsjs-local' ) ); ?></th>
 							<th></th>
 						</tr>
 						<?php
-						$affiliate_links = defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_cloaked_affiliate_links' ) ? CAOS::get( 'pro_cloaked_affiliate_links' ) : [
+						$affiliate_links = defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( $name ) ? CAOS::get( $name ) : [
 							0 => [
 								'path'     => '',
 								'category' => '',
@@ -147,24 +149,24 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 
 						foreach ( $affiliate_links as $key => $properties ) :
 							?>
-							<tr id="affiliate-link-row-<?php echo $key; ?>">
+							<tr id="affiliate-link-row-<?php echo esc_attr( $key ); ?>">
 								<?php foreach ( $properties as $prop_key => $prop_value ) : ?>
-									<td id="affiliate-link-<?php echo $prop_key; ?>-<?php echo $key; ?>">
-										<input type="text" <?php echo $disabled ? 'disabled' : ''; ?> class="affiliate-link-<?php echo $prop_key; ?>" name="caos_settings[pro_cloaked_affiliate_links][<?php echo $key; ?>][<?php echo $prop_key; ?>]" value="<?php echo $prop_value; ?>" />
+									<td id="affiliate-link-<?php echo esc_attr( $prop_key ); ?>-<?php echo esc_attr( $key ); ?>">
+										<input type="text" <?php echo $disabled ? 'disabled' : ''; ?> class="affiliate-link-<?php echo esc_attr( $prop_key ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>][<?php echo esc_attr( $key ); ?>][<?php echo esc_attr( $prop_key ); ?>]" value="<?php echo esc_attr( $prop_value ); ?>" />
 									</td>
 								<?php endforeach; ?>
 								<td>
-									<span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?php echo $key; ?>" <?php echo $disabled ? 'style="opacity: 15%;"' : ''; ?>></span>
+									<span class="dashicons dashicons-remove affiliate-link-remove" data-row="<?php echo esc_attr( $key ); ?>" <?php echo esc_attr( $disabled ? 'style="opacity: 15%;"' : '' ); ?>></span>
 								</td>
 							</tr>
 						<?php endforeach; ?>
 					</table>
 					<p>
-						<input type="button" <?php echo $disabled; ?> class="button button-secondary" id="affiliate-link-add" value="<?php echo __( 'Add Link Path', 'host-analyticsjs-local' ); ?>" />
+						<input type="button" <?php echo esc_attr( $disabled ); ?> class="button button-secondary" id="affiliate-link-add" value="<?php echo esc_attr( __( 'Add Link Path', 'host-analyticsjs-local' ) ); ?>" />
 					</p>
 					<p class="description">
-						<?php echo defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_stealth_mode' ) == 'on' ? __( 'If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', 'host-analyticsjs-local' ) : ''; ?>
-						<?php echo __( 'Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', 'host-analyticsjs-local' ) . ' ' . $this->promo; ?>
+						<?php echo wp_kses( apply_filters( $name . '_setting_description', __( 'Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server\'s capacity, this might not work properly with Stealth Mode enabled.', 'host-analyticsjs-local' ), $label, $name ) . ' ' . $this->promo, 'post' ); ?>
+						<?php echo wp_kses( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_stealth_mode' ) == 'on' ? __( 'If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that\'s the case.', 'host-analyticsjs-local' ) : '', 'post' ); ?>
 					</p>
 				<?php endif; ?>
 			</td>
