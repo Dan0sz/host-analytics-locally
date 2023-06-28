@@ -272,6 +272,15 @@ class CAOS {
 			return;
 		}
 
+		/**
+		 * No need to update any files if we're using Minimal Analytics. Can't believe I'm only finding out about this now...
+		 *
+		 * @since 4.7.0
+		 */
+		if ( self::get( 'tracking_code' ) === 'minimal_ga4' ) {
+			return;
+		}
+
 		return $this->trigger_cron_script();
 	}
 
