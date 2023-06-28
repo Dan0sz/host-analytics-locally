@@ -429,9 +429,9 @@ class CAOS {
 		 * This allows for WPML (and similar plugins) to use different tracking IDs on different languages/sites.
 		 */
 		if ( $name === CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) {
-			$translated_tracking_id = _x( 'UA-123456789', 'Define a different Tracking ID for this site.', 'host-analyticsjs-local' );
+			$translated_tracking_id = _x( 'G-123ABC789', 'Define a different Measurement ID for this language/site.', 'host-analyticsjs-local' );
 
-			if ( $translated_tracking_id !== 'UA-123456789' ) {
+			if ( $translated_tracking_id !== 'G-123ABC789' ) {
 				$value = $translated_tracking_id;
 			}
 		}
