@@ -32,7 +32,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_compatibility_mode' ], 30 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_cache_dir' ], 50 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_cdn_url' ], 60 );
-		add_action( 'caos_advanced_settings_content', [ $this, 'do_cookieless_analytics_promo' ], 110 );
+		add_action( 'caos_advanced_settings_content', [ $this, 'do_randomize_client_id_promo' ], 110 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_cloaked_affiliate_links_tracking_promo' ], 120 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_advertising_features' ], 150 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_uninstall_settings' ], 220 );
@@ -63,7 +63,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			__( 'Compatibility Mode', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) != '' ? 'on' : '',
-			__( 'Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>googletagmanager.com/gtag/js</code> on your site will be replaced with a local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> and <strong>Download File</strong> settings match your Google Analytics plugin\'s configuration.', 'host-analyticsjs-local' ),
+			__( 'Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>googletagmanager.com/gtag/js</code> in your site\'s HTML will be replaced with the URL pointing to the local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> match your Google Analytics plugin\'s configuration.', 'host-analyticsjs-local' ),
 		);
 	}
 
@@ -76,7 +76,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR,
 			__( 'e.g. /uploads/caos/', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ),
-			__( "Change the path where the Analytics-file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", 'host-analyticsjs-local' )
+			__( "Change the path where the Gtag.js file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>.", 'host-analyticsjs-local' )
 		);
 	}
 
@@ -94,17 +94,17 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	}
 
 	/**
-	 * Add Cookieless Analytics option.
+	 * Add Randomize Client ID option.
 	 *
 	 * @return void
 	 */
-	public function do_cookieless_analytics_promo() {
-		$description = __( 'Since GA4 only creates <em>first-party</em> (which are GDPR compliant in some countries) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website to ensure that tracking across different websites/platforms is no longer possible. Enabling this option doesn\'t necessarily mean you no longer need a cookie banner.', 'host-analyticsjs-local' ) . ' ' . $this->promo;
+	public function do_randomize_client_id_promo() {
+		$description = __( 'Since GA4 only creates <em>first-party</em> (which are GDPR compliant in some countries) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website to ensure that tracking across different websites/platforms is no longer possible, but it\'ll still be possible to track users on your website. Enabling this option doesn\'t necessarily mean you no longer need a cookie banner.', 'host-analyticsjs-local' ) . ' ' . $this->promo;
 
 		$this->do_checkbox(
-			__( 'Enable Cookieless Analytics (Pro) (deprecated)', 'host-analyticsjs-local' ),
-			'pro_cookieless_analytics',
-			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_cookieless_analytics' ),
+			__( 'Enable Randomize Client ID (Pro)', 'host-analyticsjs-local' ),
+			'pro_random_cid',
+			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_random_cid' ),
 			$description,
 			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ),
 			true,
