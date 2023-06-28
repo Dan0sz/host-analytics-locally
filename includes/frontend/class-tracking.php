@@ -366,7 +366,7 @@ class CAOS_Frontend_Tracking {
 	 *               - WP Super Cache v1.7.4
 	 *                 - Page Cache: Enabled
 	 *
-	 *                Not tested (yet):
+	 *               Not tested (yet):
 	 * TODO: [CAOS-33] - Swift Performance
 	 *
 	 * @return void
@@ -474,7 +474,7 @@ class CAOS_Frontend_Tracking {
 		}
 
 		/**
-		 * Allow WP DEVs to add additional JS before Analytics/Gtag tracking code.
+		 * Allow WP DEVs to add additional JS before Gtag tracking code.
 		 *
 		 * @since v4.2.0
 		 */
@@ -483,7 +483,7 @@ class CAOS_Frontend_Tracking {
 		wp_add_inline_script( $this->handle, $this->get_tracking_code_template() );
 
 		/**
-		 * Allow WP DEVs to add additional JS after Analytics/Gtag tracking code.
+		 * Allow WP DEVs to add additional JS after Gtag tracking code.
 		 *
 		 * @since v4.2.0
 		 */
@@ -498,7 +498,7 @@ class CAOS_Frontend_Tracking {
 	public function get_tracking_code_template( $strip = false ) {
 		ob_start();
 
-		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-gtag.phtml';
+		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-minimal-ga4.phtml';
 
 		if ( ! $strip ) {
 			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
@@ -508,7 +508,7 @@ class CAOS_Frontend_Tracking {
 	}
 
 	/**
-	 * Insert either of the Minimal Analytics tracking codes.
+	 * Insert the Minimal Analytics tracking code.
 	 */
 	public function insert_minimal_tracking_snippet() {
 		echo "\n<!-- This site is using Minimal Analytics 4 brought to you by CAOS. -->\n";
