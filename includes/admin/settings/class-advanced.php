@@ -139,6 +139,9 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 							<th><?php echo esc_attr( __( 'Event Category', 'host-analyticsjs-local' ) ); ?></th>
 							<th></th>
 						</tr>
+						<tr>
+							<input type="hidden" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="0" />
+						</tr>
 						<?php
 						$affiliate_links = defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( $name ) ? CAOS::get( $name ) : [
 							0 => [
