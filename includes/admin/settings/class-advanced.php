@@ -104,7 +104,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 		$this->do_checkbox(
 			__( 'Enable Randomize Client ID (Pro)', 'host-analyticsjs-local' ),
 			'pro_random_cid',
-			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_random_cid' ),
+			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_random_cid' ) ? 'on' : false,
 			$description,
 			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ),
 			true,
