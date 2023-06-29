@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.6.1
+Stable tag: 4.7.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,17 +14,18 @@ Automagically download and update gtag.js, bypass Ad Blockers with Stealth Mode,
 
 CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
-Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics](https://minimalanalytics.com). An extremely lightweight alternative to Google Analytics' default libraries (gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
+Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics 4](https://github.com/jahilldev/minimal-analytics/tree/main/packages/ga4#readme). An extremely lightweight alternative to Google Analytics' default libraries (gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
 
 Whenever you run an analysis of your website on *Google Pagespeed Insights*, *Pingdom* or *GTMetrix*, it'll tell you to **leverage browser cache** when you're using Google Analytics. Because Google has set the cache expiry time to 2 hours. This plugin will get you a **higher score** on Pagespeed and Pingdom and make **your website load faster**, because the user's browser doesn't have to make a roundtrip to download the file from Google's external server.
 
-Just install the plugin, enter your Tracking-ID and the plugin adds the necessary Tracking Code for Google Analytics to the header (or footer) of your theme, downloads and saves the gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
+Just install the plugin, enter your Mesurement ID and the plugin adds the necessary Tracking Code for Google Analytics 4 to the header (or footer) of your theme, downloads and saves the gtag.js-file to your website's server and keeps it updated (automagically) using a scheduled script in wp_cron(). Or if you'd like to use the locally hosted file with another plugin, check **Compatibility Mode** under *Advanced Settings*, Either way, CAOS is a set and forget plugin.
 
 For more information: [How to setup CAOS](For more information: [How to setup CAOS](https://daan.dev/docs/caos/?utm_source=wordpress&utm_medium=description&utm_campaign=caos).
 
 == Features ==
 - Host gtag.js for Google Analytics 4 locally,
 - Downloaded files are renamed to random strings to avoid ad blockers,
+- Minimal Analytics 4 support,
 - Compatibility Mode allows you to use the locally hosted file with all Google Analytics plugins, e.g.
   - MonsterInsights (Pro),
   - ExactMetrics
@@ -40,11 +41,8 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
   - Cookie Notice & Compliance,
   - Cookie Notice & Consent Banner,
   - And many more!
-- Minimal Analytics support,
 - Preconnect to google-analytics.com to reduce latency and speed up requests,
-- Send an event to your Google Analytics dashboard when a visitor is viewing your pages using an Ad Blocker,
 - **Add tracking code** to header, **footer** or manually,
-- Load the tracking snippet Asynchronous,
 - Save gtag.js anywhere within the WordPress content (wp-content) directory to avoid detection by WordPress security plugins (such as WordFence) or removal by caching plugins (such as WP Super Cache),
 - Serve gtag.js from your CDN,
 - Set Cookie Expiry Period,
@@ -54,13 +52,12 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 
 == Features in CAOS Pro ==
 Use Google Analytics in [compliance with GDPR](https://daan.dev/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
-- Cookieless Analytics (which grants a fresh, untraceable UUID/ClientID to each visitor),
+- Randomize Client ID (which grants a fresh, untraceable UUID/ClientID to each visitor),
 - True IP anonymization (which anonymizes the last 2 octets of your user's IP address, e.g. 192.168.0.0 *before* sending it to Google Analytics),
-- Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it overseas, i.e. the US).
+- Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it to Google's servers).
 
 Other features:
 - Cloaked Affiliate Link Tracking,
-- Support for Enhanced Ecommerce when in Stealth Mode,
 - Cloudflare Compatibility Mode.
 
 == Installation ==
@@ -78,6 +75,14 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.0 | June 30th, 2023 =
+* This release marks the end of Universal Analytics (GA3), all options only supported by UA have been removed.
+  - I've implemented a database migration script. If you were using Dual Tracking or GA4 before, tracking isn't interrupted.
+    Either way, I suggest you check your settings.
+    Read [this blogpost](https://daan.dev/blog/wordpress/rip-universal-analytics/) for a full rundown of the changes.
+* Added: `caos_frontend_tracking_promo_message` filter.
+* Improved: @jahilldev's Minimal Analytics 4 tracking code is now used, which adds support for event tracking.
 
 = 4.6.1 | June 21st, 2023 =
 * Fixed: Fatal Error (undefined method `CAOS::get()`) directly after updating.
