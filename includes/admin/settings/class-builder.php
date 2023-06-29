@@ -131,7 +131,7 @@ class CAOS_Admin_Settings_Builder {
 					<?php foreach ( $inputs as $option => $option_label ) : ?>
 						<label>
 							<input type="radio" <?php echo esc_attr( is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : '' ); ?> class="<?php echo esc_attr( str_replace( '_', '-', $name . '_' . $option ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="<?php echo esc_attr( $option ); ?>" <?php echo esc_attr( $option === $checked ? 'checked="checked"' : '' ); ?> />
-							<?php echo esc_attr( $option_label ); ?>
+							<?php echo wp_kses( $option_label, 'post' ); ?>
 						</label>
 						<br />
 						<?php $i++; ?>
@@ -238,7 +238,7 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_text( $label, $name, $placeholder, $value, $description = '', $visible = true, $disabled = false, $explanation = '' ) {
 		?>
-		<tr class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row" <?php echo esc_attr( $visible ? '' : 'style="display: none;"' ); ?>>
+		<tr class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row" <?php echo wp_kses( $visible ? '' : 'style="display: none;"', 'post' ); ?>>
 			<th scope="row"><?php echo esc_attr( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
 				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="text" name="caos_settings[<?php echo esc_attr( $name ); ?>]" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>" />
