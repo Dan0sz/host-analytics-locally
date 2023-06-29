@@ -86,7 +86,7 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_title() {
 		?>
-		<h2><?php echo $this->title; ?></h2>
+		<h2><?php echo esc_attr( $this->title ); ?></h2>
 		<?php
 	}
 
@@ -95,7 +95,7 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_tbody_open( $class, $visible = true ) {
 		?>
-		<tbody class="<?php echo $class; ?>" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
+		<tbody class="<?php echo esc_attr( $class ); ?>" <?php echo esc_attr( $visible ? '' : 'style="display: none;"' ); ?>>
 		<?php
 	}
 
@@ -125,24 +125,24 @@ class CAOS_Admin_Settings_Builder {
 		$i = 0;
 		?>
 		<tr>
-			<th scope="row"><?php echo $label; ?></th>
-			<td id="<?php echo $name . '_right_column'; ?>">
+			<th scope="row"><?php echo esc_attr( $label ); ?></th>
+			<td id="<?php echo esc_attr( $name . '_right_column' ); ?>">
 				<fieldset>
 					<?php foreach ( $inputs as $option => $option_label ) : ?>
 						<label>
-							<input type="radio" <?php echo is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name . '_' . $option ); ?>" name="caos_settings[<?php echo $name; ?>]" value="<?php echo $option; ?>" <?php echo $option == $checked ? 'checked="checked"' : ''; ?> />
-							<?php echo $option_label; ?>
+							<input type="radio" <?php echo esc_attr( is_array( $disabled ) && $disabled[ $i ] !== false || ( ! is_array( $disabled ) && $disabled ) ? 'disabled' : '' ); ?> class="<?php echo esc_attr( str_replace( '_', '-', $name . '_' . $option ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="<?php echo esc_attr( $option ); ?>" <?php echo esc_attr( $option === $checked ? 'checked="checked"' : '' ); ?> />
+							<?php echo esc_attr( $option_label ); ?>
 						</label>
 						<br />
 						<?php $i++; ?>
 					<?php endforeach; ?>
 					<?php if ( ! is_array( $disabled ) && $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), 'post' ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -164,25 +164,25 @@ class CAOS_Admin_Settings_Builder {
 		?>
 		<tr>
 			<th scope="row">
-				<?php echo apply_filters( $select . '_setting_label', $label ); ?>
+				<?php echo esc_attr( apply_filters( $select . '_setting_label', $label ) ); ?>
 			</th>
 			<td>
 				<fieldset>
-					<select <?php echo $disabled ? 'disabled' : ''; ?> name="caos_settings[<?php echo $select; ?>]" class="<?php echo str_replace( '_', '-', $select ); ?>">
+					<select <?php echo $disabled ? 'disabled' : ''; ?> name="caos_settings[<?php echo esc_attr( $select ); ?>]" class="<?php echo esc_attr( str_replace( '_', '-', $select ) ); ?>">
 						<?php
 						$options = apply_filters( $select . '_setting_options', $options );
 						?>
 						<?php foreach ( $options as $option => $option_label ) : ?>
-							<option value="<?php echo $option; ?>" <?php echo ( $selected == $option ) ? 'selected' : ''; ?>><?php echo $option_label; ?></option>
+							<option value="<?php echo esc_attr( $option ); ?>" <?php echo esc_attr( ( $selected === $option ) ? 'selected' : '' ); ?>><?php echo esc_attr( $option_label ); ?></option>
 						<?php endforeach; ?>
 					</select>
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $select . '_setting_description', $description, $label, $select ); ?>
+							<?php echo wp_kses( apply_filters( $select . '_setting_description', $description, $label, $select ), 'post' ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -205,17 +205,17 @@ class CAOS_Admin_Settings_Builder {
 	public function do_number( $label, $name, $value, $description, $min = 0, $disabled = false, $explanation = '' ) {
 		?>
 		<tr valign="top">
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+			<th scope="row"><?php echo esc_attr( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
 				<fieldset>
-					<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name ); ?>" type="number" name="caos_settings[<?php echo $name; ?>]" min="<?php echo $min; ?>" value="<?php echo $value; ?>" />
+					<input <?php echo esc_attr( $disabled ? 'disabled' : '' ); ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="number" name="caos_settings[<?php echo esc_attr( $name ); ?>]" min="<?php echo esc_attr( $min ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), 'post' ); ?>
 						</p>
 					<?php endif; ?>
 				</fieldset>
@@ -238,17 +238,17 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_text( $label, $name, $placeholder, $value, $description = '', $visible = true, $disabled = false, $explanation = '' ) {
 		?>
-		<tr class="<?php echo str_replace( '_', '-', $name ); ?>-row" <?php echo $visible ? '' : 'style="display: none;"'; ?>>
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+		<tr class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row" <?php echo esc_attr( $visible ? '' : 'style="display: none;"' ); ?>>
+			<th scope="row"><?php echo esc_attr( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
-				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo str_replace( '_', '-', $name ); ?>" type="text" name="caos_settings[<?php echo $name; ?>]" placeholder="<?php echo $placeholder; ?>" value="<?php echo $value; ?>" />
+				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="text" name="caos_settings[<?php echo esc_attr( $name ); ?>]" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 				<?php if ( $disabled && $this->display_reason() ) : ?>
 					<p class="option-disabled">
-						<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
 					</p>
 				<?php else : ?>
 					<p class="description">
-						<?php echo apply_filters( $name . 'setting_description', $description, $label, $name ); ?>
+						<?php echo wp_kses( apply_filters( $name . 'setting_description', $description, $label, $name ), 'post' ); ?>
 					</p>
 				<?php endif; ?>
 			</td>
@@ -271,20 +271,20 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_checkbox( $label, $name, $checked, $description, $disabled = false, $visible = true, $is_pro_option = false, $explanation = '' ) {
 		?>
-		<tr class='<?php echo str_replace( '_', '-', $name ); ?>-row' <?php echo $visible ? '' : 'style="display: none;"'; ?>>
-			<th scope="row"><?php echo apply_filters( $name . '_setting_label', $label ); ?></th>
+		<tr class='<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>-row' <?php echo esc_attr( $visible ? '' : 'style="display: none;"' ); ?>>
+			<th scope="row"><?php echo esc_attr( apply_filters( $name . '_setting_label', $label ) ); ?></th>
 			<td>
 				<fieldset>
-					<label for="<?php echo $name; ?>">
+					<label for="caos_settings[<?php echo esc_attr( $name ); ?>]">
 						<?php // This trick keeps our checkboxes present in $_POST even when they're unchecked. ?>
-						<input type="hidden" name="caos_settings[<?php echo $name; ?>]" value="0" />
-						<input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" class="<?php echo str_replace( '_', '-', $name ); ?>" name="caos_settings[<?php echo $name; ?>]" <?php echo $checked === 'on' ? 'checked = "checked"' : ''; ?> />
+						<input type="hidden" name="caos_settings[<?php echo esc_attr( $name ); ?>]" value="0" />
+						<input <?php echo esc_attr( $disabled ? 'disabled' : '' ); ?> id="caos_settings[<?php echo esc_attr( $name ); ?>]" type="checkbox" class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" <?php echo esc_attr( $checked === 'on' ? 'checked = "checked"' : '' ); ?> />
 						<?php if ( $disabled && $this->display_reason( $is_pro_option ) ) : ?>
 							<p class="description option-disabled">
-								<?php echo sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ); ?>
+								<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
 							</p>
 						<?php else : ?>
-							<?php echo apply_filters( $name . '_setting_description', $description, $label, $name ); ?>
+							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), 'post' ); ?>
 						<?php endif; ?>
 					</label>
 				</fieldset>
