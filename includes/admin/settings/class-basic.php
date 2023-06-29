@@ -95,7 +95,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ),
-			__( 'Configure CAOS to "listen" to your Cookie Notice plugin.', 'host-analyticsjs-local' ) . ' ' . __( 'Choose \'Always\' to use Google Analytics without a Cookie Notice.', 'host-analyticsjs-local' ) . ' ' . sprintf( __( '<a href="%s" target="_blank">Consent Mode</a> is used when <strong>Consent mode</strong> is selected or a Google Analytics 4 (starting with G-) Measurement ID is configured in the <strong>Google Analytics Tracking ID</strong> field.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9976101?hl=en' ),
+			__( 'Configure CAOS to "listen" to your Cookie Banner plugin.', 'host-analyticsjs-local' ) . ' ' . __( 'Choose \'Always\' to enable tracking without prior consent.', 'host-analyticsjs-local' ) . ' ' . sprintf( __( 'CAOS uses the Google Analytics 4 <a href="%s" target="_blank">Consent Mode API</a>.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9976101?hl=en' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
 			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
