@@ -83,6 +83,7 @@ N/A
     Read [this blogpost](https://daan.dev/blog/wordpress/rip-universal-analytics/) for a full rundown of the changes.
 * Added: `caos_frontend_tracking_promo_message` filter.
 * Improved: @jahilldev's Minimal Analytics 4 tracking code is now used, which adds support for event tracking.
+* Fixed: Tracking ID, Cookie Name and Cookie Value would get lost in migration when upgrading to 4.6.0 (for those of you who still haven't updated, you can safely do so now :-))
 
 = 4.6.1 | June 21st, 2023 =
 * Fixed: Fatal Error (undefined method `CAOS::get()`) directly after updating.
