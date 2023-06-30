@@ -495,10 +495,10 @@ class CAOS_Frontend_Tracking {
 	 *
 	 * @return false|string
 	 */
-	public function get_tracking_code_template( $strip = false ) {
+	public function get_tracking_code_template( $tracking_code = 'gtag', $strip = false ) {
 		ob_start();
 
-		include CAOS_PLUGIN_DIR . 'templates/frontend-tracking-code-gtag.phtml';
+		include CAOS_PLUGIN_DIR . "templates/frontend-tracking-code-$tracking_code.phtml";
 
 		if ( ! $strip ) {
 			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
