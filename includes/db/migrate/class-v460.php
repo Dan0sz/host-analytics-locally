@@ -32,11 +32,11 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 				'service_provider',
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
 				'domain_name',
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID,
+				'tracking_id',
 				'dual_tracking',
 				'ga4_measurement_id',
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
+				'snippet_type',
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
 				'adjusted_bounce_rate',
@@ -64,6 +64,11 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 
 		foreach ( $this->rows as $row ) {
 			$option_value = get_option( "caos_$row" );
+
+			// false means the row doesn't exist, otherwise it'll be an empty string.
+			if ( $option_value === false ) {
+				$option_value = get_option( "sgal_$row" );
+			}
 
 			if ( $option_value !== false ) {
 				$new_settings[ $row ] = get_option( "caos_$row" );
