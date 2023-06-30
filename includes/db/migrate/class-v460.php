@@ -59,21 +59,28 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 		$this->init();
 	}
 
+	/**
+	 * Migrate (legacy) settings to improved storage and remove row from db.
+	 *
+	 * @return void
+	 */
 	private function init() {
 		$new_settings = CAOS::get_settings();
 
 		foreach ( $this->rows as $row ) {
-			$option_value = get_option( "caos_$row" );
+			$prefix       = 'caos';
+			$option_value = get_option( $prefix . '_' . $row );
 
 			// false means the row doesn't exist, otherwise it'll be an empty string.
 			if ( $option_value === false ) {
-				$option_value = get_option( "sgal_$row" );
+				$prefix       = 'sgal';
+				$option_value = get_option( $prefix . '_' . $row );
 			}
 
 			if ( $option_value !== false ) {
-				$new_settings[ $row ] = get_option( "caos_$row" );
+				$new_settings[ $row ] = $option_value;
 
-				delete_option( "caos_$row" );
+				delete_option( $prefix . '_' . $row );
 			}
 		}
 
