@@ -345,7 +345,7 @@ class CAOS {
 
 		$url = str_replace( 'gtag.js', $file_alias, $url );
 
-		return $url;
+		return apply_filters( 'caos_local_file_url', $url );
 	}
 
 	/**
