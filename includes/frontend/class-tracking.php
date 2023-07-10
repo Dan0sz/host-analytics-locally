@@ -85,7 +85,8 @@ class CAOS_Frontend_Tracking {
 			}
 
 			gtag('consent', 'default', {
-				'analytics_storage': 'denied'
+				'analytics_storage': 'denied',
+				'wait_for_update': 15000
 			});
 
 			<?php
@@ -159,22 +160,26 @@ class CAOS_Frontend_Tracking {
 
 					var cookie = document.cookie;
 
-					<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
-						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?/) !== null) {
+				<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
+						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?/) !== null) {
 							consent_granted();
 						}
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_not_set' ) : ?>
-						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?/) === null) {
+						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?/) === null) {
 							consent_granted();
 						}
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'çookie_has_value' ) : ?>
-						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ); ?>/) !== null) {
+						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>/) !== null) {
 							consent_granted();
 						}
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains' ) : ?>
-						if (cookie.match(/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=.*?<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ); ?>.*?/) !== null) {
+						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>.*?/) !== null) {
 							consent_granted();
 						}
+					<?php else : ?>
+						gtag('consent', 'update', {
+							'analytics_storage': 'denied'
+						});
 					<?php endif; ?>
 
 					i++;
@@ -220,7 +225,8 @@ class CAOS_Frontend_Tracking {
 	 * @return bool
 	 */
 	public function maybe_disable_consent_mode_listener() {
-		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
+		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) )
+			|| CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
