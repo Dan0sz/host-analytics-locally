@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,10 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.2 | July 10th, 2023 =
+* Added filter: caos_local_file_url, which can be used to change the alias of the downloaded (gtag.js) library.
+* Fixed: the Consent Mode API (for the Allow Tracking When option) wasn't properly implemented, and was missing the `wait_for_update` attribute in its defaults.
 
 = 4.7.1 =
 * Fixed: Minimal Analytics 4 couldn't be enabled.
