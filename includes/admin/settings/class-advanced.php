@@ -63,7 +63,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			__( 'Compatibility Mode', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) != '' ? 'on' : '',
-			__( 'Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>googletagmanager.com/gtag/js</code> in your site\'s HTML will be replaced with the URL pointing to the local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> match your Google Analytics plugin\'s configuration.', 'host-analyticsjs-local' ),
+			__( 'Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>googletagmanager.com/gtag/js</code> in your site\'s HTML will be replaced with the URL pointing to the local copy. <strong>Warning!</strong> Please make sure that CAOS\' <strong>Basic Settings</strong> match your Google Analytics plugin\'s configuration.', 'host-analyticsjs-local' )
 		);
 	}
 
