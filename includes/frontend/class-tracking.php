@@ -211,7 +211,7 @@ class CAOS_Frontend_Tracking {
 		</script>
 		<?php
 
-		echo ob_get_clean();
+		echo str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
 	}
 
 	/**
