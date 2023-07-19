@@ -30,11 +30,12 @@ $custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
-    dataLayer.push(arguments);
+        dataLayer.push(arguments);
     }
+
     gtag('js', new Date());
     gtag('config', '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID); ?>', <?= $gtag_config; ?>);
-    <?=
+    <?php
     /**
      * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
      *
@@ -42,4 +43,4 @@ $custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
      */
     do_action('caos_gtag_additional_config');
     ?>
-    </script>
+</script>
