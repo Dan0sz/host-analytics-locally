@@ -11,9 +11,6 @@ defined( 'ABSPATH' ) || exit;
  */
 
 class CAOS_Ajax {
-
-	private $plugin_text_domain = 'host-analyticsjs-local';
-
 	/**
 	 * Build class.
 	 *
@@ -43,7 +40,7 @@ class CAOS_Ajax {
 		check_ajax_referer( CAOS_Admin_Settings::CAOS_ADMIN_PAGE, 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( "Sorry, you're not allowed to do this.", $this->plugin_text_domain ) );
+			wp_die( __( "Sorry, you're not allowed to do this.", 'host-analyticsjs-local' ) );
 		}
 
 		global $caos_file_aliases;
@@ -52,11 +49,9 @@ class CAOS_Ajax {
 			return;
 		}
 
-		$path = WP_CONTENT_DIR . CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' );
-
 		foreach ( $caos_file_aliases as $file => $alias ) {
-			if ( file_exists( $path . $alias ) ) {
-				unlink( $path . $alias );
+			if ( file_exists( CAOS_LOCAL_DIR . $alias ) ) {
+				unlink( CAOS_LOCAL_DIR . $alias );
 			}
 
 			$caos_file_aliases[ $file ] = bin2hex( random_bytes( 4 ) ) . '.js';

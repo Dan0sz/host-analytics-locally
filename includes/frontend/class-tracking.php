@@ -301,7 +301,7 @@ class CAOS_Frontend_Tracking {
 	 * @return mixed
 	 */
 	public function insert_local_file( $html ) {
-		$cache = content_url( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+		$cache_url = content_url( CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
 
 		$search = [
 			'//www.googletagmanager.com/gtag/js',
@@ -309,8 +309,8 @@ class CAOS_Frontend_Tracking {
 		];
 
 		$replace = [
-			str_replace( [ 'https:', 'http:' ], '', $cache . CAOS::get_file_alias() ),
-			$cache . CAOS::get_file_alias(),
+			str_replace( [ 'https:', 'http:' ], '', $cache_url . CAOS::get_file_alias() ),
+			$cache_url . CAOS::get_file_alias(),
 		];
 
 		return str_replace( $search, $replace, $html );

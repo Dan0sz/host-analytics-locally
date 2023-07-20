@@ -66,8 +66,6 @@ class CAOS {
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
 		define( 'CAOS_CRON', 'caos_update_analytics_js' );
-		define( 'CAOS_GA_URL', 'https://www.google-analytics.com' );
-		define( 'CAOS_GTM_URL', 'https://www.googletagmanager.com' );
 		define( 'CAOS_LOCAL_DIR', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
 	}
 

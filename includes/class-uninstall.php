@@ -20,8 +20,8 @@ class CAOS_Uninstall {
 	/** @var array $options */
 	private $options;
 
-	/** @var string $cacheDir */
-	private $cacheDir;
+	/** @var string $cache_dir */
+	private $cache_dir;
 
 	/**
 	 * CAOS_Uninstall constructor.
@@ -32,9 +32,9 @@ class CAOS_Uninstall {
 			return;
 		}
 
-		$settings       = new CAOS_Admin_Settings();
-		$this->options  = $settings->get_settings();
-		$this->cacheDir = CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' );
+		$settings        = new CAOS_Admin_Settings();
+		$this->options   = $settings->get_settings();
+		$this->cache_dir = CAOS_LOCAL_DIR;
 
 		$this->remove_db_entries();
 		$this->delete_files();
@@ -56,7 +56,7 @@ class CAOS_Uninstall {
 	 * @return array
 	 */
 	private function delete_files() {
-		return array_map( 'unlink', glob( $this->cacheDir . '/*.*' ) );
+		return array_map( 'unlink', glob( $this->cache_dir . '*.*' ) );
 	}
 
 	/**
@@ -65,6 +65,6 @@ class CAOS_Uninstall {
 	 * @return bool
 	 */
 	private function delete_dir() {
-		return rmdir( $this->cacheDir );
+		return rmdir( $this->cache_dir );
 	}
 }

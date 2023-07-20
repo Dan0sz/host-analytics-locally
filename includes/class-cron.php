@@ -87,7 +87,7 @@ class CAOS_Cron {
 		$key   = CAOS::get_current_file_key();
 		$queue = [
 			$key => [
-				'remote' => CAOS_GTM_URL . '/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
+				'remote' => 'https://www.googletagmanager.com/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
 			],
 		];
 
@@ -101,7 +101,7 @@ class CAOS_Cron {
 		$this->tweet     = sprintf( $this->tweet, 'gtag.js' );
 		$downloaded_file = CAOS::download_file( $this->files['gtag']['remote'], 'gtag' );
 		$file_alias      = CAOS::get_file_alias();
-		$home_url        = str_replace( [ 'https:', 'http:' ], '', WP_CONTENT_URL . CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+		$home_url        = str_replace( [ 'https:', 'http:' ], '', CAOS_LOCAL_DIR );
 		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
 		$finds           = [ '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
 		$replaces        = [ $file_alias . '?id=', "\"$home_url\"", $hit_type ];
