@@ -46,12 +46,17 @@ class CAOS_FileManager {
 		 * If $file is not set, extract it from $remote_file.
 		 *
 		 * @since 3.11.0
-		 * @since 4.0.3 Don't rename plugins.
-		 * @since 4.7.0 Plugins no longer exist.
+		 * @since 4.0.3  Don't rename plugins.
+		 * @since 4.7.0  Plugins no longer exist.
 		 */
 		$file         = $file ? $file : pathinfo( $remote_file )['filename'];
 		$file_aliases = CAOS::get_file_aliases();
-		$file_alias   = apply_filters( 'caos_file_alias', $file_aliases[ $file ] ?? '' );
+		/**
+		 * @var string $file_alias     Should end with .js!
+		 *
+		 * @filter     caos_file_alias Allows devs to set the filename of the downloaded JS library.
+		 */
+		$file_alias = apply_filters( 'caos_file_alias', $file_aliases[ $file ] ?? '' );
 
 		/**
 		 * If $file_alias equals 'gtag' then something has gone wrong previously while generating an alias. Let's try again.
