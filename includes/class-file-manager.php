@@ -68,7 +68,7 @@ class CAOS_FileManager {
 			$file_alias = bin2hex( random_bytes( 4 ) ) . '.js';
 		}
 
-		$local_dir = CAOS_LOCAL_DIR;
+		$local_dir = CAOS::get_local_dir();
 
 		CAOS::debug( sprintf( __( 'Saving to %s.', $this->plugin_text_domain ), $local_dir ) );
 

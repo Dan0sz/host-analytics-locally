@@ -40,12 +40,12 @@ class CAOS_Cron {
 		CAOS::debug( sprintf( __( 'Built file queue: %s', $this->plugin_text_domain ), print_r( $this->files, true ) ) );
 
 		// Check if directory exists, otherwise create it.
-		$create_dir = CAOS::create_dir_r( CAOS_LOCAL_DIR );
+		$create_dir = CAOS::create_dir_r( CAOS::get_local_dir() );
 
 		if ( $create_dir ) {
-			CAOS::debug( sprintf( __( '%s created successfully.', $this->plugin_text_domain ), CAOS_LOCAL_DIR ) );
+			CAOS::debug( sprintf( __( '%s created successfully.', $this->plugin_text_domain ), CAOS::get_local_dir() ) );
 		} else {
-			CAOS::debug( sprintf( __( '%s already exists.', $this->plugin_text_domain ), CAOS_LOCAL_DIR ) );
+			CAOS::debug( sprintf( __( '%s already exists.', $this->plugin_text_domain ), CAOS::get_local_dir() ) );
 		}
 
 		$downloaded_files = $this->download();
@@ -92,7 +92,7 @@ class CAOS_Cron {
 		$this->tweet     = sprintf( $this->tweet, 'gtag.js' );
 		$downloaded_file = CAOS::download_file( $this->files['gtag']['remote'], 'gtag' );
 		$file_alias      = CAOS::get_file_alias();
-		$home_url        = str_replace( [ 'https:', 'http:' ], '', CAOS_LOCAL_DIR );
+		$home_url        = str_replace( [ 'https:', 'http:' ], '', CAOS::get_local_dir() );
 		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
 		$finds           = [ '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
 		$replaces        = [ $file_alias . '?id=', "\"$home_url\"", $hit_type ];

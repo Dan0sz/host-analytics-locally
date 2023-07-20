@@ -50,8 +50,8 @@ class CAOS_Ajax {
 		}
 
 		foreach ( $caos_file_aliases as $file => $alias ) {
-			if ( file_exists( CAOS_LOCAL_DIR . $alias ) ) {
-				unlink( CAOS_LOCAL_DIR . $alias );
+			if ( file_exists( CAOS::get_local_dir() . $alias ) ) {
+				unlink( CAOS::get_local_dir() . $alias );
 			}
 
 			$caos_file_aliases[ $file ] = bin2hex( random_bytes( 4 ) ) . '.js';

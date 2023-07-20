@@ -34,7 +34,7 @@ class CAOS_Setup {
 	 * Create Cache-dir upon reactivation.
 	 */
 	public function create_cache_dir() {
-		$upload_dir = CAOS_LOCAL_DIR;
+		$upload_dir = CAOS::get_local_dir();
 		if ( ! is_dir( $upload_dir ) ) {
 			wp_mkdir_p( $upload_dir );
 		}

@@ -34,7 +34,7 @@ class CAOS_Uninstall {
 
 		$settings        = new CAOS_Admin_Settings();
 		$this->options   = $settings->get_settings();
-		$this->cache_dir = CAOS_LOCAL_DIR;
+		$this->cache_dir = CAOS::get_local_dir();
 
 		$this->remove_db_entries();
 		$this->delete_files();

@@ -66,7 +66,15 @@ class CAOS {
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
 		define( 'CAOS_CRON', 'caos_update_analytics_js' );
-		define( 'CAOS_LOCAL_DIR', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+	}
+
+	/**
+	 * @since v4.7.3
+	 *
+	 * @return string Absolute path to CAOS' cache directory.
+	 */
+	public static function get_local_dir() {
+		return apply_filters( 'caos_local_dir', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos' ) );
 	}
 
 	/**
@@ -134,7 +142,7 @@ class CAOS {
 	 * @return string|void
 	 */
 	public static function get_file_alias_path() {
-		$file_path = CAOS_LOCAL_DIR . 'gtag.js';
+		$file_path = self::get_local_dir() . 'gtag.js';
 
 		// Backwards compatibility
 		if ( ! self::get_file_aliases() ) {
@@ -148,7 +156,7 @@ class CAOS {
 			return $file_path;
 		}
 
-		return CAOS_LOCAL_DIR . $file_alias;
+		return self::get_local_dir() . $file_alias;
 	}
 
 	/**
