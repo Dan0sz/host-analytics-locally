@@ -76,17 +76,8 @@ class CAOS_Cron {
 		}
 
 		$queue = [];
-
-		/**
-		 * This is a "fix" for the undefined method error @since v4.2.2.
-		 */
-		if ( ! method_exists( 'CAOS', 'get_current_file_key' ) ) {
-			return $queue;
-		}
-
-		$key   = CAOS::get_current_file_key();
 		$queue = [
-			$key => [
+			'gtag' => [
 				'remote' => 'https://www.googletagmanager.com/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
 			],
 		];

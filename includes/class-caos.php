@@ -94,15 +94,6 @@ class CAOS {
 	}
 
 	/**
-	 * Retrieves the currently used file key. Convenient when searching for file aliases.
-	 *
-	 * @return mixed
-	 */
-	public static function get_current_file_key() {
-		return 'gtag';
-	}
-
-	/**
 	 * @param  array $file_aliases
 	 * @param  bool  $write
 	 * @return bool
