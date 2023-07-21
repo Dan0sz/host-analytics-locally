@@ -38,24 +38,6 @@
   color: #72aee6;
   font-style: italic;
 }
-#anonymize_ip_mode_right_column {
-  position: relative;
-}
-#anonymize_ip_mode_right_column .caos-aip {
-  position: absolute;
-  right: 1em;
-  top: 1.15em;
-}
-#anonymize_ip_mode_right_column .caos-aip .caos-aip-example {
-  font-size: 1.5em;
-}
-#anonymize_ip_mode_right_column .caos-aip .caos-aip-example .octet {
-  padding: 0 5px 3px;
-  background-color: #fff;
-  border-radius: 3px;
-  margin: 0 3px;
-  border: dashed 1px #bbb;
-}
 #caos-help-form .postbox {
   padding: 0 15px 5px;
 }

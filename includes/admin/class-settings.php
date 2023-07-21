@@ -28,7 +28,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	const CAOS_ADMIN_SECTION_EXT_SETTINGS   = 'caos-extensions-settings';
 	const CAOS_ADMIN_SECTION_HELP           = 'caos-help';
 
-	const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS    = [
+	const CAOS_ADMIN_ALLOW_TRACKING_OPTIONS  = [
 		''                      => 'Always (default)',
 		'cookie_is_set'         => 'When cookie is set',
 		'cookie_is_not_set'     => 'When cookie is NOT set',
@@ -36,16 +36,11 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		'cookie_value_contains' => 'When cookie value contains (loose comparison)',
 		'consent_mode'          => 'When Consent Mode\'s <code>analytics_storage</code> property is updated to "granted" by another plugin',
 	];
-	const CAOS_ADMIN_TRACKING_CODE_OPTIONS     = [
+	const CAOS_ADMIN_TRACKING_CODE_OPTIONS   = [
 		''            => 'Asynchronous (default)',
 		'minimal_ga4' => 'Minimal Analytics 4',
 	];
-	const CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS = [
-		''    => 'Off (default)',
-		'one' => 'One octet',
-		'two' => 'Two octets (Pro) (only works in Stealth Mode)',
-	];
-	const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS   = [
+	const CAOS_ADMIN_SCRIPT_POSITION_OPTIONS = [
 		'header' => 'Header (default)',
 		'footer' => 'Footer',
 		'manual' => 'Add manually',
@@ -60,7 +55,6 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'cookie_notice_name';
 	const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'cookie_value';
 	const CAOS_BASIC_SETTING_TRACKING_CODE      = 'tracking_code';
-	const CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE  = 'anonymize_ip_mode';
 	const CAOS_BASIC_SETTING_SCRIPT_POSITION    = 'script_position';
 	const CAOS_ADV_SETTING_COMPATIBILITY_MODE   = 'compatibility_mode';
 	const CAOS_ADV_SETTING_CACHE_DIR            = 'analytics_cache_dir';

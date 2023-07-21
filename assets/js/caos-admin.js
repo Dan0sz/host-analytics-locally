@@ -22,7 +22,6 @@ jQuery(document).ready(function ($) {
 
             // Radio's
             $('input[class^="allow-tracking"]').on('click', this.toggle_allow_tracking);
-            $('input[class^="anonymize-ip-mode"]').on('click', this.update_aip_example);
             $('input[class^="script-position"]').on('click', this.toggle_script_position);
 
             // Ticker
@@ -85,40 +84,6 @@ jQuery(document).ready(function ($) {
                 default:
                     $cookie_name.hide();
                     $cookie_value.hide();
-                    break;
-            }
-        },
-
-        /**
-         * Update Anonymize IP mode example, based on selection.
-         */
-        update_aip_example: function () {
-            $octets = $('.caos-aip-example .octet');
-
-            switch (this.value) {
-                case '':
-                    $octets[0].textContent = '192';
-                    $octets[1].textContent = '168';
-                    $octets[2].textContent = '178';
-                    $octets[3].textContent = '1';
-                    break;
-                case 'one':
-                    $octets[0].textContent = '192';
-                    $octets[1].textContent = '168';
-                    $octets[2].textContent = '178';
-                    $octets[3].textContent = '0';
-                    break;
-                case 'two':
-                    $octets[0].textContent = '192';
-                    $octets[1].textContent = '168';
-                    $octets[2].textContent = '0';
-                    $octets[3].textContent = '0';
-                    break;
-                case 'all':
-                    $octets[0].textContent = '1';
-                    $octets[1].textContent = '0';
-                    $octets[2].textContent = '0';
-                    $octets[3].textContent = '0';
                     break;
             }
         },

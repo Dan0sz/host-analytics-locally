@@ -149,32 +149,18 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 * Render Anonymize IP Mode option and example.
 	 */
 	public function do_anonymize_ip_mode() {
-		$aip_mode     = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE, '' );
-		$aip_template = '<span class="caos-aip-example"><span class="octet">%s</span>.<span class="octet">%s</span>.<span class="octet">%s</span>.<span class="octet">%s</span></span>';
-
-		switch ( $aip_mode ) {
-			case 'one':
-				$aip_example = sprintf( $aip_template, '192', '168', '178', '0' );
-				break;
-			case 'two':
-				$aip_example = sprintf( $aip_template, '192', '168', '0', '0' );
-				break;
-			case 'all':
-				$aip_example = sprintf( $aip_template, '1', '0', '0', '0' );
-				break;
-			default:
-				$aip_example = sprintf( $aip_template, '192', '168', '178', '1' );
-		}
-
-		$this->do_radio(
-			__( 'Anonymize IP Mode', 'host-analyticsjs-local' ),
-			CAOS_Admin_Settings::CAOS_ADMIN_ANONYMIZE_IP_MODE_OPTIONS,
-			CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
-			$aip_mode,
-			sprintf( __( '<strong>One octet</strong> enables the <code>anonymize_ip</code> parameter, provided by Google. <strong>Important:</strong> Due to <a href="%1$s">recent rulings</a>, anonymizing the last octet of the IP address is no longer sufficient according to the GDPR. If you have IP anonymization set to \'off\' or \'one\', your website will not comply with GDPR as personal data is still stored on Google\'s servers. Anonymize <strong>two octets</strong> and enable <a href="%2$s">Stealth Mode</a> to properly anonymize IP addresses before sending the data over to Google, however location data might not be accurate.', 'host-analyticsjs-local' ), CAOS_SITE_URL . '/gdpr/google-analytics-illegal-austria/' . $this->utm_tags, admin_url( 'options-general.php?page=host_analyticsjs_local&tab=caos-extensions-settings' ) ) . sprintf( ' <span class="caos-aip">Example: %s', $aip_example ) . ' ' . $this->promo,
-			[ false, false, ! defined( 'CAOS_PRO_ACTIVE' ) ],
-			false
-		);
+		?>
+		<tr>
+			<th scope="row">
+				<?php echo esc_attr( __( 'Anonymize IP (deprecated)', 'host-analyticsjs-local' ) ); ?>
+			</th>
+			<td>
+				<p class="description">
+					<?php echo wp_kses( sprintf( __( 'As of July 1st, Google retired Universal Analytics (GA3). According to Google, IP masking is <a target="_blank" href="%s">no longer required</a>, because IP addresses are no longer logged or stored. The <code>aip</code> parameter and CAOS Pro\'s custom technologies are no longer supported by Google.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/2763052?hl=en' ), 'post' ); ?>
+				</p>
+			</td>	
+		</tr>
+		<?php
 	}
 
 	/**

@@ -37,7 +37,7 @@ class CAOS_DB_Migrate_V460 extends CAOS_DB_Migrate {
 				'ga4_measurement_id',
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
 				'snippet_type',
-				CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE,
+				'anonymize_ip_mode',
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
 				'adjusted_bounce_rate',
 				// Advanced

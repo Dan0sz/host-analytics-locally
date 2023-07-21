@@ -51,7 +51,6 @@ class CAOS_Frontend_Tracking {
 		add_action( 'init', [ $this, 'insert_tracking_code' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_attributes' ], 10, 2 );
 		add_action( 'caos_process_settings', [ $this, 'disable_advertising_features' ] );
-		add_action( 'caos_process_settings', [ $this, 'anonymize_ip' ] );
 	}
 
 	/**
@@ -417,23 +416,6 @@ class CAOS_Frontend_Tracking {
 			function ( $config ) use ( $ads_features_disabled ) {
 				return $config + [ 'allow_google_signals' => $ads_features_disabled ];
 			}
-		);
-	}
-
-	/**
-	 * Process Anonymize IP setting.
-	 */
-	public function anonymize_ip() {
-		if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ANONYMIZE_IP_MODE, '' ) == '' ) {
-			return;
-		}
-
-		add_filter(
-			'caos_gtag_config',
-			function ( $config ) {
-				return $config + [ 'anonymize_ip' => true ];
-			},
-			10
 		);
 	}
 
