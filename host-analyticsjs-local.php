@@ -15,8 +15,8 @@ defined( 'ABSPATH' ) || exit;
 define( 'CAOS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CAOS_PLUGIN_FILE', __FILE__ );
 define( 'CAOS_PLUGIN_BASENAME', plugin_basename( CAOS_PLUGIN_FILE ) );
-define( 'CAOS_STATIC_VERSION', '4.7.0' );
-define( 'CAOS_DB_VERSION', '4.7.0' );
+define( 'CAOS_STATIC_VERSION', '4.7.3' );
+define( 'CAOS_DB_VERSION', '4.7.3' );
 
 /**
  * Takes care of loading classes on demand.
