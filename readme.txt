@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.7.2
+Stable tag: 4.7.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -47,13 +47,11 @@ For more information: [How to setup CAOS](For more information: [How to setup CA
 - Serve gtag.js from your CDN,
 - Set Cookie Expiry Period,
 - Force disabling display features functionalities,
-- Anonymize IP addresses (last octet),
 - Track logged in Administrators,
 
 == Features in CAOS Pro ==
 Use Google Analytics in [compliance with GDPR](https://daan.dev/blog/wordpress/gdpr-compliance-google-analytics/?utm_source=wordpress&utm_medium=description&utm_campaign=caos) with:
 - Randomize Client ID (which grants a fresh, untraceable UUID/ClientID to each visitor),
-- True IP anonymization (which anonymizes the last 2 octets of your user's IP address, e.g. 192.168.0.0 *before* sending it to Google Analytics),
 - Stealth Mode (a unique, customized API, designed for WordPress, which anonymizes your visitor's data before sending it to Google's servers).
 
 Other features:
@@ -75,6 +73,15 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.3 | July 21st, 2023 =
+* Fixed: remove trailing comma from list to support PHP 7.2 (Props, @artoliukkonen)
+* Improved: Don't echo input from caos_gtag_additional_config filter by default. Devs using this filter need to check their code.
+* Fixed: remove duplicate `script` tags from Consent Mode API script.
+* Added filter: caos_local_dir which allows devs to define the absolute path to CAOS' cache directory.
+* Added filter: caos_file_alias which allows devs to define the JS library's file alias.
+* Removed: IP anonymization is [no longer required according to Google](https://support.google.com/analytics/answer/2763052?hl=en) and no longer supported. Therefore all code related to this feature has been removed.
+* Minor all-round code optimizations.
 
 = 4.7.2 | July 10th, 2023 =
 * Added filter: caos_local_file_url, which can be used to change the alias of the downloaded (gtag.js) library.
