@@ -52,7 +52,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID,
 			__( 'e.g. G-123ABC789', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
-			__( 'Enter your Measurement ID, e.g. or G-123ABC789.', 'host-analyticsjs-local' ),
+			__( 'Enter your Measurement ID, e.g. G-123ABC789.', 'host-analyticsjs-local' ),
 			true,
 			null
 		);
