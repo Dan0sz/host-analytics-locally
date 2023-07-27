@@ -80,6 +80,8 @@ class CAOS_Admin_Updates {
 	 * @return mixed
 	 */
 	private function update_already_displayed() {
+		return false;
+
 		$available_updates = $this->get_available_updates();
 
 		if ( ! is_object( $available_updates ) ) {
@@ -146,7 +148,7 @@ class CAOS_Admin_Updates {
 	 */
 	public function display_premium_update_notice( $file, $plugin_data ) {
 		$slug   = $plugin_data['slug'];
-		$notice = sprintf( __( 'An update for %1$s is available, but we\'re having trouble retrieving it. <a href=\'%2$s\' target=\'_blank\'>Download it from your account area</a> and install it manually.', 'host-analyticsjs-local' ), $this->label, 'https://daan.dev/docs/pre-sales/download-files/' );
+		$notice = sprintf( __( 'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%s\' target=\'_blank\'>Need help</a>?', 'host-analyticsjs-local' ), $this->label, 'https://daan.dev/account/orders/', 'https://daan.dev/docs/pre-sales/download-files/' );
 
 		/**
 		 * This snippet of JS either overwrites or appends to the contents of the update message.

@@ -256,6 +256,10 @@ class CAOS_Frontend_Tracking {
 					break;
 			}
 		} else {
+			if ( apply_filters( 'caos_exclude_from_tracking', false ) ) {
+				return;
+			}
+
 			/**
 			 * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
 			 * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
