@@ -256,6 +256,12 @@ class CAOS_Frontend_Tracking {
 					break;
 			}
 		} else {
+			/**
+			 * Allow WP Dev's to halt the rendering of the tracking code, effectively excluding
+			 * the page from tracking.
+			 *
+			 * Example: add_filter('caos_exclude_from_tracking', '__return_true');
+			 */
 			if ( apply_filters( 'caos_exclude_from_tracking', false ) ) {
 				return;
 			}
