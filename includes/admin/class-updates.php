@@ -12,17 +12,16 @@ defined( 'ABSPATH' ) || exit;
  * @package Daan/Updates
  */
 class CAOS_Admin_Updates {
-	/** @var string $label */
-	private $label = 'CAOS Pro';
+	/** @var string $plugin_text_domain */
+	private $plugin_text_domain = 'host-analyticsjs-local';
 
-	/** @var string $basename */
-	private $basename = 'caos-pro/caos-pro.php';
-
-	/** @var string $id */
-	private $id = '3940';
-
-	/** @var string $transient_label */
-	private $transient_label = 'caos_pro';
+	/** @var array $premium_plugins */
+	private $premium_plugins = [
+		'3940' => [
+			'basename'        => 'caos-pro/caos-pro.php',
+			'transient_label' => 'caos_pro',
+		],
+	];
 
 	/**
 	 * Action & Filter hooks.
@@ -48,27 +47,23 @@ class CAOS_Admin_Updates {
 	public function maybe_display_premium_update_notice( $installed_plugins ) {
 		$plugin_slugs = array_keys( $installed_plugins );
 
-		/**
-		 * If premium plugin isn't installed, there's no need to continue.
-		 */
-		if ( ! in_array( $this->basename, $plugin_slugs ) ) {
-			return $installed_plugins;
-		}
+		foreach ( $this->premium_plugins as $id => $premium_plugin ) {
+			if ( ! in_array( $premium_plugin['basename'], $plugin_slugs ) ) {
+				continue;
+			}
 
-		if ( $this->update_already_displayed() ) {
-			return $installed_plugins;
-		}
+			if ( $this->update_already_displayed( $premium_plugin['basename'] ) ) {
+				continue;
+			}
 
-		$latest_version  = $this->get_latest_version();
-		$current_version = get_plugin_data( WP_PLUGIN_DIR . '/' . $this->basename )['Version'] ?? '';
+			$latest_version  = $this->get_latest_version( $id, $premium_plugin['transient_label'] );
+			$current_version = get_plugin_data( WP_PLUGIN_DIR . '/' . $premium_plugin['basename'] )['Version'] ?? '';
 
-		/**
-		 * If current version is lower than latest available version, take necessary measures to display notice.
-		 */
-		if ( version_compare( $current_version, $latest_version, '<' ) ) {
-			$installed_plugins[ $this->basename ]['update'] = true;
+			if ( version_compare( $current_version, $latest_version, '<' ) ) {
+				$installed_plugins[ $premium_plugin['basename'] ]['update'] = true;
 
-			add_action( 'after_plugin_row_' . $this->basename, [ $this, 'display_premium_update_notice' ], 10, 2 );
+				add_action( 'after_plugin_row_' . $premium_plugin['basename'], [ $this, 'display_premium_update_notice' ], 10, 2 );
+			}
 		}
 
 		return $installed_plugins;
@@ -77,11 +72,9 @@ class CAOS_Admin_Updates {
 	/**
 	 * Checks if there's already an update available for the premium plugin in the Plugins screen.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
-	private function update_already_displayed() {
-		return false;
-
+	private function update_already_displayed( $basename ) {
 		$available_updates = $this->get_available_updates();
 
 		if ( ! is_object( $available_updates ) ) {
@@ -90,7 +83,7 @@ class CAOS_Admin_Updates {
 
 		$plugin_slugs = array_keys( $available_updates->response );
 
-		return in_array( $this->basename, $plugin_slugs );
+		return in_array( $basename, $plugin_slugs );
 	}
 
 	/**
@@ -111,14 +104,14 @@ class CAOS_Admin_Updates {
 	/**
 	 * Gets the latest available version of the current premium plugin.
 	 */
-	private function get_latest_version() {
+	private function get_latest_version( $id, $transient_label ) {
 		static $latest_version;
 
 		/**
 		 * This prevents duplicate DB reads.
 		 */
 		if ( $latest_version === null ) {
-			$latest_version = get_transient( $this->transient_label . '_latest_available_version' );
+			$latest_version = get_transient( $transient_label . '_latest_available_version' );
 		}
 
 		/**
@@ -126,10 +119,10 @@ class CAOS_Admin_Updates {
 		 * we should try and refresh it. If $latest_version is false, then the transient doesn't exist.
 		 */
 		if ( $latest_version === false || $latest_version === '' ) {
-			$response       = wp_remote_get( 'https://daan.dev/?edd_action=get_version&item_id=' . $this->id );
+			$response       = wp_remote_get( 'https://daan.dev/?edd_action=get_version&item_id=' . $id );
 			$latest_version = json_decode( wp_remote_retrieve_body( $response ) )->new_version ?? '';
 
-			set_transient( $this->transient_label . '_latest_available_version', $latest_version, DAY_IN_SECONDS );
+			set_transient( $transient_label . '_latest_available_version', $latest_version, DAY_IN_SECONDS );
 		}
 
 		return $latest_version;
@@ -148,15 +141,20 @@ class CAOS_Admin_Updates {
 	 */
 	public function display_premium_update_notice( $file, $plugin_data ) {
 		$slug   = $plugin_data['slug'];
-		$notice = sprintf( __( 'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%s\' target=\'_blank\'>Need help</a>?', 'host-analyticsjs-local' ), $this->label, 'https://daan.dev/account/orders/', 'https://daan.dev/docs/pre-sales/download-files/' );
+		$label  = $plugin_data['name'] ?? 'this plugin';
+		$notice = sprintf( __( 'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%3$s\' target=\'_blank\'>Need help</a>?', $this->plugin_text_domain ), $label, 'https://daan.dev/account/orders/', 'https://daan.dev/docs/pre-sales/download-files/' );
 
 		/**
-		 * This snippet of JS either overwrites or appends to the contents of the update message.
+		 * This snippet of JS either overwrites the contents of the update message.
 		 */
 		?>
 		<script>
 			var row = document.getElementById('<?php echo esc_attr( $slug ); ?>-update');
-			row.getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
+			var div = row.getElementsByClassName('notice-warning');
+
+			if (div instanceof HTMLCollection && "0" in div) {
+				div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
+			}
 		</script>
 		<?php
 	}
@@ -177,20 +175,23 @@ class CAOS_Admin_Updates {
 	 * @throws InvalidArgument
 	 */
 	public function maybe_add_update_count( $update_data ) {
+		// phpcs:ignore
 		if ( isset( $_GET['plugin_status'] ) && $_GET['plugin_status'] === 'upgrade' ) {
 			return $update_data;
 		}
 
-		if ( $this->update_already_displayed() ) {
-			return $update_data;
-		}
+		foreach ( $this->premium_plugins as $id => $plugin ) {
+			if ( $this->update_already_displayed( $plugin['basename'] ) ) {
+				continue;
+			}
 
-		$latest_version  = $this->get_latest_version();
-		$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $this->basename );
-		$current_version = $plugin_data['Version'] ?? '';
+			$latest_version  = $this->get_latest_version( $id, $plugin['transient_label'] );
+			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['basename'] );
+			$current_version = $plugin_data['Version'] ?? '';
 
-		if ( version_compare( $current_version, $latest_version, '<' ) ) {
-			$update_data['counts']['plugins']++;
+			if ( version_compare( $current_version, $latest_version, '<' ) ) {
+				$update_data['counts']['plugins']++;
+			}
 		}
 
 		return $update_data;
