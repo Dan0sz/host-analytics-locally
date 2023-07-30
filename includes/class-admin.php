@@ -91,7 +91,8 @@ class CAOS_Admin {
 					'transient_label' => 'caos_pro',
 				],
 			],
-			'host-analyticsjs-local'
+			'host-analyticsjs-local',
+			'caos'
 		);
 	}
 
