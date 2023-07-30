@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 
 class CAOS_Cron {
 	/** @var string $tweet */
-	private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
+	private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+gtag.js+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
 
 	/** @var string $review */
 	private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
@@ -60,7 +60,6 @@ class CAOS_Cron {
 			return '';
 		}
 
-		$this->tweet     = sprintf( $this->tweet, 'gtag.js' );
 		$remote_file     = 'https://www.googletagmanager.com/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
 		$downloaded_file = CAOS::download_file( $remote_file, 'gtag' );
 		$file_alias      = CAOS::get_file_alias();
@@ -71,7 +70,6 @@ class CAOS_Cron {
 
 		CAOS::find_replace_in( $downloaded_file, $finds, $replaces );
 
-		$this->tweet                 = sprintf( $this->tweet, 'gtag.js' );
 		$downloaded_file             = apply_filters( 'caos_cron_update_gtag', $downloaded_file );
 		$downloaded_files['gtag.js'] = CAOS::get_file_alias();
 
