@@ -84,7 +84,15 @@ class CAOS_Admin {
 	 * @return CAOS_Admin_Updates
 	 */
 	private function handle_premium_plugin_updates() {
-		return new CAOS_Admin_Updates();
+		return new CAOS_Admin_Updates(
+			[
+				'3940' => [
+					'basename'        => 'caos-pro/caos-pro.php',
+					'transient_label' => 'caos_pro',
+				],
+			],
+			'host-analyticsjs-local'
+		);
 	}
 
 	/**
