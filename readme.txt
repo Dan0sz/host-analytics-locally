@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.7.3
+Stable tag: 4.7.4
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.4 | July 30th, 2023 =
+* Added: CAOS Pro users are now notified in the All Plugins screen when (automatic) updates are failing.
+* Added filter: `caos_exclude_from_tracking` which allows WP devs to not add the tracking code on certain pages.
+* Minor code optimizations.
 
 = 4.7.3 | July 21st, 2023 =
 * Fixed: remove trailing comma from list to support PHP 7.2 (Props, @artoliukkonen)
