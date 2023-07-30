@@ -16,18 +16,11 @@
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Cron {
-
-	/** @var [] $files */
-	private $files;
-
 	/** @var string $tweet */
 	private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+%s+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
 
 	/** @var string $review */
 	private $review = 'https://wordpress.org/support/plugin/host-analyticsjs-local/reviews/?rate=5#new-post';
-
-	/** @var string $plugin_text_domain */
-	private $plugin_text_domain = 'host-analyticsjs-local';
 
 	/**
 	 * CAOS_Cron_Script constructor.
@@ -35,17 +28,13 @@ class CAOS_Cron {
 	public function __construct() {
 		do_action( 'caos_cron_update' );
 
-		$this->files = $this->build_download_queue();
-
-		CAOS::debug( sprintf( __( 'Built file queue: %s', $this->plugin_text_domain ), print_r( $this->files, true ) ) );
-
 		// Check if directory exists, otherwise create it.
 		$create_dir = CAOS::create_dir_r( CAOS::get_local_dir() );
 
 		if ( $create_dir ) {
-			CAOS::debug( sprintf( __( '%s created successfully.', $this->plugin_text_domain ), CAOS::get_local_dir() ) );
+			CAOS::debug( sprintf( __( '%s created successfully.', 'host-analyticsjs-local' ), CAOS::get_local_dir() ) );
 		} else {
-			CAOS::debug( sprintf( __( '%s already exists.', $this->plugin_text_domain ), CAOS::get_local_dir() ) );
+			CAOS::debug( sprintf( __( '%s already exists.', 'host-analyticsjs-local' ), CAOS::get_local_dir() ) );
 		}
 
 		$downloaded_files = $this->download();
@@ -56,7 +45,7 @@ class CAOS_Cron {
 			$tweet_link  = apply_filters( 'caos_manual_download_tweet_link', $this->tweet );
 			$notice      = __(
 				'Gtag.js is downloaded successfully and updated accordingly.',
-				$this->plugin_text_domain
+				'host-analyticsjs-local'
 			);
 
 			CAOS_Admin_Notice::set_notice( $notice . ' ' . sprintf( __( 'Would you be willing to <a href="%1$s" target="_blank">write a review</a> or <a href="%2$s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local' ), $review_link, $tweet_link ), 'success', 'all', 'file_downloaded' );
@@ -64,33 +53,16 @@ class CAOS_Cron {
 	}
 
 	/**
-	 * Enqueues the files that need to be downloaded, depending on the settings.
-	 *
-	 * @since v4.2.0 Added Dual Tracking compatibility.
-	 *
-	 * @return array
-	 */
-	private function build_download_queue() {
-		if ( CAOS::uses_minimal_analytics() ) {
-			return [];
-		}
-
-		$queue = [];
-		$queue = [
-			'gtag' => [
-				'remote' => 'https://www.googletagmanager.com/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ),
-			],
-		];
-
-		return $queue;
-	}
-
-	/**
 	 * Download files.
 	 */
 	private function download() {
+		if ( CAOS::uses_minimal_analytics() ) {
+			return '';
+		}
+
 		$this->tweet     = sprintf( $this->tweet, 'gtag.js' );
-		$downloaded_file = CAOS::download_file( $this->files['gtag']['remote'], 'gtag' );
+		$remote_file     = 'https://www.googletagmanager.com/gtag/js?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
+		$downloaded_file = CAOS::download_file( $remote_file, 'gtag' );
 		$file_alias      = CAOS::get_file_alias();
 		$home_url        = str_replace( [ 'https:', 'http:' ], '', CAOS::get_local_dir() );
 		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
