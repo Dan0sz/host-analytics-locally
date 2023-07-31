@@ -64,8 +64,8 @@ class CAOS_Cron {
 		$downloaded_file = CAOS::download_file( $remote_file, 'gtag' );
 		$file_alias      = CAOS::get_file_alias();
 		$home_url        = str_replace( [ 'https:', 'http:' ], '', CAOS::get_local_dir() );
-		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"pageview"' );
-		$finds           = [ '/gtag/js?id=', '"//www.googletagmanager.com"', '"pageview"' ];
+		$hit_type        = apply_filters( 'caos_gtag_hit_type', '"page_view"' );
+		$finds           = [ '/gtag/js?id=', '"//www.googletagmanager.com"', '"page_view"' ];
 		$replaces        = [ $file_alias . '?id=', "\"$home_url\"", $hit_type ];
 
 		CAOS::find_replace_in( $downloaded_file, $finds, $replaces );
