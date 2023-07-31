@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.2
-Stable tag: 4.7.4
+Stable tag: 4.7.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.5 | July 31st, 2023 =
+* Fixed: PHP warning file_get_contents() when no premium plugins are installed.
 
 = 4.7.4 | July 30th, 2023 =
 * Added: CAOS Pro users are now notified in the All Plugins screen when (automatic) updates are failing.
