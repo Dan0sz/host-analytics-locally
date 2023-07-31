@@ -24,7 +24,7 @@ class CAOS_DB {
 	 * DB Migration constructor.
 	 */
 	public function __construct() {
-		$this->current_version = get_option( CAOS_Admin_Settings::CAOS_DB_VERSION );
+		$this->current_version = get_option( CAOS_Admin_Settings::CAOS_DB_VERSION, '1.0.0' );
 
 		if ( $this->should_run_migration( '4.2.2' ) ) {
 			new CAOS_DB_Migrate_V422();
