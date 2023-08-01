@@ -125,6 +125,13 @@ class CAOS_Admin_Updates {
 			$latest_versions = get_transient( $this->transient_label . '_addons_latest_available_versions' );
 		}
 
+		/**
+		 * If the transient doesn't exist, is expired or has no value, the return value will be false.
+		 */
+		if ( $latest_versions === false ) {
+			$latest_versions = [];
+		}
+
 		$latest_version = $latest_versions[ $id ] ?? '';
 
 		/**
