@@ -74,7 +74,7 @@ class CAOS {
 	 * @return string Absolute path to CAOS' cache directory.
 	 */
 	public static function get_local_dir() {
-		return apply_filters( 'caos_local_dir', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos' ) );
+		return apply_filters( 'caos_local_dir', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
 	}
 
 	/**
