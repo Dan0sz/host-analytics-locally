@@ -178,16 +178,18 @@ class CAOS_Admin_Updates {
 		 */
 		?>
 		<script>
-			var row = document.getElementById('<?php echo esc_attr( $slug ); ?>-update');
-			var div = '';
+			window.addEventListener('DOMContentLoaded', function () {
+				var row = document.getElementById('<?php echo esc_attr( $slug ); ?>-update');
+				var div = '';
 
-			if (row !== null) {
-				div = row.getElementsByClassName('notice-warning');
-			}
+				if (row !== null) {
+					div = row.getElementsByClassName('notice-warning');
+				}
 
-			if (div instanceof HTMLCollection && "0" in div) {
-				div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
-			}
+				if (div instanceof HTMLCollection && "0" in div) {
+					div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
+				}
+			})
 		</script>
 		<?php
 	}
