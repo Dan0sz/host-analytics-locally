@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.3
-Stable tag: 4.7.7
+Stable tag: 4.7.8
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,11 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.8 | August 24th, 2023 =
+* Fixed: default value of Cache Dir setting should have a trailing slash in all cases.
+* Fixed: JS in "Update Failed" message for CAOS Pro failed, due to early execution.
+* Fixed: For multisites, COOKIE_DOMAIN constant is now used (if properly defined) to define cookie_domain Gtag config value.
 
 = 4.7.7 =
 * Tested with WP 6.3
