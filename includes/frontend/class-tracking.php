@@ -167,7 +167,7 @@ class CAOS_Frontend_Tracking {
 						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?/) === null) {
 							consent_granted();
 						}
-					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'çookie_has_value' ) : ?>
+					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' ) : ?>
 						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>/) !== null) {
 							consent_granted();
 						}
