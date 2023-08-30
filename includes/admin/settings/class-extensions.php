@@ -73,7 +73,7 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 			__( 'Cloudflare Compatibility (Pro)', 'host-analyticsjs-local' ),
 			'pro_cf_compatibility',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_cf_compatibility', '' ) : false,
-			__( 'When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) enable this option.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
+			__( 'When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) when suing Stealth Mode, enable this option.', 'host-analyticsjs-local' ) . ' ' . $this->promo,
 			! defined( 'CAOS_PRO_ACTIVE' ),
 			true,
 			true
