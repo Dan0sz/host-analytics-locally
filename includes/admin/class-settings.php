@@ -363,7 +363,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			if ( ! $disabled ) :
 				?>
 				href="<?php echo $this->generate_tab_link( $id ); ?>" <?php endif; ?>
-		title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because either Plausible Analytics or Minimal Analytics is enabled.', 'host-analyticsjs-local' ) : ''; ?>">
+		title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because Minimal Analytics is enabled.', 'host-analyticsjs-local' ) : ''; ?>">
 			<?php echo $label; ?>
 		</a>
 		<?php
