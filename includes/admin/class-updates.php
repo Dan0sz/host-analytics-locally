@@ -229,7 +229,7 @@ class CAOS_Admin_Updates {
 			$current_version = $plugin_data['Version'] ?? '';
 
 			if ( version_compare( $current_version, $latest_version, '<' ) ) {
-				$update_data['counts']['plugins']++;
+				++$update_data['counts']['plugins'];
 			}
 		}
 
@@ -266,7 +266,8 @@ class CAOS_Admin_Updates {
 			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['basename'] );
 			$current_version = $plugin_data['Version'] ?? '';
 
-			if ( version_compare( $current_version, $latest_version, '==' ) ) {
+			// Due to stored, non-expired transients, it might be possible that the latest version is lower than the current version.
+			if ( version_compare( $current_version, $latest_version, '>=' ) ) {
 				continue;
 			}
 
