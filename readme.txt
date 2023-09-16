@@ -12,6 +12,8 @@ Automagically download and update gtag.js, bypass Ad Blockers with Stealth Mode,
 
 == Description ==
 
+**CAOS can be downloaded for free without any paid subscription from [the official WordPress repository](https://wordpress.org/plugins/host-analyticsjs-local/).**
+
 CAOS (Complete Analytics Optimization Suite) for Google Analytics allows you to **host gtag.js** locally and keep it updated using WordPress' built-in Cron-schedule. Fully automatic!
 
 Not a big Google Analytics user and just curious about your pageviews? CAOS fully supports [Minimal Analytics 4](https://github.com/jahilldev/minimal-analytics/tree/main/packages/ga4#readme). An extremely lightweight alternative to Google Analytics' default libraries (gtag.js). *Minimal Analytics also helps you get rid of that annoying **Unused JS** notice in Google PageSpeed Insights!*
