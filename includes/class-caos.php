@@ -28,21 +28,22 @@ class CAOS {
 		$this->do_setup();
 
 		if ( version_compare( CAOS_STORED_DB_VERSION, CAOS_DB_VERSION ) < 0 ) {
-			$this->update_db();
+			new CAOS_DB();
 		}
 
 		if ( is_admin() ) {
 			do_action( 'caos_before_admin' );
 
-			$this->add_ajax_hooks();
-			$this->do_settings();
+			new CAOS_Ajax();
+			new CAOS_Admin_Settings();
 		}
 
 		if ( ! is_admin() ) {
 			do_action( 'caos_before_frontend' );
 
-			$this->do_frontend();
-			$this->do_tracking_code();
+			new CAOS_Frontend_Compatibility();
+			new CAOS_Frontend_Functions();
+			new CAOS_Frontend_Tracking();
 		}
 
 		// Update Settings
@@ -181,57 +182,6 @@ class CAOS {
 		register_uninstall_hook( CAOS_PLUGIN_FILE, 'CAOS::do_uninstall' );
 
 		return new CAOS_Setup();
-	}
-
-	/**
-	 * Triggers all required DB updates (if any).
-	 *
-	 * @return void
-	 */
-	private function update_db() {
-		new CAOS_DB();
-	}
-
-	/**
-	 * Modify behavior of CAOS' AJAX hooks.
-	 *
-	 * @return void
-	 */
-	private function add_ajax_hooks() {
-		new CAOS_Ajax();
-	}
-
-	/**
-	 * @return CAOS_Admin_Settings
-	 */
-	private function do_settings() {
-		return new CAOS_Admin_Settings();
-	}
-
-	/**
-	 * @since v4.4.6 Write this class to a global variable to allow usage by 3rd parties.
-	 *
-	 * @return CAOS_Frontend_Functions
-	 */
-	private function do_frontend() {
-		global $caos_frontend;
-
-		$caos_frontend = new CAOS_Frontend_Functions();
-
-		return $caos_frontend;
-	}
-
-	/**
-	 * @since v4.4.6 Write this class to a global variable to allow usage by 3rd parties.
-	 *
-	 * @return CAOS_Frontend_Tracking
-	 */
-	private function do_tracking_code() {
-		global $caos_frontend_tracking;
-
-		$caos_frontend_tracking = new CAOS_Frontend_Tracking();
-
-		return $caos_frontend_tracking;
 	}
 
 	/**

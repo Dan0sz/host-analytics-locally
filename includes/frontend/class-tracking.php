@@ -404,11 +404,11 @@ class CAOS_Frontend_Tracking {
 	 */
 	public function add_attributes( $tag, $handle ) {
 		if ( ( ! CAOS::uses_minimal_analytics() && $handle === $this->handle ) ) {
-			return str_replace( 'script src', 'script async src', $tag );
+			$tag = str_replace( 'script src', 'script async src', $tag );
 		}
 
 		if ( $handle === $this->handle && $custom_attributes = apply_filters( 'caos_script_custom_attributes', '' ) ) {
-			return str_replace( 'script id', "script $custom_attributes id", $tag );
+			return str_replace( '<script ', "<script $custom_attributes ", $tag );
 		}
 
 		return $tag;
