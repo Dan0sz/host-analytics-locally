@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.3
-Stable tag: 4.7.10
+Stable tag: 4.7.11
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.11 | October 19, 2023 =
+* Added: LiteSpeed Cache compatibility.
 
 = 4.7.10 | September 5th, 2023 =
 * Fixed: users of the premium plugin would still get update notices, saying "Automatic update not available" right after updating to the latest version.
