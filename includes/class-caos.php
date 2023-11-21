@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @copyright: © 2021 - 2023 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
 class CAOS {
 	/**
 	 * Used to check if CAOS Pro is (de)activated and update files (e.g. gtag.js) accordingly.
@@ -70,12 +71,26 @@ class CAOS {
 	}
 
 	/**
-	 * @since v4.7.3
-	 *
-	 * @return string Absolute path to CAOS' cache directory.
+	 * @return CAOS_Setup
 	 */
-	public static function get_local_dir() {
-		return apply_filters( 'caos_local_dir', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+	private function do_setup() {
+		register_uninstall_hook( CAOS_PLUGIN_FILE, 'CAOS::do_uninstall' );
+
+		return new CAOS_Setup();
+	}
+
+	/**
+	 * @param string $alias
+	 * @param bool   $write
+	 *
+	 * @return bool
+	 */
+	public static function set_file_alias( $alias, $write = false ) {
+		$file_aliases = self::get_file_aliases();
+
+		$file_aliases['gtag'] = $alias;
+
+		return self::set_file_aliases( $file_aliases, $write );
 	}
 
 	/**
@@ -88,23 +103,9 @@ class CAOS {
 	}
 
 	/**
-	 * Get alias of JS library.
+	 * @param array $file_aliases
+	 * @param bool  $write
 	 *
-	 * @return string
-	 */
-	public static function get_file_alias() {
-		$file_aliases = self::get_file_aliases();
-
-		if ( ! $file_aliases ) {
-			return '';
-		}
-
-		return $file_aliases['gtag'] ?? '';
-	}
-
-	/**
-	 * @param  array $file_aliases
-	 * @param  bool  $write
 	 * @return bool
 	 */
 	public static function set_file_aliases( $file_aliases, $write = false ) {
@@ -123,23 +124,8 @@ class CAOS {
 	}
 
 	/**
-	 * @param  string $alias
-	 * @param  bool   $write
-	 * @return bool
-	 */
-	public static function set_file_alias( $alias, $write = false ) {
-		$file_aliases = self::get_file_aliases();
-
-		$file_aliases['gtag'] = $alias;
-
-		return self::set_file_aliases( $file_aliases, $write );
-	}
-
-	/**
 	 * Includes backwards compatibility for pre 3.11.0
-	 *
 	 * @since 3.11.0
-	 *
 	 * @return string|void
 	 */
 	public static function get_file_alias_path() {
@@ -161,9 +147,78 @@ class CAOS {
 	}
 
 	/**
+	 * @since v4.7.3
+	 * @return string Absolute path to CAOS' cache directory.
+	 */
+	public static function get_local_dir() {
+		return apply_filters( 'caos_local_dir', WP_CONTENT_DIR . self::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, '/uploads/caos/' ) );
+	}
+
+	/**
+	 * Method to retrieve settings from database.
+	 * @filter caos_setting_{$name}
+	 * @since  v4.5.1
+	 *
+	 * @param mixed  $default (optional) The option's default value if it isn't set (yet).
+	 * @param string $name    Any constant from the CAOS_Admin_Settings class.
+	 *
+	 * @return mixed
+	 */
+	public static function get( $name, $default = null ) {
+		$value = self::get_settings()[ $name ] ?? '';
+
+		if ( empty( $value ) && $default !== null ) {
+			$value = $default;
+		}
+
+		/**
+		 * This allows for WPML (and similar plugins) to use different tracking IDs on different languages/sites.
+		 */
+		if ( $name === CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) {
+			$translated_tracking_id = _x( 'G-123ABC789', 'Define a different Measurement ID for this language/site.', 'host-analyticsjs-local' );
+
+			if ( $translated_tracking_id !== 'G-123ABC789' ) {
+				$value = $translated_tracking_id;
+			}
+		}
+
+		return apply_filters( "caos_setting_$name", $value );
+	}
+
+	/**
+	 * Gets all settings for CAOS.
+	 * @since 4.5.1
+	 * @return array
+	 */
+	public static function get_settings() {
+		static $settings;
+
+		if ( empty( $settings ) ) {
+			$settings = get_option( 'caos_settings', [] );
+		}
+
+		return apply_filters( 'caos_settings', $settings );
+	}
+
+	/**
+	 * Get alias of JS library.
+	 * @return string
+	 */
+	public static function get_file_alias() {
+		$file_aliases = self::get_file_aliases();
+
+		if ( ! $file_aliases ) {
+			return '';
+		}
+
+		return $file_aliases['gtag'] ?? '';
+	}
+
+	/**
 	 * Global debug logging function.
 	 *
-	 * @param  mixed $message
+	 * @param mixed $message
+	 *
 	 * @return void
 	 */
 	public static function debug( $message ) {
@@ -176,97 +231,8 @@ class CAOS {
 	}
 
 	/**
-	 * @return CAOS_Setup
-	 */
-	private function do_setup() {
-		register_uninstall_hook( CAOS_PLUGIN_FILE, 'CAOS::do_uninstall' );
-
-		return new CAOS_Setup();
-	}
-
-	/**
-	 * Triggers when CAOS (Pro) is (de)activated.
-	 *
-	 * @return CAOS_Cron
-	 */
-	public function trigger_cron_script() {
-		return new CAOS_Cron();
-	}
-
-	/**
-	 * Check if (de)activated plugin is CAOS Pro and if so, update.
-	 */
-	public function maybe_do_update( $plugin ) {
-		if ( strpos( $plugin, self::CAOS_PRO_PLUGIN_SLUG ) === false ) {
-			return;
-		}
-
-		$this->trigger_cron_script();
-	}
-
-	/**
-	 * @return CAOS_Admin_UpdateFiles
-	 */
-	public function do_update_after_save() {
-		$settings_page    = $_GET['page'] ?? '';
-		$settings_updated = $_GET['settings-updated'] ?? '';
-
-		if ( CAOS_Admin_Settings::CAOS_ADMIN_PAGE !== $settings_page ) {
-			return;
-		}
-
-		if ( ! $settings_updated ) {
-			return;
-		}
-
-		/**
-		 * No need to update any files if we're using Minimal Analytics. Can't believe I'm only finding out about this now...
-		 *
-		 * @since 4.7.0
-		 */
-		if ( self::get( 'tracking_code' ) === 'minimal_ga4' ) {
-			return;
-		}
-
-		return $this->trigger_cron_script();
-	}
-
-	/**
-	 * Render update notices if available.
-	 *
-	 * @param  mixed $plugin
-	 * @param  mixed $response
-	 * @return void
-	 */
-	public function render_update_notice( $plugin, $response ) {
-		$current_version = $plugin['Version'];
-		$new_version     = $plugin['new_version'];
-
-		if ( version_compare( $current_version, $new_version, '<' ) ) {
-			$response = wp_remote_get( 'https://daan.dev/caos-update-notices.json' );
-
-			if ( is_wp_error( $response ) ) {
-				return;
-			}
-
-			$update_notices = (array) json_decode( wp_remote_retrieve_body( $response ) );
-
-			if ( ! isset( $update_notices[ $new_version ] ) ) {
-				return;
-			}
-
-			printf(
-				' <strong>' . __( 'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.', 'host-analyticsjs-local' ) . '</strong>',
-				$update_notices[ $new_version ]->url
-			);
-		}
-	}
-
-	/**
 	 * Returns early if File Aliases option doesn't exist for Backwards Compatibility.
-	 *
 	 * @since 3.11.0
-	 *
 	 * @return string
 	 */
 	public static function get_local_file_url() {
@@ -309,14 +275,10 @@ class CAOS {
 	 * @param mixed  $local_file
 	 * @param mixed  $remote_file
 	 * @param string $file
-	 * @param bool   $is_plugin
 	 *
 	 * @return string
 	 */
-	public static function download_file(
-		$remote_file,
-		$file = ''
-	) {
+	public static function download_file( $remote_file, $file = '' ) {
 		$download = new CAOS_FileManager();
 
 		return $download->download_file( $remote_file, $file );
@@ -354,61 +316,89 @@ class CAOS {
 	}
 
 	/**
-	 * Method to retrieve settings from database.
-	 *
-	 * @filter caos_setting_{$name}
-	 *
-	 * @param string $name               Any constant from the CAOS_Admin_Settings class.
-	 * @param mixed  $default (optional) The option's default value if it isn't set (yet).
-	 *
-	 * @since v4.5.1
-	 *
-	 * @return mixed
+	 * Check if (de)activated plugin is CAOS Pro and if so, update.
 	 */
-	public static function get( $name, $default = null ) {
-		$value = self::get_settings()[ $name ] ?? '';
-
-		if ( empty( $value ) && $default !== null ) {
-			$value = $default;
+	public function maybe_do_update( $plugin ) {
+		if ( strpos( $plugin, self::CAOS_PRO_PLUGIN_SLUG ) === false ) {
+			return;
 		}
 
-		/**
-		 * This allows for WPML (and similar plugins) to use different tracking IDs on different languages/sites.
-		 */
-		if ( $name === CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) {
-			$translated_tracking_id = _x( 'G-123ABC789', 'Define a different Measurement ID for this language/site.', 'host-analyticsjs-local' );
-
-			if ( $translated_tracking_id !== 'G-123ABC789' ) {
-				$value = $translated_tracking_id;
-			}
-		}
-
-		return apply_filters( "caos_setting_$name", $value );
+		$this->trigger_cron_script();
 	}
 
 	/**
-	 * Gets all settings for CAOS.
-	 *
-	 * @since 4.5.1
-	 *
-	 * @return array
+	 * Triggers when CAOS (Pro) is (de)activated.
+	 * @return CAOS_Cron
 	 */
-	public static function get_settings() {
-		static $settings;
+	public function trigger_cron_script() {
+		return new CAOS_Cron();
+	}
 
-		if ( empty( $settings ) ) {
-			$settings = get_option( 'caos_settings', [] );
+	/**
+	 * @return CAOS_Admin_UpdateFiles
+	 */
+	public function do_update_after_save() {
+		$settings_page    = $_GET['page'] ?? '';
+		$settings_updated = $_GET['settings-updated'] ?? '';
+
+		if ( CAOS_Admin_Settings::CAOS_ADMIN_PAGE !== $settings_page ) {
+			return;
 		}
 
-		return apply_filters( 'caos_settings', $settings );
+		if ( ! $settings_updated ) {
+			return;
+		}
+
+		/**
+		 * No need to update any files if we're using Minimal Analytics. Can't believe I'm only finding out about this now...
+		 * @since 4.7.0
+		 */
+		if ( self::get( 'tracking_code' ) === 'minimal_ga4' ) {
+			return;
+		}
+
+		return $this->trigger_cron_script();
+	}
+
+	/**
+	 * Render update notices if available.
+	 *
+	 * @param mixed $plugin
+	 * @param mixed $response
+	 *
+	 * @return void
+	 */
+	public function render_update_notice( $plugin, $response ) {
+		$current_version = $plugin['Version'];
+		$new_version     = $plugin['new_version'];
+
+		if ( version_compare( $current_version, $new_version, '<' ) ) {
+			$response = wp_remote_get( 'https://daan.dev/caos-update-notices.json' );
+
+			if ( is_wp_error( $response ) ) {
+				return;
+			}
+
+			$update_notices = (array) json_decode( wp_remote_retrieve_body( $response ) );
+
+			if ( ! isset( $update_notices[ $new_version ] ) ) {
+				return;
+			}
+
+			printf(
+				' <strong>' . __(
+					'This update includes major changes. Please <a href="%s" target="_blank">read this</a> before updating.',
+					'host-analyticsjs-local'
+				) . '</strong>',
+				$update_notices[ $new_version ]->url
+			);
+		}
 	}
 
 	/**
 	 * We use a custom update action, because we're storing multidimensional arrays upon form submit.
-	 *
 	 * This prevents us from having to use AJAX, serialize(), stringify() and eventually having to json_decode() it, i.e.
 	 * a lot of headaches.
-	 *
 	 * @since v4.6.0
 	 */
 	public function update_settings() {
@@ -418,19 +408,13 @@ class CAOS {
 		}
 
 		// phpcs:ignore
-		$post_data = $this->clean($_POST);
+		$post_data = $this->clean( $_POST );
 
-		$options = apply_filters(
-			/**
-			 * Any options that're better off in their own DB row (e.g. due to size) can be added using this filter.
-			 *
-			 * @since v4.6.0
-			 */
-			'caos_update_settings_serialized',
-			[
-				'caos_settings',
-			]
-		);
+		/**
+		 * Any options that're better off in their own DB row (e.g. due to size) can be added using this filter.
+		 * @since v4.6.0
+		 */
+		$options = apply_filters( 'caos_update_settings_serialized', [ 'caos_settings', ] );
 
 		foreach ( $options as $option ) {
 			if ( ! empty( $post_data[ $option ] ) ) {
@@ -448,7 +432,6 @@ class CAOS {
 
 		/**
 		 * Additional update actions can be added here.
-		 *
 		 * @since v4.6.0
 		 */
 		do_action( 'caos_update_settings' );
@@ -462,10 +445,9 @@ class CAOS {
 	/**
 	 * Clean variables using `sanitize_text_field`.
 	 * Arrays are cleaned recursively. Non-scalar values are ignored.
+	 * @since 4.6.0
 	 *
 	 * @param string|array $var Sanitize the variable.
-	 *
-	 * @since 4.6.0
 	 *
 	 * @return string|array
 	 */
