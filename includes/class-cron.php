@@ -39,7 +39,7 @@ class CAOS_Cron {
 
 		$downloaded_files = $this->download();
 
-		// Only sent a success message if this is a AJAX request.
+		// Only sent a success message if this is an AJAX request.
 		if ( ! wp_doing_cron() && ! empty( $downloaded_files ) ) {
 			$review_link = apply_filters( 'caos_manual_download_review_link', $this->review );
 			$tweet_link  = apply_filters( 'caos_manual_download_tweet_link', $this->tweet );
@@ -48,7 +48,21 @@ class CAOS_Cron {
 				'host-analyticsjs-local'
 			);
 
-			CAOS_Admin_Notice::set_notice( $notice . ' ' . sprintf( __( 'Would you be willing to <a href="%1$s" target="_blank">write a review</a> or <a href="%2$s" target="_blank">tweet</a> about it?', 'host-analyticsjs-local' ), $review_link, $tweet_link ), 'success', 'all', 'file_downloaded' );
+			CAOS_Admin_Notice::set_notice(
+				$notice .
+				' ' .
+				sprintf(
+					__(
+						'Would you be willing to <a href="%1$s" target="_blank">write a review</a> or <a href="%2$s" target="_blank">tweet</a> about it?',
+						'host-analyticsjs-local'
+					),
+					$review_link,
+					$tweet_link
+				),
+				'success',
+				'all',
+				'file_downloaded'
+			);
 		}
 	}
 
