@@ -335,7 +335,7 @@ class CAOS {
 	}
 
 	/**
-	 * @return CAOS_Admin_UpdateFiles
+	 * @return CAOS_Cron|void
 	 */
 	public function do_update_after_save() {
 		$settings_page    = $_GET[ 'page' ] ?? '';
@@ -405,7 +405,7 @@ class CAOS {
 		if ( empty( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'caos-update' ) {
 			return;
 		}
-		
+
 		$action = $_GET[ 'tab' ] ?? 'caos-basic-settings';
 		$nonce  = $_POST[ '_wpnonce' ] ?? '';
 
