@@ -406,10 +406,12 @@ class CAOS {
 			return;
 		}
 
-		$action = $_GET[ 'tab' ] ?? 'caos-basic-settings';
+		$action = $_GET[ 'tab' ] ? $_GET[ 'tab' ] . '-options' : 'caos-basic-settings-options';
 		$nonce  = $_POST[ '_wpnonce' ] ?? '';
 
-		wp_verify_nonce( $nonce, $action );
+		if ( wp_verify_nonce( $nonce, $action ) < 1 ) {
+			return;
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
