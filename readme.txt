@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 4.7.14
+Stable tag: 4.7.15
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.15 =
+* Fixed: This time a proper fix against CSRF attacks. It's been a long day. Sorry, guys!
 
 = 4.7.14 =
 * Fixed: undefined array key _wpnonce. (Big Oops! on my end, sorry about that.)
