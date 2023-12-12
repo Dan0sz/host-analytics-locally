@@ -88,7 +88,7 @@ class CAOS {
 	public static function set_file_alias( $alias, $write = false ) {
 		$file_aliases = self::get_file_aliases();
 
-		$file_aliases['gtag'] = $alias;
+		$file_aliases[ 'gtag' ] = $alias;
 
 		return self::set_file_aliases( $file_aliases, $write );
 	}
@@ -211,7 +211,7 @@ class CAOS {
 			return '';
 		}
 
-		return $file_aliases['gtag'] ?? '';
+		return $file_aliases[ 'gtag' ] ?? '';
 	}
 
 	/**
@@ -338,8 +338,8 @@ class CAOS {
 	 * @return CAOS_Admin_UpdateFiles
 	 */
 	public function do_update_after_save() {
-		$settings_page    = $_GET['page'] ?? '';
-		$settings_updated = $_GET['settings-updated'] ?? '';
+		$settings_page    = $_GET[ 'page' ] ?? '';
+		$settings_updated = $_GET[ 'settings-updated' ] ?? '';
 
 		if ( CAOS_Admin_Settings::CAOS_ADMIN_PAGE !== $settings_page ) {
 			return;
@@ -369,8 +369,8 @@ class CAOS {
 	 * @return void
 	 */
 	public function render_update_notice( $plugin, $response ) {
-		$current_version = $plugin['Version'];
-		$new_version     = $plugin['new_version'];
+		$current_version = $plugin[ 'Version' ];
+		$new_version     = $plugin[ 'new_version' ];
 
 		if ( version_compare( $current_version, $new_version, '<' ) ) {
 			$response = wp_remote_get( 'https://daan.dev/caos-update-notices.json' );
@@ -402,12 +402,18 @@ class CAOS {
 	 * @since v4.6.0
 	 */
 	public function update_settings() {
-		// phpcs:ignore WordPress.Security
-		if ( empty( $_POST['action'] ) || $_POST['action'] !== 'caos-update' ) {
+		$action = $_GET[ 'tab' ] ?? 'caos-basic-settings';
+
+		wp_verify_nonce( $_POST[ '_wpnonce' ], $action );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		// phpcs:ignore
+		if ( empty( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'caos-update' ) {
+			return;
+		}
+
 		$post_data = $this->clean( $_POST );
 
 		/**
