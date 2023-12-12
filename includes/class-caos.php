@@ -402,15 +402,16 @@ class CAOS {
 	 * @since v4.6.0
 	 */
 	public function update_settings() {
-		$action = $_GET[ 'tab' ] ?? 'caos-basic-settings';
-
-		wp_verify_nonce( $_POST[ '_wpnonce' ], $action );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( empty( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'caos-update' ) {
 			return;
 		}
+		
+		$action = $_GET[ 'tab' ] ?? 'caos-basic-settings';
+		$nonce  = $_POST[ '_wpnonce' ] ?? '';
 
-		if ( empty( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'caos-update' ) {
+		wp_verify_nonce( $nonce, $action );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
