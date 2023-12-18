@@ -16,6 +16,9 @@
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Frontend_Tracking {
+	/** @var string $handle */
+	public $handle = '';
+
 	/**
 	 * @var array $page_builders Array of keys set by page builders when they're displaying their previews.
 	 */
@@ -31,9 +34,6 @@ class CAOS_Frontend_Tracking {
 		'vc_action',
 	];
 
-	/** @var string $handle */
-	public $handle = '';
-
 	/** @var bool $in_footer For use in wp_enqueue_scripts() etc. */
 	private $in_footer = false;
 
@@ -41,7 +41,11 @@ class CAOS_Frontend_Tracking {
 	 * CAOS_Frontend_Tracking constructor.
 	 */
 	public function __construct() {
-		$this->handle    = 'caos-' . ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) . 'gtag';
+		$this->handle    =
+			'caos-' .
+			( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ?
+				CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) .
+			'gtag';
 		$this->in_footer = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) === 'footer';
 
 		add_action( 'caos_inline_scripts_before_tracking_code', [ $this, 'consent_mode' ] );
@@ -55,20 +59,17 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Inserts the code snippet required for Google Analytics' Consent Mode to be activated.
+	 * @since v4.5.0
 	 *
 	 * @param mixed $handle
-	 *
-	 * @since v4.5.0
 	 *
 	 * @return void
 	 */
 	public function consent_mode( $handle ) {
 		/**
 		 * Setting this to true disables the required JS to run Consent Mode.
-		 *
 		 * @filter caos_frontend_tracking_consent_mode
-		 *
-		 * @since v4.5.0
+		 * @since  v4.5.0
 		 */
 		if ( apply_filters( 'caos_frontend_tracking_consent_mode', false ) ) {
 			return;
@@ -76,33 +77,30 @@ class CAOS_Frontend_Tracking {
 
 		ob_start(); ?>
 
-		<script>
-			window.dataLayer = window.dataLayer || [];
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-			function gtag() {
-				dataLayer.push(arguments);
-			}
+            function gtag() {
+                dataLayer.push(arguments);
+            }
 
-			gtag('consent', 'default', {
-				'analytics_storage': 'denied',
-				'wait_for_update': 15000
-			});
+            gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'wait_for_update': 15000
+            });
 
 			<?php
 			/**
 			 * Allows for adding additional defaults as HTML to Google Analytics' Consent Mode, e.g.
-			 *
 			 * gtag('consent', 'default', {s
 			 *     'ad_storage': 'denied'
 			 * });
-			 *
-			 * @since v4.5.0
-			 *
+			 * @since  v4.5.0
 			 * @action caos_frontend_tracking_consent_mode_defaults
 			 */
 			do_action( 'caos_frontend_tracking_consent_mode_defaults' );
 			?>
-		</script>
+        </script>
 		<?php
 		$snippet = ob_get_clean();
 
@@ -112,11 +110,8 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Consent Mode framework should be disabled when Google Analytics 4 isn't used or when Allow Tracking
 	 * is set to 'Always'
-	 *
 	 * @filter caos_frontend_tracking_consent_mode
-	 *
-	 * @since v4.5.0
-	 *
+	 * @since  v4.5.0
 	 * @return bool
 	 */
 	public function maybe_disable_consent_mode() {
@@ -125,19 +120,15 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
-	 *
 	 * @since v4.5.0
-	 *
 	 * @return void
 	 */
 	public function consent_mode_listener() {
 		/**
 		 * Setting this to true disables the "listening" part of the Consent Mode script to allow Cookie Notice plugins or other
 		 * Google Analytics plugins to update the Consent state.
-		 *
 		 * @filter caos_frontend_tracking_consent_mode_listener
-		 *
-		 * @since v4.5.0
+		 * @since  v4.5.0
 		 */
 		if ( apply_filters( 'caos_frontend_tracking_consent_mode_listener', false ) ) {
 			return;
@@ -146,68 +137,74 @@ class CAOS_Frontend_Tracking {
 		ob_start();
 		?>
 
-		<script>
-			var caos_consent_mode = function() {
-				var i = 0;
+        <script>
+            var caos_consent_mode = function () {
+                var i = 0;
 
-				return function() {
-					if (i >= 30) {
-						console.log('No cookie match found for 15 seconds, trying again on next pageload.');
+                return function () {
+                    if (i >= 30) {
+                        console.log('No cookie match found for 15 seconds, trying again on next pageload.');
 
-						clearInterval(caos_consent_mode_listener);
-					}
+                        clearInterval(caos_consent_mode_listener);
+                    }
 
-					var cookie = document.cookie;
+                    var cookie = document.cookie;
 
-				<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
-						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?/) !== null) {
-							consent_granted();
-						}
+					<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
+                    if (cookie.match(/<?php echo esc_attr(
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+					); ?>=.*?/) !== null) {
+                        consent_granted();
+                    }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_not_set' ) : ?>
-						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?/) === null) {
-							consent_granted();
-						}
+                    if (cookie.match(/<?php echo esc_attr(
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+					); ?>=.*?/) === null) {
+                        consent_granted();
+                    }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' ) : ?>
-						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>/) !== null) {
-							consent_granted();
-						}
+                    if (cookie.match(/<?php echo esc_attr(
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+					); ?>=<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>/) !== null) {
+                        consent_granted();
+                    }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains' ) : ?>
-						if (cookie.match(/<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ) ); ?>=.*?<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>.*?/) !== null) {
-							consent_granted();
-						}
+                    if (cookie.match(/<?php echo esc_attr(
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+					); ?>=.*?<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>.*?/) !== null) {
+                        consent_granted();
+                    }
 					<?php else : ?>
-						gtag('consent', 'update', {
-							'analytics_storage': 'denied'
-						});
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'denied'
+                    });
 					<?php endif; ?>
 
-					i++;
-				};
-			}();
+                    i++;
+                };
+            }();
 
-			var caos_consent_mode_listener = window.setInterval(caos_consent_mode, 500);
+            var caos_consent_mode_listener = window.setInterval(caos_consent_mode, 500);
 
-			function consent_granted() {
-				console.log('Cookie matched! Updating consent state to granted.');
+            function consent_granted() {
+                console.log('Cookie matched! Updating consent state to granted.');
 
-				gtag('consent', 'update', {
-					'analytics_storage': 'granted'
-				});
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
 
 				<?php
 				/**
 				 * Allows for triggering additional update queries to Google Analytics' Consent Mode framework.
-				 *
-				 * @since v4.5.0
-				 *
+				 * @since  v4.5.0
 				 * @action caos_frontend_tracking_consent_mode_listener_update
 				 */
 				do_action( 'caos_frontend_tracking_consent_mode_listener_update' );
 				?>
 
-				window.clearInterval(caos_consent_mode_listener);
-			}
-		</script>
+                window.clearInterval(caos_consent_mode_listener);
+            }
+        </script>
 		<?php
 
 		echo str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
@@ -216,16 +213,13 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * The "listening" part of Consent Mode should be disabled when Google Analytics 4 isn't used, or when
 	 * Allow Tracking is set to 'Always' or 'Consent Mode'.
-	 *
-	 * @since v4.5.0
-	 *
+	 * @since  v4.5.0
 	 * @filter caos_frontend_tracking_consent_mode_listener
-	 *
 	 * @return bool
 	 */
 	public function maybe_disable_consent_mode_listener() {
-		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) )
-			|| CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
+		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) ||
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
@@ -259,7 +253,6 @@ class CAOS_Frontend_Tracking {
 			/**
 			 * Allow WP Dev's to halt the rendering of the tracking code, effectively excluding
 			 * the page from tracking.
-			 *
 			 * Example: add_filter('caos_exclude_from_tracking', '__return_true');
 			 */
 			if ( apply_filters( 'caos_exclude_from_tracking', false ) ) {
@@ -287,7 +280,6 @@ class CAOS_Frontend_Tracking {
 
 			/**
 			 * Allows WP DEV's to modify the output of the tracking code.
-			 *
 			 * E.g. add_action('caos_process_settings', 'your_function_name');
 			 */
 			do_action( 'caos_process_settings' );
@@ -304,9 +296,10 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Rewrite all external URLs in $html.
-	 *
 	 * @filter caos_buffer_output
+	 *
 	 * @param mixed $html
+	 *
 	 * @return mixed
 	 */
 	public function insert_local_file( $html ) {
@@ -327,9 +320,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Start output buffer.
-	 *
 	 * @action template_redirect
-	 *
 	 * @return void
 	 */
 	public function maybe_buffer_output() {
@@ -362,12 +353,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Returns the buffer for filtering, so page cache doesn't break.
-	 *
-	 * @since v4.3.1 Tested with:
-	 *               - Cache Enabler v1.8.7
-	 *                 - Default Settings
-	 *               - LiteSpeed Cache
-	 *                 - Don't know (Gal Baras tested it: @see https://wordpress.org/support/topic/completely-broke-wp-rocket-plugin/#post-15377538)
+	 * @see   https://wordpress.org/support/topic/completely-broke-wp-rocket-plugin/#post-15377538)
 	 *               - W3 Total Cache v2.2.1:
 	 *                 - Page Cache: Disk (basic)
 	 *                 - Database/Object Cache: Off
@@ -380,11 +366,13 @@ class CAOS_Frontend_Tracking {
 	 *                 - JS/CSS minify/combine: Enabled
 	 *               - WP Super Cache v1.7.4
 	 *                 - Page Cache: Enabled
-	 *
 	 *               Not tested (yet):
 	 * TODO: [CAOS-33] - Swift Performance
-	 *
-	 * @return void
+	 * @since v4.3.1 Tested with:
+	 *               - Cache Enabler v1.8.7
+	 *                 - Default Settings
+	 *               - LiteSpeed Cache
+	 *                 - Don't know (Gal Baras tested it: @return void
 	 */
 	public function return_buffer( $html ) {
 		if ( ! $html ) {
@@ -433,26 +421,12 @@ class CAOS_Frontend_Tracking {
 	 * Render a HTML comment for logged in Administrators in the source code.
 	 */
 	public function show_admin_message() {
-		echo '<!-- ' . __( 'This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.', 'host-analyticsjs-local' ) . " -->\n";
-	}
-
-	/**
-	 * @param mixed $snippet
-	 * @return mixed
-	 */
-	public function modify_gtag_js_snippet( $snippet ) {
-		return str_replace( 'https://www.googletagmanager.com/gtag/js', CAOS::get_local_file_url(), $snippet );
-	}
-
-	/**
-	 * Render the URL of the cached local file
-	 *
-	 * @return string
-	 */
-	private function return_js_url() {
-		$id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
-
-		return CAOS::get_local_file_url() . $id;
+		echo '<!-- ' .
+			__(
+				'This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.',
+				'host-analyticsjs-local'
+			) .
+			" -->\n";
 	}
 
 	/**
@@ -473,7 +447,6 @@ class CAOS_Frontend_Tracking {
 
 		/**
 		 * Allow WP DEVs to add additional JS before Gtag tracking code.
-		 *
 		 * @since v4.2.0
 		 */
 		do_action( 'caos_inline_scripts_before_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
@@ -482,10 +455,19 @@ class CAOS_Frontend_Tracking {
 
 		/**
 		 * Allow WP DEVs to add additional JS after Gtag tracking code.
-		 *
 		 * @since v4.2.0
 		 */
 		do_action( 'caos_add_script_after_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
+	}
+
+	/**
+	 * Render the URL of the cached local file
+	 * @return string
+	 */
+	private function return_js_url() {
+		$id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
+
+		return CAOS::get_local_file_url() . $id;
 	}
 
 	/**
