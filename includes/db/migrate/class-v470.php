@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress/caos/
- * @copyright: © 2021 - 2023 Daan van den Bergh
+ * @copyright: © 2021 - 2024 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 class CAOS_DB_Migrate_V470 extends CAOS_DB_Migrate {

@@ -9,7 +9,7 @@
  *
  * @author   : Daan van den Bergh
  * @url      : https://daan.dev/wordpress/caoss/
- * @copyright: © 2021 - 2023 Daan van den Bergh
+ * @copyright: © 2021 - 2024 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
