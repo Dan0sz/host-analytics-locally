@@ -12,11 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install composer dependencies
-        uses: php-actions/composer@v2
-        with:
-          dev: no
-
       - uses: actions/setup-node@v1
         with:
           node-version: '16'
