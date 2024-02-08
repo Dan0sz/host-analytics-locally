@@ -1,16 +1,16 @@
-name: Deploy to WordPress.org
+name: Build plugin pre-release
 
 on:
   release:
-    types: [ released ]
+    types: [ prereleased ]
 
 jobs:
-  tag:
-    name: Release plugin
+  build:
+    name: Build plugin asset
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Install composer dependencies
         uses: php-actions/composer@v2
@@ -26,15 +26,11 @@ jobs:
           npm ci
           sudo npm run build
 
-      - name: Release plugin on wp.org
-        id: deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        with:
-          generate-zip: true
-        env:
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SLUG: host-analyticsjs-local
+      - name: Generate plugin asset
+        run: |
+          rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" release/ --delete --delete-excluded
+          cd "${GITHUB_WORKSPACE}/release" || exit
+          zip -r "${GITHUB_WORKSPACE}/host-analyticsjs-local.zip" .
 
       - name: Attach asset to release
         uses: actions/upload-release-asset@v1
