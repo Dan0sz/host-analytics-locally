@@ -67,7 +67,6 @@ class CAOS {
 
 		define( 'CAOS_SITE_URL', 'https://daan.dev/blog' );
 		define( 'CAOS_STORED_DB_VERSION', esc_attr( get_option( CAOS_Admin_Settings::CAOS_DB_VERSION, '4.2.1' ) ) );
-		define( 'CAOS_CRON', 'caos_update_analytics_js' );
 	}
 
 	/**

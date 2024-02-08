@@ -16,6 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Setup {
+	const CRON_LABEL = 'caos_update_analytics_js';
 
 	/** @var string $plugin_text_domain */
 	protected $plugin_text_domain = 'host-analyticsjs-local';
@@ -27,7 +28,7 @@ class CAOS_Setup {
 		register_activation_hook( CAOS_PLUGIN_FILE, [ $this, 'create_cache_dir' ] );
 		register_activation_hook( CAOS_PLUGIN_FILE, [ $this, 'activate_cron' ] );
 		register_deactivation_hook( CAOS_PLUGIN_FILE, [ $this, 'deactivate_cron' ] );
-		add_action( CAOS_CRON, [ $this, 'load_cron_script' ] );
+		add_action( self::CRON_LABEL, [ $this, 'load_cron_script' ] );
 	}
 
 	/**
@@ -44,8 +45,8 @@ class CAOS_Setup {
 	 * Register hook to schedule script in wp_cron()
 	 */
 	public function activate_cron() {
-		if ( ! wp_next_scheduled( CAOS_CRON ) ) {
-			wp_schedule_event( time(), 'twicedaily', CAOS_CRON );
+		if ( ! wp_next_scheduled( self::CRON_LABEL ) ) {
+			wp_schedule_event( time(), 'twicedaily', self::CRON_LABEL );
 		}
 	}
 
@@ -53,8 +54,8 @@ class CAOS_Setup {
 	 *
 	 */
 	public function deactivate_cron() {
-		if ( wp_next_scheduled( CAOS_CRON ) ) {
-			wp_clear_scheduled_hook( CAOS_CRON );
+		if ( wp_next_scheduled( self::CRON_LABEL ) ) {
+			wp_clear_scheduled_hook( self::CRON_LABEL );
 		}
 	}
 
