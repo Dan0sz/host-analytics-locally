@@ -1,5 +1,7 @@
 # CAOS | Host Google Analytics Locally
 
+![WordPress version](https://img.shields.io/wordpress/plugin/v/host-analyticsjs-local.svg) ![WordPress Rating](https://img.shields.io/wordpress/plugin/r/host-analyticsjs-local.svg) ![WordPress Downloads](https://img.shields.io/wordpress/plugin/dt/host-analyticsjs-local.svg)
+
 Automagically download and update gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
 
 ## Description
