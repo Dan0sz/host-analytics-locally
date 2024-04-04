@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * @package Daan/Updates
  */
 class CAOS_Admin_Updates {
+	const TRANSIENT_LABEL_APPENDIX = '_addons_latest_available_versions';
+
 	/** @var string $plugin_text_domain */
 	private $plugin_text_domain = '';
 
@@ -36,6 +38,7 @@ class CAOS_Admin_Updates {
 
 	/**
 	 * Action & Filter hooks.
+	 *
 	 * @return void
 	 */
 	private function init() {
@@ -59,21 +62,21 @@ class CAOS_Admin_Updates {
 		$plugin_slugs = array_keys( $installed_plugins );
 
 		foreach ( $this->premium_plugins as $id => $premium_plugin ) {
-			if ( ! in_array( $premium_plugin['basename'], $plugin_slugs ) ) {
+			if ( ! in_array( $premium_plugin[ 'basename' ], $plugin_slugs ) ) {
 				continue;
 			}
 
-			if ( $this->update_already_displayed( $premium_plugin['basename'] ) ) {
+			if ( $this->update_already_displayed( $premium_plugin[ 'basename' ] ) ) {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $premium_plugin['transient_label'] );
-			$current_version = get_plugin_data( WP_PLUGIN_DIR . '/' . $premium_plugin['basename'] )['Version'] ?? '';
+			$latest_version  = $this->get_latest_version( $id, $premium_plugin[ 'transient_label' ] );
+			$current_version = get_plugin_data( WP_PLUGIN_DIR . '/' . $premium_plugin[ 'basename' ] )[ 'Version' ] ?? '';
 
 			if ( version_compare( $current_version, $latest_version, '<' ) ) {
-				$installed_plugins[ $premium_plugin['basename'] ]['update'] = true;
+				$installed_plugins[ $premium_plugin[ 'basename' ] ][ 'update' ] = true;
 
-				add_action( 'after_plugin_row_' . $premium_plugin['basename'], [ $this, 'display_premium_update_notice' ], 10, 2 );
+				add_action( 'after_plugin_row_' . $premium_plugin[ 'basename' ], [ $this, 'display_premium_update_notice' ], 10, 2 );
 			}
 		}
 
@@ -122,7 +125,7 @@ class CAOS_Admin_Updates {
 		 * This prevents duplicate DB reads.
 		 */
 		if ( $latest_versions === null ) {
-			$latest_versions = get_transient( $this->transient_label . '_addons_latest_available_versions' );
+			$latest_versions = get_transient( $this->transient_label . self::TRANSIENT_LABEL_APPENDIX );
 		}
 
 		/**
@@ -151,7 +154,7 @@ class CAOS_Admin_Updates {
 
 			$latest_versions[ $id ] = $latest_version;
 
-			set_transient( $this->transient_label . '_addons_latest_available_version', $latest_versions, DAY_IN_SECONDS );
+			set_transient( $this->transient_label . self::TRANSIENT_LABEL_APPENDIX, $latest_versions, DAY_IN_SECONDS );
 		}
 
 		return $latest_version;
@@ -169,28 +172,36 @@ class CAOS_Admin_Updates {
 	 * @return void
 	 */
 	public function display_premium_update_notice( $file, $plugin_data ) {
-		$slug   = explode( '/', $file )[0] ?? '';
-		$label  = $plugin_data['Name'] ?? $plugin_data['name'] ?? 'this plugin';
-		$notice = sprintf( __( 'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%3$s\' target=\'_blank\'>Need help</a>?', $this->plugin_text_domain ), $label, 'https://daan.dev/account/files/', 'https://daan.dev/docs/pre-sales/download-files/' );
+		$slug   = explode( '/', $file )[ 0 ] ?? '';
+		$label  = $plugin_data[ 'Name' ] ?? $plugin_data[ 'name' ] ?? 'this plugin';
+		$notice =
+			sprintf(
+				__(
+					'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%3$s\' target=\'_blank\'>Need help</a>?',
+					$this->plugin_text_domain
+				),
+				$label,
+				'https://daan.dev/account/files/',
+				'https://daan.dev/docs/pre-sales/download-files/'
+			);
 
 		/**
 		 * This snippet of JS either overwrites the contents of the update message.
-		 */
-		?>
-		<script>
-			window.addEventListener('DOMContentLoaded', function () {
-				var row = document.getElementById('<?php echo esc_attr( $slug ); ?>-update');
-				var div = '';
+		 */ ?>
+        <script>
+            window.addEventListener('DOMContentLoaded', function () {
+                var row = document.getElementById('<?php echo esc_attr( $slug ); ?>-update');
+                var div = '';
 
-				if (row !== null) {
-					div = row.getElementsByClassName('notice-warning');
-				}
+                if (row !== null) {
+                    div = row.getElementsByClassName('notice-warning');
+                }
 
-				if (div instanceof HTMLCollection && "0" in div) {
-					div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
-				}
-			})
-		</script>
+                if (div instanceof HTMLCollection && "0" in div) {
+                    div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
+                }
+            })
+        </script>
 		<?php
 	}
 
@@ -211,25 +222,25 @@ class CAOS_Admin_Updates {
 	 */
 	public function maybe_add_update_count( $update_data ) {
 		// phpcs:ignore
-		if ( isset( $_GET['plugin_status'] ) && $_GET['plugin_status'] === 'upgrade' ) {
+		if ( isset( $_GET[ 'plugin_status' ] ) && $_GET[ 'plugin_status' ] === 'upgrade' ) {
 			return $update_data;
 		}
 
 		foreach ( $this->premium_plugins as $id => $plugin ) {
-			if ( ! is_plugin_active( WP_PLUGIN_DIR . '/' . $plugin['basename'] ) ) {
+			if ( ! is_plugin_active( WP_PLUGIN_DIR . '/' . $plugin[ 'basename' ] ) ) {
 				continue;
 			}
 
-			if ( $this->update_already_displayed( $plugin['basename'] ) ) {
+			if ( $this->update_already_displayed( $plugin[ 'basename' ] ) ) {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $plugin['transient_label'] );
-			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['basename'] );
-			$current_version = $plugin_data['Version'] ?? '';
+			$latest_version  = $this->get_latest_version( $id, $plugin[ 'transient_label' ] );
+			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin[ 'basename' ] );
+			$current_version = $plugin_data[ 'Version' ] ?? '';
 
 			if ( version_compare( $current_version, $latest_version, '<' ) ) {
-				++$update_data['counts']['plugins'];
+				++ $update_data[ 'counts' ][ 'plugins' ];
 			}
 		}
 
@@ -258,25 +269,25 @@ class CAOS_Admin_Updates {
 		}
 
 		foreach ( $this->premium_plugins as $id => $plugin ) {
-			if ( ! is_plugin_active( $plugin['basename'] ) ) {
+			if ( ! is_plugin_active( $plugin[ 'basename' ] ) ) {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $plugin['transient_label'] );
-			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['basename'] );
-			$current_version = $plugin_data['Version'] ?? '';
+			$latest_version  = $this->get_latest_version( $id, $plugin[ 'transient_label' ] );
+			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin[ 'basename' ] );
+			$current_version = $plugin_data[ 'Version' ] ?? '';
 
 			// Due to stored, non-expired transients, it might be possible that the latest version is lower than the current version.
 			if ( version_compare( $current_version, $latest_version, '>=' ) ) {
 				continue;
 			}
 
-			$plugin_file = $plugin['basename'];
+			$plugin_file = $plugin[ 'basename' ];
 
 			// If an update is already displayed, there's no need for us to recreate this object.
 			if ( is_object( $transient ) && isset( $transient->response ) && ! isset( $transient->response[ $plugin_file ] ) ) {
 				$transient->response[ $plugin_file ] = (object) [
-					'slug'        => explode( '/', $plugin_file )[0],
+					'slug'        => explode( '/', $plugin_file )[ 0 ],
 					'plugin'      => $plugin_file,
 					'new_version' => '',
 				];
