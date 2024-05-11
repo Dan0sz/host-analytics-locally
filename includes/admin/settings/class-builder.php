@@ -138,7 +138,7 @@ class CAOS_Admin_Settings_Builder {
 					<?php endforeach; ?>
 					<?php if ( ! is_array( $disabled ) && $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
@@ -178,7 +178,7 @@ class CAOS_Admin_Settings_Builder {
 					</select>
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
@@ -211,7 +211,7 @@ class CAOS_Admin_Settings_Builder {
 					<input <?php echo esc_attr( $disabled ? 'disabled' : '' ); ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="number" name="caos_settings[<?php echo esc_attr( $name ); ?>]" min="<?php echo esc_attr( $min ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 					<?php if ( $disabled && $this->display_reason() ) : ?>
 						<p class="option-disabled">
-							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
+							<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), $explanation ), 'post' ); ?>
 						</p>
 					<?php else : ?>
 						<p class="description">
@@ -244,7 +244,7 @@ class CAOS_Admin_Settings_Builder {
 				<input <?php echo $disabled ? 'disabled' : ''; ?> class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" type="text" name="caos_settings[<?php echo esc_attr( $name ); ?>]" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 				<?php if ( $disabled && $this->display_reason() ) : ?>
 					<p class="option-disabled">
-						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
+						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), $explanation ), 'post' ); ?>
 					</p>
 				<?php else : ?>
 					<p class="description">
@@ -281,7 +281,7 @@ class CAOS_Admin_Settings_Builder {
 						<input <?php echo esc_attr( $disabled ? 'disabled' : '' ); ?> id="caos_settings[<?php echo esc_attr( $name ); ?>]" type="checkbox" class="<?php echo esc_attr( str_replace( '_', '-', $name ) ); ?>" name="caos_settings[<?php echo esc_attr( $name ); ?>]" <?php echo esc_attr( $checked === 'on' ? 'checked = "checked"' : '' ); ?> />
 						<?php if ( $disabled && $this->display_reason( $is_pro_option ) ) : ?>
 							<p class="description option-disabled">
-								<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), $explanation ), 'post' ); ?>
+								<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), $explanation ), 'post' ); ?>
 							</p>
 						<?php else : ?>
 							<?php echo wp_kses( apply_filters( $name . '_setting_description', $description, $label, $name ), 'post' ); ?>
