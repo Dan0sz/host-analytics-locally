@@ -43,7 +43,7 @@ class CAOS_Admin_Settings_Builder {
 	 */
 	public function do_promo() {
 		if ( defined( 'CAOS_PRO_ACTIVE' ) === false ) {
-			$this->promo = sprintf( __( '<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.' ), CAOS_Admin_Settings::DAAN_DEV_WORDPRESS_CAOS_PRO . $this->utm_tags );
+			$this->promo = sprintf( __( '<a href="%s" target="_blank">Get CAOS Pro</a> to unlock this option.', 'host-analyticsjs-local' ), CAOS_Admin_Settings::DAAN_DEV_WORDPRESS_CAOS_PRO . $this->utm_tags );
 		}
 	}
 
