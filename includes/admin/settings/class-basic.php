@@ -98,7 +98,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Configure CAOS to "listen" to your Cookie Banner plugin.', 'host-analyticsjs-local' ) . ' ' . __( 'Choose \'Always\' to enable tracking without prior consent.', 'host-analyticsjs-local' ) . ' ' . sprintf( __( 'CAOS uses the Google Analytics 4 <a href="%s" target="_blank">Consent Mode API</a>.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9976101?hl=en' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
+			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -141,7 +141,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ),
 			__( 'Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', 'host-analyticsjs-local' ) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
+			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -175,7 +175,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-webfonts-local' )
+			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
 		);
 	}
 
