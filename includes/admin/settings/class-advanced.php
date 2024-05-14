@@ -109,7 +109,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			! defined( 'CAOS_PRO_ACTIVE' ) || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ),
 			true,
 			true,
-			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
+			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -130,7 +130,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 				?>
 				<?php if ( $disabled && $this->display_reason( true ) ) : ?>
 					<p class="description option-disabled">
-						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-webfonts-local' ), __( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Default or Asynchronous.', 'host-webfonts-local' ) ), 'post' ); ?>
+						<?php echo wp_kses( sprintf( __( 'This option is disabled. %s', 'host-analyticsjs-local' ), __( 'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Default or Asynchronous.', 'host-analyticsjs-local' ) ), 'post' ); ?>
 					</p>
 				<?php else : ?>
 					<table class="track-cloaked-affiliate-links">
@@ -189,7 +189,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			true,
 			false,
-			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-webfonts-local' )
+			__( 'Disable <strong>Compatibility Mode</strong> to enable it.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -201,7 +201,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			__( 'Remove settings at Uninstall', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ),
-			'<strong>' . __( 'Warning!', 'host-analytics-local' ) . '</strong> ' . __( 'This will remove the settings from the database upon plugin deletion!', 'host-analyticsjs-local' )
+			'<strong>' . __( 'Warning!', 'host-analyticsjs-local' ) . '</strong> ' . __( 'This will remove the settings from the database upon plugin deletion!', 'host-analyticsjs-local' )
 		);
 	}
 }
