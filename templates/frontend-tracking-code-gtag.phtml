@@ -18,14 +18,17 @@
  *
  * Example: add_filter('caos_gtag_config', 'your_filter_function_name', 10, 2);
  */
-$cookie_domain     = defined(COOKIE_DOMAIN) && COOKIE_DOMAIN !== false ? COOKIE_DOMAIN : $_SERVER['HTTP_HOST'];
-$gtag_config       = apply_filters('caos_gtag_config', array(
-    'cookie_prefix'  => 'CaosGtag',
-    'cookie_domain'  => $cookie_domain,
-    'cookie_flags'   => 'samesite=none;secure'
-), CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID));
-$gtag_config       = apply_filters('caos_gtag_config_json', json_encode($gtag_config, JSON_UNESCAPED_SLASHES));
-$custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
+$cookie_domain     = defined( COOKIE_DOMAIN ) && COOKIE_DOMAIN !== false ? COOKIE_DOMAIN : $_SERVER[ 'HTTP_HOST' ];
+$gtag_config       = apply_filters(
+	'caos_gtag_config',
+	[
+		'cookie_domain' => $cookie_domain,
+		'cookie_flags'  => 'samesite=none;secure',
+	],
+	CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID )
+);
+$gtag_config       = apply_filters( 'caos_gtag_config_json', json_encode( $gtag_config, JSON_UNESCAPED_SLASHES ) );
+$custom_attributes = apply_filters( 'caos_gtag_custom_attributes', '' );
 ?>
 <script<?php echo $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     window.dataLayer = window.dataLayer || [];
@@ -35,13 +38,13 @@ $custom_attributes = apply_filters('caos_gtag_custom_attributes', '');
     }
 
     gtag('js', new Date());
-    gtag('config', '<?= CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID); ?>', <?= $gtag_config; ?>);
-    <?php
-    /**
-     * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
-     *
-     * Example: add_action('caos_gtag_additional_config', 'your_filter_function_name');
-     */
-    do_action('caos_gtag_additional_config');
-    ?>
+    gtag('config', '<?= CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ); ?>', <?= $gtag_config; ?>);
+	<?php
+	/**
+	 * Allow WP DEVs to easily modify CAOS' Gtag.js configuration with a plugin.
+	 *
+	 * Example: add_action('caos_gtag_additional_config', 'your_filter_function_name');
+	 */
+	do_action( 'caos_gtag_additional_config' );
+	?>
 </script>
