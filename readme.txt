@@ -2,8 +2,8 @@
 Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
-Tested up to: 6.5
-Stable tag: 4.7.16
+Tested up to: 6.6
+Stable tag: 4.7.17
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,10 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.7.17 =
+* Fixed: Removed CaosGtag_ prefix from Google Analytics 4 cookies.
+* Tested with WP 6.6
 
 = 4.7.16 =
 * Fixed: CAOS would hit Daan.dev updates server on each admin pageload when CAOS Pro was installed.
