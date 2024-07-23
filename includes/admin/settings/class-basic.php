@@ -14,7 +14,6 @@
  * * * * * * * * * * * * * * * * * * * */
 
 class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
-
 	/**
 	 * CAOS_Admin_Settings_Basic constructor.
 	 */
@@ -66,7 +65,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Track logged in Administrators', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ),
-			'<strong>' . __( 'Warning!', 'host-analyticsjs-local' ) . '</strong> ' . __( 'This will track all your traffic as a logged in user. (For testing/development purposes.)', 'host-analyticsjs-local' ),
+			'<strong>' .
+			__( 'Warning!', 'host-analyticsjs-local' ) .
+			'</strong> ' .
+			__( 'This will track all your traffic as a logged in user. (For testing/development purposes.)', 'host-analyticsjs-local' ),
 			false
 		);
 	}
@@ -79,8 +81,13 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Increase GDPR Compliance (Pro)', 'host-analyticsjs-local' ),
 			'pro_gdpr',
 			defined( 'CAOS_PRO_ACTIVE' ) ? CAOS::get( 'pro_gdpr', '' ) : false,
-			sprintf( __( 'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>', 'host-analyticsjs-local' ), 'https://daan.dev/blog/wordpress/google-analytics-gdpr-compliance/' ) . ' ' . $this->promo,
-			! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
+			sprintf(
+				__(
+					'Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn\'t</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href="%s" target="_blank">Read more</a>',
+					'host-analyticsjs-local'
+				),
+				'https://daan.dev/blog/wordpress/google-analytics-gdpr-compliance/'
+			) . ' ' . $this->promo, ! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			true,
 			true
 		);
@@ -95,7 +102,14 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_ADMIN_ALLOW_TRACKING_OPTIONS,
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ),
-			__( 'Configure CAOS to "listen" to your Cookie Banner plugin.', 'host-analyticsjs-local' ) . ' ' . __( 'Choose \'Always\' to enable tracking without prior consent.', 'host-analyticsjs-local' ) . ' ' . sprintf( __( 'CAOS uses the Google Analytics 4 <a href="%s" target="_blank">Consent Mode API</a>.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/9976101?hl=en' ),
+			__( 'Configure CAOS to "listen" to your Cookie Banner plugin.', 'host-analyticsjs-local' ) .
+			' ' .
+			__( 'Choose \'Always\' to enable tracking without prior consent.', 'host-analyticsjs-local' ) .
+			' ' .
+			sprintf(
+				__( 'CAOS uses the Google Analytics 4 <a href="%s" target="_blank">Consent Mode API</a>.', 'host-analyticsjs-local' ),
+				'https://support.google.com/analytics/answer/9976101?hl=en'
+			),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
 			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
@@ -106,13 +120,15 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 * Cookie name
 	 */
 	public function do_cookie_name() {
+		$allow_tracking = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING );
+
 		$this->do_text(
 			__( 'Cookie Name', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
 			__( 'e.g. cookie_accepted', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ),
 			__( 'The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING )
+			! empty( $allow_tracking ) && $allow_tracking !== 'consent_mode'
 		);
 	}
 
@@ -126,7 +142,8 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'e.g. true', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ),
 			__( 'The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains'
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' ||
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains'
 		);
 	}
 
@@ -139,7 +156,14 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE,
 			CAOS_Admin_Settings::CAOS_ADMIN_TRACKING_CODE_OPTIONS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ),
-			__( 'Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.', 'host-analyticsjs-local' ) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
+			__(
+				'Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.',
+				'host-analyticsjs-local'
+			) .
+			' ' .
+			sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) .
+			__( 'Read more', 'host-analyticsjs-local' ) .
+			'</a>',
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
 		);
@@ -150,16 +174,25 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_anonymize_ip_mode() {
 		?>
-		<tr>
-			<th scope="row">
+        <tr>
+            <th scope="row">
 				<?php echo esc_attr( __( 'Anonymize IP (deprecated)', 'host-analyticsjs-local' ) ); ?>
-			</th>
-			<td>
-				<p class="description">
-					<?php echo wp_kses( sprintf( __( 'As of July 1st, Google retired Universal Analytics (GA3). According to Google, IP masking is <a target="_blank" href="%s">no longer required</a>, because IP addresses are no longer logged or stored. The <code>aip</code> parameter and CAOS Pro\'s custom technologies are no longer supported by Google.', 'host-analyticsjs-local' ), 'https://support.google.com/analytics/answer/2763052?hl=en' ), 'post' ); ?>
-				</p>
-			</td>	
-		</tr>
+            </th>
+            <td>
+                <p class="description">
+					<?php echo wp_kses(
+						sprintf(
+							__(
+								'As of July 1st, Google retired Universal Analytics (GA3). According to Google, IP masking is <a target="_blank" href="%s">no longer required</a>, because IP addresses are no longer logged or stored. The <code>aip</code> parameter and CAOS Pro\'s custom technologies are no longer supported by Google.',
+								'host-analyticsjs-local'
+							),
+							'https://support.google.com/analytics/answer/2763052?hl=en'
+						),
+						'post'
+					); ?>
+                </p>
+            </td>
+        </tr>
 		<?php
 	}
 
@@ -172,7 +205,10 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_ADMIN_SCRIPT_POSITION_OPTIONS,
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ),
-			__( 'Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.', 'host-analyticsjs-local' ),
+			__(
+				'Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn\'t load the <code>wp_head()</code> conventionally, choose \'Add manually\'.',
+				'host-analyticsjs-local'
+			),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
 			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
@@ -184,17 +220,18 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_add_manually() {
 		?>
-		<tr class="caos_add_manually" valign="top" <?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) === 'manual' ? '' : 'style="display: none;"'; ?>>
-			<th scope="row"><?php _e( 'Tracking-code', 'host-analyticsjs-local' ); ?></th>
-			<td>
-				<label>
-					<textarea style="display: block; width: 100%; height: 250px;"><?php echo $this->render_tracking_code(); ?></textarea>
-				</label>
-				<p class="description">
+        <tr class="caos_add_manually" valign="top" <?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) ===
+		'manual' ? '' : 'style="display: none;"'; ?>>
+            <th scope="row"><?php _e( 'Tracking-code', 'host-analyticsjs-local' ); ?></th>
+            <td>
+                <label>
+                    <textarea style="display: block; width: 100%; height: 250px;"><?php echo $this->render_tracking_code(); ?></textarea>
+                </label>
+                <p class="description">
 					<?php _e( 'Copy this to the theme or plugin which should handle displaying the snippet.', 'host-analyticsjs-local' ); ?>
-				</p>
-			</td>
-		</tr>
+                </p>
+            </td>
+        </tr>
 		<?php
 	}
 
@@ -218,7 +255,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal-ga4' );
 		}
 
-		$url_id         = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
+		$url_id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
 		$local_file_url = CAOS::get_local_file_url() . $url_id;
 
 		$tracking_code .= "<script async src='$local_file_url'></script>\n";
