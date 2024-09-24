@@ -52,6 +52,7 @@ class CAOS_Frontend_Tracking {
 		add_filter( 'caos_frontend_tracking_consent_mode', [ $this, 'maybe_disable_consent_mode' ] );
 		add_action( 'caos_gtag_additional_config', [ $this, 'consent_mode_listener' ] );
 		add_filter( 'caos_frontend_tracking_consent_mode_listener', [ $this, 'maybe_disable_consent_mode_listener' ] );
+		add_action( 'caos_ma_additional_template_end', [ $this, 'insert_ma_consent_mode' ] );
 		add_action( 'init', [ $this, 'insert_tracking_code' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_attributes' ], 10, 2 );
 		add_action( 'caos_process_settings', [ $this, 'disable_advertising_features' ] );
@@ -59,6 +60,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Inserts the code snippet required for Google Analytics' Consent Mode to be activated.
+	 *
 	 * @since v4.5.0
 	 *
 	 * @param mixed $handle
@@ -68,6 +70,7 @@ class CAOS_Frontend_Tracking {
 	public function consent_mode( $handle ) {
 		/**
 		 * Setting this to true disables the required JS to run Consent Mode.
+		 *
 		 * @filter caos_frontend_tracking_consent_mode
 		 * @since  v4.5.0
 		 */
@@ -95,6 +98,7 @@ class CAOS_Frontend_Tracking {
 			 * gtag('consent', 'default', {s
 			 *     'ad_storage': 'denied'
 			 * });
+			 *
 			 * @since  v4.5.0
 			 * @action caos_frontend_tracking_consent_mode_defaults
 			 */
@@ -110,6 +114,7 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Consent Mode framework should be disabled when Google Analytics 4 isn't used or when Allow Tracking
 	 * is set to 'Always'
+	 *
 	 * @filter caos_frontend_tracking_consent_mode
 	 * @since  v4.5.0
 	 * @return bool
@@ -120,6 +125,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
+	 *
 	 * @since v4.5.0
 	 * @return void
 	 */
@@ -127,6 +133,7 @@ class CAOS_Frontend_Tracking {
 		/**
 		 * Setting this to true disables the "listening" part of the Consent Mode script to allow Cookie Notice plugins or other
 		 * Google Analytics plugins to update the Consent state.
+		 *
 		 * @filter caos_frontend_tracking_consent_mode_listener
 		 * @since  v4.5.0
 		 */
@@ -196,6 +203,7 @@ class CAOS_Frontend_Tracking {
 				<?php
 				/**
 				 * Allows for triggering additional update queries to Google Analytics' Consent Mode framework.
+				 *
 				 * @since  v4.5.0
 				 * @action caos_frontend_tracking_consent_mode_listener_update
 				 */
@@ -213,6 +221,7 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * The "listening" part of Consent Mode should be disabled when Google Analytics 4 isn't used, or when
 	 * Allow Tracking is set to 'Always' or 'Consent Mode'.
+	 *
 	 * @since  v4.5.0
 	 * @filter caos_frontend_tracking_consent_mode_listener
 	 * @return bool
@@ -223,8 +232,46 @@ class CAOS_Frontend_Tracking {
 	}
 
 	/**
-	 * Render the tracking code in it's selected locations
+	 *
+	 * @return void
 	 */
+	public function insert_ma_consent_mode() {
+		?>
+        <script>
+			<?php switch( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING )):
+			case 'cookie_is_set': ?>
+            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>')) {
+                window.track();
+            }
+			<?php break;
+			case 'cookie_is_not_set': ?>
+            if (!document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>')) {
+                window.track();
+            }
+			<?php break;
+			case 'cookie_has_value': ?>
+            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=<?php echo CAOS::get(
+				CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE
+			); ?>')) {
+                window.track();
+            }
+			<?php break;
+			case 'cookie_value_contains': ?>
+            if (document.cookie.match('/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME );?>=.*?<?php echo CAOS::get(
+				CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE
+			); ?>.*?/')) {
+                window.track();
+            }
+			<?php break;
+			case 'consent_mode': ?>
+            console.log('Minimal Analytics is not compatible with Consent Mode . ');
+			<?php endswitch; ?>
+        </script>
+		<?php
+	}
+
+	/**
+	 * Render the tracking code in it's selected locations */
 	public function insert_tracking_code() {
 		/**
 		 * Google Analytics
@@ -296,6 +343,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Rewrite all external URLs in $html.
+	 *
 	 * @filter caos_buffer_output
 	 *
 	 * @param mixed $html
@@ -320,6 +368,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Start output buffer.
+	 *
 	 * @action template_redirect
 	 * @return void
 	 */
@@ -353,6 +402,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Returns the buffer for filtering, so page cache doesn't break.
+	 *
 	 * @see   https://wordpress.org/support/topic/completely-broke-wp-rocket-plugin/#post-15377538)
 	 *               - W3 Total Cache v2.2.1:
 	 *                 - Page Cache: Disk (basic)
@@ -421,12 +471,10 @@ class CAOS_Frontend_Tracking {
 	 * Render a HTML comment for logged in Administrators in the source code.
 	 */
 	public function show_admin_message() {
-		echo '<!-- ' .
-			__(
+		echo '<!-- ' . __(
 				'This site is using CAOS. You\'re logged in as an administrator, so we\'re not loading the tracking code.',
 				'host-analyticsjs-local'
-			) .
-			" -->\n";
+			) . " -->\n";
 	}
 
 	/**
@@ -447,14 +495,20 @@ class CAOS_Frontend_Tracking {
 
 		/**
 		 * Allow WP DEVs to add additional JS before Gtag tracking code.
+		 *
 		 * @since v4.2.0
 		 */
-		do_action( 'caos_inline_scripts_before_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
+		do_action(
+			'caos_inline_scripts_before_tracking_code',
+			$this->handle,
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID )
+		);
 
 		wp_add_inline_script( $this->handle, $this->get_tracking_code_template() );
 
 		/**
 		 * Allow WP DEVs to add additional JS after Gtag tracking code.
+		 *
 		 * @since v4.2.0
 		 */
 		do_action( 'caos_add_script_after_tracking_code', $this->handle, CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ) );
@@ -462,6 +516,7 @@ class CAOS_Frontend_Tracking {
 
 	/**
 	 * Render the URL of the cached local file
+	 *
 	 * @return string
 	 */
 	private function return_js_url() {
