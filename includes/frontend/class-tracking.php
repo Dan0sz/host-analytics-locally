@@ -236,9 +236,10 @@ class CAOS_Frontend_Tracking {
 	 * @return void
 	 */
 	public function insert_ma_consent_mode() {
+		$allow_tracking = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING );
 		?>
         <script>
-			<?php switch( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING )):
+			<?php switch( $allow_tracking ):
 			case 'cookie_is_set': ?>
             if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>')) {
                 window.track();
@@ -257,9 +258,9 @@ class CAOS_Frontend_Tracking {
             }
 			<?php break;
 			case 'cookie_value_contains': ?>
-            if (document.cookie.match('/<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME );?>=.*?<?php echo CAOS::get(
+            if (document.cookie.match('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME );?>=.*?<?php echo CAOS::get(
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE
-			); ?>.*?/')) {
+			); ?>.*?')) {
                 window.track();
             }
 			<?php break;
