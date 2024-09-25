@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * * * * * * * * * * * * * * * * * * * */
 
 class CAOS_DB {
-
 	/** @var string */
 	private $current_version = '';
 
@@ -45,12 +44,17 @@ class CAOS_DB {
 		if ( $this->should_run_migration( '4.7.3' ) ) {
 			new CAOS_DB_Migrate_V473();
 		}
+
+		if ( $this->should_run_migration( '4.8.0' ) ) {
+			new CAOS_DB_Migrate_V480();
+		}
 	}
 
 	/**
 	 * Checks whether migration script has been run.
 	 *
 	 * @param mixed $version
+	 *
 	 * @return bool
 	 */
 	private function should_run_migration( $version ) {

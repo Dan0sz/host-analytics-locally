@@ -44,7 +44,7 @@ jQuery(document).ready(function ($) {
         },
 
         /**
-         * 
+         *
          */
         loop_ticker_items: function () {
             caos_admin.ticker_items.forEach(function (item, index) {
@@ -67,7 +67,7 @@ jQuery(document).ready(function ($) {
          */
         toggle_allow_tracking: function () {
             option = this.className.replace('allow-tracking-', '');
-            $cookie_name = $('.cookie-notice-name-row');
+            $cookie_name = $('.cookie-name-row');
             $cookie_value = $('.cookie-value-row');
 
             switch (option) {

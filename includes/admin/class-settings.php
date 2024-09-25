@@ -62,7 +62,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	const CAOS_BASIC_SETTING_ALLOW_TRACKING     = 'allow_tracking';
 
-	const CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME = 'cookie_notice_name';
+	const CAOS_BASIC_SETTING_COOKIE_NAME        = 'cookie_name';
 
 	const CAOS_BASIC_SETTING_COOKIE_VALUE       = 'cookie_value';
 
@@ -144,6 +144,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Checks downloaded file and cron health.
+	 *
 	 * @return CAOS_Admin_Functions
 	 */
 	private function do_cron_check() {
@@ -203,6 +204,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 				settings_fields( $this->active_tab );
 				/**
 				 * We use a custom update action, so we can group all settings in one DB row upon form submit.
+				 *
 				 * @see \CAOS\Plugin update_options()
 				 */
 				$settings_fields = ob_get_clean();
@@ -228,6 +230,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Format timestamp of remote JS files' alias last updated time.
+	 *
 	 * @since v4.4.6 Explicity check if file exists.
 	 * @return string
 	 */
@@ -276,6 +279,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Get formatted timestamp of next scheduled cronjob.
+	 *
 	 * @return string
 	 */
 	private function cron_next_scheduled() {
@@ -290,6 +294,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Register all settings.
+	 *
 	 * @throws ReflectionException
 	 */
 	public function register_settings() {
@@ -310,6 +315,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Get all settings for the current section using the constants in this class.
+	 *
 	 * @return array
 	 * @throws ReflectionException
 	 */
@@ -342,6 +348,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * We add the assets directly to the head to avoid ad blockers blocking the URLs cause they include 'analytics'.
+	 *
 	 * @return void
 	 */
 	public function enqueue_admin_assets() {
@@ -410,6 +417,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Add Help tab to Settings Screen.
+	 *
 	 * @return void
 	 */
 	public function do_help_tab() {
@@ -440,6 +448,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	/**
 	 * Changes footer text.
+	 *
 	 * @return string
 	 */
 	public function footer_text_left() {

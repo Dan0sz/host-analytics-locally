@@ -159,25 +159,25 @@ class CAOS_Frontend_Tracking {
 
 					<?php if ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_set' ) : ?>
                     if (cookie.match(/<?php echo esc_attr(
-						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME )
 					); ?>=.*?/) !== null) {
                         consent_granted();
                     }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_is_not_set' ) : ?>
                     if (cookie.match(/<?php echo esc_attr(
-						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME )
 					); ?>=.*?/) === null) {
                         consent_granted();
                     }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' ) : ?>
                     if (cookie.match(/<?php echo esc_attr(
-						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME )
 					); ?>=<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>/) !== null) {
                         consent_granted();
                     }
 					<?php elseif ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains' ) : ?>
                     if (cookie.match(/<?php echo esc_attr(
-						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME )
+						CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME )
 					); ?>=.*?<?php echo esc_attr( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ) ); ?>.*?/) !== null) {
                         consent_granted();
                     }
@@ -241,24 +241,24 @@ class CAOS_Frontend_Tracking {
         <script>
 			<?php switch( $allow_tracking ):
 			case 'cookie_is_set': ?>
-            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>')) {
+            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME ); ?>')) {
                 window.track();
             }
 			<?php break;
 			case 'cookie_is_not_set': ?>
-            if (!document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>')) {
+            if (!document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME ); ?>')) {
                 window.track();
             }
 			<?php break;
 			case 'cookie_has_value': ?>
-            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ); ?>=<?php echo CAOS::get(
+            if (document.cookie.includes('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME ); ?>=<?php echo CAOS::get(
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE
 			); ?>')) {
                 window.track();
             }
 			<?php break;
 			case 'cookie_value_contains': ?>
-            if (document.cookie.match('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME );?>=.*?<?php echo CAOS::get(
+            if (document.cookie.match('<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME );?>=.*?<?php echo CAOS::get(
 				CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE
 			); ?>.*?')) {
                 window.track();

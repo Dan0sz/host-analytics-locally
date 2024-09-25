@@ -126,9 +126,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 
 		$this->do_text(
 			__( 'Cookie Name', 'host-analyticsjs-local' ),
-			CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME,
+			CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME,
 			__( 'e.g. cookie_accepted', 'host-analyticsjs-local' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NOTICE_NAME ),
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME ),
 			__( 'The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local' ),
 			! empty( $allow_tracking ) && $allow_tracking !== 'consent_mode'
 		);
