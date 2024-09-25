@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.6
-Stable tag: 4.7.17
+Stable tag: 4.8.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,12 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.8.0 =
+* Added: Minimal Analytics now works with Allow Tracking... option.
+* Improved: When Allow Tracking... is set to Consent Mode, Minimal Analytics is automatically disabled.
+* Improved: When Tracking Code is set to Minimal Analytics, Consent Mode is automatically disabled.
+* Fixed: DB migrations will no run on plugins_loaded action to prevent errors on some systems.
 
 = 4.7.17 =
 * Fixed: Removed CaosGtag_ prefix from Google Analytics 4 cookies.
