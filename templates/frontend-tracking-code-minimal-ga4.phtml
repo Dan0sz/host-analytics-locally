@@ -22,7 +22,8 @@ $endpoint = apply_filters( 'caos_minimal_analytics_ga4_endpoint', 'https://www.g
     <script>
         window.minimalAnalytics = {
             trackingId: '<?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID ); ?>',
-			<?php echo CAOS::uses_minimal_analytics() ? '' : 'autoTrack: true,'; ?>
+			<?php echo ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) !== '' &&
+				CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) !== 'consent_mode' ) ? '' : 'autoTrack: true,'; ?>
             defineGlobal: true
         }
     </script>

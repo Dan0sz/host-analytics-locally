@@ -109,7 +109,9 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			sprintf(
 				__( 'CAOS uses the Google Analytics 4 <a href="%s" target="_blank">Consent Mode API</a>.', 'host-analyticsjs-local' ),
 				'https://support.google.com/analytics/answer/9976101?hl=en'
-			),
+			) .
+			' ' .
+			__( 'Minimal Analytics can\'t be used with Consent Mode.', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
 			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
@@ -255,7 +257,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			return $tracking_code . $this->get_tracking_code_template( 'minimal-ga4' );
 		}
 
-		$url_id = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
+		$url_id         = '?id=' . CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID );
 		$local_file_url = CAOS::get_local_file_url() . $url_id;
 
 		$tracking_code .= "<script async src='$local_file_url'></script>\n";

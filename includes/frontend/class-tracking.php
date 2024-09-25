@@ -265,7 +265,7 @@ class CAOS_Frontend_Tracking {
             }
 			<?php break;
 			case 'consent_mode': ?>
-            console.log('Minimal Analytics is not compatible with Consent Mode . ');
+            console.log('<?php echo __( 'Consent Mode can not be used with Minimal Analytics.', 'host-analyticsjs-local' ); ?>');
 			<?php endswitch; ?>
         </script>
 		<?php
