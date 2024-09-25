@@ -102,13 +102,15 @@ jQuery(document).ready(function ($) {
             }
         },
 
+        /**
+         *
+         */
         maybe_disable_consent_mode: function () {
             let value = this.value;
             let allow_tracking_option = $('input[name="caos_settings[allow_tracking]"]:checked');
 
             if (value === 'minimal_ga4' && allow_tracking_option.val() === 'consent_mode') {
-                allow_tracking_option.attr('checked', false);
-                $('.allow-tracking-').attr('checked', true);
+                $('.allow-tracking-')[0].checked = true;
             }
         },
 
