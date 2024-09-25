@@ -21,7 +21,9 @@ jQuery(document).ready(function ($) {
             $('#caos-regenerate-alias').on('click', this.regenerate_alias);
 
             // Radio's
-            $('input[class^="allow-tracking"]').on('click', this.toggle_allow_tracking);
+            $('input[class^="allow-tracking"]').on('click', this.toggle_cookie_fields);
+            $('input[class^="allow-tracking"]').on('click', this.toggle_tracking_code);
+            $('.tracking-code').on('change', this.maybe_disable_consent_mode);
             $('input[class^="script-position"]').on('click', this.toggle_script_position);
 
             // Ticker
@@ -65,7 +67,7 @@ jQuery(document).ready(function ($) {
         /**
          * Toggle Allow tracking options.
          */
-        toggle_allow_tracking: function () {
+        toggle_cookie_fields: function () {
             option = this.className.replace('allow-tracking-', '');
             $cookie_name = $('.cookie-name-row');
             $cookie_value = $('.cookie-value-row');
@@ -85,6 +87,28 @@ jQuery(document).ready(function ($) {
                     $cookie_name.hide();
                     $cookie_value.hide();
                     break;
+            }
+        },
+
+        /**
+         * Disables Consent Mode when Minimal Analytics is selected.
+         */
+        toggle_tracking_code: function () {
+            let option = this.className.replace('allow-tracking-', '');
+            let tracking_code_option = $('.tracking-code');
+
+            if (option === 'consent-mode') {
+                tracking_code_option.val('');
+            }
+        },
+
+        maybe_disable_consent_mode: function () {
+            let value = this.value;
+            let allow_tracking_option = $('input[name="caos_settings[allow_tracking]"]:checked');
+
+            if (value === 'minimal_ga4' && allow_tracking_option.val() === 'consent_mode') {
+                allow_tracking_option.attr('checked', false);
+                $('.allow-tracking-').attr('checked', true);
             }
         },
 
