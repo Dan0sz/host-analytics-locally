@@ -18,11 +18,6 @@ use WpOrg\Requests\Exception\InvalidArgument;
 defined( 'ABSPATH' ) || exit;
 
 class CAOS_Admin {
-
-	const CAOS_ADMIN_JS_HANDLE          = 'caos-admin-js';
-	const CAOS_ADMIN_CSS_HANDLE         = 'caos-admin-css';
-	const CAOS_ADMIN_UTM_PARAMS_NOTICES = '?utm_source=caos&utm_medium=plugin&utm_campaign=notices';
-
 	/**
 	 * CAOS_Admin constructor.
 	 */
@@ -43,13 +38,6 @@ class CAOS_Admin {
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, [ $this, 'add_script_position_notice' ], 10, 2 );
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'set_cache_dir_notice' ], 10, 2 );
 		add_action( 'pre_update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'validate_cache_dir' ], 10, 2 );
-	}
-
-	/**
-	 * Add notice to admin screen.
-	 */
-	public function add_notice() {
-		CAOS_Admin_Notice::print_notice();
 	}
 
 	/**
@@ -87,13 +75,18 @@ class CAOS_Admin {
 		return new CAOS_Admin_Updates(
 			[
 				'3940' => [
-					'basename'        => 'caos-pro/caos-pro.php',
+					'basename' => 'caos-pro/caos-pro.php',
 					'transient_label' => 'caos_pro',
 				],
-			],
-			'host-analyticsjs-local',
-			'caos'
+			], 'host-analyticsjs-local', 'caos'
 		);
+	}
+
+	/**
+	 * Add notice to admin screen.
+	 */
+	public function add_notice() {
+		CAOS_Admin_Notice::print_notice();
 	}
 
 	/**
@@ -104,7 +97,12 @@ class CAOS_Admin {
 	 */
 	public function add_tracking_code_notice( $old_tracking_id, $new_tracking_id ) {
 		if ( $new_tracking_id !== $old_tracking_id && ! empty( $new_tracking_id ) ) {
-			CAOS_Admin_Notice::set_notice( sprintf( __( 'CAOS has connected WordPress to Google Analytics using Measurement ID: %s.', 'host-analyticsjs-local' ), $new_tracking_id ) );
+			CAOS_Admin_Notice::set_notice(
+				sprintf(
+					__( 'CAOS has connected WordPress to Google Analytics using Measurement ID: %s.', 'host-analyticsjs-local' ),
+					$new_tracking_id
+				)
+			);
 		}
 
 		if ( empty( $new_tracking_id ) ) {
@@ -124,10 +122,19 @@ class CAOS_Admin {
 		if ( $new_position !== $old_position && ! empty( $new_position ) ) {
 			switch ( $new_position ) {
 				case 'manual':
-					CAOS_Admin_Notice::set_notice( __( 'Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.', 'host-analyticsjs-local' ), 'info' );
+					CAOS_Admin_Notice::set_notice(
+						__(
+							'Since you\'ve chosen to add it manually, don\'t forget to add the tracking code to your theme.',
+							'host-analyticsjs-local'
+						),
+						'info'
+					);
 					break;
 				default:
-					CAOS_Admin_Notice::set_notice( sprintf( __( 'CAOS has added the tracking code to the %s of your site.', 'host-analyticsjs-local' ), $new_position ), 'success' );
+					CAOS_Admin_Notice::set_notice(
+						sprintf( __( 'CAOS has added the tracking code to the %s of your site.', 'host-analyticsjs-local' ), $new_position ),
+						'success'
+					);
 					break;
 			}
 		}
@@ -140,6 +147,7 @@ class CAOS_Admin {
 	 *
 	 * @param mixed $new_dir
 	 * @param mixed $old_dir
+	 *
 	 * @return mixed
 	 */
 	public function validate_cache_dir( $new_dir, $old_dir ) {
@@ -154,7 +162,16 @@ class CAOS_Admin {
 		}
 
 		if ( ! $mkdir ) {
-			CAOS_Admin_Notice::set_notice( sprintf( __( 'Something went wrong while trying to create CAOS\' Cache Directory: %s. Setting wasn\'t updated.', 'host-analyticsjs-local' ), $new_dir ), 'error' );
+			CAOS_Admin_Notice::set_notice(
+				sprintf(
+					__(
+						'Something went wrong while trying to create CAOS\' Cache Directory: %s. Setting wasn\'t updated.',
+						'host-analyticsjs-local'
+					),
+					$new_dir
+				),
+				'error'
+			);
 
 			return $old_dir;
 		}
@@ -162,7 +179,10 @@ class CAOS_Admin {
 		$real_path = realpath( $allowed_path );
 
 		if ( $real_path !== rtrim( $allowed_path, '/' ) ) {
-			CAOS_Admin_Notice::set_notice( __( 'CAOS\' Cache Directory wasn\'t changed. Attempted path traversal.', 'host-analyticsjs-local' ), 'error' );
+			CAOS_Admin_Notice::set_notice(
+				__( 'CAOS\' Cache Directory wasn\'t changed. Attempted path traversal.', 'host-analyticsjs-local' ),
+				'error'
+			);
 
 			return $old_dir;
 		}
