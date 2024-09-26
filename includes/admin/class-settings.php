@@ -403,8 +403,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		$this->generate_tab(
 			self::CAOS_ADMIN_SECTION_ADV_SETTINGS,
 			'dashicons-admin-settings',
-			__( 'Advanced Settings', 'host-analyticsjs-local' ),
-			CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4'
+			__( 'Advanced Settings', 'host-analyticsjs-local' )
 		);
 	}
 

@@ -55,6 +55,9 @@ class CAOS {
 		add_action( 'deactivated_plugin', [ $this, 'maybe_do_update' ] );
 		add_action( 'admin_init', [ $this, 'do_update_after_save' ] );
 		add_action( 'in_plugin_update_message-' . CAOS_PLUGIN_BASENAME, [ $this, 'render_update_notice' ], 11, 2 );
+
+		// Force Option Values
+		add_action( 'init', [ $this, 'maybe_force_option_values' ] );
 	}
 
 	/**
@@ -313,13 +316,6 @@ class CAOS {
 	}
 
 	/**
-	 *
-	 */
-	public static function uses_minimal_analytics() {
-		return self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4';
-	}
-
-	/**
 	 * Run database migrations.
 	 *
 	 * @return CAOS_DB
@@ -368,11 +364,18 @@ class CAOS {
 		 *
 		 * @since 4.7.0
 		 */
-		if ( self::get( 'tracking_code' ) === 'minimal_ga4' ) {
+		if ( self::uses_minimal_analytics() ) {
 			return;
 		}
 
 		return $this->trigger_cron_script();
+	}
+
+	/**
+	 *
+	 */
+	public static function uses_minimal_analytics() {
+		return self::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) === 'minimal_ga4';
 	}
 
 	/**
@@ -485,5 +488,12 @@ class CAOS {
 		}
 
 		return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
+	}
+
+	public function maybe_force_option_values() {
+		if ( self::uses_minimal_analytics() ) {
+			add_filter( 'caos_setting_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '__return_empty_string' );
+			add_filter( 'caos_setting_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_DISABLE_ADS_FEATURES, '__return_empty_string' );
+		}
 	}
 }

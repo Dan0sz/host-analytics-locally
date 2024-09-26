@@ -89,7 +89,8 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 				'https://daan.dev/blog/wordpress/google-analytics-gdpr-compliance/'
 			) . ' ' . $this->promo, ! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			true,
-			true
+			true,
+			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -114,7 +115,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Minimal Analytics can\'t be used with Consent Mode.', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
+			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -167,7 +168,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Read more', 'host-analyticsjs-local' ) .
 			'</a>',
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
+			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
 	}
 
@@ -213,7 +214,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			),
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			false,
-			__( 'Enable it by disabling <strong>Compatibility Mode</strong>.', 'host-analyticsjs-local' )
+			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
 	}
 
