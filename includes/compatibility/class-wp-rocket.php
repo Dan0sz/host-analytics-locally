@@ -1,5 +1,4 @@
 <?php
-
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -14,24 +13,31 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
-class CAOS_Frontend_Compatibility {
+class CAOS_Compatibility_WPRocket {
 	/**
-	 *
+	 * Build class.
 	 */
 	public function __construct() {
-		add_filter( 'caos_script_custom_attributes', [ $this, 'exclude_from_litespeed' ] );
+		$this->init();
 	}
 
 	/**
-	 * Add data-no-optimize="1" attribute to script if LiteSpeed Cache is enabled.
+	 * Action and filter hooks.
+	 *
+	 * @return void
 	 */
-	public function exclude_from_litespeed( $attributes ) {
-		if ( ! defined( 'LSCWP_V' ) ) {
-			return $attributes;
+	private function init() {
+		add_filter( 'rocket_excluded_inline_js_content', [ $this, 'exclude_minimal_analytics' ] );
+		add_filter( 'rocket_delay_js_exclusions', [ $this, 'exclude_minimal_analytics' ] );
+	}
+
+	public function exclude_minimal_analytics( $excluded_js ) {
+		if ( empty( CAOS::uses_minimal_analytics() || isset( $excluded_js[ 'caos-ma' ] ) ) ) {
+			return $excluded_js;
 		}
 
-		return 'data-no-optimize="1" ' . $attributes;
+		$excluded_js[ 'caos-ma' ] = 'window.minimalAnalytics';
+
+		return $excluded_js;
 	}
 }
