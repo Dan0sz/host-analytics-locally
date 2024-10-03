@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
 Requires at least: 4.6
 Tested up to: 6.6
-Stable tag: 4.8.1
+Stable tag: 4.8.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 4.8.2 =
+* Added: WP Rocket compatibility for Minimal Analytics tracking code.
 
 = 4.8.1 =
 * Fixed: Advanced Settings tab is no longer locker when Tracking Code is set to Minimal Analytics 4.

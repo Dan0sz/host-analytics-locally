@@ -3,7 +3,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress/caos/
  * Description: Completely optimize Google Analytics 4 for your WordPress Website - host gtag.js locally or use Minimal Analytics and much more!
- * Version: 4.8.1
+ * Version: 4.8.2
  * Author: Daan from Daan.dev
  * Author URI: https://daan.dev/
  * License: GPL2v2 or later
