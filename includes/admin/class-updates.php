@@ -1,5 +1,4 @@
 <?php
-defined( 'ABSPATH' ) || exit;
 
 /**
  * A (kind of) portable file, which allows me to add some extra handling to updates for premium "daughters"
@@ -174,16 +173,15 @@ class CAOS_Admin_Updates {
 	public function display_premium_update_notice( $file, $plugin_data ) {
 		$slug   = explode( '/', $file )[ 0 ] ?? '';
 		$label  = $plugin_data[ 'Name' ] ?? $plugin_data[ 'name' ] ?? 'this plugin';
-		$notice =
-			sprintf(
-				__(
-					'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%3$s\' target=\'_blank\'>Need help</a>?',
-					$this->plugin_text_domain
-				),
-				$label,
-				'https://daan.dev/account/files/',
-				'https://daan.dev/docs/pre-sales/download-files/'
-			);
+		$notice = sprintf(
+			__(
+				'An update for %1$s is available, but we\'re having trouble retrieving it. Download it from <a href=\'%2$s\' target=\'_blank\'>your account area</a> and install it manually. <a href=\'%3$s\' target=\'_blank\'>Need help</a>?',
+				$this->plugin_text_domain
+			),
+			$label,
+			'https://daan.dev/account/files/',
+			'https://daan.dev/docs/pre-sales/download-files/'
+		);
 
 		/**
 		 * This snippet of JS either overwrites the contents of the update message.

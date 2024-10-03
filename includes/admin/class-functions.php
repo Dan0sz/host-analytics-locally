@@ -13,15 +13,15 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Admin_Functions {
-
 	// Transients
-	const CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN   = 'caos_admin_update_error_shown';
+	const CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN = 'caos_admin_update_error_shown';
+
 	const CAOS_ADMIN_UPDATE_SUCCESS_MESSAGE_SHOWN = 'caos_admin_update_success_shown';
-	const CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN   = 'caos_admin_blocked_pages_notice_shown';
-	const CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE  = 'caos_blocked_pages_current_value';
+
+	const CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN = 'caos_admin_blocked_pages_notice_shown';
+
+	const CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE = 'caos_blocked_pages_current_value';
 
 	/** @var string $plugin_text_domain */
 	private $plugin_text_domain = 'host-analyticsjs-local';
@@ -51,7 +51,10 @@ class CAOS_Admin_Functions {
 			if ( ! get_transient( self::CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN ) ) {
 				CAOS_Admin_Notice::set_notice(
 					sprintf(
-						__( 'Gtag.js doesn\'t exist or hasn\'t been updated for more than two days. Try running Update gtag.js in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.', $this->plugin_text_domain ),
+						__(
+							'Gtag.js doesn\'t exist or hasn\'t been updated for more than two days. Try running Update gtag.js in <em>Settings > Optimize Analytics</em> to fix this. If this message returns in the next few days, consider <a href="%s" target="_blank">replacing WordPress\' <em>pseudo cron</em> with a real cron</a>.',
+							$this->plugin_text_domain
+						),
 						'https://daan.dev/docs/caos-troubleshooting/analytics-js-gtag-js-doesnt-exist/'
 					),
 					'error'

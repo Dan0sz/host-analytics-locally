@@ -15,8 +15,6 @@
 
 use WpOrg\Requests\Exception\InvalidArgument;
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Admin {
 	/**
 	 * CAOS_Admin constructor.
@@ -75,7 +73,7 @@ class CAOS_Admin {
 		return new CAOS_Admin_Updates(
 			[
 				'3940' => [
-					'basename' => 'caos-pro/caos-pro.php',
+					'basename'        => 'caos-pro/caos-pro.php',
 					'transient_label' => 'caos_pro',
 				],
 			], 'host-analyticsjs-local', 'caos'

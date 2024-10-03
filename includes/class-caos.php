@@ -1,6 +1,4 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
  * ██╔════╝██╔══██╗██╔═══██╗██╔════╝
@@ -42,10 +40,11 @@ class CAOS {
 		if ( ! is_admin() ) {
 			do_action( 'caos_before_frontend' );
 
-			new CAOS_Frontend_Compatibility();
 			new CAOS_Frontend_Functions();
 			new CAOS_Frontend_Tracking();
 		}
+
+		add_action( 'plugins_loaded', [ $this, 'load_compatibility' ] );
 
 		// Update Settings
 		add_action( 'admin_init', [ $this, 'update_settings' ] );
@@ -411,6 +410,10 @@ class CAOS {
 				$update_notices[ $new_version ]->url
 			);
 		}
+	}
+
+	public function load_compatibility() {
+		return new CAOS_Compatibility();
 	}
 
 	/**

@@ -13,10 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Frontend_Functions {
-
 	/**
 	 * CAOS_Frontend_Functions constructor.
 	 */
@@ -42,6 +39,7 @@ class CAOS_Frontend_Functions {
 	 * Don't add DNS prefetch if compatibility mode is enabled.
 	 *
 	 * @param mixed $result
+	 *
 	 * @return bool
 	 */
 	public function maybe_add_dns_prefetch() {

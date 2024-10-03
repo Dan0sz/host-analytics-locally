@@ -1,5 +1,4 @@
 <?php
-defined( 'ABSPATH' ) || exit;
 
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
@@ -14,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @copyright: © 2021 - 2024 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
+
 class CAOS_DB_Migrate_V470 extends CAOS_DB_Migrate {
 	protected $version = '4.7.0';
 
@@ -59,21 +59,21 @@ class CAOS_DB_Migrate_V470 extends CAOS_DB_Migrate {
 		$new_settings = CAOS::get_settings();
 
 		// Migrate Tracking ID option if it's already a GA4 measurement ID.
-		if ( ! empty( $new_settings['tracking_id'] ) && strpos( $new_settings['tracking_id'], 'G-' ) === 0 ) {
-			$new_settings['measurement_id'] = $new_settings['tracking_id'];
+		if ( ! empty( $new_settings[ 'tracking_id' ] ) && strpos( $new_settings[ 'tracking_id' ], 'G-' ) === 0 ) {
+			$new_settings[ 'measurement_id' ] = $new_settings[ 'tracking_id' ];
 		}
 
 		// Migrate GA4 Measurement ID to new Measurement ID setting if it's set.
-		if ( empty( $new_settings['measurement_id'] ) && ! empty( $new_settings['ga4_measurement_id'] ) ) {
-			$new_settings['measurement_id'] = $new_settings['ga4_measurement_id'];
+		if ( empty( $new_settings[ 'measurement_id' ] ) && ! empty( $new_settings[ 'ga4_measurement_id' ] ) ) {
+			$new_settings[ 'measurement_id' ] = $new_settings[ 'ga4_measurement_id' ];
 		}
 
-		if ( ! empty( $new_settings['snippet_type'] ) ) {
-			$new_settings['tracking_code'] = $new_settings['snippet_type'];
+		if ( ! empty( $new_settings[ 'snippet_type' ] ) ) {
+			$new_settings[ 'tracking_code' ] = $new_settings[ 'snippet_type' ];
 
-			if ( $new_settings['tracking_code'] === 'async' ) {
+			if ( $new_settings[ 'tracking_code' ] === 'async' ) {
 				// Async is the new default.
-				$new_settings['tracking_code'] = '';
+				$new_settings[ 'tracking_code' ] = '';
 			}
 		}
 
@@ -90,13 +90,16 @@ class CAOS_DB_Migrate_V470 extends CAOS_DB_Migrate {
 		 */
 		delete_option( CAOS_Admin_Settings::CAOS_CRON_FILE_ALIASES );
 
-		if ( ! empty( $new_settings['measurement_id'] ) ) {
+		if ( ! empty( $new_settings[ 'measurement_id' ] ) ) {
 			new CAOS_Cron();
 		}
 
 		CAOS_Admin_Notice::set_notice(
 			sprintf(
-				__( 'Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version of CAOS. Please check <a href="%1$s" target="_blank">your settings</a> and refer to <a href="%2$s" target="_blank">this article</a> for a list of the changes.', 'host-analyticsjs-local' ),
+				__(
+					'Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version of CAOS. Please check <a href="%1$s" target="_blank">your settings</a> and refer to <a href="%2$s" target="_blank">this article</a> for a list of the changes.',
+					'host-analyticsjs-local'
+				),
 				admin_url( 'options-general.php?page=host_analyticsjs_local' ),
 				'https://daan.dev/blog/wordpress/rip-universal-analytics/'
 			),

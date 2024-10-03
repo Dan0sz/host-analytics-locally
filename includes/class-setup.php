@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Setup {
 	const CRON_LABEL = 'caos_update_analytics_js';
 

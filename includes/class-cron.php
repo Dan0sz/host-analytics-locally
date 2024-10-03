@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Cron {
 	/** @var string $tweet */
 	private $tweet = 'https://twitter.com/intent/tweet?text=I+am+now+hosting+gtag.js+locally+for+Google+Analytics.+Thanks+to+CAOS+for+@WordPress!+Try+it+for+yourself:&via=Dan0sz&hashtags=GoogleAnalytics,WordPress,Pagespeed,Insights&url=https://wordpress.org/plugins/host-analyticsjs-local/';
@@ -49,9 +47,7 @@ class CAOS_Cron {
 			);
 
 			CAOS_Admin_Notice::set_notice(
-				$notice .
-				' ' .
-				sprintf(
+				$notice . ' ' . sprintf(
 					__(
 						'Would you be willing to <a href="%1$s" target="_blank">write a review</a> or <a href="%2$s" target="_blank">tweet</a> about it?',
 						'host-analyticsjs-local'
@@ -84,8 +80,8 @@ class CAOS_Cron {
 
 		CAOS::find_replace_in( $downloaded_file, $finds, $replaces );
 
-		$downloaded_file             = apply_filters( 'caos_cron_update_gtag', $downloaded_file );
-		$downloaded_files['gtag.js'] = CAOS::get_file_alias();
+		$downloaded_file               = apply_filters( 'caos_cron_update_gtag', $downloaded_file );
+		$downloaded_files[ 'gtag.js' ] = CAOS::get_file_alias();
 
 		/**
 		 * Writes all currently stored file aliases to the database.

@@ -13,11 +13,9 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Admin_Notice {
-
 	const CAOS_ADMIN_NOTICE_TRANSIENT  = 'caos_admin_notice';
+
 	const CAOS_ADMIN_NOTICE_EXPIRATION = 86400;
 
 	/** @var array $notices */
@@ -54,11 +52,11 @@ class CAOS_Admin_Notice {
 
 				foreach ( $notice as $type => $message ) {
 					?>
-					<div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
+                    <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
 						<?php foreach ( $message as $line ) : ?>
-							<p><strong><?php echo $line; ?></strong></p>
+                            <p><strong><?php echo $line; ?></strong></p>
 						<?php endforeach; ?>
-					</div>
+                    </div>
 					<?php
 				}
 			}

@@ -13,8 +13,6 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Frontend_Tracking {
 	/** @var string $handle */
 	public $handle = '';

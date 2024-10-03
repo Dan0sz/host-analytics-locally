@@ -13,10 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_FileManager {
-
 	/**
 	 * @var $file
 	 */
@@ -37,7 +34,13 @@ class CAOS_FileManager {
 		$this->file_contents = wp_remote_get( $remote_file );
 
 		if ( is_wp_error( $this->file_contents ) ) {
-			CAOS::debug( sprintf( __( 'An error occurred: %1$s - %2$s', 'host-analyticsjs-local' ), $this->file_contents->get_error_code(), $this->file_contents->get_error_message() ) );
+			CAOS::debug(
+				sprintf(
+					__( 'An error occurred: %1$s - %2$s', 'host-analyticsjs-local' ),
+					$this->file_contents->get_error_code(),
+					$this->file_contents->get_error_message()
+				)
+			);
 
 			return $this->file_contents->get_error_code() . ': ' . $this->file_contents->get_error_message();
 		}
@@ -49,10 +52,10 @@ class CAOS_FileManager {
 		 * @since 4.0.3  Don't rename plugins.
 		 * @since 4.7.0  Plugins no longer exist.
 		 */
-		$file         = $file ? $file : pathinfo( $remote_file )['filename'];
+		$file         = $file ? $file : pathinfo( $remote_file )[ 'filename' ];
 		$file_aliases = CAOS::get_file_aliases();
 		/**
-		 * @var string $file_alias     Should end with .js!
+		 * @var string $file_alias Should end with .js!
 		 *
 		 * @filter     caos_file_alias Allows devs to set the filename of the downloaded JS library.
 		 */
@@ -81,20 +84,32 @@ class CAOS_FileManager {
 				CAOS::debug( sprintf( __( 'File %s successfully deleted.', 'host-analyticsjs-local' ), $file_alias ) );
 			} else {
 				if ( $error = error_get_last() ) {
-					CAOS::debug( sprintf( __( 'File %1$s could not be deleted. Something went wrong: %2$s', 'host-analyticsjs-local' ), $file_alias, $error['message'] ) );
+					CAOS::debug(
+						sprintf(
+							__( 'File %1$s could not be deleted. Something went wrong: %2$s', 'host-analyticsjs-local' ),
+							$file_alias,
+							$error[ 'message' ]
+						)
+					);
 				} else {
 					CAOS::debug( sprintf( __( 'File %s could not be deleted. An unknown error occurred.', 'host-analyticsjs-local' ), $file_alias ) );
 				}
 			}
 		}
 
-		$write = file_put_contents( $local_dir . $file_alias, $this->file_contents['body'] );
+		$write = file_put_contents( $local_dir . $file_alias, $this->file_contents[ 'body' ] );
 
 		if ( $write ) {
 			CAOS::debug( sprintf( __( 'File %s successfully saved.', 'host-analyticsjs-local' ), $file_alias ) );
 		} else {
 			if ( $error = error_get_last() ) {
-				CAOS::debug( sprintf( __( 'File %1$s could not be saved. Something went wrong: %2$s', 'host-analyticsjs-local' ), $file_alias, $error['message'] ) );
+				CAOS::debug(
+					sprintf(
+						__( 'File %1$s could not be saved. Something went wrong: %2$s', 'host-analyticsjs-local' ),
+						$file_alias,
+						$error[ 'message' ]
+					)
+				);
 			} else {
 				CAOS::debug( sprintf( __( 'File %s could not be saved. An unknown error occurred.', 'host-analyticsjs-local' ), $file_alias ) );
 			}
@@ -114,6 +129,7 @@ class CAOS_FileManager {
 	 * Returns false if path already exists.
 	 *
 	 * @param mixed $path
+	 *
 	 * @return bool
 	 */
 	public function create_dir_recursive( $path ) {
@@ -127,12 +143,14 @@ class CAOS_FileManager {
 	/**
 	 * Find $find in $file and replace with $replace.
 	 *
-	 * @param $file string Absolute Path|URL
-	 * @param $find array|string
+	 * @param $file    string Absolute Path|URL
+	 * @param $find    array|string
 	 * @param $replace array|string
 	 */
 	public function find_replace_in( $file, $find, $replace ) {
-		CAOS::debug( sprintf( __( 'Replacing %1$s with %2$s in %3$s.', 'host-analyticsjs-local' ), print_r( $find, true ), print_r( $replace, true ), $file ) );
+		CAOS::debug(
+			sprintf( __( 'Replacing %1$s with %2$s in %3$s.', 'host-analyticsjs-local' ), print_r( $find, true ), print_r( $replace, true ), $file )
+		);
 
 		return file_put_contents( $file, str_replace( $find, $replace, file_get_contents( $file ) ) );
 	}

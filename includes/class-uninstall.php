@@ -13,10 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-defined( 'ABSPATH' ) || exit;
-
 class CAOS_Uninstall {
-
 	/** @var array $options */
 	private $options;
 
@@ -25,6 +22,7 @@ class CAOS_Uninstall {
 
 	/**
 	 * CAOS_Uninstall constructor.
+	 *
 	 * @throws ReflectionException
 	 */
 	public function __construct() {

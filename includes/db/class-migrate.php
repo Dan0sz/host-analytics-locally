@@ -1,5 +1,4 @@
 <?php
-defined( 'ABSPATH' ) || exit;
 
 /* * * * * * * * * * * * * * * * * * * *
  *  ██████╗ █████╗  ██████╗ ███████╗
@@ -14,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
  * @copyright: © 2021 - 2024 Daan van den Bergh
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
-class CAOS_DB_Migrate {
 
+class CAOS_DB_Migrate {
 	/**
 	 * @var array Should contain an array of old and new option_name values, e.g.
 	 *            [ 'old_option_name' => 'new_option_name' ]
@@ -62,7 +61,7 @@ class CAOS_DB_Migrate {
 					update_option( $option_name, '' );
 				}
 
-				update_option( $option_name, $allowed_values[0] );
+				update_option( $option_name, $allowed_values[ 0 ] );
 			}
 		}
 	}
