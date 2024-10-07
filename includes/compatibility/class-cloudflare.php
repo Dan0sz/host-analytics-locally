@@ -13,7 +13,7 @@
  * @license  : GPL2v2 or later
  * * * * * * * * * * * * * * * * * * * */
 
-class CAOS_Compatibility {
+class CAOS_Compatibility_Cloudflare {
 	/**
 	 * Build class.
 	 */
@@ -22,30 +22,22 @@ class CAOS_Compatibility {
 	}
 
 	/**
-	 * Trigger compatibility fixes.
+	 * Action and filter hooks.
 	 *
 	 * @return void
 	 */
 	private function init() {
-		if ( defined( 'AUTOPTIMIZE_PLUGIN_VERSION' ) ) {
-			new CAOS_Compatibility_Autoptimize();
-		}
+		add_filter( 'caos_script_custom_attributes', [ $this, 'exclude_from_cloudflare' ] );
+	}
 
-		/**
-		 * Always run Cloudflare compatibility, because it doesn't do any harm.
-		 */
-		new CAOS_Compatibility_Cloudflare();
-
-		if ( defined( 'LSCWP_V' ) ) {
-			new CAOS_Compatibility_Litespeed();
-		}
-
-		if ( defined( 'WPFC_MAIN_PATH' ) ) {
-			new CAOS_Compatibility_WpFastestCache();
-		}
-
-		if ( defined( 'WP_ROCKET_VERSION' ) ) {
-			new CAOS_Compatibility_WpRocket();
-		}
+	/**
+	 * Add data-no-optimize="1" attribute to script if LiteSpeed Cache is enabled.
+	 *
+	 * @param $attributes
+	 *
+	 * @return string
+	 */
+	public function exclude_from_cloudflare( $attributes ) {
+		return 'data-cfasync="false" ' . $attributes;
 	}
 }
