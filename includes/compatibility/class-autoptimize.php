@@ -27,7 +27,8 @@ class CAOS_Compatibility_Autoptimize {
 	 * @return void
 	 */
 	private function init() {
-		add_filter( 'caos_script_custom_attributes', [ $this, 'exclude_from_autoptimize' ] );
+		add_filter( 'caos_gtag_custom_attributes', [ $this, 'exclude_from_autoptimize' ] );
+		add_filter( 'caos_ma4_custom_attributes', [ $this, 'exclude_from_autoptimize' ] );
 	}
 
 	/**

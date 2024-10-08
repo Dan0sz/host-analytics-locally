@@ -444,10 +444,6 @@ class CAOS_Frontend_Tracking {
 			$tag = str_replace( 'script src', 'script async src', $tag );
 		}
 
-		if ( $handle === $this->handle && $custom_attributes = apply_filters( 'caos_script_custom_attributes', '' ) ) {
-			return str_replace( '<script ', "<script $custom_attributes ", $tag );
-		}
-
 		return $tag;
 	}
 
