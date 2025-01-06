@@ -23,19 +23,6 @@ class CAOS_Frontend_Functions {
 	}
 
 	/**
-	 * @param $name
-	 *
-	 * @return false|string
-	 */
-	public function get_frontend_template( $name ) {
-		ob_start();
-
-		include CAOS_PLUGIN_DIR . 'templates/frontend-' . $name . '.phtml';
-
-		return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
-	}
-
-	/**
 	 * Don't add DNS prefetch if compatibility mode is enabled.
 	 *
 	 * @param mixed $result
