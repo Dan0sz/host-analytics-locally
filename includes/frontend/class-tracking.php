@@ -307,7 +307,7 @@ class CAOS_Frontend_Tracking {
 
 			/**
 			 * Since no other libraries are loaded when Minimal Analytics is enabled, we can't use
-			 * wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
+			 * @see wp_add_inline_script(). That's why we're echo-ing it into wp_head/wp_footer.
 			 */
 			if ( CAOS::uses_minimal_analytics() ) {
 				switch ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) ) {
@@ -317,7 +317,7 @@ class CAOS_Frontend_Tracking {
 					case 'manual':
 						break;
 					default:
-						add_action( 'wp_head', [ $this, 'insert_minimal_tracking_snippet' ] );
+						add_action( 'wp_head', [ $this, 'insert_minimal_tracking_snippet' ], 100000 );
 						break;
 				}
 
