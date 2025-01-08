@@ -27,7 +27,7 @@ class CAOS_Compatibility_Cloudflare {
 	 * @return void
 	 */
 	private function init() {
-		add_filter( 'caos_gtag_custom_attributes', [ $this, 'exclude_from_cloudflare' ] );
+		add_filter( 'script_loader_tag', [ $this, 'gtag_exclude_from_cloudflare' ], 10 );
 		add_filter( 'caos_ma4_custom_attributes', [ $this, 'exclude_from_cloudflare' ] );
 	}
 
@@ -40,5 +40,13 @@ class CAOS_Compatibility_Cloudflare {
 	 */
 	public function exclude_from_cloudflare( $attributes ) {
 		return 'data-cfasync="false" ' . $attributes;
+	}
+
+	public function gtag_exclude_from_cloudflare( $tag ) {
+		if ( strpos( $tag, 'gtag' ) !== false ) {
+			return str_replace( '<script ', '<script data-cfasync="false" ', $tag );
+		}
+
+		return $tag;
 	}
 }

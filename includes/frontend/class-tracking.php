@@ -59,11 +59,11 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Inserts the code snippet required for Google Analytics' Consent Mode to be activated.
 	 *
-	 * @since v4.5.0
-	 *
 	 * @param mixed $handle
 	 *
 	 * @return void
+	 * @since v4.5.0
+	 *
 	 */
 	public function consent_mode( $handle ) {
 		/**
@@ -114,8 +114,8 @@ class CAOS_Frontend_Tracking {
 	 * is set to 'Always'
 	 *
 	 * @filter caos_frontend_tracking_consent_mode
-	 * @since  v4.5.0
 	 * @return bool
+	 * @since  v4.5.0
 	 */
 	public function maybe_disable_consent_mode() {
 		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) );
@@ -124,8 +124,8 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
 	 *
-	 * @since v4.5.0
 	 * @return void
+	 * @since v4.5.0
 	 */
 	public function consent_mode_listener() {
 		/**
@@ -220,13 +220,13 @@ class CAOS_Frontend_Tracking {
 	 * The "listening" part of Consent Mode should be disabled when Google Analytics 4 isn't used, or when
 	 * Allow Tracking is set to 'Always' or 'Consent Mode'.
 	 *
+	 * @return bool
 	 * @since  v4.5.0
 	 * @filter caos_frontend_tracking_consent_mode_listener
-	 * @return bool
 	 */
 	public function maybe_disable_consent_mode_listener() {
 		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) ||
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
+		       CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
@@ -499,7 +499,7 @@ class CAOS_Frontend_Tracking {
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_MEASUREMENT_ID )
 		);
 
-		wp_add_inline_script( $this->handle, $this->get_tracking_code_template() );
+		wp_add_inline_script( $this->handle, $this->get_tracking_code_template( 'gtag', true ) );
 
 		/**
 		 * Allow WP DEVs to add additional JS after Gtag tracking code.
