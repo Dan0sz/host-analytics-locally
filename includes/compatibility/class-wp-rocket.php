@@ -31,6 +31,13 @@ class CAOS_Compatibility_WPRocket {
 		add_filter( 'rocket_delay_js_exclusions', [ $this, 'exclude_minimal_analytics' ] );
 	}
 
+	/**
+	 * Excludes the minimal analytics script from WP Rocket's optimizations if the minimal analytics feature is enabled.
+	 *
+	 * @param array $excluded_js An array of JavaScript handles or identifiers that should be excluded.
+	 *
+	 * @return array The updated array containing the minimal analytics script exclusion, if applicable.
+	 */
 	public function exclude_minimal_analytics( $excluded_js ) {
 		if ( empty( CAOS::uses_minimal_analytics() || isset( $excluded_js[ 'caos-ma' ] ) ) ) {
 			return $excluded_js;
