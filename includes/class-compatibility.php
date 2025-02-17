@@ -32,9 +32,15 @@ class CAOS_Compatibility {
 		}
 
 		/**
-		 * Always run Cloudflare compatibility, because it doesn't do any harm.
+		 * Always run Cloudflare compatibility, because it shouldn't do any harm.
+		 *
+		 * Allow disabling by a filter.
+		 *
+		 * @filter caos_cloudflare_compatibility
 		 */
-		new CAOS_Compatibility_Cloudflare();
+		if ( apply_filters( 'caos_cloudflare_compatibility', true ) ) {
+			new CAOS_Compatibility_Cloudflare();
+		}
 
 		if ( defined( 'LSCWP_V' ) ) {
 			new CAOS_Compatibility_Litespeed();
