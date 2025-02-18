@@ -1,6 +1,6 @@
 === CAOS | Host Google Analytics Locally ===
 Contributors: DaanvandenBergh
-Tags: analytics, host, locally, gtag, woocommerce, gdpr, cookie notice, leverage browser cache, minimize external requests
+Tags: google, analytics, gtag, minimal, gdpr
 Requires at least: 4.6
 Tested up to: 6.7
 Stable tag: 4.8.5
@@ -8,7 +8,7 @@ Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automagically download and update gtag.js, bypass Ad Blockers with Stealth Mode, add the tracking code to your site's footer and tons of other features!
+The fastest, lightest way to integrate Google Analytics in WordPress.
 
 == Description ==
 
