@@ -526,7 +526,7 @@ class CAOS_Frontend_Tracking {
 		include CAOS_PLUGIN_DIR . "templates/frontend-tracking-code-$tracking_code.phtml";
 
 		if ( $strip ) {
-			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
+			return preg_replace( '/<[\/]?script.*?>/', '', ob_get_clean() );
 		} else {
 			return ob_get_clean();
 		}
@@ -538,6 +538,6 @@ class CAOS_Frontend_Tracking {
 	public function insert_minimal_tracking_snippet() {
 		echo "\n<!-- This site is using Minimal Analytics 4 brought to you by CAOS. -->\n";
 
-		echo $this->get_tracking_code_template( 'minimal-ga4', true );
+		echo $this->get_tracking_code_template( 'minimal-ga4' );
 	}
 }
