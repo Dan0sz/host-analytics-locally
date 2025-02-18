@@ -39,11 +39,7 @@ class CAOS_Frontend_Tracking {
 	 * CAOS_Frontend_Tracking constructor.
 	 */
 	public function __construct() {
-		$this->handle    =
-			'caos-' .
-			( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ?
-				CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) .
-			'gtag';
+		$this->handle    = 'caos-' . ( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) ? CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) . '-' : '' ) . 'gtag';
 		$this->in_footer = CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) === 'footer';
 
 		add_action( 'caos_inline_scripts_before_tracking_code', [ $this, 'consent_mode' ] );
@@ -59,11 +55,11 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Inserts the code snippet required for Google Analytics' Consent Mode to be activated.
 	 *
+	 * @since v4.5.0
+	 *
 	 * @param mixed $handle
 	 *
 	 * @return void
-	 * @since v4.5.0
-	 *
 	 */
 	public function consent_mode( $handle ) {
 		/**
@@ -114,8 +110,8 @@ class CAOS_Frontend_Tracking {
 	 * is set to 'Always'
 	 *
 	 * @filter caos_frontend_tracking_consent_mode
-	 * @return bool
 	 * @since  v4.5.0
+	 * @return bool
 	 */
 	public function maybe_disable_consent_mode() {
 		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) );
@@ -124,8 +120,8 @@ class CAOS_Frontend_Tracking {
 	/**
 	 * Adds the option specific JS snippets to implement Google Analytics' Consent Mode in the frontend.
 	 *
-	 * @return void
 	 * @since v4.5.0
+	 * @return void
 	 */
 	public function consent_mode_listener() {
 		/**
@@ -220,13 +216,12 @@ class CAOS_Frontend_Tracking {
 	 * The "listening" part of Consent Mode should be disabled when Google Analytics 4 isn't used, or when
 	 * Allow Tracking is set to 'Always' or 'Consent Mode'.
 	 *
-	 * @return bool
 	 * @since  v4.5.0
 	 * @filter caos_frontend_tracking_consent_mode_listener
+	 * @return bool
 	 */
 	public function maybe_disable_consent_mode_listener() {
-		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) ||
-		       CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
+		return empty( CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) ) || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'consent_mode';
 	}
 
 	/**
@@ -530,7 +525,7 @@ class CAOS_Frontend_Tracking {
 
 		include CAOS_PLUGIN_DIR . "templates/frontend-tracking-code-$tracking_code.phtml";
 
-		if ( ! $strip ) {
+		if ( $strip ) {
 			return str_replace( [ '<script>', '</script>' ], '', ob_get_clean() );
 		} else {
 			return ob_get_clean();
