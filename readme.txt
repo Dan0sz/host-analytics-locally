@@ -2,7 +2,7 @@
 Contributors: DaanvandenBergh
 Tags: google, analytics, gtag, minimal, gdpr
 Requires at least: 4.6
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 4.8.6
 Requires PHP: 7.0
 License: GPLv2 or later
