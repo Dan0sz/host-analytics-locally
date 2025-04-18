@@ -23,10 +23,7 @@ class CAOS_Admin {
 		add_action( 'admin_notices', [ $this, 'add_notice' ] );
 
 		// Settings
-		$this->do_basic_settings();
-		$this->do_advanced_settings();
-		$this->do_extensions_settings();
-		$this->do_help_section();
+		add_action( 'init', [ $this, 'do_settings' ] );
 
 		// Plugin Updates
 		$this->handle_premium_plugin_updates();
@@ -36,34 +33,6 @@ class CAOS_Admin {
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, [ $this, 'add_script_position_notice' ], 10, 2 );
 		add_action( 'update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'set_cache_dir_notice' ], 10, 2 );
 		add_action( 'pre_update_option_' . CAOS_Admin_Settings::CAOS_ADV_SETTING_CACHE_DIR, [ $this, 'validate_cache_dir' ], 10, 2 );
-	}
-
-	/**
-	 * @return CAOS_Admin_Settings_Basic
-	 */
-	private function do_basic_settings() {
-		return new CAOS_Admin_Settings_Basic();
-	}
-
-	/**
-	 * @return CAOS_Admin_Settings_Advanced
-	 */
-	private function do_advanced_settings() {
-		return new CAOS_Admin_Settings_Advanced();
-	}
-
-	/**
-	 * @return CAOS_Admin_Settings_Extensions
-	 */
-	private function do_extensions_settings() {
-		return new CAOS_Admin_Settings_Extensions();
-	}
-
-	/**
-	 * @return CAOS_Admin_Settings_Help
-	 */
-	private function do_help_section() {
-		return new CAOS_Admin_Settings_Help();
 	}
 
 	/**
@@ -200,5 +169,17 @@ class CAOS_Admin {
 		}
 
 		return $new_dir;
+	}
+
+	/**
+	 * Load all settings.
+	 *
+	 * @return void
+	 */
+	public function do_settings() {
+		new CAOS_Admin_Settings_Basic();
+		new CAOS_Admin_Settings_Advanced();
+		new CAOS_Admin_Settings_Extensions();
+		new CAOS_Admin_Settings_Help();
 	}
 }
