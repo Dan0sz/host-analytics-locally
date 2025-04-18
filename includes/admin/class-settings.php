@@ -373,14 +373,12 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 */
 	private function generate_tab( $id, $icon = null, $label = null, $disabled = false ) {
 		?>
-        <a class="nav-tab dashicons-before <?php echo $icon; ?> <?php echo $this->active_tab == $id ? 'nav-tab-active' : ''; ?> <?php echo $disabled ?
-			'disabled' : ''; ?>"
+        <a class="nav-tab dashicons-before <?php echo $icon; ?> <?php echo $this->active_tab == $id ? 'nav-tab-active' : ''; ?> <?php echo $disabled ? 'disabled' : ''; ?>"
 			<?php
 			if ( ! $disabled ) :
 				?>
                 href="<?php echo $this->generate_tab_link( $id ); ?>" <?php endif; ?>
-           title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because Minimal Analytics is enabled.', 'host-analyticsjs-local' ) :
-	           ''; ?>">
+           title="<?php echo $disabled ? __( 'Advanced Settings are disabled, because Minimal Analytics is enabled.', 'host-analyticsjs-local' ) : ''; ?>">
 			<?php echo $label; ?>
         </a>
 		<?php
@@ -497,7 +495,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		 * Mute errors and make sure the XML is properly encoded.
 		 */
 		libxml_use_internal_errors( true );
-		$xml = utf8_encode( html_entity_decode( $xml ) );
+		$xml = html_entity_decode( $xml );
 		$xml = simplexml_load_string( $xml );
 
 		if ( ! $xml ) {
@@ -523,9 +521,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			}
 
 			$hide = $i > 0 ? 'style="display: none;"' : '';
-			$text .= "<span class='ticker-item' $hide>" .
-				sprintf( '<a target="_blank" href="%s"><em>%s</em></a>', $item->link, $item->title ) .
-				'</span>';
+			$text .= "<span class='ticker-item' $hide>" . sprintf( '<a target="_blank" href="%s"><em>%s</em></a>', $item->link, $item->title ) . '</span>';
 			$i ++;
 		}
 
