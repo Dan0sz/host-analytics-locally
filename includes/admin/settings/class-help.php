@@ -77,7 +77,7 @@ class CAOS_Admin_Settings_Help extends CAOS_Admin_Settings_Builder {
 								$this->plugin_text_domain
 							); ?>" href="https://daan.dev/wordpress-plugins/"><img class="signature-image" alt="<?php echo __( 'Visit Daan.dev', $this->plugin_text_domain ); ?>" src="<?php echo plugin_dir_url(
 										CAOS_PLUGIN_FILE
-									) . 'assets/images/logo.png'; ?>"/></a>
+									) . 'assets/images/logo-color-small@2x.png'; ?>"/></a>
                         </p>
                     </div>
                 </div>

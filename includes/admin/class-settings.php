@@ -133,7 +133,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		add_action( 'caos_settings_tab', [ $this, 'do_basic_settings_tab' ], 1 );
 		add_action( 'caos_settings_tab', [ $this, 'do_advanced_settings_tab' ], 2 );
 		add_action( 'caos_settings_tab', [ $this, 'do_extensions_tab' ], 3 );
-		add_action( 'caos_settings_tab', [ $this, 'do_help_tab' ], 4 );
+		add_action( 'caos_settings_tab', [ $this, 'do_help_tab' ], 5 );
 
 		// Settings Screen Content
 		add_action( 'caos_settings_content', [ $this, 'do_content' ], 1 );
