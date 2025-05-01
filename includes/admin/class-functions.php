@@ -17,12 +17,6 @@ class CAOS_Admin_Functions {
 	// Transients
 	const CAOS_ADMIN_UPDATE_ERROR_MESSAGE_SHOWN = 'caos_admin_update_error_shown';
 
-	const CAOS_ADMIN_UPDATE_SUCCESS_MESSAGE_SHOWN = 'caos_admin_update_success_shown';
-
-	const CAOS_ADMIN_BLOCKED_PAGES_NOTICE_SHOWN = 'caos_admin_blocked_pages_notice_shown';
-
-	const CAOS_ADMIN_BLOCKED_PAGES_CURRENT_VALUE = 'caos_blocked_pages_current_value';
-
 	/** @var string $plugin_text_domain */
 	private $plugin_text_domain = 'host-analyticsjs-local';
 

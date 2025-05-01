@@ -174,7 +174,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 		} ?>
 
         <div class="wrap caos">
-            <h1><?php _e( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ); ?></h1>
+            <h1><?php echo apply_filters( 'caos_settings_page_title', __( 'CAOS | Complete Analytics Optimization Suite', 'host-analyticsjs-local' ) ); ?></h1>
 
 			<?php if ( empty( CAOS::get( self::CAOS_BASIC_SETTING_TRACKING_CODE ) ) ) : ?>
                 <div class="notice notice-info">
