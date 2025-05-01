@@ -156,7 +156,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	public function create_menu() {
 		add_options_page(
 			'CAOS',
-			'Optimize Google Analytics',
+			'CAOS',
 			'manage_options',
 			self::CAOS_ADMIN_PAGE,
 			[ $this, 'settings_page' ]
