@@ -18,10 +18,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 * CAOS_Admin_Settings_Basic constructor.
 	 */
 	public function __construct() {
-		$this->title = __( 'Basic Settings', 'host-analyticsjs-local' );
-
 		// Open
-		add_action( 'caos_basic_settings_content', [ $this, 'do_title' ], 1 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_before' ], 2 );
 
 		// Settings
@@ -65,10 +62,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Track logged in Administrators', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN,
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACK_ADMIN ),
-			'<strong>' .
-			__( 'Warning!', 'host-analyticsjs-local' ) .
-			'</strong> ' .
-			__( 'This will track all your traffic as a logged in user. (For testing/development purposes.)', 'host-analyticsjs-local' ),
+			'<strong>' . __( 'Warning!', 'host-analyticsjs-local' ) . '</strong> ' . __( 'This will track all your traffic as a logged in user. (For testing/development purposes.)', 'host-analyticsjs-local' ),
 			false
 		);
 	}
@@ -130,8 +124,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME,
 			__( 'e.g. cookie_accepted', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_NAME ),
-			__( 'The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local' ),
-			! empty( $allow_tracking ) && $allow_tracking !== 'consent_mode'
+			__( 'The cookie name set by your Cookie Notice plugin when user accepts.', 'host-analyticsjs-local' ), ! empty( $allow_tracking ) && $allow_tracking !== 'consent_mode'
 		);
 	}
 
@@ -145,8 +138,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'e.g. true', 'host-analyticsjs-local' ),
 			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_COOKIE_VALUE ),
 			__( 'The value of the above specified cookie set by your Cookie Notice when user accepts.', 'host-analyticsjs-local' ),
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' ||
-			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains'
+			CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_has_value' || CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING ) === 'cookie_value_contains'
 		);
 	}
 
@@ -162,11 +154,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__(
 				'Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events.',
 				'host-analyticsjs-local'
-			) .
-			' ' .
-			sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) .
-			__( 'Read more', 'host-analyticsjs-local' ) .
-			'</a>',
+			) . ' ' . sprintf( '<a href="%s" target="_blank">', 'https://daan.dev/docs/caos/basic-settings/' . $this->utm_tags ) . __( 'Read more', 'host-analyticsjs-local' ) . '</a>',
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ),
 			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
@@ -223,8 +211,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 	 */
 	public function do_add_manually() {
 		?>
-        <tr class="caos_add_manually" valign="top" <?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) ===
-		'manual' ? '' : 'style="display: none;"'; ?>>
+        <tr class="caos_add_manually" valign="top" <?php echo CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_SCRIPT_POSITION, 'header' ) === 'manual' ? '' : 'style="display: none;"'; ?>>
             <th scope="row"><?php _e( 'Tracking-code', 'host-analyticsjs-local' ); ?></th>
             <td>
                 <label>

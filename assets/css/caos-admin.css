@@ -1,124 +1,278 @@
-/* * * * * * * * * * * * * * * * * * * *
- * This file is loaded inline to avoid ad blockers and maintaining the least amount of overhead.
- * 
- * @author   : Daan van den Bergh
- * @url      : https://daan.dev/wordpress/caos/
- * @copyright: © 2021 - 2024 Daan van den Bergh
- * @license  : GPL2v2 or later
- * * * * * * * * * * * * * * * * * * * */
+/**
+ * @package CAOS
+ * @author Daan van den Bergh
+ * @url https://daan.dev
+ * @license MIT
+ */
+#wpwrap {
+    background-color: rgb(248 250 252 / 1);
+}
+
+.caos {
+    font-family: 'Public Sans', Arial, sans-serif;
+    max-width: 1350px;
+}
+
+.caos h1 .pro {
+    background-color: #00adda;
+    padding: 0 5px 0 6px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.caos h1 {
+    font-family: 'Poppins', Verdana, sans-serif;
+    font-weight: 800;
+}
+
+.caos h2,
+.caos h3,
+.caos h4,
+.caos h5,
+.caos h6 {
+    font-family: 'Poppins', Verdana, sans-serif;
+    font-weight: 500;
+}
+
+/**
+ * Buttons
+ */
+.caos .button {
+    font-family: 'Poppins', Verdana, sans-serif;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.caos .button-cancel {
+    color: #a00;
+    text-decoration: none;
+    border-color: transparent;
+    box-shadow: none;
+    background: 0 0;
+    white-space: nowrap;
+}
+
+.caos .button-cancel.caos-refresh {
+    color: #FF851B;
+}
+
+.caos .button-cancel.caos-empty,
+.caos .button-cancel.caos-refresh {
+    padding: 1px 10px !important;
+}
+
+.caos .button-cancel:hover {
+    cursor: pointer;
+    background: #d54e21;
+    color: #fff;
+    border-color: #d54e21;
+}
+
+.caos .button-cancel:hover#caos-refresh {
+    color: #fff;
+    background: #FF851B;
+    border-color: #FF851B;
+}
+
+.caos #submit {
+    background: #00adda;
+    border: 0;
+    padding: 7px 20px;
+}
+
+.caos #submit:hover {
+    background-color: #0099cc;
+}
+
 /**
  * Navigation
  */
-.caos-nav {
-  padding: 1em 0 1.5em;
+.caos h2.caos-nav {
+    border-bottom: 0;
+    padding-bottom: 3px;
 }
+
+.caos h2.caos-nav a {
+    border: 0;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+.caos h2.caos-nav .nav-tab {
+    color: #000;
+}
+
+.caos h2.caos-nav .nav-tab:last-child {
+    float: right;
+}
+
+.caos h2.caos-nav .nav-tab-active {
+    color: #00adda;
+}
+
+.caos h2.caos-nav .nav-tab:hover {
+    color: #00adda;
+}
+
 .caos-nav .dashicons-before:before {
-  line-height: 1.2;
+    margin-right: 0.25em;
+    line-height: 1.15em;
 }
-.caos-nav .nav-tab.disabled {
-  cursor: not-allowed;
-  color: #a2a2a2;
-}
+
 .caos form {
-  max-width: 1350px;
+    max-width: 1350px;
 }
-.caos form .caos-notice {
-  display: block;
-  padding: 12px 18px;
-  margin: 1em 0 0.75em;
-  border: 1px solid #ececec;
-  border-left: 4px solid #ececec;
+
+.caos form .dashicons {
+    line-height: 15px;
 }
-.caos form .caos-notice.info {
-  border: 1px solid #7FDBFF;
-  border-left: 4px solid #7FDBFF;
-  background-color: #E0EDF3;
+
+.tooltip {
+    position: relative;
+    font-size: 16px;
+    line-height: 16px;
+    height: 12px;
 }
-.caos form .option-disabled {
-  color: #72aee6;
-  font-style: italic;
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.75);
+    font-family: 'Public Sans', Arial, sans-serif;
+    font-size: 0.8em;
+    color: #fff;
+    line-height: 1.5;
+    width: 250px;
+    padding: 20px;
+    margin-left: -125px;
+    border-radius: 10px;
 }
+
+.tooltip .tooltip-text a {
+    color: white;
+}
+
+.tooltip .tooltip-text .illustration {
+    margin-top: 10px;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}
+
+#caos-basic-settings-form,
+#caos-advanced-settings-form,
+#caos-extensions-settings-form {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0 20px 20px;
+    border-top: 4px solid #00adda;
+    box-shadow: 0px 10px 20px 1px #ccc;
+}
+
 #caos-help-form .postbox {
-  padding: 0 15px 5px;
+    padding: 5px 25px 10px;
+    border: 0;
+    border-top: 4px solid #00adda;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 1px #ccc;
 }
+
 #caos-help-form .postbox .column-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
+
 #caos-help-form .postbox .column-container .column ul li {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
+
 #caos-help-form .postbox .column-container .column ul li:last-child {
-  margin-bottom: none;
+    margin-bottom: 0;
 }
+
 #caos-help-form .postbox .column-container .column ul li a {
-  text-decoration: none;
-  line-height: 1.45;
+    text-decoration: none;
+    line-height: 1.45;
 }
+
 #caos-help-form .postbox .column-container .column ul li a i.dashicons {
-  margin-right: 5px;
-  color: #646970;
+    margin-right: 5px;
+    color: #646970;
 }
+
 #caos-help-form .postbox .column-container .column.last {
-  margin-right: 45px;
+    margin-right: 45px;
 }
+
 #caos-help-form .postbox .column-container .column.last .signature {
-  text-align: center;
+    text-align: center;
 }
+
 #caos-help-form .postbox .column-container .column.last .signature .dashicons-heart {
-  color: #FF4136;
+    color: #FF4136;
 }
-.track-cloaked-affiliate-links {
-  width: 100%;
+
+#caos-help-form .postbox .column-container .column.last .signature .signature-image {
+    width: 185px;
 }
-.track-cloaked-affiliate-links th,
-.track-cloaked-affiliate-links td {
-  padding: 0 15px;
+
+@media only screen and (max-width: 782px) {
+    .caos-optimize-fonts-container {
+        margin: 20px 0;
+    }
+
+    .caos-optimize-fonts-container .option-title {
+        position: relative;
+        left: initial;
+        top: initial;
+    }
 }
-.track-cloaked-affiliate-links th:first-child,
-.track-cloaked-affiliate-links td:first-child,
-.track-cloaked-affiliate-links th:last-child,
-.track-cloaked-affiliate-links td:last-child {
-  padding: 0;
-}
-.track-cloaked-affiliate-links td input[type="text"] {
-  width: 100%;
-}
-.track-cloaked-affiliate-links td .affiliate-link-remove {
-  cursor: pointer;
-}
+
 /**
  * Loader
  */
 .caos-loading {
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.6);
-  width: 100%;
-  height: 100%;
-  top: 0;
-  text-align: center;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    text-align: center;
 }
+
 .caos-loading .spinner {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
+
 /**
  * Welcome Block
  */
+#wpfooter {
+    font-family: 'Public Sans', Arial, sans-serif;
+}
+
 #footer-thankyou a {
-  vertical-align: -0.65em;
+    vertical-align: -0.65em;
 }
+
 #footer-thankyou .dashicons.ffwp-heart {
-  vertical-align: middle;
+    vertical-align: middle;
 }
+
 #footer-thankyou .dashicons.ffwp-heart:before {
-  color: #FF4136;
+    color: #FF4136;
 }
+
 #footer-thankyou .signature-image {
-  width: 96px;
+    width: 96px;
 }
-/*# sourceMappingURL=./caos-admin.css.map */

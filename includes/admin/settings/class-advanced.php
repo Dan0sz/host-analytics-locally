@@ -20,11 +20,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 	public function __construct() {
 		parent::__construct();
 
-		$this->title = __( 'Advanced Settings', 'host-analyticsjs-local' );
-
 		// Open
-		add_action( 'caos_advanced_settings_content', [ $this, 'do_title' ], 10 );
-		add_action( 'caos_advanced_settings_content', [ $this, 'do_description' ], 15 );
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_before' ], 20 );
 
 		// Settings
@@ -40,16 +36,6 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 		add_action( 'caos_advanced_settings_content', [ $this, 'do_after' ], 250 );
 
 		parent::__construct();
-	}
-
-	/**
-	 * Description
-	 */
-	public function do_description() {
-		?>
-        <p>
-        </p>
-		<?php
 	}
 
 	/**
@@ -129,10 +115,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			__( 'Enable Randomize Client ID (Pro)', 'host-analyticsjs-local' ),
 			'pro_random_cid',
 			defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( 'pro_random_cid' ) ? 'on' : false,
-			$description,
-			! defined( 'CAOS_PRO_ACTIVE' ) ||
-			CAOS::uses_minimal_analytics() ||
-			( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ),
+			$description, ! defined( 'CAOS_PRO_ACTIVE' ) || CAOS::uses_minimal_analytics() || ( defined( 'CAOS_PRO_ACTIVE' ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ),
 			true,
 			true,
 			__(
@@ -273,10 +256,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 			__( 'Remove settings at Uninstall', 'host-analyticsjs-local' ),
 			CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS,
 			CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_UNINSTALL_SETTINGS ),
-			'<strong>' .
-			__( 'Warning!', 'host-analyticsjs-local' ) .
-			'</strong> ' .
-			__( 'This will remove the settings from the database upon plugin deletion!', 'host-analyticsjs-local' )
+			'<strong>' . __( 'Warning!', 'host-analyticsjs-local' ) . '</strong> ' . __( 'This will remove the settings from the database upon plugin deletion!', 'host-analyticsjs-local' )
 		);
 	}
 }

@@ -18,37 +18,13 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->title = __( 'Avoid Ad Blockers (Pro)', 'host-analyticsjs-local' );
-
-		add_action( 'caos_extensions_settings_content', [ $this, 'do_title' ], 10 );
-
 		// Stealth Mode Panel
-		add_action( 'caos_extensions_settings_content', [ $this, 'open_extensions_panel' ], 12 );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_before' ], 13 );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_stealth_mode_promo' ], 14 );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_cloudflare_compatibility' ], 17 );
 		add_action( 'caos_extensions_settings_content', [ $this, 'do_after' ], 18 );
-		add_action( 'caos_extensions_settings_content', [ $this, 'close_extensions_panel' ], 19 );
 
 		parent::__construct();
-	}
-
-	/**
-	 * Opens the Automatic Optimization Mode status screen container.
-	 *
-	 * @return void
-	 */
-	public function open_extensions_panel() {
-		?>
-        <div class="caos-extensions postbox" style="padding: 0 15px 5px;">
-        <h3><?php echo __( 'Stealth Mode (Pro)', 'host-analyticsjs-local' ); ?></h3>
-        <p>
-			<?php echo __(
-					'Stealth Mode is a unique technology developed specifically for CAOS to recover valuable Google Analytics data otherwise lost by Ad Blockers.',
-					'host-analyticsjs-local'
-				) . ' ' . $this->promo; ?>
-        </p>
-		<?php
 	}
 
 	/**
@@ -86,16 +62,5 @@ class CAOS_Admin_Settings_Extensions extends CAOS_Admin_Settings_Builder {
 			true,
 			true
 		);
-	}
-
-	/**
-	 * Close the container.
-	 *
-	 * @return void
-	 */
-	public function close_extensions_panel() {
-		?>
-        </div>
-		<?php
 	}
 }

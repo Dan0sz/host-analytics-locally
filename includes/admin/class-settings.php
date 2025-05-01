@@ -355,8 +355,12 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			return;
 		}
 
-		echo '<script>' . file_get_contents( plugin_dir_path( CAOS_PLUGIN_FILE ) . 'assets/js/caos-admin.js' ) . '</script>';
-		echo '<style>' . file_get_contents( plugin_dir_path( CAOS_PLUGIN_FILE ) . 'assets/css/caos-admin.css' ) . '</style>';
+		$fonts_stylesheet = file_get_contents( plugin_dir_path( CAOS_PLUGIN_FILE ) . 'assets/css/caos-admin-google-fonts.min.css' );
+		$fonts_stylesheet = str_replace( '../fonts/', plugin_dir_url( CAOS_PLUGIN_FILE ) . 'assets/fonts/', $fonts_stylesheet );
+
+		echo '<script>' . file_get_contents( plugin_dir_path( CAOS_PLUGIN_FILE ) . 'assets/js/caos-admin.min.js' ) . '</script>';
+		echo '<style>' . $fonts_stylesheet . '</style>';
+		echo '<style>' . file_get_contents( plugin_dir_path( CAOS_PLUGIN_FILE ) . 'assets/css/caos-admin.min.css' ) . '</style>';
 	}
 
 	/**
