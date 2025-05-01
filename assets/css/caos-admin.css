@@ -250,6 +250,11 @@
     background-color: #E0EDF3;
 }
 
+.caos form .option-disabled {
+    color: #72aee6;
+    font-style: italic;
+}
+
 /**
  * Loader
  */
