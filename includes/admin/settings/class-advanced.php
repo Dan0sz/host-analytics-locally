@@ -146,7 +146,7 @@ class CAOS_Admin_Settings_Advanced extends CAOS_Admin_Settings_Builder {
 							sprintf(
 								__( 'This option is disabled. %s', 'host-analyticsjs-local' ),
 								__(
-									'Enable it by setting <strong>Service Provider</strong> to Google Analytics and/or set <strong>Tracking Code</strong> to Asynchronous.',
+									'Enable it by setting <strong>Tracking Code</strong> to Asynchronous.',
 									'host-analyticsjs-local'
 								)
 							),
