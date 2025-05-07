@@ -525,7 +525,7 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 			}
 
 			$hide = $i > 0 ? 'style="display: none;"' : '';
-			$text .= "<span class='ticker-item' $hide>" . sprintf( '<a target="_blank" href="%s"><em>%s</em></a>', $item->link, $item->title ) . '</span>';
+			$text .= "<span class='ticker-item' $hide>" . sprintf( '<a target="_blank" href="%s"><em>%s</em></a>', esc_url( $item->link ), esc_html( $item->title ) ) . '</span>';
 			$i ++;
 		}
 
