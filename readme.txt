@@ -79,6 +79,7 @@ N/A
 = 5.0.0 =
 * Improved: new settings screen fully aligned with Daan.dev's new look!
 * Improved: possible XSS vulnerability.
+* Improved: CAOS' settings can now be found under Settings > CAOS (instead of Optimize Google Analytics)
 * Minor code improvements to MA4-template.
 
 = 4.8.7 =
