@@ -91,7 +91,7 @@ class CAOS_Admin_Updates {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $premium_plugin[ 'transient_label' ] );
+			$latest_version  = $this->get_latest_version( $id );
 			$current_version = get_plugin_data( WP_PLUGIN_DIR . '/' . $premium_plugin[ 'basename' ] )[ 'Version' ] ?? '';
 
 			if ( version_compare( $current_version, $latest_version, '<' ) ) {
@@ -162,7 +162,7 @@ class CAOS_Admin_Updates {
 		 * If $latest_versions is an empty string, that probably means something went wrong before. So,
 		 * we should try and refresh it. If $latest_versions is false, then the transient doesn't exist.
 		 */
-		if ( $latest_version === '' ) {
+		if ( empty( $latest_version ) ) {
 			$response       = wp_remote_get( 'https://daan.dev/?edd_action=get_version&item_id=' . $id );
 			$latest_version = json_decode( wp_remote_retrieve_body( $response ) )->new_version ?? '';
 
@@ -255,7 +255,7 @@ class CAOS_Admin_Updates {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $plugin[ 'transient_label' ] );
+			$latest_version  = $this->get_latest_version( $id );
 			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin[ 'basename' ] );
 			$current_version = $plugin_data[ 'Version' ] ?? '';
 
@@ -293,7 +293,7 @@ class CAOS_Admin_Updates {
 				continue;
 			}
 
-			$latest_version  = $this->get_latest_version( $id, $plugin[ 'transient_label' ] );
+			$latest_version  = $this->get_latest_version( $id );
 			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin[ 'basename' ] );
 			$current_version = $plugin_data[ 'Version' ] ?? '';
 
