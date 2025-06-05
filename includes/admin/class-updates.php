@@ -218,7 +218,7 @@ class CAOS_Admin_Updates {
                 }
 
                 if (div instanceof HTMLCollection && "0" in div) {
-                    div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses( $notice, 'post' ); ?>";
+                    div[0].getElementsByTagName('p')[0].innerHTML = "<?php echo wp_kses_post( $notice ); ?>";
                 }
             })
         </script>
