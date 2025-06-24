@@ -154,9 +154,11 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 	 * Create WP menu-item
 	 */
 	public function create_menu() {
+		$title = apply_filters( 'caos_settings_page_title', 'CAOS' );
+
 		add_options_page(
-			'CAOS',
-			'CAOS',
+			$title,
+			$title,
 			'manage_options',
 			self::CAOS_ADMIN_PAGE,
 			[ $this, 'settings_page' ]
