@@ -1,0 +1,465 @@
+# Copyright (C) 2025 Daan from Daan.dev
+# This file is distributed under the GPL2v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: CAOS 5.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/host-analyticsjs-local\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-16T11:59:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: host-analyticsjs-local\n"
+
+#. Plugin Name of the plugin
+msgid "CAOS"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://daan.dev/wordpress/caos/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Completely optimize Google Analytics 4 for your WordPress Website - host gtag.js locally or use Minimal Analytics and much more!"
+msgstr ""
+
+#. Author of the plugin
+msgid "Daan from Daan.dev"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://daan.dev/"
+msgstr ""
+
+#: includes/admin/class-settings.php:175
+msgid "You're not cool enough to access this page."
+msgstr ""
+
+#: includes/admin/class-settings.php:179
+msgid "CAOS | Complete Analytics Optimization Suite"
+msgstr ""
+
+#: includes/admin/class-settings.php:184
+msgid "<strong>Gtag.js</strong> is renamed to <strong>%1$s</strong> and was last updated on <em>%2$s</em>. The next automatic update by cron is scheduled <em>%3$s</em>."
+msgstr ""
+
+#: includes/admin/class-settings.php:191
+msgid "This will regenerate alias(es) and all files. Could be useful when running into (browser) caching issues."
+msgstr ""
+
+#: includes/admin/class-settings.php:194
+msgid "Regenerate Alias(es)"
+msgstr ""
+
+#: includes/admin/class-settings.php:225
+msgid "Save Changes & Update"
+msgstr ""
+
+#: includes/admin/class-settings.php:263
+msgid "Date/Time cannot be set"
+msgstr ""
+
+#: includes/admin/class-settings.php:275
+msgid "Date/Time cannot be formatted to locale"
+msgstr ""
+
+#: includes/admin/class-settings.php:290
+msgid "Never. Your WP cron might not be functioning properly"
+msgstr ""
+
+#: includes/admin/class-settings.php:372
+msgid "Basic Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:387
+msgid "Advanced Settings are disabled, because Minimal Analytics is enabled."
+msgstr ""
+
+#: includes/admin/class-settings.php:409
+msgid "Advanced Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:417
+msgid "Avoid Ad Blockers (Pro)"
+msgstr ""
+
+#: includes/admin/class-settings.php:426
+msgid "Help"
+msgstr ""
+
+#: includes/admin/class-settings.php:445
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:457
+msgid "Coded with %s in The Netherlands @ <strong>Daan.dev</strong>."
+msgstr ""
+
+#: includes/admin/class-settings.php:518
+msgid "Recently tagged <a target=\"_blank\" href=\"%s\"><strong>#CAOS</strong></a> on my blog:"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:48
+msgid "Compatibility Mode"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:51
+msgid "Check this option to use CAOS with any other Google Analytics plugin. Any reference to <code>googletagmanager.com/gtag/js</code> in your site's HTML will be replaced with the URL pointing to the local copy. <strong>Warning!</strong> Please make sure that CAOS' <strong>Basic Settings</strong> match your Google Analytics plugin's configuration."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:58
+msgid "The Minimal Analytics <strong>Tracking Code</strong> can't run in Compatibility Mode."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:67
+msgid "Cache directory for Gtag.js"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:69
+msgid "e.g. /uploads/caos/"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:71
+msgid "Change the path where the Gtag.js file is cached inside WordPress' content directory (usually <code>wp-content</code>). Defaults to <code>/uploads/caos/</code>."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:77
+msgid "Minimal Analytics doesn't require cache. Set <strong>Tracking Code</strong> to Asynchronous to use this option."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:89
+msgid "Serve from CDN"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:91
+msgid "e.g. cdn.mydomain.com"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:93
+msgid "If you're using a CDN, enter the URL here to serve <code>gtag.js</code> from your CDN."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:96
+msgid "Minimal Analytics is an inline script and doesn't require a CDN. Set <strong>Tracking Code</strong> to Asynchronous to use this option."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:109
+msgid "Since GA4 only creates <em>first-party</em> (which are GDPR compliant in some countries) cookies, enabling this option for GA4 will generate a random user ID for each visitor of <u>your</u> website to ensure that tracking across different websites/platforms is no longer possible, but it'll still be possible to track users on your website. Enabling this option doesn't necessarily mean you no longer need a cookie banner."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:115
+msgid "Enable Randomize Client ID (Pro)"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:121
+msgid "Disable <strong>Compatibility Mode</strong> or set <strong>Tracking Code</strong> to Asynchronous to use this option."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:134
+msgid "Track Cloaked Affiliate Links (Pro)"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:147
+#: includes/admin/settings/class-builder.php:118
+#: includes/admin/settings/class-builder.php:174
+#: includes/admin/settings/class-builder.php:209
+#: includes/admin/settings/class-builder.php:244
+#: includes/admin/settings/class-builder.php:283
+msgid "This option is disabled. %s"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:148
+msgid "Enable it by setting <strong>Tracking Code</strong> to Asynchronous."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:159
+msgid "Path"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:160
+msgid "Event Category"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:197
+msgid "Add Link Path"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:203
+msgid "Send an event to Google Analytics whenever a Cloaked Affiliate Link is clicked. An event with the configured <strong>Event Category</strong> is sent to Google Analytics whenever a link containing the <strong>Path</strong> value is clicked. The <strong>Event Label</strong> will be the URL of the link. Depending on your server's capacity, this might not work properly with Stealth Mode enabled."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:213
+msgid "If no events are registered in Google Analytics, your server might be too slow to send them in time. Please disable Stealth Mode if that's the case."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:231
+msgid "Disable Advertising Features"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:235
+msgid "Override and disable all advertising reporting and remarketing features established in Google Analytics. <a href=\"%s\" target=\"_blank\">What's this?</a>"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:244
+msgid "Disable <strong>Compatibility Mode</strong> and/or set <strong>Tracking Code</strong> to Asynchronous to use this option."
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:256
+msgid "Remove settings at Uninstall"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:259
+#: includes/admin/settings/class-basic.php:65
+msgid "Warning!"
+msgstr ""
+
+#: includes/admin/settings/class-advanced.php:259
+msgid "This will remove the settings from the database upon plugin deletion!"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:47
+msgid "Data Stream Measurement ID"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:49
+msgid "e.g. G-123ABC789"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:51
+msgid "Enter your Measurement ID, e.g. G-123ABC789."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:62
+msgid "Track logged in Administrators"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:65
+msgid "This will track all your traffic as a logged in user. (For testing/development purposes.)"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:75
+msgid "Increase GDPR Compliance (Pro)"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:79
+msgid "Remove any data that can be used to identify a person (i.e. personal data, e.g. IP address, User Agent, Location, etc.) to use Google Analytics in compliance with the GDPR. Be warned that enabling this setting <u>doesn't</u> guarantee GDPR compliance of your site, e.g. any parameters that enable (internal) routing (e.g. UTM tags) must be removed from any URLs on your site. <A href=\"%s\" target=\"_blank\">Read more</a>"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:87
+#: includes/admin/settings/class-basic.php:112
+#: includes/admin/settings/class-basic.php:159
+#: includes/admin/settings/class-basic.php:205
+msgid "Disable <strong>Compatibility Mode</strong> to use this option."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:96
+msgid "Allow tracking..."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:100
+msgid "Configure CAOS to \"listen\" to your Cookie Banner plugin."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:102
+msgid "Choose 'Always' to enable tracking without prior consent."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:105
+msgid "CAOS uses the Google Analytics 4 <a href=\"%s\" target=\"_blank\">Consent Mode API</a>."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:109
+msgid "Minimal Analytics can't be used with Consent Mode."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:123
+msgid "Cookie Name"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:125
+msgid "e.g. cookie_accepted"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:127
+msgid "The cookie name set by your Cookie Notice plugin when user accepts."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:136
+msgid "Cookie Value"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:138
+msgid "e.g. true"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:140
+msgid "The value of the above specified cookie set by your Cookie Notice when user accepts."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:150
+msgid "Tracking Code"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:154
+msgid "Should we use the Asynchronous or Minimal tracking code? Minimal Analytics is fastest, but supports only basic features i.e. pageviews and events."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:157
+msgid "Read more"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:170
+msgid "Anonymize IP (deprecated)"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:176
+msgid "As of July 1st, Google retired Universal Analytics (GA3). According to Google, IP masking is <a target=\"_blank\" href=\"%s\">no longer required</a>, because IP addresses are no longer logged or stored. The <code>aip</code> parameter and CAOS Pro's custom technologies are no longer supported by Google."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:195
+msgid "Tracking Code Position"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:199
+msgid "Load the Analytics tracking-snippet in the header, footer or manually? If e.g. your theme doesn't load the <code>wp_head()</code> conventionally, choose 'Add manually'."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:215
+msgid "Tracking-code"
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:221
+msgid "Copy this to the theme or plugin which should handle displaying the snippet."
+msgstr ""
+
+#: includes/admin/settings/class-basic.php:241
+msgid "This site is running CAOS for WordPress."
+msgstr ""
+
+#: includes/admin/settings/class-builder.php:45
+msgid "<a href=\"%s\" target=\"_blank\">Get CAOS Pro</a> to unlock this option."
+msgstr ""
+
+#: includes/admin/settings/class-extensions.php:35
+msgid "Stealth Mode (Pro)"
+msgstr ""
+
+#: includes/admin/settings/class-extensions.php:39
+msgid "Stealth Mode routes all Google Analytics requests (e.g. <code>google-analytics.com/g/collect</code>) through a custom-built API before sending it to Google Analytics, making it undetectable by Ad Blockers. <a href=\"%s\" target=\"_blank\">Read More</a>"
+msgstr ""
+
+#: includes/admin/settings/class-extensions.php:55
+msgid "Cloudflare Compatibility (Pro)"
+msgstr ""
+
+#: includes/admin/settings/class-extensions.php:58
+msgid "When your site is proxied through Cloudflare and your Google Analytics data is incomplete (e.g. location data is missing) when suing Stealth Mode, enable this option."
+msgstr ""
+
+#: includes/class-admin.php:69
+msgid "CAOS has connected WordPress to Google Analytics using Measurement ID: %s."
+msgstr ""
+
+#: includes/class-admin.php:93
+msgid "Since you've chosen to add it manually, don't forget to add the tracking code to your theme."
+msgstr ""
+
+#: includes/class-admin.php:102
+msgid "CAOS has added the tracking code to the %s of your site."
+msgstr ""
+
+#: includes/class-admin.php:134
+msgid "Something went wrong while trying to create CAOS' Cache Directory: %s. Setting wasn't updated."
+msgstr ""
+
+#: includes/class-admin.php:150
+msgid "CAOS' Cache Directory wasn't changed. Attempted path traversal."
+msgstr ""
+
+#: includes/class-admin.php:168
+msgid "Gtag.js will now be saved in <em>%s</em>."
+msgstr ""
+
+#: includes/class-ajax.php:42
+msgid "Sorry, you're not allowed to do this."
+msgstr ""
+
+#: includes/class-caos.php:181
+msgctxt "Define a different Measurement ID for this language/site."
+msgid "G-123ABC789"
+msgstr ""
+
+#: includes/class-caos.php:406
+msgid "This update includes major changes. Please <a href=\"%s\" target=\"_blank\">read this</a> before updating."
+msgstr ""
+
+#: includes/class-cron.php:33
+msgid "%s created successfully."
+msgstr ""
+
+#: includes/class-cron.php:35
+msgid "%s already exists."
+msgstr ""
+
+#: includes/class-cron.php:44
+msgid "Gtag.js is downloaded successfully and updated accordingly."
+msgstr ""
+
+#: includes/class-cron.php:51
+msgid "Would you be willing to <a href=\"%1$s\" target=\"_blank\">write a review</a> or <a href=\"%2$s\" target=\"_blank\">tweet</a> about it?"
+msgstr ""
+
+#: includes/class-file-manager.php:39
+msgid "An error occurred: %1$s - %2$s"
+msgstr ""
+
+#: includes/class-file-manager.php:75
+msgid "Saving to %s."
+msgstr ""
+
+#: includes/class-file-manager.php:84
+msgid "File %s successfully deleted."
+msgstr ""
+
+#: includes/class-file-manager.php:89
+msgid "File %1$s could not be deleted. Something went wrong: %2$s"
+msgstr ""
+
+#: includes/class-file-manager.php:95
+msgid "File %s could not be deleted. An unknown error occurred."
+msgstr ""
+
+#: includes/class-file-manager.php:103
+msgid "File %s successfully saved."
+msgstr ""
+
+#: includes/class-file-manager.php:108
+msgid "File %1$s could not be saved. Something went wrong: %2$s"
+msgstr ""
+
+#: includes/class-file-manager.php:114
+msgid "File %s could not be saved. An unknown error occurred."
+msgstr ""
+
+#: includes/class-file-manager.php:152
+msgid "Replacing %1$s with %2$s in %3$s."
+msgstr ""
+
+#: includes/db/migrate/class-v470.php:99
+msgid "Universal Analytics (i.e. Google Analytics V3) and some of its features have been removed in this version of CAOS. Please check <a href=\"%1$s\" target=\"_blank\">your settings</a> and refer to <a href=\"%2$s\" target=\"_blank\">this article</a> for a list of the changes."
+msgstr ""
+
+#: includes/frontend/class-tracking.php:261
+msgid "Consent Mode can not be used with Minimal Analytics."
+msgstr ""
+
+#: includes/frontend/class-tracking.php:464
+msgid "This site is using CAOS. You're logged in as an administrator, so we're not loading the tracking code."
+msgstr ""
+
+#: includes/frontend/class-tracking.php:479
+msgid "This site is running CAOS for WordPress"
+msgstr ""
