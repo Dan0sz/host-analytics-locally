@@ -38,7 +38,7 @@ $custom_attributes = apply_filters( 'caos_ma4_custom_attributes', '' );
 </script>
 
 <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GTAG_WRAPPER)): ?>
-<script>
+<script<?php echo $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
     window._originalGtag=window.gtag||function(){};window.gtag=function(c,a,p){try{if(c==="event"){var n=a,e=p||{};if(typeof window.track==="function")window.track({type:n,event:e});else console.warn("[CAOS Gtag Wrapper] track() doesn\'t exist yet.");return}if(c==="config"){console.debug('[CAOS Gtag Wrapper] gtag("config") not supported:',a,p);return}console.debug("[CAOS Gtag Wrapper] Unsupported Gtag-call:",arguments)}catch(t){console.error("[CAOS Gtag Wrapper] Error:",t)}try{window._originalGtag.apply(null,arguments)}catch(t){}};
 </script>
 <?php endif; ?>
