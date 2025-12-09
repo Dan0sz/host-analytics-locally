@@ -67,6 +67,8 @@ class CAOS_Admin_Settings extends CAOS_Admin {
 
 	const CAOS_BASIC_SETTING_TRACKING_CODE      = 'tracking_code';
 
+    const CAOS_BASIC_SETTING_GTAG_WRAPPER       = 'gtag_wrapper';
+
 	const CAOS_BASIC_SETTING_SCRIPT_POSITION    = 'script_position';
 
 	const CAOS_ADV_SETTING_COMPATIBILITY_MODE   = 'compatibility_mode';

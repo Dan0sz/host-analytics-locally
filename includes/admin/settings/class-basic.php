@@ -29,6 +29,7 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 		add_action( 'caos_basic_settings_content', [ $this, 'do_cookie_name' ], 54 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_cookie_value' ], 56 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_tracking_code' ], 58 );
+		add_action( 'caos_basic_settings_content', [ $this, 'do_gtag_wrapper' ], 59 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_anonymize_ip_mode' ], 60 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_script_position' ], 61 );
 		add_action( 'caos_basic_settings_content', [ $this, 'do_add_manually' ], 62 );
@@ -159,6 +160,24 @@ class CAOS_Admin_Settings_Basic extends CAOS_Admin_Settings_Builder {
 			__( 'Disable <strong>Compatibility Mode</strong> to use this option.', 'host-analyticsjs-local' )
 		);
 	}
+
+    /**
+     * Gtag wrapper
+     *
+     * @return void
+     */
+    public function do_gtag_wrapper() {
+        $this->do_checkbox(
+                __( 'Gtag Wrapper', 'host-analyticsjs-local' ),
+            CAOS_Admin_Settings::CAOS_BASIC_SETTING_GTAG_WRAPPER,
+                CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_GTAG_WRAPPER ),
+                __( 'Enable Gtag wrapper for Minimal Analytics to ensure custom Gtag events keep working.', 'host-analyticsjs-local'),
+                CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_TRACKING_CODE ) !== 'minimal_ga4',
+                false,
+                false,
+                __( 'Set <strong>Tracking Code</strong> to Minimal Analytics to use this option.', 'host-analyticsjs-local' )
+        );
+    }
 
 	/**
 	 * Render Anonymize IP Mode option and example.
