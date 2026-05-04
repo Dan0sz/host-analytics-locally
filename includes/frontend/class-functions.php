@@ -21,18 +21,7 @@ class CAOS_Frontend_Functions {
 		add_filter( 'caos_frontend_add_dns_prefetch', [ $this, 'maybe_add_dns_prefetch' ] );
 		add_filter( 'wp_resource_hints', [ $this, 'add_dns_prefetch' ], 10, 2 );
 	}
-
-	/**
-	 * Don't add DNS prefetch if compatibility mode is enabled.
-	 *
-	 * @param mixed $result
-	 *
-	 * @return bool
-	 */
-	public function maybe_add_dns_prefetch() {
-		return CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) !== 'on';
-	}
-
+	
 	/**
 	 * Add Preconnect to google-analytics.com and CDN URL (if set) in wp_head().
 	 *
@@ -42,11 +31,21 @@ class CAOS_Frontend_Functions {
 		if ( ! apply_filters( 'caos_frontend_add_dns_prefetch', true ) ) {
 			return $hints;
 		}
-
+		
 		if ( $type == 'preconnect' ) {
 			$hints[] = '//www.google-analytics.com';
 		}
-
+		
 		return $hints;
+	}
+	
+	/**
+	 * Only add DNS prefetch if Compatibility Mode and Allow Tracking are disabled.
+	 *
+	 * @return bool
+	 */
+	public function maybe_add_dns_prefetch() {
+		return CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) !== 'on' &&
+		       CAOS::get( CAOS_Admin_Settings::CAOS_BASIC_SETTING_ALLOW_TRACKING, '' ) === '';
 	}
 }
