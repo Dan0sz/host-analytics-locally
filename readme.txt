@@ -78,6 +78,7 @@ N/A
 
 = 5.0.2 =
 * Fixed: Preconnect attribute shouldn't be added when Allow Tracking is set.
+* Added: custom wrapper for Gtag that makes sure custom gtag() events keep working.
 
 = 5.0.1 =
 * Tested with WP 6.9.
