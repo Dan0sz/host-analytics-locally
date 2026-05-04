@@ -3,7 +3,7 @@
  * Plugin Name: CAOS
  * Plugin URI: https://daan.dev/wordpress/caos/
  * Description: Completely optimize Google Analytics 4 for your WordPress Website - host gtag.js locally or use Minimal Analytics and much more!
- * Version: 5.0.1
+ * Version: 5.0.2
  * Author: Daan from Daan.dev
  * Author URI: https://daan.dev/
  * License: GPL2v2 or later
@@ -27,17 +27,17 @@ define( 'CAOS_DB_VERSION', '4.8.0' );
  */
 function caos_autoload( $class ) {
 	$path = explode( '_', $class );
-
-	if ( $path[ 0 ] != 'CAOS' ) {
+	
+	if ( $path[0] != 'CAOS' ) {
 		return;
 	}
-
+	
 	if ( ! class_exists( 'FFWP_Autoloader' ) ) {
 		require_once CAOS_PLUGIN_DIR . 'ffwp-autoload.php';
 	}
-
+	
 	$autoload = new FFWP_Autoloader( $class );
-
+	
 	return include CAOS_PLUGIN_DIR . 'includes/' . $autoload->load();
 }
 
@@ -50,11 +50,11 @@ spl_autoload_register( 'caos_autoload' );
  */
 function caos_init() {
 	static $caos = null;
-
+	
 	if ( $caos === null ) {
 		$caos = new CAOS();
 	}
-
+	
 	return $caos;
 }
 
