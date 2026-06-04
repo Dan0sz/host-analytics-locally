@@ -3,7 +3,7 @@ Contributors: DaanvandenBergh
 Tags: google, analytics, gtag, minimal, gdpr
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -76,6 +76,9 @@ For CAOS' FAQ and Troubleshooting, [visit the docs](https://daan.dev/docs/caos-t
 N/A
 
 == Changelog ==
+
+= 5.0.3 =
+* Tested with WP 7.0.
 
 = 5.0.2 =
 * Fixed: Preconnect attribute shouldn't be added when Allow Tracking is set.
