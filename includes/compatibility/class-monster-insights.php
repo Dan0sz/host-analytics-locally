@@ -37,7 +37,7 @@ class CAOS_Compatibility_MonsterInsights {
 	 * Compatibility Mode, CAOS rewrites that URL to the locally hosted file, so the test always reports
 	 * "multiple tracking codes" (critical), which is a false positive.
 	 *
-	 * Replace it with an informational test explaining why.
+	 * Replace it with an informational notice explaining why. Note that this notice doesn't verify the tracking code itself.
 	 *
 	 * @filter site_status_tests
 	 *
@@ -62,7 +62,7 @@ class CAOS_Compatibility_MonsterInsights {
 		unset( $tests[ 'async' ][ 'monsterinsights_tracking_code' ] );
 
 		$tests[ 'direct' ][ 'caos_monsterinsights_tracking_code' ] = [
-			'label' => __( 'MonsterInsights Tracking Code (CAOS)', 'host-analyticsjs-local' ),
+			'label' => __( 'MonsterInsights Compatibility Notice (CAOS)', 'host-analyticsjs-local' ),
 			'test'  => [ $this, 'test_tracking_code' ],
 		];
 
@@ -74,7 +74,7 @@ class CAOS_Compatibility_MonsterInsights {
 	 */
 	public function test_tracking_code() {
 		return [
-			'label'       => __( 'CAOS serves gtag.js locally for MonsterInsights', 'host-analyticsjs-local' ),
+			'label'       => __( 'CAOS local gtag.js compatibility notice', 'host-analyticsjs-local' ),
 			'status'      => 'good',
 			'badge'       => [
 				'label' => __( 'MonsterInsights', 'host-analyticsjs-local' ),
@@ -83,7 +83,7 @@ class CAOS_Compatibility_MonsterInsights {
 			'description' => sprintf(
 				'<p>%s</p>',
 				__(
-					'CAOS (Compatibility Mode) loads gtag.js from your own server instead of googletagmanager.com. MonsterInsights\' own tracking code check doesn\'t recognize this and would falsely report multiple tracking codes, so CAOS has replaced it with this notice. For the same reason, Google Tag Assistant may report that no tag was found. This is expected: Google Analytics keeps receiving your data.',
+					'CAOS (Compatibility Mode) loads gtag.js from your own server instead of googletagmanager.com. MonsterInsights\' own tracking code check doesn\'t recognize this and would falsely report multiple tracking codes, so CAOS has replaced it with this notice. For the same reason, Google Tag Assistant may report that no tag was found. This is expected when gtag.js is served locally.',
 					'host-analyticsjs-local'
 				)
 			),
