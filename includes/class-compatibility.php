@@ -42,6 +42,10 @@ class CAOS_Compatibility {
 			new CAOS_Compatibility_Cloudflare();
 		}
 
+		if ( ( class_exists( 'MonsterInsights_Lite' ) || class_exists( 'MonsterInsights' ) ) && CAOS::get( CAOS_Admin_Settings::CAOS_ADV_SETTING_COMPATIBILITY_MODE, '' ) ) {
+			new CAOS_Compatibility_MonsterInsights();
+		}
+
 		if ( defined( 'LSCWP_V' ) ) {
 			new CAOS_Compatibility_Litespeed();
 		}
