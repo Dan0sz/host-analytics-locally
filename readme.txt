@@ -77,6 +77,9 @@ N/A
 
 == Changelog ==
 
+= 5.0.4 =
+* Fixed: Gtag Wrapper (Minimal Analytics) sent custom gtag() event parameters without the ep./epn. prefixes, so GA4 dropped them. Currency is now sent as cu, nested parameters (e.g. items) are skipped and event_callback is called.
+
 = 5.0.3 =
 * Tested with WP 7.0.
 
