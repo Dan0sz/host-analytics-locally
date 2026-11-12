@@ -39,7 +39,31 @@ $custom_attributes = apply_filters( 'caos_ma4_custom_attributes', '' );
 
 <?php if (CAOS::get(CAOS_Admin_Settings::CAOS_BASIC_SETTING_GTAG_WRAPPER)): ?>
 <script<?php echo $custom_attributes ? ' ' . $custom_attributes : ''; ?>>
-    window._originalGtag=window.gtag||function(){};window.gtag=function(c,a,p){try{if(c==="event"){var n=a,e=p||{};if(typeof window.track==="function")window.track({type:n,event:e});else console.warn("[CAOS Gtag Wrapper] track() doesn\'t exist yet.");return}if(c==="config"){console.debug('[CAOS Gtag Wrapper] gtag("config") not supported:',a,p);return}console.debug("[CAOS Gtag Wrapper] Unsupported Gtag-call:",arguments)}catch(t){console.error("[CAOS Gtag Wrapper] Error:",t)}try{window._originalGtag.apply(null,arguments)}catch(t){}};
+    window._originalGtag=window.gtag||function(){};
+    window.gtag=function(c,a,p){
+        try{
+            if(c==="event"){
+                var e=[],cb=null,skip=["send_to","event_timeout","groups"];
+                p=p||{};
+                for(var k in p){
+                    if(!Object.prototype.hasOwnProperty.call(p,k))continue;
+                    var v=p[k];
+                    if(k==="event_callback"){if(typeof v==="function")cb=v;continue}
+                    if(skip.indexOf(k)!==-1||v===null||v===undefined||v===""||typeof v==="object"||typeof v==="function"||(typeof v==="number"&&!isFinite(v)))continue;
+                    if(k==="currency"){e.push(["cu",String(v)]);continue}
+                    if(/^epn?\./.test(k)){e.push([k,String(v)]);continue}
+                    e.push([(typeof v==="number"?"epn.":"ep.")+k,String(v)]);
+                }
+                if(typeof window.track==="function")window.track({type:a,event:e});
+                else console.warn("[CAOS Gtag Wrapper] track() doesn\'t exist yet.");
+                if(cb){try{cb()}catch(t){}}
+                return
+            }
+            if(c==="config"){console.debug('[CAOS Gtag Wrapper] gtag("config") not supported:',a,p);return}
+            console.debug("[CAOS Gtag Wrapper] Unsupported Gtag-call:",arguments)
+        }catch(t){console.error("[CAOS Gtag Wrapper] Error:",t)}
+        try{window._originalGtag.apply(null,arguments)}catch(t){}
+    };
 </script>
 <?php endif; ?>
 
